@@ -28,14 +28,13 @@ const Home = () => {
       <View style={{ alignItems: 'flex-end', marginRight: 10, marginTop: 0, float: 'right' }}>
                 <img
                   style={{ width: 1100, height: 935, marginTop: 0 }}
-                  src='https://cdn.dribbble.com/users/2217210/screenshots/12205457/media/c2a7d0d3b8d33c298b1e17de263eb7a5.jpg?compress=1&resize=1000x750&vertical=top'
+                  src='https://cdn.dribbble.com/users/691604/screenshots/10764642/media/b9888421afd46c03efef1ff072eec418.png'
                 />
       </View>
       <Accordians style ={{ position: 'absolute', float: 'left' }}/>
-      <h1 style={{ color: 'darkblue', fontWeight: 'normal', marginLeft: 80, fontSize: 60, fontFamily: 'Roboto' }}> Welcome to Your Online </h1>
-      <h2 style={{ color: 'darkblue', fontWeight: 'normal', marginLeft: 150, fontSize: 60, fontFamily: 'Roboto' }}>Information Hub</h2>
+      <h1 style={{ color: 'lightslategray', fontWeight: 'normal', marginLeft: 80, fontSize: 60, fontFamily: 'Roboto' }}> Welcome to Your Online </h1>
+      <h2 style={{ color: 'lightslategray', fontWeight: 'normal', marginLeft: 150, fontSize: 60, fontFamily: 'Roboto' }}>Information Hub</h2>
     </div>
-
   );
 }
 export default Home;
