@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 export default function SimpleAccordion () {
   return (
     <div>
-      <Accordion style={{ left: 50, top: 470, width: 500 }}>
+      <Accordion style={{ left: 80, top: 470, width: 500 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -23,7 +23,7 @@ export default function SimpleAccordion () {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion style={{ left: 50, top: 500, width: 500 }}>
+      <Accordion style={{ left: 80, top: 500, width: 500 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
@@ -38,7 +38,7 @@ export default function SimpleAccordion () {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion style={{ left: 50, top: 530, width: 500 }}>
+      <Accordion style={{ left: 80, top: 530, width: 500 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel3a-content"
