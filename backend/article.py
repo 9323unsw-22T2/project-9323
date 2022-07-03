@@ -132,7 +132,7 @@ def article_thumb_up_patch(article_id):
     if len(rows) == 0:
         return make_response(jsonify({"error": "No such article with article_id = {}".format(article_id)})), 400
 
-    user_id = request.headers['user_id']
+    user_id = int(request.headers['user_id'])
 
     thumb_up_by = json.loads(rows[0][11])
 
@@ -163,7 +163,7 @@ def article_un_thumb_up_patch(article_id):
     if len(rows) == 0:
         return make_response(jsonify({"error": "No such article with article_id = {}".format(article_id)})), 400
 
-    user_id = request.headers['user_id']
+    user_id = int(request.headers['user_id'])
 
     thumb_up_by = json.loads(rows[0][11])
 
