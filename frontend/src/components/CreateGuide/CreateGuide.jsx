@@ -113,7 +113,7 @@ const App = () => {
     )}
 <Button sx={{ height: 'max-content', mt: 2, textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="javascript:history.back()">{'<Return'}</Button>
 
-<Box sx={{ width: '70%', margin: 'auto', mt: 1 }}>
+<Box sx={{ width: '70%', margin: 'auto', mt: -1, backgroundColor: 'white', padding: '1.5rem', borderRadius: '1rem' }}>
 
       <h4 className={styles.guideh4}>Guide Title</h4>
       <TextField rows={1} id='guide_title'multiline sx={{ mb: 2, width: '100%' }} />
@@ -160,7 +160,7 @@ const App = () => {
               apiKey="yhf0swre6kb5yv1owq7bcxmfxaxwundoc1htcq2tpvhkyz8t"
               value={content}
               init={{
-                height: 200,
+                height: 150,
                 menubar: false
               }}
               initialValue={steps[activeStep].content}

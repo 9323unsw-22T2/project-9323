@@ -35,8 +35,8 @@ const App = () => {
 <Box sx={{ display: 'flex', mt: 3, width: '100%' }}>
 <Button sx={{ height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="/main">{'<Return'}</Button>
 
-  <Box sx={{ width: '75%', margin: 'auto' }}>
-<form >
+  <Box sx={{ width: '75%', margin: 'auto', backgroundColor: 'white', borderRadius: '1rem' }}>
+<form style={{ margin: '2rem' }}>
   <h2>Provide a question</h2>
 
    <TextField rows={4} multiline sx={{ mb: 2, width: '100%' }} placeholder="Input question here..." />

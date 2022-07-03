@@ -2,7 +2,7 @@ import * as React from 'react';
 import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
 import { useParams } from 'react-router-dom';
-import { guideDetail } from '../../service'
+import { guideDetail, thumbUp, unThumbUp } from '../../service'
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
@@ -32,6 +32,23 @@ export default function VerticalTabs() {
     setActiveStep(step);
     temp.innerHTML = data[step].content;
   };
+  const hendleThumb = async () => {
+    if (data[0]?.thumb_up_by?.find((e) => e === parseInt(localStorage.getItem('user_id')))) {
+      try {
+        const response = await unThumbUp(number, localStorage.getItem('token'), localStorage.getItem('user_id'))
+        setData(response.data.article)
+      } catch (error) {
+
+      }
+    } else {
+      try {
+        const response = await thumbUp(number, localStorage.getItem('token'), localStorage.getItem('user_id'))
+        setData(response.data.article)
+      } catch (error) {
+
+      }
+    }
+  }
   React.useEffect(async () => {
     console.log(number, localStorage.getItem('user_id'), localStorage.getItem('token'))
     try {
@@ -56,7 +73,7 @@ export default function VerticalTabs() {
         </Box>
       <Box className={styles.guideDetail}>
       <CardHeader
-            sx={{ width: '90%', margin: 'auto', mt: 3 }}
+            sx={{ width: '95%', margin: 'auto', mt: 3 }}
             avatar={
               <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
                 R
@@ -65,7 +82,7 @@ export default function VerticalTabs() {
             title="Shrimp and Chorizo Paella"
             subheader="September 14, 2016"
           />
-        <Box sx={{ width: '90%', margin: 'auto' }}>
+        <Box sx={{ width: '95%', margin: 'auto' }}>
           <Stepper nonLinear activeStep={activeStep}>
           {Object.keys(data).map((ele, index) => (
             <Step key={`label${index}`} >
@@ -77,7 +94,7 @@ export default function VerticalTabs() {
           </Stepper>
         </Box>
 
-        <Card sx={{ width: '90%', border: 'none', margin: 'auto', boxShadow: 'none', height: '30rem', overflow: 'scroll', mt: 3 }}>
+        <Card sx={{ width: '95%', border: 'none', margin: 'auto', boxShadow: 'none', height: '30rem', overflow: 'scroll', mt: 3 }}>
 
           <CardMedia
             component="img"
@@ -92,8 +109,8 @@ export default function VerticalTabs() {
           </CardContent>
 
         </Card>
-        <CardActions sx={{ width: '90%', margin: 'auto' }}disableSpacing>
-            <IconButton aria-label="add to favorites">
+        <CardActions sx={{ width: '95%', margin: 'auto' }}disableSpacing>
+            <IconButton onClick={hendleThumb} aria-label="add to favorites" sx={{ color: data[0]?.thumb_up_by?.find((e) => e === parseInt(localStorage.getItem('user_id'))) ? 'red' : 'grey' } }>
               <FavoriteIcon />
             </IconButton>
             <IconButton aria-label="share">
