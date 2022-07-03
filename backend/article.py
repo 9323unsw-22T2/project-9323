@@ -1,6 +1,6 @@
 from flask import Blueprint, request, make_response, jsonify
 from config import *
-from helper import authenticated, get_unix_time
+from helper import authenticated, get_unix_time, get_user_id_from_header
 import sqlite3
 import json
 from flask_cors import CORS
@@ -35,7 +35,7 @@ def _article_title_create(data):
     image = None
     time_created = get_unix_time()
     time_modified = get_unix_time()
-    author = request.headers['user_id']
+    author = get_user_id_from_header()
     reploy_ids = json.dumps(list())
     thumb_up_by = json.dumps(list())
     is_deleted = 0
@@ -62,7 +62,7 @@ def _article_page_create(data, article_id, step_number):
     image = None
     time_created = get_unix_time()
     time_modified = get_unix_time()
-    author = request.headers['user_id']
+    author = get_user_id_from_header()
     reploy_ids = json.dumps(list())
     thumb_up_by = json.dumps(list())
     is_deleted = 0
@@ -132,7 +132,7 @@ def article_thumb_up_patch(article_id):
     if len(rows) == 0:
         return make_response(jsonify({"error": "No such article with article_id = {}".format(article_id)})), 400
 
-    user_id = int(request.headers['user_id'])
+    user_id = get_user_id_from_header
 
     thumb_up_by = json.loads(rows[0][11])
 
@@ -163,7 +163,7 @@ def article_un_thumb_up_patch(article_id):
     if len(rows) == 0:
         return make_response(jsonify({"error": "No such article with article_id = {}".format(article_id)})), 400
 
-    user_id = int(request.headers['user_id'])
+    user_id = get_user_id_from_header
 
     thumb_up_by = json.loads(rows[0][11])
 
