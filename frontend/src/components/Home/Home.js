@@ -23,18 +23,18 @@ const Home = () => {
         style={{ alignItems: 'flex-end', width: 1200, height: 900, postiion: 'absolute', left: 5, top: 5 }}/>
   */
   return (
-    <div className="home">
-      <Navbar/>
-      <View style={{ alignItems: 'flex-end', marginRight: 10, marginTop: 0, float: 'right' }}>
-                <img
-                  style={{ width: 1100, height: 935, marginTop: 0 }}
-                  src='https://cdn.dribbble.com/users/691604/screenshots/10764642/media/b9888421afd46c03efef1ff072eec418.png'
-                />
-      </View>
-      <Accordians style ={{ position: 'absolute', float: 'left' }}/>
-      <h1 style={{ color: 'lightslategray', fontWeight: 'normal', marginLeft: 80, fontSize: 60, fontFamily: 'Roboto' }}> Welcome to Your Online </h1>
-      <h2 style={{ color: 'lightslategray', fontWeight: 'normal', marginLeft: 150, fontSize: 60, fontFamily: 'Roboto' }}>Information Hub</h2>
-    </div>
+      <div className="home" style={{ backgroundColor: '#f6f9ff', height: 1035 }}>
+        <Navbar/>
+        <View style={{ alignItems: 'flex-end', marginRight: 10, marginTop: 0, float: 'right' }}>
+                  <img
+                    style={{ width: 1100, height: 935, marginTop: 10 }}
+                    src='https://cdn.dribbble.com/users/691604/screenshots/10764642/media/b9888421afd46c03efef1ff072eec418.png'
+                  />
+        </View>
+        <Accordians style ={{ position: 'absolute', float: 'left' }}/>
+        <h1 style={{ color: '#4673cf', fontWeight: 'normal', marginLeft: 80, fontSize: 60, fontFamily: 'Roboto' }}> Welcome to Your Online </h1>
+        <h2 style={{ color: '#4673cf', fontWeight: 'normal', marginLeft: 150, fontSize: 60, fontFamily: 'Roboto' }}>Information Hub</h2>
+      </div>
   );
 }
 export default Home;
