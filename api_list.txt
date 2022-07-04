@@ -350,3 +350,16 @@ body{
 127.0.0.1:5000/commentanswer/<questionid>/<answerid>
 body:{comment}
 =======
+
+COMMENT:
+curl --location --request POST '127.0.0.1:5000/comment/articles/<int:article_id>'
+body:{
+    {
+    "comment_id": ' '
+}
+
+curl --location --request POST '127.0.0.1:5000/comment/questions/<int:question_id>'
+body:{
+    {
+    "comment_id": ' '
+}
