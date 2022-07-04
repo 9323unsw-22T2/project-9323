@@ -353,13 +353,26 @@ body:{comment}
 
 COMMENT:
 curl --location --request POST '127.0.0.1:5000/comment/articles/<int:article_id>'
+
+IF EXITS:
+
 body:{
-    {
     "comment_id": ' '
 }
 
-curl --location --request POST '127.0.0.1:5000/comment/questions/<int:question_id>'
+IF THIS QUESTION NOT EXSTS
 body:{
-    {
+    "error": "this article can not be found"
+}
+
+curl --location --request POST '127.0.0.1:5000/comment/questions/<int:question_id>'
+
+IF EXITS:
+body:{
     "comment_id": ' '
+}
+
+IF THIS QUESTION NOT EXSTS:
+body:{
+    "error": "this question can not be found"
 }
