@@ -16,8 +16,9 @@ curl --location --request POST '127.0.0.1:5000/auth/register' \
 }'
 response: 
 	200 ok {
-   		"token": "07d4911b-a784-49ed-a5b4-31e8609b5e41" 
-	} or 
+    "token": "83b19d9c-728c-4415-b7b3-12a4bf58e8ec",
+    "user_id": 1
+} or 
 	400 Email used{
 		"error": "This email has been registed, please login"
 	}
@@ -32,8 +33,9 @@ curl --location --request POST '127.0.0.1:5000/auth/login' \
 
 response:
 	200 ok {
-   		"token": "07d4911b-a784-49ed-a5b4-31e8609b5e41"
-	} or 
+    "token": "83b19d9c-728c-4415-b7b3-12a4bf58e8ec",
+    "user_id": 1
+} or 
 	400 Bad Input {
 		"error": "Email and password don't match"
 	}
@@ -53,8 +55,298 @@ curl --location --request GET '127.0.0.1:5000/auth/ping'
 return "pong"
 
 
+5. check authenticated decorator works
+curl --location --request GET '127.0.0.1:5000/auth/auth_ping' \
+--header 'token: 83b19d9c-728c-4415-b7b3-12a4bf58e8ec' \
+--header 'user_id: 1'
+
+return "pong"
+
+
 Newsfeed:
 1.
 curl --location --request GET '127.0.0.1:5000/newsfeed/ping'
 return "pong"
 
+
+
+
+Article:
+1.
+curl --location --request GET '127.0.0.1:5000/article/ping'
+return "pong"
+
+2.  create a post. Currently the image function is under construction
+curl --location --request POST '127.0.0.1:5000/article' \
+--header 'user_id: 1' \
+--header 'token: 421803eb-edb2-41be-8a7f-addc634c8505' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "0": {
+        "title": "this is a title",
+        "step_title": "this is step_title0",
+        "content": "this is a content in page 0"
+    },
+    "1": {
+        "step_title": "this is step_title1",
+        "content": "this is a content in page 1"
+    },
+    "2": {
+        "step_title": "this is step_title2",
+        "content": "this is a content in page2"
+    }
+}'
+
+return 
+{
+    "article_id": 1
+}
+
+3. 
+curl --location --request GET '127.0.0.1:5000/article/1' \
+--header 'user_id: 1' \
+--header 'token: 421803eb-edb2-41be-8a7f-addc634c8505'
+
+return
+{
+    "article": {
+        "0": {
+            "article_id": null,
+            "author": 1,
+            "content": "this is a content in page 0",
+            "id": 1,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": "[]",
+            "step_number": 0,
+            "step_title": "this is step_title0",
+            "thumbUpBy": "[]",
+            "time_created": 1656757217,
+            "time_modified": 1656757217,
+            "title": "this is a title"
+        },
+        "1": {
+            "article_id": 1,
+            "author": 1,
+            "content": "this is a content in page 1",
+            "id": 2,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": "[]",
+            "step_number": 1,
+            "step_title": "this is step_title1",
+            "thumbUpBy": "[]",
+            "time_created": 1656757217,
+            "time_modified": 1656757217,
+            "title": null
+        },
+        "2": {
+            "article_id": 1,
+            "author": 1,
+            "content": "this is a content in page2",
+            "id": 3,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": "[]",
+            "step_number": 2,
+            "step_title": "this is step_title2",
+            "thumbUpBy": "[]",
+            "time_created": 1656757217,
+            "time_modified": 1656757217,
+            "title": null
+        }
+    }
+}
+
+4. thumbup 
+curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
+--header 'user_id: 1' \
+--header 'token: bc7dfcd7-282e-419f-9809-18dec22bfa30'
+
+curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
+--header 'user_id: 2' \
+--header 'token: 8bec917f-f10d-460d-a7ba-ba6de50f3577'
+
+return 
+{
+    "article": {
+        "0": {
+            "article_id": null,
+            "author": 1,
+            "content": "this is a content in page 0",
+            "id": 1,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": [],
+            "step_number": 0,
+            "step_title": "this is step_title0",
+            "thumb_up_by": [
+                1,
+                2
+            ],
+            "time_created": 1656818607,
+            "time_modified": 1656818607,
+            "title": "this is a title"
+        },
+        "1": {
+            "article_id": 1,
+            "author": 1,
+            "content": "this is a content in page 1",
+            "id": 2,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": [],
+            "step_number": 1,
+            "step_title": "this is step_title1",
+            "thumb_up_by": [],
+            "time_created": 1656818607,
+            "time_modified": 1656818607,
+            "title": null
+        },
+        "2": {
+            "article_id": 1,
+            "author": 1,
+            "content": "this is a content in page2",
+            "id": 3,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": [],
+            "step_number": 2,
+            "step_title": "this is step_title2",
+            "thumb_up_by": [],
+            "time_created": 1656818607,
+            "time_modified": 1656818607,
+            "title": null
+        }
+    }
+}
+
+5. un_thumb_up
+curl --location --request PATCH '127.0.0.1:5000/article/1/un_thumb_up' \
+--header 'user_id: 1' \
+--header 'token: bc7dfcd7-282e-419f-9809-18dec22bfa30'
+
+{
+    "article": {
+        "0": {
+            "article_id": null,
+            "author": 1,
+            "content": "this is a content in page 0",
+            "id": 1,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": [],
+            "step_number": 0,
+            "step_title": "this is step_title0",
+            "thumb_up_by": [
+                2
+            ],
+            "time_created": 1656818607,
+            "time_modified": 1656818607,
+            "title": "this is a title"
+        },
+        "1": {
+            "article_id": 1,
+            "author": 1,
+            "content": "this is a content in page 1",
+            "id": 2,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": [],
+            "step_number": 1,
+            "step_title": "this is step_title1",
+            "thumb_up_by": [],
+            "time_created": 1656818607,
+            "time_modified": 1656818607,
+            "title": null
+        },
+        "2": {
+            "article_id": 1,
+            "author": 1,
+            "content": "this is a content in page2",
+            "id": 3,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": [],
+            "step_number": 2,
+            "step_title": "this is step_title2",
+            "thumb_up_by": [],
+            "time_created": 1656818607,
+            "time_modified": 1656818607,
+            "title": null
+        }
+    }
+}
+
+6. Delete a article
+curl --location --request DELETE '127.0.0.1:5000/article/7' \
+--header 'user_id: 1' \
+--header 'token: bc7dfcd7-282e-419f-9809-18dec22bfa30'
+
+{
+    "article_id": 7
+}
+
+curl --location --request GET '127.0.0.1:5000/article/7' \
+--header 'user_id: 1' \
+--header 'token: bc7dfcd7-282e-419f-9809-18dec22bfa30'
+
+{
+    "error": "No such article with article_id = 7"
+}
+
+前端建议api list：
+127.0.0.1:5000/allquestion/<field>/<order by>/<position>
+for example, when position is 1, return 1-5 qustion/answer
+position is 6 return 6-10 question/answer
+
+
+
+
+127.0.0.1:5000/likeguide/<guideid>
+body{
+  user_id
+  token
+}
+like a guide
+
+127.0.0.1:5000/newquestion
+post a new question
+body{
+  description:''
+  title:''
+  user:''
+}
+
+127.0.0.1:5000/newguide
+post a new guide
+body{
+  title:''
+  description:''
+  steps:[
+    {photo:[],text:'',video:''},
+    {...},
+    {...}
+  ]
+  category:''
+}
+
+
+127.0.0.1:5000/followquestion/<questionid>
+follow a question
+body{
+  user_id
+  token
+}
+
+127.0.0.1:5000/likeanswer/<questionid>/<answerid>/<like or dislike>
+body{
+  user_id
+  token
+}
+
+
+
+127.0.0.1:5000/commentanswer/<questionid>/<answerid>
+body:{comment}
+=======

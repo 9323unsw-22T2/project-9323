@@ -3,7 +3,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
 import Box from '@mui/material/Box';
-import Input from '@mui/material/Input';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -23,7 +23,8 @@ const App = () => {
     setField(event.target.value);
   };
   return (
-<Box sx={{ display: 'flex' }}>
+<Box >
+
 {localStorage.getItem('token')
   ? (
           <LoggedNarbar></LoggedNarbar>
@@ -31,20 +32,21 @@ const App = () => {
   : (
           <Navbar></Navbar>
     )}
-<Box sx={{ display: 'flex', mt: 18, width: '100%' }}>
-  <Box sx={{ width: '45%', margin: 'auto' }}>
-<form >
+<Box sx={{ display: 'flex', mt: 3, width: '100%' }}>
+<Button sx={{ height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="/main">{'<Return'}</Button>
+
+  <Box sx={{ width: '75%', margin: 'auto', backgroundColor: 'white', borderRadius: '1rem' }}>
+<form style={{ margin: '2rem' }}>
   <h2>Provide a question</h2>
 
-   <Input sx={{ mb: 2 }}placeholder="Input question here..." />
+   <TextField rows={4} multiline sx={{ mb: 2, width: '100%' }} placeholder="Input question here..." />
    <FormControl fullWidth>
-  <InputLabel id="demo-simple-select-label">Field</InputLabel>
+  <InputLabel >Field</InputLabel>
         <Select
           id="demo-simple-select"
           value={field}
           label="Field"
           onChange={handleFieldChange}
-          margin='normal'
         >
           <MenuItem value={'Health'}>Health</MenuItem>
           <MenuItem value={'Science'}>Science</MenuItem>
@@ -57,7 +59,7 @@ const App = () => {
     apiKey="yhf0swre6kb5yv1owq7bcxmfxaxwundoc1htcq2tpvhkyz8t"
     value={content.innerText}
     init={{
-      height: 500,
+      height: 300,
       menubar: false
     }}
     onEditorChange={handleChange}
@@ -67,8 +69,8 @@ const App = () => {
 
 </form>
 </Box>
-<Box sx={{ width: '35%', margin: 'auto', height: '100%', border: '1px solid red' }}></Box>
-</Box>
+{/* <Box sx={{ width: '35%', margin: 'auto', height: '100%', border: '1px solid red' }}></Box>
+ */}</Box>
 </Box>
   );
 };

@@ -5,12 +5,13 @@ from auth import auth_page
 from newsfeed import newsfeed_page
 from question import question_page
 from comment import comment_page
+from article import article_page
 
 con = sqlite3.connect(DATABASE_NAME)
 cur = con.cursor()
 
 cur.execute(
-    "CREATE TABLE IF NOT EXISTS users (id integer primary key autoincrement, name text, email text, password text, token text)")
+    "CREATE TABLE IF NOT EXISTS users (id integer primary key autoincrement, name text, email text, password text, token text, expertArea text, scores integer, coins integer)")
 cur.execute(
     "CREATE TABLE IF NOT EXISTS questions ( \
         id integer primary key autoincrement, \
@@ -19,23 +20,24 @@ cur.execute(
         timeCreated numeric, \
         timeUpdated numeric, \
         author numeric, \
-        replyIds blob, \
-        followers blob, \
+        replyIds text, \
+        thumbUpBy text, \
         isDeleted NOT NULL DEFAULT '0') \
         ")
 cur.execute(
     "CREATE TABLE IF NOT EXISTS articles ( \
         id integer primary key autoincrement, \
-        articleIds blob, \
+        articleId numeric, \
         stepNumber numeric, \
+        stepTitle text, \
         title text, \
         content text, \
         image text, \
         timeCreated numeric, \
         timeUpdated numeric, \
         author numeric, \
-        replyIds blob, \
-        followers blob, \
+        replyIds text, \
+        thumbUpBy text, \
         isDeleted NOT NULL DEFAULT '0') \
         ")
 cur.execute(
@@ -47,7 +49,7 @@ cur.execute(
         timeCreated numeric, \
         timeUpdated numeric, \
         author numeric, \
-        thumbUpBy blob, \
+        thumbUpBy text, \
         isDeleted NOT NULL DEFAULT '0') \
         ")
 
@@ -56,6 +58,7 @@ app.register_blueprint(auth_page)
 app.register_blueprint(newsfeed_page)
 app.register_blueprint(question_page)
 app.register_blueprint(comment_page)
+app.register_blueprint(article_page)
 
 
 @app.route("/ping")
