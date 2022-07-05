@@ -186,7 +186,7 @@ export default function VerticalTabs() {
                     ? <SearchResultCard
                     key={'resultCard' + i}
                     data={e}
-                  ></SearchResultCard> : <GuideCard></GuideCard>
+                  ></SearchResultCard> : <GuideCard key={'resultCard' + i}></GuideCard>
                 );
               })}
             </Box>

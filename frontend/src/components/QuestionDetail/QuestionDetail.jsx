@@ -9,9 +9,10 @@ import Button from '@mui/material/Button';
 import CardActions from '@mui/material/CardActions';
 import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Menu } from '@mui/material';
-import AnswerCard from './AnswerCard'
+import AnswerCard from './AnswerCard';
+import { Editor } from '@tinymce/tinymce-react';
+import Collapse from '@mui/material/Collapse';
 const Home = () => {
-  console.log(localStorage.getItem('sign-status'));
   const sample = [{ id: '12', type: 1 }, { id: '23', type: 2 }, { id: '45', type: 2 }]
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -19,8 +20,17 @@ const Home = () => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const [content, setContent] = React.useState('')
+  function handleChange (content, editor) {
+    setContent({ content });
+  }
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
   };
   return (
     <div className="home">
@@ -79,10 +89,26 @@ const Home = () => {
             <span>3 answers</span>
           </Box>
           <Box sx={{ margin: 'auto' }}>
-            <Button variant="contained" size="small">Answer</Button>
+            <Button size="small" onClick={handleExpandClick}>Answer</Button>
           </Box>
         </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Editor
+    apiKey="yhf0swre6kb5yv1owq7bcxmfxaxwundoc1htcq2tpvhkyz8t"
+    value={content.innerText}
+    init={{
+      height: 300,
+      menubar: false
+    }}
+    onEditorChange={handleChange}
+  />
+  <br />
+  <Button sx={{ mb: 1, float: 'right' }}variant="contained">Submit</Button>
+        </CardContent>
+      </Collapse>
           </Box>
+
         </CardContent>
 
           <Button

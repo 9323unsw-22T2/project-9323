@@ -207,7 +207,10 @@ const Navbar = () => {
             <SettingsIcon></SettingsIcon>
             Setting
           </MenuItem>
-          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={handleClose}>
+          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={(e) => {
+            e.preventDefault()
+            navigate('/help')
+          }}>
             <HelpIcon></HelpIcon>
             Help
           </MenuItem>
