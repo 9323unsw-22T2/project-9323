@@ -23,6 +23,8 @@ import Button from '@mui/material/Button';
 import CommentIcon from '@mui/icons-material/Comment';
 import { Editor } from '@tinymce/tinymce-react';
 import Collapse from '@mui/material/Collapse';
+import SharePopup from '../SharePopup/SharePopup'
+
 // eslint-disable-next-line space-before-function-paren
 export default function VerticalTabs() {
   const { number } = useParams();
@@ -33,6 +35,8 @@ export default function VerticalTabs() {
   const handleCommentClick = () => {
     setCommentExpanded(!commentExpanded);
   };
+  const [social, setSocial] = React.useState(false);
+
   const [content, setContent] = React.useState('')
   function handleChange (content, editor) {
     setContent({ content });
@@ -123,13 +127,15 @@ export default function VerticalTabs() {
             <IconButton onClick={hendleThumb} aria-label="add to favorites" sx={{ color: data[0]?.thumb_up_by?.find((e) => e === parseInt(localStorage.getItem('user_id'))) ? 'red' : 'grey' } }>
               <FavoriteIcon />
             </IconButton>
-            <IconButton aria-label="share">
+            <IconButton aria-label="share" onClick={(e) => { e.preventDefault(); setSocial(!social) }}>
               <ShareIcon />
             </IconButton>
             <IconButton onClick={handleCommentClick} aria-label="comment">
           <CommentIcon />
         </IconButton>
           </CardActions>
+          <SharePopup opened={social} setOpened={setSocial}></SharePopup>
+
           <Collapse in={commentExpanded} timeout="auto" unmountOnExit>
       <CardContent>
       <Editor

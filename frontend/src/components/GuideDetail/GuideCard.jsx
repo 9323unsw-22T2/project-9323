@@ -19,6 +19,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import CommentIcon from '@mui/icons-material/Comment';
+import SharePopup from '../SharePopup/SharePopup'
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -33,6 +34,7 @@ const ExpandMore = styled((props) => {
 export default function RecipeReviewCard () {
   const [expanded, setExpanded] = React.useState(false);
   const [commentExpanded, setCommentExpanded] = React.useState(false);
+  const [social, setSocial] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -95,13 +97,14 @@ export default function RecipeReviewCard () {
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="share">
+        <IconButton aria-label="share" onClick={(e) => { e.preventDefault(); setSocial(!social) }}>
           <ShareIcon />
         </IconButton>
         <IconButton onClick={handleCommentClick} aria-label="comment">
           <CommentIcon />
         </IconButton>
       </CardActions>
+      <SharePopup opened={social} setOpened={setSocial}></SharePopup>
       <Collapse in={commentExpanded} timeout="auto" unmountOnExit>
       <CardContent>
       <Editor
