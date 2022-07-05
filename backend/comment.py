@@ -15,7 +15,7 @@ cur = con.cursor()
 
 
 @comment_page.route('/comment/questions/<int:question_id>',methods=['POST'])
-# @authenticated#check whether the user login
+@authenticated#check whether the user login
 def comment_question(question_id):
     # connect to the sqlite3
     con = sqlite3.connect(DATABASE_NAME)
@@ -30,12 +30,12 @@ def comment_question(question_id):
         thumbUpBy=None # user id starts from 1?
         is_deleted=0
         #############for regular################
-        # data = request.get_json()
-        # content = data.get('content', None)
-        # userID = get_user_id_from_header()
+        data = request.get_json()
+        content = data.get('content', None)
+        userID = get_user_id_from_header()
         ###########user for post man############
-        content = 'aaa'
-        userID=2          
+        # content = 'aaa'
+        # userID=2          
         ###########user for post man############
         # just create an comment not edit
         cur.execute(f"insert into comments values(?,?,?,?,?,?,?,?,?)",
@@ -46,16 +46,17 @@ def comment_question(question_id):
         con.close()
         return make_response(jsonify({"error": "this question can not be found"})), 404
     id = cur.lastrowid
+    content=cur.execute(f"select content from comments where id={id}").fetchall()[0][0]
     con.close()
     
     # can get the last autoincrement data(for this table  is the id)
-    print(id)
-    return make_response(jsonify({"comment_id": id})), 200
+    # print(id)
+    return make_response(jsonify({ "comment_content":content,"comment_id": id})), 200
 
 
 
 @comment_page.route('/comment/articles/<int:article_id>',methods=['POST'])
-# @authenticated#check whether the user login
+@authenticated#check whether the user login
 def comment_article(article_id):
     # connect to the sqlite3
     con = sqlite3.connect(DATABASE_NAME)
@@ -70,12 +71,12 @@ def comment_article(article_id):
         thumbUpBy=None # user id starts from 1?
         is_deleted=0
         #############for regular################
-        # data = request.get_json()
-        # content = data.get('content', None)
-        # userID = get_user_id_from_header()
+        data = request.get_json()
+        content = data.get('content', None)
+        userID = get_user_id_from_header()
         ###########user for post man############
-        content = 'aaa'
-        userID=2          
+        # content = 'aaa'
+        # userID=2          
         ###########user for post man############
         # just create an comment not edit
         cur.execute(f"insert into comments values(?,?,?,?,?,?,?,?,?)",
@@ -86,8 +87,9 @@ def comment_article(article_id):
         con.close()
         return make_response(jsonify({"error": "this article can not be found"})), 404
     id = cur.lastrowid
+    content=cur.execute(f"select content from comments where id={id}").fetchall()[0][0]
     con.close()
     
     # can get the last autoincrement data(for this table  is the id)
     print(id)
-    return make_response(jsonify({"comment_id": id})), 200
+    return make_response(jsonify({"comment_content":content,"comment_id": id})), 200

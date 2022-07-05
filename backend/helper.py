@@ -8,7 +8,7 @@ import time
 def authenticated(func):
     @wraps(func)
     def wrap(*args, **kwargs):
-        if request.headers.has_key('token') and request.headers.has_key('user_id'):
+        if 'token' in request.headers and 'user_id' in request.headers:
             auth_token = request.headers['token']
             user_id = get_user_id_from_header()
 
