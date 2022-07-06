@@ -10,7 +10,9 @@ import CardActions from '@mui/material/CardActions';
 import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Menu } from '@mui/material';
 import AnswerCard from './AnswerCard';
-import { Editor } from '@tinymce/tinymce-react';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EditorState } from 'draft-js';
 import Collapse from '@mui/material/Collapse';
 const Home = () => {
   const sample = [{ id: '12', type: 1 }, { id: '23', type: 2 }, { id: '45', type: 2 }]
@@ -20,9 +22,10 @@ const Home = () => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const [content, setContent] = React.useState('')
-  function handleChange (content, editor) {
-    setContent({ content });
+  const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState)
+    console.log(editorState.toJS())
   }
   const handleClose = () => {
     setAnchorEl(null);
@@ -94,17 +97,14 @@ const Home = () => {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Editor
-    apiKey="yhf0swre6kb5yv1owq7bcxmfxaxwundoc1htcq2tpvhkyz8t"
-    value={content.innerText}
-    init={{
-      height: 300,
-      menubar: false
-    }}
-    onEditorChange={handleChange}
-  />
-  <br />
-  <Button sx={{ mb: 1, float: 'right' }}variant="contained">Submit</Button>
+        <Editor
+  editorState={editorState}
+  toolbarClassName="toolbarClassName"
+  wrapperStyle={{ }}
+  editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto' }}
+  onEditorStateChange={onEditorStateChange}
+/>
+  <Button sx={{ mb: 1, mt: 2, float: 'right' }}variant="contained">Submit</Button>
         </CardContent>
       </Collapse>
           </Box>

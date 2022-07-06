@@ -119,6 +119,7 @@ export default function RecipeReviewCard () {
   <br />
   <Button sx={{ mb: 1, float: 'right' }} variant="contained">Submit</Button>
         </CardContent>
+
       </Collapse>
       <CardActions disableSpacing>
         Step2

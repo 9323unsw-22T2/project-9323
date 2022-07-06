@@ -125,7 +125,6 @@ export default function VerticalTabs() {
           flexGrow: 1,
           bgcolor: 'background.paper',
           display: 'flex',
-          overflow: 'auto',
           height: '100%',
         }}
       >

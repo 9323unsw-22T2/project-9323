@@ -163,7 +163,7 @@ const Navbar = () => {
           </Button>
         </Box>
       </Search>
-      <Box sx={{ marginLeft: 'auto', textAlign: 'center' }}>
+      <Box sx={{ marginLeft: 'auto', mr: 2, textAlign: 'center' }}>
         <Button
           variant="standard"
           className={`${styles.loginbutton} `}
