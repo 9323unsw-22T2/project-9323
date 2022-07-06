@@ -12,6 +12,7 @@ import SearchResultCard from '../SearchResultCard/SearchResultCard';
 import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Button, Menu } from '@mui/material';
 import GuideCard from '../GuideDetail/GuideCard'
+import List from './List'
 // eslint-disable-next-line space-before-function-paren
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -193,9 +194,10 @@ export default function VerticalTabs() {
             <Box
               sx={{
                 width: '40%',
-                border: '1px solid red',
               }}
-            ></Box>
+            >
+              <List></List>
+            </Box>
           </Box>
         </TabPanel>
         <TabPanel value={value} index={1}>
