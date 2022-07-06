@@ -11,6 +11,7 @@ const style = {
   width: '100%',
   maxWidth: 360,
   bgcolor: 'background.paper',
+  borderRadius: 3,
 };
 
 export default function ListDividers () {
@@ -33,6 +34,10 @@ export default function ListDividers () {
       </ListItem>
       <ListItem button>
         <ListItemText primary="Topic" secondary="Description" />
+      </ListItem>
+      <Divider light />
+      <ListItem button>
+        <ListItemText primary="Topic" secondary="Description"/>
       </ListItem>
       <Divider light />
       <ListItem button>
