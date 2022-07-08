@@ -20,6 +20,10 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import Button from '@mui/material/Button';
+import CommentIcon from '@mui/icons-material/Comment';
+import { Editor } from '@tinymce/tinymce-react';
+import Collapse from '@mui/material/Collapse';
+import SharePopup from '../SharePopup/SharePopup'
 
 // eslint-disable-next-line space-before-function-paren
 export default function VerticalTabs() {
@@ -27,7 +31,16 @@ export default function VerticalTabs() {
   const [data, setData] = React.useState({ 0: { title: 'none' }, 1: { title: 'none' } })
   const [activeStep, setActiveStep] = React.useState(0);
   const temp = document.createElement('div');
+  const [commentExpanded, setCommentExpanded] = React.useState(false);
+  const handleCommentClick = () => {
+    setCommentExpanded(!commentExpanded);
+  };
+  const [social, setSocial] = React.useState(false);
 
+  const [content, setContent] = React.useState('')
+  function handleChange (content, editor) {
+    setContent({ content });
+  }
   const handleStep = (step) => () => {
     setActiveStep(step);
     temp.innerHTML = data[step].content;
@@ -71,6 +84,7 @@ export default function VerticalTabs() {
       <Box>
         <Button sx={{ height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="/main">{'<Return'}</Button>
         </Box>
+      <Box sx={{ display: 'flex' }}>
       <Box className={styles.guideDetail}>
       <CardHeader
             sx={{ width: '95%', margin: 'auto', mt: 3 }}
@@ -94,7 +108,7 @@ export default function VerticalTabs() {
           </Stepper>
         </Box>
 
-        <Card sx={{ width: '95%', border: 'none', margin: 'auto', boxShadow: 'none', height: '30rem', overflow: 'scroll', mt: 3 }}>
+        <Card sx={{ width: '95%', border: 'none', margin: 'auto', boxShadow: 'none', height: '32rem', overflow: 'scroll', mt: 3 }}>
 
           <CardMedia
             component="img"
@@ -113,12 +127,41 @@ export default function VerticalTabs() {
             <IconButton onClick={hendleThumb} aria-label="add to favorites" sx={{ color: data[0]?.thumb_up_by?.find((e) => e === parseInt(localStorage.getItem('user_id'))) ? 'red' : 'grey' } }>
               <FavoriteIcon />
             </IconButton>
-            <IconButton aria-label="share">
+            <IconButton aria-label="share" onClick={(e) => { e.preventDefault(); setSocial(!social) }}>
               <ShareIcon />
             </IconButton>
+            <IconButton onClick={handleCommentClick} aria-label="comment">
+          <CommentIcon />
+        </IconButton>
           </CardActions>
-      </Box>
+          <SharePopup opened={social} setOpened={setSocial}></SharePopup>
 
+          <Collapse in={commentExpanded} timeout="auto" unmountOnExit>
+      <CardContent>
+      <Editor
+    apiKey="yhf0swre6kb5yv1owq7bcxmfxaxwundoc1htcq2tpvhkyz8t"
+    value={content.innerText}
+    init={{
+      height: 300,
+      menubar: false
+    }}
+    onEditorChange={handleChange}
+  />
+  <br />
+  <Button sx={{ mb: 1, float: 'right' }} variant="contained">Submit</Button>
+        </CardContent>
+      </Collapse>
+      </Box>
+      <Box
+          sx={{
+            width: '20%',
+            marginLeft: 'auto',
+            marginRight: ' auto',
+            height: '80vh',
+            border: '1px solid red',
+          }}
+        ></Box>
+        </Box>
 </div>
   )
 }

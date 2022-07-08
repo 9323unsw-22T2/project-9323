@@ -126,7 +126,6 @@ export default function VerticalTabs() {
           flexGrow: 1,
           bgcolor: 'background.paper',
           display: 'flex',
-          overflow: 'auto',
           height: '100%',
         }}
       >
@@ -187,7 +186,7 @@ export default function VerticalTabs() {
                     ? <SearchResultCard
                     key={'resultCard' + i}
                     data={e}
-                  ></SearchResultCard> : <GuideCard></GuideCard>
+                  ></SearchResultCard> : <GuideCard key={'resultCard' + i}></GuideCard>
                 );
               })}
             </Box>

@@ -7,6 +7,7 @@ import NewQuestion from './components/AskQuestion/AskQuestion';
 import Profile from './components/Profile/Profile'
 import NewGuide from './components/CreateGuide/CreateGuide'
 import GuideDetail from './components/GuideDetail/GuidePage'
+import Help from './components/Help/Help'
 const App = () => {
   return (
     <BrowserRouter>
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/newguide" element={<NewGuide />} />
         <Route path="/guide/:number" element={<GuideDetail />} />
+        <Route path="/help" element={<Help />} />
 
       </Routes>
     </BrowserRouter>

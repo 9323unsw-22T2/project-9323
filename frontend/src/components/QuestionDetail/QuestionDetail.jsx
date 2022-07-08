@@ -9,9 +9,12 @@ import Button from '@mui/material/Button';
 import CardActions from '@mui/material/CardActions';
 import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Menu } from '@mui/material';
-import AnswerCard from './AnswerCard'
+import AnswerCard from './AnswerCard';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EditorState } from 'draft-js';
+import Collapse from '@mui/material/Collapse';
 const Home = () => {
-  console.log(localStorage.getItem('sign-status'));
   const sample = [{ id: '12', type: 1 }, { id: '23', type: 2 }, { id: '45', type: 2 }]
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -19,8 +22,18 @@ const Home = () => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState)
+    console.log(editorState.toJS())
+  }
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
   };
   return (
     <div className="home">
@@ -79,10 +92,23 @@ const Home = () => {
             <span>3 answers</span>
           </Box>
           <Box sx={{ margin: 'auto' }}>
-            <Button variant="contained" size="small">Answer</Button>
+            <Button size="small" onClick={handleExpandClick}>Answer</Button>
           </Box>
         </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+        <Editor
+  editorState={editorState}
+  toolbarClassName="toolbarClassName"
+  wrapperStyle={{ }}
+  editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto' }}
+  onEditorStateChange={onEditorStateChange}
+/>
+  <Button sx={{ mb: 1, mt: 2, float: 'right' }}variant="contained">Submit</Button>
+        </CardContent>
+      </Collapse>
           </Box>
+
         </CardContent>
 
           <Button

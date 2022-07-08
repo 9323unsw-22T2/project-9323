@@ -163,7 +163,7 @@ const Navbar = () => {
           </Button>
         </Box>
       </Search>
-      <Box sx={{ marginLeft: 'auto', textAlign: 'center' }}>
+      <Box sx={{ marginLeft: 'auto', mr: 2, textAlign: 'center' }}>
         <Button
           variant="standard"
           className={`${styles.loginbutton} `}
@@ -207,7 +207,10 @@ const Navbar = () => {
             <SettingsIcon></SettingsIcon>
             Setting
           </MenuItem>
-          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={handleClose}>
+          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={(e) => {
+            e.preventDefault()
+            navigate('/help')
+          }}>
             <HelpIcon></HelpIcon>
             Help
           </MenuItem>
