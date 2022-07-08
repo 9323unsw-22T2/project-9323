@@ -22,7 +22,8 @@ function TabPanel(props) {
       <div
         style={{
           width: '85vw',
-          backgroundColor: 'rgb(118, 118, 118, 0.1)',
+          // backgroundColor: 'rgb(118, 118, 118, 0.1)',
+          backgroundImage: 'url(https://cdn.dribbble.com/users/782052/screenshots/10927554/media/e961df046013321feb28cf99b7fc7800.jpg)'
         }}
         role="tabpanel"
         hidden={value !== index}
@@ -178,7 +179,7 @@ export default function VerticalTabs() {
             <MenuItem onClick={handleClose}>Price(high to low)</MenuItem>
             <MenuItem onClick={handleClose}>Price(low to high)</MenuItem>
           </Menu>
-          <Box sx={{ margin: 'auto', display: 'flex' }}>
+          <Box sx={{ margin: 'auto', display: 'flex', opacity: '0.95' }}>
             <Box sx={{ width: '50%', margin: 'auto' }}>
               {sampleData.map((e, i) => {
                 return (
