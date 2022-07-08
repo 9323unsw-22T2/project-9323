@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../NavBar/Navbar';
 import Accordians from './Accordians'
+
 import {
   View,
 } from 'react-native';
