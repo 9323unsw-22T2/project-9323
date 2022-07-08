@@ -139,6 +139,8 @@ export default function VerticalTabs() {
           <Collapse in={commentExpanded} timeout="auto" unmountOnExit>
       <CardContent>
       <Editor
+              toolbar='redo aligncenter alignjustify alignleft alignright blockquote undo bold italic underline code'
+
     apiKey="yhf0swre6kb5yv1owq7bcxmfxaxwundoc1htcq2tpvhkyz8t"
     value={content.innerText}
     init={{
