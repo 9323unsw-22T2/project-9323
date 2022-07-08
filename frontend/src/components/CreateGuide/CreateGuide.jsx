@@ -15,7 +15,7 @@ import CommonMessage from '../CommonMessage/CommonMessage'
 import { useNavigate } from 'react-router-dom';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
 const App = () => {
   const [steps, setStep] = React.useState([{ step_title: 'Step1', content: EditorState.createEmpty(), finished: false }, { step_title: 'Step2', content: EditorState.createEmpty(), finished: false }, { step_title: 'Step3', content: EditorState.createEmpty(), finished: false }]);
   const [activeStep, setActiveStep] = React.useState(0);
@@ -49,8 +49,6 @@ const App = () => {
         : activeStep + 1;
     document.getElementById('step_title').value = steps[newActiveStep].step_title
     setEditorState(steps[activeStep + 1].content ? steps[activeStep + 1].content : EditorState.createEmpty())
-
-    console.log(editorState)
 
     setActiveStep(newActiveStep);
   };
@@ -87,8 +85,11 @@ const App = () => {
       newSteps[activeStep] = { step_title: document.getElementById('step_title').value, content: editorState, finished: true };
       setStep(newSteps)
       if (allStepsCompleted()) {
+        console.log(steps)
+
         Object.keys(steps).forEach((ele) => { steps[ele].title = document.getElementById('guide_title').value })
-        Object.keys(steps).forEach((ele) => { steps[ele].content = steps[ele].content.toJS() })
+        Object.keys(steps).forEach((ele) => { steps[ele].content = convertToRaw(steps[ele].content.getCurrentContent()) })
+        console.log(steps)
 
         if (!(localStorage.getItem('token'))) { window.alert('Please log in first') } else {
           try {

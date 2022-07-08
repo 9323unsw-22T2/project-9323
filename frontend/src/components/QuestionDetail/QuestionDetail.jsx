@@ -25,7 +25,6 @@ const Home = () => {
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState)
-    console.log(editorState.toJS())
   }
   const handleClose = () => {
     setAnchorEl(null);
@@ -34,10 +33,9 @@ const Home = () => {
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
-    console.log(editorState.toJS())
   };
   return (
-    <div className="home">
+    <div className="home" style={{ overflow: 'auto' }}>
       {localStorage.getItem('token') ? (
         <LoggedNarbar></LoggedNarbar>
       ) : (
@@ -45,14 +43,17 @@ const Home = () => {
       )}
       <Box
         sx={{
-          backgroundColor: 'rgb(118, 118, 118, 0.1)',
+          backgroundImage: 'url(https://cdn.dribbble.com/users/782052/screenshots/10927554/media/e961df046013321feb28cf99b7fc7800.jpg)',
+
+          // backgroundColor: 'rgb(118, 118, 118, 0.1)',
           display: 'flex',
           paddingTop: '1.3rem'
         }}
       >
-        <Button sx={{ height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="javascript:history.back()">{'<Return'}</Button>
+        <Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="javascript:history.back()">{'<Return'}</Button>
 
         <Box sx={{
+          opacity: '0.95',
           marginLeft: ' auto',
           marginRight: ' auto',
           width: '70%'

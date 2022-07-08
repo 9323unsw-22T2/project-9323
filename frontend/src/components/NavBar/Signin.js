@@ -13,12 +13,9 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 // import CloseIcon from '@mui/icons-material/Close';
 // import IconButton from '@mui/material/IconButton';
 import { signIn } from '../../service';
-import { useNavigate } from 'react-router-dom';
-
 import CommonMessage from '../CommonMessage/CommonMessage'
+// import { Navigate } from 'react-router-dom';
 const Signin = () => {
-  const navigate = useNavigate();
-
   const [loading, setLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = useState(['', 'error', false]);
   function setMessageStatus () {
@@ -53,7 +50,7 @@ const Signin = () => {
       localStorage.setItem('user_id', response.data.user_id);
 
       setErrorMessage(['Login in success', 'success', true]);
-      navigate('/main')
+      window.location.reload(false);
     } catch (error) {
       setErrorMessage([error.response.data.error, 'error', true]);
       setLoading(false)

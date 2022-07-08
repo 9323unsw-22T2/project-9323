@@ -24,17 +24,18 @@ import CommentIcon from '@mui/icons-material/Comment';
 import { Editor } from '@tinymce/tinymce-react';
 import Collapse from '@mui/material/Collapse';
 import SharePopup from '../SharePopup/SharePopup'
+import draftToHtml from 'draftjs-to-html';
 
 // eslint-disable-next-line space-before-function-paren
 export default function VerticalTabs() {
   const { number } = useParams();
   const [data, setData] = React.useState({ 0: { title: 'none' }, 1: { title: 'none' } })
   const [activeStep, setActiveStep] = React.useState(0);
-  const temp = document.createElement('div');
   const [commentExpanded, setCommentExpanded] = React.useState(false);
   const handleCommentClick = () => {
     setCommentExpanded(!commentExpanded);
   };
+
   const [social, setSocial] = React.useState(false);
 
   const [content, setContent] = React.useState('')
@@ -43,7 +44,6 @@ export default function VerticalTabs() {
   }
   const handleStep = (step) => () => {
     setActiveStep(step);
-    temp.innerHTML = data[step].content;
   };
   const hendleThumb = async () => {
     if (data[0]?.thumb_up_by?.find((e) => e === parseInt(localStorage.getItem('user_id')))) {
@@ -66,12 +66,9 @@ export default function VerticalTabs() {
     console.log(number, localStorage.getItem('user_id'), localStorage.getItem('token'))
     try {
       const response = await guideDetail(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
-      setData(Object.fromEntries(Object
-        .entries(response.data.article)))
-      console.log(data)
+      setData(Object.fromEntries(Object.entries(response.data.article)))
     } catch (error) {}
   }, [])
-  console.log(data)
   return (
   <div className="home">
   {localStorage.getItem('token')
@@ -118,7 +115,7 @@ export default function VerticalTabs() {
           />
           <CardContent>
             <Typography variant="h4" color="text.secondary">
-            <div dangerouslySetInnerHTML={{ __html: data[activeStep].content }}></div>
+            <div dangerouslySetInnerHTML={{ __html: draftToHtml(data[activeStep].content) }}></div>
             </Typography>
           </CardContent>
 
