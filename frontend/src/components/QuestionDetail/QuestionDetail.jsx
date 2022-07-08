@@ -34,6 +34,7 @@ const Home = () => {
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+    console.log(editorState.toJS())
   };
   return (
     <div className="home">

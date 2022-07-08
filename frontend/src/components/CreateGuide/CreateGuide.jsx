@@ -11,15 +11,15 @@ import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 import styles from './App.module.css';
 import { newGuide } from '../../service'
-import { Editor } from '@tinymce/tinymce-react';
 import CommonMessage from '../CommonMessage/CommonMessage'
 import { useNavigate } from 'react-router-dom';
-
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EditorState } from 'draft-js';
 const App = () => {
-  const [steps, setStep] = React.useState([{ step_title: 'Step1', content: '', finished: false }, { step_title: 'Step2', content: '', finished: false }, { step_title: 'Step3', content: '', finished: false }]);
+  const [steps, setStep] = React.useState([{ step_title: 'Step1', content: EditorState.createEmpty(), finished: false }, { step_title: 'Step2', content: EditorState.createEmpty(), finished: false }, { step_title: 'Step3', content: EditorState.createEmpty(), finished: false }]);
   const [activeStep, setActiveStep] = React.useState(0);
   const [errorMessage, setErrorMessage] = React.useState(['', 'error', false]);
-  const [content, setContent] = React.useState('')
   function setMessageStatus () {
     setErrorMessage(['', 'error', false])
   }
@@ -40,31 +40,35 @@ const App = () => {
   const allStepsCompleted = () => {
     return completedSteps() === totalSteps();
   };
-
+  const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
+  const onEditorStateChange = (editorState) => { setEditorState(editorState) }
   const handleNext = () => {
     const newActiveStep =
       isLastStep()
         ? activeStep
         : activeStep + 1;
     document.getElementById('step_title').value = steps[newActiveStep].step_title
-    if (steps[newActiveStep].content) { setContent(steps[newActiveStep].content) } else { console.log('ssdd'); setContent('') }
-    setContent('')
-    console.log(content)
+    setEditorState(steps[activeStep + 1].content ? steps[activeStep + 1].content : EditorState.createEmpty())
+
+    console.log(editorState)
 
     setActiveStep(newActiveStep);
   };
   const handleBack = () => {
-    document.getElementById('step_title').value = steps[activeStep - 1].step_title
-    setContent(steps[activeStep - 1].content ? steps[activeStep - 1].content : '')
+    document.getElementById('step_title').value = steps[activeStep].step_title
+    setEditorState(steps[activeStep - 1].content ? steps[activeStep - 1].content : EditorState.createEmpty())
 
     setActiveStep(activeStep - 1);
   }
   const handleNew = () => {
-    const list = [...steps.slice(0, activeStep + 1), { step_title: 'new step', content: '', finished: false }, ...steps.slice(activeStep + 1)]
+    const list = [...steps.slice(0, activeStep + 1), { step_title: 'new step', content: EditorState.createEmpty(), finished: false }, ...steps.slice(activeStep + 1)]
     setStep(list)
   };
   const handleStep = (step) => () => {
     setActiveStep(step);
+    if (steps[step]?.content) {
+      setEditorState(steps[step].content)
+    }
   };
   const handleDelete = () => {
     if (isLastStep()) {
@@ -77,16 +81,15 @@ const App = () => {
     }
   }
 
-  function handleChange (content, editor) {
-    setContent(content);
-  }
   const handleComplete = async () => {
     const newSteps = steps;
-    if (!content || !document.getElementById('guide_title').value) { setErrorMessage(['Please fill in all fields', 'error', true]) } else {
-      newSteps[activeStep] = { step_title: document.getElementById('step_title').value, content: content, finished: true };
+    if (!editorState || !document.getElementById('guide_title').value) { setErrorMessage(['Please fill in all fields', 'error', true]) } else {
+      newSteps[activeStep] = { step_title: document.getElementById('step_title').value, content: editorState, finished: true };
       setStep(newSteps)
       if (allStepsCompleted()) {
         Object.keys(steps).forEach((ele) => { steps[ele].title = document.getElementById('guide_title').value })
+        Object.keys(steps).forEach((ele) => { steps[ele].content = steps[ele].content.toJS() })
+
         if (!(localStorage.getItem('token'))) { window.alert('Please log in first') } else {
           try {
             const response = await newGuide(Object.assign({}, steps), localStorage.getItem('token'), localStorage.getItem('user_id'))
@@ -157,15 +160,13 @@ const App = () => {
             </Box>
             <h4 className={styles.guideh4}>Description</h4>
             <Editor
-              apiKey="yhf0swre6kb5yv1owq7bcxmfxaxwundoc1htcq2tpvhkyz8t"
-              value={content}
-              init={{
-                height: 150,
-                menubar: false
-              }}
-              initialValue={steps[activeStep].content}
-              onEditorChange={handleChange}
-            />
+                editorState={editorState}
+                toolbarClassName="toolbarClassName"
+                wrapperStyle={{ }}
+                initialContentState={steps[activeStep].content}
+                editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto' }}
+                onEditorStateChange={onEditorStateChange}
+              />
             </Box>
             {<CommonMessage
           setVisible={setMessageStatus}
