@@ -1,0 +1,22 @@
+.text {
+  color: #4673cf; 
+  font-weight: normal;
+  text-align:center;
+   font-size: 4rem; 
+   font-family: 'Roboto'
+}
+.unfocusButton{
+  margin: auto;
+  margin-left:3rem;
+  z-index: 3
+}
+.focusButton{
+  margin: auto;
+  z-index: 3
+}
+.unfocusbackground{
+
+}
+.focusbackground{
+  filter: blur(8px)
+}

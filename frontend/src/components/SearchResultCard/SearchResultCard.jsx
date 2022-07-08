@@ -124,7 +124,7 @@ export default function ActionAreaCard({ data }) {
           ></CardContent>
         </Box>
       </CardContent>
-      <CardActions sx={{ ml: 3, display: 'auto' }}>
+      <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto' }}>
         <Button size="small">Follow</Button>
         <Box sx={{ margin: 'auto' }}>2022/02/31 19:49:03</Box>
         <Box
