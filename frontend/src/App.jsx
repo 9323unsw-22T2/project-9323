@@ -22,14 +22,17 @@ const PageLayout = ({ children }) => children;
 const pageVariants = {
   initial: {
     opacity: 0,
+    height: '100%'
   },
   in: {
 
     opacity: 1,
+    height: '100%'
   },
   out: {
 
     opacity: 0,
+    height: '100%'
   }
 };
 

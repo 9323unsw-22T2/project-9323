@@ -107,7 +107,7 @@ const App = () => {
     display: 'none',
   });
   return (
-<Box >
+<Box sx={{ height: '100%', backgroundImage: 'url(https://cdn.dribbble.com/users/1362913/screenshots/4606447/media/781df62e1f36d160f60d855938b1e41d.png?compress=1&resize=800x600&vertical=top)' }}>
 {localStorage.getItem('token')
   ? (
           <LoggedNarbar></LoggedNarbar>
@@ -117,7 +117,7 @@ const App = () => {
     )}
 <Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', mt: 2, textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="javascript:history.back()">{'<Return'}</Button>
 
-<Box sx={{ width: '70%', margin: 'auto', mt: 2, backgroundColor: 'white', padding: '1.5rem', borderRadius: '1rem' }}>
+<Box sx={{ width: '70%', margin: 'auto', mt: 6, opacity: '0.95', backgroundColor: 'white', padding: '1.5rem', borderRadius: '1rem' }}>
 
       <h4 className={styles.guideh4}>Guide Title</h4>
       <TextField rows={1} id='guide_title'multiline sx={{ mb: 2, width: '100%' }} />
@@ -156,7 +156,7 @@ const App = () => {
                 toolbarClassName="toolbarClassName"
                 wrapperStyle={{ }}
                 initialContentState={steps[activeStep].content}
-                editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto' }}
+                editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto', height: '10rem' }}
                 onEditorStateChange={onEditorStateChange}
               />
             </Box>
