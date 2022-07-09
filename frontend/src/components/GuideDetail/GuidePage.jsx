@@ -79,7 +79,7 @@ export default function VerticalTabs() {
     <Navbar></Navbar>
       )}
       <Box>
-        <Button sx={{ height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="/main">{'<Return'}</Button>
+        <Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="/main">{'<Return'}</Button>
         </Box>
       <Box sx={{ display: 'flex' }}>
       <Box className={styles.guideDetail}>

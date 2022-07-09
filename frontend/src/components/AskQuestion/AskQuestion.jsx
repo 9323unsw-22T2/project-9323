@@ -33,7 +33,7 @@ const App = () => {
           <Navbar></Navbar>
     )}
 <Box sx={{ display: 'flex', mt: 3, width: '100%' }}>
-<Button sx={{ height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="/main">{'<Return'}</Button>
+<Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="javascript:history.back()">{'<Return'}</Button>
 
   <Box sx={{ width: '75%', margin: 'auto', backgroundColor: 'white', borderRadius: '1rem' }}>
 <form style={{ margin: '2rem' }}>
