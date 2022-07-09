@@ -65,13 +65,13 @@ const Home = () => {
                   margin: 'auto',
                   textAlign: 'center',
                 }}
-                title={'This is a title'}
+                title={'Does anyone know how to create a teams account'}
               ></CardHeader>
               <CardContent
                 sx={{ borderBottom: '1px solid #e6e5e6', width: '90%', margin: 'auto' }}
                 // eslint-disable-next-line react/no-children-prop
                 children={
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut viverra tellus, sit amet sagittis libero. Integer nibh tortor, facilisis vel mollis dapibus, mattis ut nisl. Praesent convallis consequat eros, at interdum lorem lacinia eget. Praesent posuere leo nec tempor pretium. Quisque imperdiet semper ex, in maximus urna porttitor laoreet. Curabitur hendrerit est eget ante pulvinar tristique. Nullam vulputate, nulla vel posuere ullamcorper, mauris leo molestie tellus, a volutpat orci velit eu justo. Curabitur erat lectus, luctus non mauris ut, ultricies ornare diam. Praesent iaculis sapien nec blandit tempus. Praesent vitae gravida nisi. Donec consequat interdum elementum. Donec nec lacus mi. Fusce posuere cursus augue, sit amet vulputate eros dapibus ac. Nulla consequat massa massa, vel hendrerit nunc mattis ut. Morbi lobortis tristique tincidunt. Nulla facilisi'
+                  'Does anyone know how to create a new team and add the members i want to add ?'
                 }
               ></CardContent>
         <CardActions sx={{ ml: 3, margin: 'auto', width: '90%' }}>{follow ? <Button onClick={(e) => {
