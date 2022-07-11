@@ -26,23 +26,16 @@ export default function ListDividers () {
         <ListItemText primary="Trending"/>
       </ListItem>
       <ListItem button>
-        <ListItemText primary="Topic" secondary="Description" />
+        <ListItemText primary="231 Like" secondary="Totally 231 users like your answers" />
       </ListItem>
       <Divider />
       <ListItem button divider>
-        <ListItemText primary="Topic" secondary="Description" />
+        <ListItemText primary="64 Comments" secondary="Totally 64 users comment on your answer " />
       </ListItem>
       <ListItem button>
-        <ListItemText primary="Topic" secondary="Description" />
+        <ListItemText primary="5 Stars" secondary="You have earn 5 stars" />
       </ListItem>
-      <Divider light />
-      <ListItem button>
-        <ListItemText primary="Topic" secondary="Description"/>
-      </ListItem>
-      <Divider light />
-      <ListItem button>
-        <ListItemText primary="Topic" secondary="Description"/>
-      </ListItem>
+
     </List>
   );
 }
