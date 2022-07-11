@@ -6,9 +6,14 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export default function SimpleAccordion () {
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
   return (
-    <div>
-      <Accordion style={{ left: 120, top: 470, width: 500 }}>
+    <div style={{ width: '50%', margin: 'auto', minWidth: '15rem' }}>
+      <Accordion style={{ margin: 'auto' }} expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -23,7 +28,7 @@ export default function SimpleAccordion () {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion style={{ left: 120, top: 500, width: 500 }}>
+      <Accordion style={{ margin: 'auto', top: 80 }} expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
@@ -38,7 +43,7 @@ export default function SimpleAccordion () {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion style={{ left: 120, top: 530, width: 500 }}>
+      <Accordion style={{ margin: 'auto', top: 160 }} expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel3a-content"
@@ -53,6 +58,7 @@ export default function SimpleAccordion () {
           </Typography>
         </AccordionDetails>
       </Accordion>
+
     </div>
   );
 }

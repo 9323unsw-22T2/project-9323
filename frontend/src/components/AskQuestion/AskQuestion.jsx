@@ -23,7 +23,7 @@ const App = () => {
     setField(event.target.value);
   };
   return (
-<Box >
+<Box sx={{ height: '100%' }}>
 
 {localStorage.getItem('token')
   ? (
@@ -32,10 +32,10 @@ const App = () => {
   : (
           <Navbar></Navbar>
     )}
-<Box sx={{ display: 'flex', mt: 3, width: '100%' }}>
-<Button sx={{ height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="/main">{'<Return'}</Button>
+<Box sx={{ display: 'flex', mt: 3, height: '88%', width: '100%', backgroundImage: 'url(https://cdn.dribbble.com/users/1362913/screenshots/4606447/media/781df62e1f36d160f60d855938b1e41d.png?compress=1&resize=800x600&vertical=top)' }}>
+<Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="javascript:history.back()">{'<Return'}</Button>
 
-  <Box sx={{ width: '75%', margin: 'auto', backgroundColor: 'white', borderRadius: '1rem' }}>
+  <Box sx={{ width: '75%', opacity: '0.95', margin: 'auto', backgroundColor: 'white', borderRadius: '1rem' }}>
 <form style={{ margin: '2rem' }}>
   <h2>Provide a question</h2>
 

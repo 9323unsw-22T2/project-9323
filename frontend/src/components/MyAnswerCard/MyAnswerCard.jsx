@@ -36,7 +36,7 @@ export default function ActionAreaCard({ data }) {
   };
 
   const text =
-    'Hi im new to microsoft teams and am struggling to navigate the UI, Does anyone know how to create a new team and add the members i want to add ?';
+    "I've setup eslint & eslint-plugin-react When I run ESLint, the linter returns no-unused-vars errors for each React component. I'm assuming it's not recognizing that I'm using JSX or React syntax. Any ideas?";
 
   /*   const [state, setState] = React.useState(false);
   const toggleDrawer = (open) => (event) => {
@@ -97,7 +97,7 @@ export default function ActionAreaCard({ data }) {
                 textDecoration: 'underline',
               },
             }}
-            title={'How do i create a new team on microsoft teams'}
+            title={'ESLint with React gives `no-unused-vars` errors '}
           ></CardHeader>
           <CardContent
             sx={{ borderBottom: '1px solid #e6e5e6' }}

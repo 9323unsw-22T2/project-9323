@@ -31,7 +31,7 @@ def _article_title_create(data):
     step_number = 0
     step_title = data.get('step_title', None)
     title = data.get('title', None)
-    content = data.get('content', None)
+    content = json.dumps(data.get('content', None))
     image = None
     time_created = get_unix_time()
     time_modified = get_unix_time()
@@ -58,7 +58,7 @@ def _article_page_create(data, article_id, step_number):
     step_number = step_number
     step_title = data.get('step_title', None)
     title = None
-    content = data.get('content', None)
+    content = json.dumps(data.get('content', None))
     image = None
     time_created = get_unix_time()
     time_modified = get_unix_time()
@@ -125,7 +125,7 @@ def _read_artical_row(row):
         "step_number": row[2],
         "step_title": row[3],
         "title": row[4],
-        "content": row[5],
+        "content": json.loads(row[5]),
         "image": row[6],
         "time_created": row[7],
         "time_modified": row[8],
