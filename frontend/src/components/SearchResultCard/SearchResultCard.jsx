@@ -36,7 +36,7 @@ export default function ActionAreaCard({ data }) {
   };
 
   const text =
-    'Does anyone know how to create a new team and add the members i want to add ?';
+    'Hi im new to microsoft teams and am struggling to navigate the UI, Does anyone know how to create a new team and add the members i want to add ?';
 
   /*   const [state, setState] = React.useState(false);
   const toggleDrawer = (open) => (event) => {

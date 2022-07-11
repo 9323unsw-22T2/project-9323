@@ -71,7 +71,7 @@ const Home = () => {
                 sx={{ borderBottom: '1px solid #e6e5e6', width: '90%', margin: 'auto' }}
                 // eslint-disable-next-line react/no-children-prop
                 children={
-                  'Does anyone know how to create a new team and add the members i want to add ?'
+                  'Hi im new to microsoft teams and am struggling to navigate the UI, Does anyone know how to create a new team and add the members i want to add ?'
                 }
               ></CardContent>
         <CardActions sx={{ ml: 3, margin: 'auto', width: '90%' }}>{follow ? <Button onClick={(e) => {

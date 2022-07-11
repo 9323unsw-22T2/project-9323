@@ -74,7 +74,7 @@ export default function RecipeReviewCard () {
         navigate('/guide/1')
       }}>
       <Typography variant="h5">
-          How to create a call in microsoft teams
+          How to create a channel in a micosoft teams team.
       </Typography>
       <CardMedia
         component="img"
@@ -85,7 +85,9 @@ export default function RecipeReviewCard () {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          This guide assumes that you already have an account, are signed in and are already in a team with the people you wish to call
+        As an admin, you can create and manage teams and channels in the Teams client or the Microsoft Teams admin center. You can create teams as public or private. You can also create an org-wide team. Anyone using Teams in your organization can join a public team. For private teams, team owners manage team membership. And for an org-wide team, everyone in your organization is automatically added.
+
+To get started, we recommend you create private teams and add another owner to manage team settings and membership.
         </Typography>
       </CardContent>
       </CardActionArea >
@@ -132,10 +134,12 @@ export default function RecipeReviewCard () {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>
-            Click on the team tab on the left hand side of the screen
+          On the left side of Teams, click Teams, at the bottom of the teams list, click Join or create a team, and then click Create a new team.
+
+Once youve created the team, invite people to join it. You can add individual users, groups, and even entire contact groups (formerly known as distribution lists).
           </Typography>
           <Typography paragraph>
-            Click on the team you wish to call from the list of teams you are in
+          Find the team that you created, click More options ...  Manage team. Then go to the Members tab. Find the people you want to designate as team owners. Under Role, click Owner.
           </Typography>
         </CardContent>
       </Collapse>
@@ -154,7 +158,7 @@ export default function RecipeReviewCard () {
       <Collapse in={expanded2} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>
-           In the top left hand corner under your profile picture click the Meet button and start a call
+          Find the team that you created, click More options ...  Add channel. You can also click Manage team and add a channel in the Channels tab. Give the channel a descriptive name to make it easier for users to understand the purpose of the channel.
           </Typography>
         </CardContent>
       </Collapse>

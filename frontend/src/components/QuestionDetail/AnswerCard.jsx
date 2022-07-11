@@ -63,7 +63,13 @@ export default function RecipeReviewCard () {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-         You just click on teams and click add new team ?
+        On the left side of Teams, click Teams, at the bottom of the teams list, click Join or create a team, and then click Create a new team.
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+        Once youve created the team, invite people to join it. You can add individual users, groups, and even entire contact groups (formerly known as distribution lists).
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+        Find the team that you created, click More options ...  Manage team. Then go to the Members tab. Find the people you want to designate as team owners. Under Role, click Owner.
         </Typography>
         </CardContent>
         <CardActions disableSpacing sx={{
