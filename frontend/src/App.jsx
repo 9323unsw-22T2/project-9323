@@ -14,6 +14,7 @@ import Question from './components/QuestionDetail/QuestionDetail';
 import NewQuestion from './components/AskQuestion/AskQuestion';
 import Profile from './components/Profile/Profile'
 import NewGuide from './components/CreateGuide/CreateGuide'
+import Activity from './components/Activity/Activity'
 import GuideDetail from './components/GuideDetail/GuidePage'
 import Help from './components/Help/Help'
 
@@ -72,6 +73,7 @@ const App = () => {
           <Route path="/newquestion" element={<NewQuestion />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/newguide" element={<NewGuide />} />
+          <Route path="/activity" element={<Activity />} />
           <Route path="/guide/:number" element={<GuideDetail />} />
           <Route path="/help" element={<Help />} />
         </Route>
