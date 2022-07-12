@@ -20,6 +20,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import CommentIcon from '@mui/icons-material/Comment';
 import SharePopup from '../SharePopup/SharePopup'
+import AnswerCard from '../QuestionDetail/AnswerCard'
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -105,6 +106,8 @@ To get started, we recommend you create private teams and add another owner to m
       <SharePopup opened={social} setOpened={setSocial}></SharePopup>
       <Collapse in={commentExpanded} timeout="auto" unmountOnExit>
       <CardContent>
+        <h1 style={{ fontFamily: 'Roboto', fontSize: 25 }}>Comments</h1>
+      <AnswerCard/>
       <Editor
         toolbar='redo aligncenter alignjustify alignleft alignright blockquote undo bold italic underline code'
 
@@ -119,7 +122,6 @@ To get started, we recommend you create private teams and add another owner to m
   <br />
   <Button sx={{ mb: 1, float: 'right' }} variant="contained">Submit</Button>
         </CardContent>
-
       </Collapse>
       <CardActions disableSpacing>
         Step1
