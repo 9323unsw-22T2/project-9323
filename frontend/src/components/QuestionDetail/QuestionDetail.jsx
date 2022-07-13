@@ -14,6 +14,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import Collapse from '@mui/material/Collapse';
+
 const Home = () => {
   const sample = [{ id: '12', type: 1 }, { id: '23', type: 2 }, { id: '45', type: 2 }]
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -34,6 +35,7 @@ const Home = () => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
   return (
     <div className="home" style={{ overflow: 'auto' }}>
       {localStorage.getItem('token') ? (

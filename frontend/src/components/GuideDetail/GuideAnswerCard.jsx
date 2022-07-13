@@ -20,7 +20,7 @@ import { useEffect, useState } from 'react';
    return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
  })} */
 export default function RecipeReviewCard () {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(['a', 'b', 'c']);
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users') // SAMPLE API
@@ -50,9 +50,11 @@ export default function RecipeReviewCard () {
   function handleChange (content, editor) {
     setContent({ content });
   }
-  data.map((e, index) => {
-    return (
-    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={e.id}>
+  return (
+    <>{
+    data?.map((user) => {
+      return (
+          <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={Comment.id}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -68,9 +70,7 @@ export default function RecipeReviewCard () {
         subheader="September 14, 2016"
       />
       <CardContent>
-      <Typography>
-        Hello
-      </Typography>
+        <Typography variant="body2" color="text.secondary" key={user.id}>{user.name}</Typography>
         </CardContent>
         <CardActions disableSpacing sx={{
           width: 'max-content',
@@ -107,6 +107,8 @@ export default function RecipeReviewCard () {
         </CardContent>
       </Collapse>
     </Card>
-    )
-  })
+      )
+    })}
+    </>
+  )
 }

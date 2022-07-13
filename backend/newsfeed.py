@@ -1,5 +1,4 @@
 from http.client import REQUEST_TIMEOUT
-from socket import TCP_QUICKACK
 from unicodedata import east_asian_width
 from config import *
 from flask_cors import CORS
