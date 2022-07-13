@@ -2,7 +2,8 @@
 # or 
 # pip3 isntall -r requirements.txt
 
-flask
-flask-cor
+flask==2.1.2
+flask-cors
 sqlite3
 pysqlite3
+Werkzeug == 2.1.2

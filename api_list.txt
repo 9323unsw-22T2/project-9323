@@ -389,3 +389,85 @@ IF THIS QUESTION NOT EXSTS:
 body:{
     "error": "this question can not be found"
 }
+
+
+#Newsfeed＿API
+## each page show how many things is in config.py : EACH_PAGE_NUMBER.
+
+
+curl --location --request POST '127.0.0.1:5000/newsfeed/random_list_10/<int:page>' \
+
+# if page = 1
+# ATTENTION: this data is in my database, you should add data in your local database,or it will not work
+{
+    "0": {
+        "content": "this is a content in page 0",
+        "id": 2,
+        "title": "this is a title",
+        "type": "question"
+    },
+    "1": {
+        "content": "this is a content in page 0",
+        "id": 2,
+        "title": "this is a title",
+        "type": "article"
+    },
+    "2": {
+        "content": null,
+        "id": 8,
+        "title": null,
+        "type": "article"
+    },
+    "3": {
+        "content": "this is a content in page 1",
+        "id": 3,
+        "title": null,
+        "type": "question"
+    },
+    "4": {
+        "content": null,
+        "id": 7,
+        "title": null,
+        "type": "article"
+    },
+    "5": {
+        "content": "this is a content in page2",
+        "id": 4,
+        "title": null,
+        "type": "article"
+    },
+    "6": {
+        "content": null,
+        "id": 1,
+        "title": null,
+        "type": "question"
+    },
+    "7": {
+        "content": "this is a content in page2",
+        "id": 4,
+        "title": null,
+        "type": "question"
+    },
+    "8": {
+        "content": null,
+        "id": 6,
+        "title": "3",
+        "type": "article"
+    },
+    "9": {
+        "content": "1",
+        "id": 5,
+        "title": "5",
+        "type": "article"
+    }
+}
+
+# if page out of the max_page.
+{
+    "error": "out range of pages"
+}
+
+# If you want to fresh the list.
+curl --location --request POST '127.0.0.1:5000/newsfeed/fresh'
+
+# it will return "Already freshed" . and the content already be freshed

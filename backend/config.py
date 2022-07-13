@@ -1,3 +1,4 @@
 PORT = 5000
 DEBUG = True
 DATABASE_NAME = "FightingTiger.db"
+EACH_PAGE_NUMBER = 10
