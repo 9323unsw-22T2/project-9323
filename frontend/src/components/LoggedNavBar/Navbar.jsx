@@ -198,7 +198,10 @@ const Navbar = () => {
             <QuestionAnswerIcon></QuestionAnswerIcon>
             Activity
           </MenuItem>
-          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={handleClose}>
+          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={(e) => {
+            e.preventDefault()
+            navigate('/expert')
+          }}>
             <WorkspacePremiumIcon></WorkspacePremiumIcon>
             Expert
           </MenuItem>

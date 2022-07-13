@@ -122,6 +122,29 @@ export default function ActionAreaCard({ data }) {
               </Box>
             }
           ></CardContent>
+          <CardContent
+            sx={{ borderBottom: '1px solid #e6e5e6' }}
+            // eslint-disable-next-line react/no-children-prop
+            children={
+              <Box>
+                {isShowMore ? text.slice(0, 300) : text}
+                {text && text.length > 300 && (
+                  <Box
+                    onClick={toggleReadMore}
+                    sx={{
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      marginTop: '20px',
+                      marginBottom: '30px',
+                      textDecoration: 'underline',
+                    }}
+                  >
+                    {isShowMore ? 'Show more...' : 'Show less'}
+                  </Box>
+                )}
+              </Box>
+            }
+          ></CardContent>
         </Box>
       </CardContent>
       <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto' }}>
