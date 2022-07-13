@@ -107,6 +107,8 @@ To get started, we recommend you create private teams and add another owner to m
       <Collapse in={commentExpanded} timeout="auto" unmountOnExit>
       <CardContent>
         <h1 style={{ fontFamily: 'Roboto', fontSize: 25 }}>Comments</h1>
+      <GuideAnswerCard hello = 'WTF'/>
+      <GuideAnswerCard/>
       <GuideAnswerCard/>
       <Editor
         toolbar='redo aligncenter alignjustify alignleft alignright blockquote undo bold italic underline code'

@@ -65,11 +65,9 @@ export default function RecipeReviewCard () {
         subheader="September 14, 2016"
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
           {data.map((users) => {
-            return <h1 key={users.id}>{users.name}</h1>;
+            return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
           })}
-        </Typography>
         </CardContent>
         <CardActions disableSpacing sx={{
           width: 'max-content',
