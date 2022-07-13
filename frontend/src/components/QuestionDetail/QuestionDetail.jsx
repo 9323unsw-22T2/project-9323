@@ -35,7 +35,20 @@ const Home = () => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
+  const handleSubmit = () => {
+    fetch('http://127.0.0.1:3000/comment/questions/1', {
+      method: 'POST',
+      headers: {
+        user_id: '1',
+        token: '1301ccf6-1891-42ba-8cbb-310e3bdda032',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        comment_content: 'hello',
+        comment_id: '2',
+      })
+    })
+  };
   return (
     <div className="home" style={{ overflow: 'auto' }}>
       {localStorage.getItem('token') ? (
@@ -108,7 +121,7 @@ const Home = () => {
   editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto' }}
   onEditorStateChange={onEditorStateChange}
 />
-  <Button sx={{ mb: 1, mt: 2, float: 'right' }}variant="contained">Submit</Button>
+  <Button sx={{ mb: 1, mt: 2, float: 'right' }}variant="contained" onClick ={handleSubmit}>Submit</Button>
         </CardContent>
       </Collapse>
           </Box>
