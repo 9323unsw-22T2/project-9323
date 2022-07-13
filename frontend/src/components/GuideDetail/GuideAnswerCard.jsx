@@ -16,7 +16,9 @@ import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
 import { useEffect, useState } from 'react';
-
+/* {data.map((users) => {
+   return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
+ })} */
 export default function RecipeReviewCard () {
   const [data, setData] = useState([]);
 
@@ -48,8 +50,9 @@ export default function RecipeReviewCard () {
   function handleChange (content, editor) {
     setContent({ content });
   }
-  return (
-    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>
+  data.map((e, index) => {
+    return (
+    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={e.id}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -65,10 +68,9 @@ export default function RecipeReviewCard () {
         subheader="September 14, 2016"
       />
       <CardContent>
-          {data.map((users) => {
-            return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
-          })}
-          <h1 className='hello'></h1>
+      <Typography>
+        Hello
+      </Typography>
         </CardContent>
         <CardActions disableSpacing sx={{
           width: 'max-content',
@@ -105,5 +107,6 @@ export default function RecipeReviewCard () {
         </CardContent>
       </Collapse>
     </Card>
-  );
+    )
+  })
 }
