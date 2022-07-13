@@ -4,7 +4,10 @@ import LoggedNarbar from '../LoggedNavBar/Navbar';
 import Box from '@mui/material/Box';
 import Diagram from './1.jpg';
 import styles from './Expert.module.css';
+import { useNavigate } from 'react-router-dom';
+
 const App = () => {
+  const navigate = useNavigate();
   React.useEffect(() => {
 
   }, [])
@@ -25,7 +28,7 @@ const App = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', width: '10%', height: '50vh', backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center', borderColor: 'gray', borderWidth: '0px', borderStyle: 'none', margin: '5px' }}>
           </Box>
         </Box>
-        <button className={styles.btn} >Apply</button>
+        <button className={styles.btn} onClick={(e) => { navigate('/ApplyExpert') }} >Apply</button>
       </Box>
     </Box>
   );
