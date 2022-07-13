@@ -20,7 +20,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import CommentIcon from '@mui/icons-material/Comment';
 import SharePopup from '../SharePopup/SharePopup'
-import AnswerCard from '../QuestionDetail/AnswerCard'
+import GuideAnswerCard from '../GuideDetail/GuideAnswerCard'
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -107,7 +107,7 @@ To get started, we recommend you create private teams and add another owner to m
       <Collapse in={commentExpanded} timeout="auto" unmountOnExit>
       <CardContent>
         <h1 style={{ fontFamily: 'Roboto', fontSize: 25 }}>Comments</h1>
-      <AnswerCard/>
+      <GuideAnswerCard/>
       <Editor
         toolbar='redo aligncenter alignjustify alignleft alignright blockquote undo bold italic underline code'
 
