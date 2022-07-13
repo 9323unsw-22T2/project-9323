@@ -16,6 +16,7 @@ import Profile from './components/Profile/Profile'
 import NewGuide from './components/CreateGuide/CreateGuide'
 import Activity from './components/Activity/Activity'
 import GuideDetail from './components/GuideDetail/GuidePage'
+import Expert from './components/Expert/Expert'
 import Help from './components/Help/Help'
 
 const PageLayout = ({ children }) => children;
@@ -74,6 +75,7 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/newguide" element={<NewGuide />} />
           <Route path="/activity" element={<Activity />} />
+          <Route path="/expert" element={<Expert />} />
           <Route path="/guide/:number" element={<GuideDetail />} />
           <Route path="/help" element={<Help />} />
         </Route>

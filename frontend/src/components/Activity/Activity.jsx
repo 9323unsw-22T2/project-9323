@@ -20,8 +20,12 @@ function TabPanel(props) {
     <div>
       <div
         style={{
+          height: '100%',
           // backgroundColor: 'rgb(118, 118, 118, 0.1)',
-          backgroundImage: 'url(https://cdn.dribbble.com/users/782052/screenshots/10927554/media/e961df046013321feb28cf99b7fc7800.jpg)'
+          backgroundImage: 'url(https://cdn.dribbble.com/users/782052/screenshots/10927554/media/e961df046013321feb28cf99b7fc7800.jpg)',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover'
         }}
         role="tabpanel"
         hidden={value !== index}
