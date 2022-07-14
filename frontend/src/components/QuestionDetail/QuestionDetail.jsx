@@ -44,7 +44,7 @@ const Home = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        comment_content: 'hello',
+        comment_content: editorState.getCurrentContent().getPlainText('\u0001'),
         comment_id: '2',
       })
     })
