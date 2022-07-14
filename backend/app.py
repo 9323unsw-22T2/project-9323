@@ -68,4 +68,4 @@ def ping():
 
 if __name__ == '__main__':
 
-    app.run(debug=DEBUG, port= PORT)
+    app.run(debug=DEBUG, port= 5000)
