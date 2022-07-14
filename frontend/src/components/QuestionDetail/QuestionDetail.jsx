@@ -48,6 +48,7 @@ const Home = () => {
         comment_id: '2',
       })
     })
+    setEditorState('')
   };
   return (
     <div className="home" style={{ overflow: 'auto' }}>
