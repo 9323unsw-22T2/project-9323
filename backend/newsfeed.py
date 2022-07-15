@@ -1,16 +1,10 @@
-from http.client import REQUEST_TIMEOUT
-from socket import TCP_QUICKACK
-from unicodedata import east_asian_width
 from config import *
 from flask_cors import CORS
-from email.policy import default
 from flask import Blueprint, request, make_response, jsonify,url_for,redirect
 from config import *
 from flask_cors import CORS
 import sqlite3
-from datetime import datetime
 import random
-from helper import get_user_id_from_header,get_unix_time,authenticated
 
 newsfeed_page = Blueprint("newsfeed", __name__)
 CORS(newsfeed_page)
