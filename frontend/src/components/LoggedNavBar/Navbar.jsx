@@ -5,9 +5,9 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import { styled, alpha } from '@mui/material/styles';
-import SettingsIcon from '@mui/icons-material/Settings';
+// import SettingsIcon from '@mui/icons-material/Settings';
 import InputBase from '@mui/material/InputBase';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+// import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SearchIcon from '@mui/icons-material/Search';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
@@ -163,7 +163,7 @@ const Navbar = () => {
           </Button>
         </Box>
       </Search>
-      <Box sx={{ marginLeft: 'auto', textAlign: 'center' }}>
+      <Box sx={{ marginLeft: 'auto', mr: 2, textAlign: 'center' }}>
         <Button
           variant="standard"
           className={`${styles.loginbutton} `}
@@ -191,23 +191,28 @@ const Navbar = () => {
             <AccountBoxIcon></AccountBoxIcon>
             Profile
           </MenuItem>
-          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={handleClose}>
+          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={(e) => {
+            e.preventDefault()
+            navigate('/activity')
+          }}>
             <QuestionAnswerIcon></QuestionAnswerIcon>
-            My answer
+            Activity
           </MenuItem>
-          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={handleClose}>
-            <QuestionMarkIcon></QuestionMarkIcon>
-            My question
-          </MenuItem>
-          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={handleClose}>
+          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={(e) => {
+            e.preventDefault()
+            navigate('/expert')
+          }}>
             <WorkspacePremiumIcon></WorkspacePremiumIcon>
             Expert
           </MenuItem>
-          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={handleClose}>
+          {/* <MenuItem sx={{ fontSize: '1.2rem' }} onClick={handleClose}>
             <SettingsIcon></SettingsIcon>
             Setting
-          </MenuItem>
-          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={handleClose}>
+          </MenuItem> */}
+          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={(e) => {
+            e.preventDefault()
+            navigate('/help')
+          }}>
             <HelpIcon></HelpIcon>
             Help
           </MenuItem>

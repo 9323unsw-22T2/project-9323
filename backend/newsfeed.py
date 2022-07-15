@@ -4,8 +4,25 @@ from flask_cors import CORS
 import sqlite3
 import random
 
+from flask import Blueprint, request, make_response, jsonify
+from config import *
+from flask_cors import CORS
+import sqlite3
+import random
+
 newsfeed_page = Blueprint("newsfeed", __name__)
 CORS(newsfeed_page)
+
+con = sqlite3.connect(DATABASE_NAME)
+cur = con.cursor()
+
+# get the number of question and article
+question_num = cur.execute("select count(id) from questions;").fetchall()[0][0]
+article_num = cur.execute("select count(id) from articles;").fetchall()[0][0]
+con.close()
+# max page, and max_num
+max_num = question_num+article_num
+max_page = max_num//EACH_PAGE_NUMBER+1
 
 
 # random create the dict for question or article
@@ -22,6 +39,7 @@ def generate_dit(seed):
     max_num = question_num+article_num
     max_page = max_num//EACH_PAGE_NUMBER+1
     # random seed
+
     random.seed(seed)
     # ramdom generate the list to store the question and aricle
     question_random = random.sample(range(1,question_num+1), question_num)
@@ -79,6 +97,7 @@ def generate_dit(seed):
 
 global seed
 seed = 1
+
 # test for ping
 @newsfeed_page.route('/newsfeed/ping', methods=['GET'])
 def newsfeed_ping():
@@ -89,6 +108,7 @@ def newsfeed_random_list_10(page):
     if request.method == 'POST':
         
         all,que_or_art = generate_dit(seed)
+
         if page > max_page:
             return make_response(jsonify({"error": "out range of pages"})), 404
         else:

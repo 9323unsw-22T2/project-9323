@@ -36,7 +36,7 @@ export default function ActionAreaCard({ data }) {
   };
 
   const text =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut viverra tellus, sit amet sagittis libero. Integer nibh tortor, facilisis vel mollis dapibus, mattis ut nisl. Praesent convallis consequat eros, at interdum lorem lacinia eget. Praesent posuere leo nec tempor pretium. Quisque imperdiet semper ex, in maximus urna porttitor laoreet. Curabitur hendrerit est eget ante pulvinar tristique. Nullam vulputate, nulla vel posuere ullamcorper, mauris leo molestie tellus, a volutpat orci velit eu justo. Curabitur erat lectus, luctus non mauris ut, ultricies ornare diam. Praesent iaculis sapien nec blandit tempus. Praesent vitae gravida nisi. Donec consequat interdum elementum. Donec nec lacus mi. Fusce posuere cursus augue, sit amet vulputate eros dapibus ac. Nulla consequat massa massa, vel hendrerit nunc mattis ut. Morbi lobortis tristique tincidunt. Nulla facilisi';
+    "I've setup eslint & eslint-plugin-react When I run ESLint, the linter returns no-unused-vars errors for each React component. I'm assuming it's not recognizing that I'm using JSX or React syntax. Any ideas?";
 
   /*   const [state, setState] = React.useState(false);
   const toggleDrawer = (open) => (event) => {
@@ -97,8 +97,31 @@ export default function ActionAreaCard({ data }) {
                 textDecoration: 'underline',
               },
             }}
-            title={'This is a title'}
+            title={'ESLint with React gives `no-unused-vars` errors '}
           ></CardHeader>
+          <CardContent
+            sx={{ borderBottom: '1px solid #e6e5e6' }}
+            // eslint-disable-next-line react/no-children-prop
+            children={
+              <Box>
+                {isShowMore ? text.slice(0, 300) : text}
+                {text && text.length > 300 && (
+                  <Box
+                    onClick={toggleReadMore}
+                    sx={{
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      marginTop: '20px',
+                      marginBottom: '30px',
+                      textDecoration: 'underline',
+                    }}
+                  >
+                    {isShowMore ? 'Show more...' : 'Show less'}
+                  </Box>
+                )}
+              </Box>
+            }
+          ></CardContent>
           <CardContent
             sx={{ borderBottom: '1px solid #e6e5e6' }}
             // eslint-disable-next-line react/no-children-prop

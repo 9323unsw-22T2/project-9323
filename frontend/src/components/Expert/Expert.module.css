@@ -1,15 +1,17 @@
 .profileLogo {
-  width: 200px;
-  height: 200px;
-  margin-top: 30px;
+  margin: 0;
+  padding: 0;
 }
 
 .logo {
-  width: 200px;
-  height: 200px;
-  border-radius: 200px;
-}
+  width: 100px;
+  height: 100px;
 
+}
+.diagram {
+  width: 22vw;
+
+}
 .line{
   width: 150px;
   height: 0.5px;
@@ -22,7 +24,7 @@
   padding: 8px;
   font-size: 16px;
   color: rgb(255, 255, 255);
-  background-color: rgba(0, 124, 232, 0.635);
+  background-color: rgba(0, 255, 225, 0.635);
   border-color: rgba(97, 97, 97, 0.521);
   border-style: none;
   border-width: 1.5px;
@@ -40,7 +42,7 @@
 }
 .background{
   height: 100%;
-  background-image: url("background.jpg");
+  background-image: url("2.webp"); 
   background-position: center;
   background-repeat: no-repeat;
   background-size:cover;
@@ -51,10 +53,14 @@
   justify-Content: 'center';
   align-Items: 'center';
   padding: 10px;
-  height: 60px;
   text-align: center;
   color: rgb(255, 255, 255);
-  background-color: rgba(0, 124, 232, 0.635);
+  background-color: rgba(0, 109, 100, 0.674);
   border-color: rgba(97, 97, 97, 0.784);
   border-style: none;
+}
+.text{
+  text-align:justify ;
+  line-height: 3;
+  
 }
