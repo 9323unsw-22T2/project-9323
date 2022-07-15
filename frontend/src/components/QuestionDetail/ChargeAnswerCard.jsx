@@ -4,6 +4,10 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
+
+import DialogContent from '@mui/material/DialogContent';
+
+import Dialog from '@mui/material/Dialog';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -16,6 +20,8 @@ import CommentIcon from '@mui/icons-material/Comment';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
+import DialogTitle from '@mui/material/DialogTitle';
+import CommonMessage from '../CommonMessage/CommonMessage'
 
 export default function RecipeReviewCard () {
   const [thumbUp, setThumbUp] = React.useState(false);
@@ -40,9 +46,22 @@ export default function RecipeReviewCard () {
   }
   const [locked, setLocked] = React.useState(false)
   function handleUnlock () {
-    setLocked(true)
+    handleClickOpen()
+  }
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = (e) => {
+    e.preventDefault();
+    setOpen(false);
+  };
+  const [errorMessage, setErrorMessage] = React.useState(['', 'error', false]);
+  function setMessageStatus () {
+    setErrorMessage(['', 'error', false])
   }
   return (
+    <>
     <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>
       <CardHeader
         avatar={
@@ -155,5 +174,34 @@ export default function RecipeReviewCard () {
         </CardContent>
       </Collapse>
     </Card>
+    <Dialog open={open} onClose={handleClose}>
+    <DialogTitle>Confirmation</DialogTitle>
+
+      <div style={{ display: 'flex', width: '20rem', height: '12rem' }}>
+      <DialogContent>
+      <Typography variant="h6" color="text.secondary">
+        You need <span style={{ color: 'red' }}>500</span> to unlock this answer. Are you sure you want to continue?
+        </Typography>
+          <Button
+          onClick={(e) => { setLocked(true); handleClose(e) }}>
+            Yes
+          </Button>
+          <Button
+          color="error"
+          onClick={handleClose}
+          >
+            Not now
+          </Button>
+          {<CommonMessage
+          setVisible={setMessageStatus}
+          message={errorMessage[0]}
+          severity={errorMessage[1]}
+          visible={errorMessage[2]}
+        ></CommonMessage>}
+         </DialogContent>
+      </div>
+
+    </Dialog>
+    </>
   );
 }
