@@ -346,12 +346,6 @@ body{
   token
 }
 
-
-
-127.0.0.1:5000/commentanswer/<questionid>/<answerid>
-body:{comment}
-=======
-
 COMMENT:
 curl --location --request POST '127.0.0.1:5000/comment/articles/<int:article_id>/add' \
 --header 'user_id: 1' \
