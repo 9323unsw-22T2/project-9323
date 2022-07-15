@@ -20,16 +20,16 @@ import { useEffect, useState } from 'react';
    return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
  })} */
 export default function RecipeReviewCard () {
-  const [data, setData] = useState(['a', 'b', 'c']);
+  const [data, setData] = useState(['']);
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users') // SAMPLE API
+    fetch('comment/articles/1') // SAMPLE API
       .then((res) => res.json())
+      .then((res) => console.log(res))
       .then((res) => {
         setData(res);
       });
   }, []);
-
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
 
@@ -70,7 +70,7 @@ export default function RecipeReviewCard () {
         subheader="September 14, 2016"
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary" key={user.id}>{user.name}</Typography>
+        <Typography variant="body2" color="text.secondary" key={user.id}>{user.comment_content}</Typography>
         </CardContent>
         <CardActions disableSpacing sx={{
           width: 'max-content',
