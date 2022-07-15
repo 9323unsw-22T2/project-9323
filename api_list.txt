@@ -347,6 +347,101 @@ body{
 }
 
 
+COMMENT:
+curl --location --request POST '127.0.0.1:5000/comment/articles/<int:article_id>/add' \
+--header 'user_id: 1' \
+--header 'token: 1301ccf6-1891-42ba-8cbb-310e3bdda032' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "content":"this is a comment for a article"
+}'
+
+IF EXISTS:
+{
+    "comment_content": "this is a comment for a article",
+    "comment_id": 2
+}
+
+IF THIS QUESTION NOT EXSTS
+body:{
+    "error": "this article can not be found"
+}
+
+curl --location --request POST '127.0.0.1:5000/comment/questions/<int:question_id>/add' \
+--header 'user_id: 1' \
+--header 'token: 1301ccf6-1891-42ba-8cbb-310e3bdda032' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "content":"this is a comment for a question"
+}'
+
+IF EXIST THIS QUESTION:
+{
+    "comment_content": "this is a comment for a question",
+    "comment_id": 1
+}
+
+IF THIS QUESTION NOT EXSTS:
+body:{
+    "error": "this question can not be found"
+}
+
+# show all comment for a question
+curl --location --request POST '127.0.0.1:5000/comment/questions/<int:question_id>' \
+--header 'Content-Type: application/json'
+##　it will return
+{
+    "0": {
+        "content": "this is a comment for a question",
+        "id": 38,
+        "thumbUpBy": null,
+        "timeCreated": 1657879619,
+        "timeUpdated": 1657879619,
+        "user": 1
+    },
+    "1": {
+        "content": "this is a comment for a question",
+        "id": 39,
+        "thumbUpBy": null,
+        "timeCreated": 1657879908,
+        "timeUpdated": 1657879908,
+        "user": 1
+    }
+}
+
+# show all comment for a article
+curl --location --request POST '127.0.0.1:5000/comment/questions/<int:article_id>' \
+--header 'Content-Type: application/json'
+
+## it will return
+{
+    "0": {
+        "content": "this is a comment for a question",
+        "id": 40,
+        "thumbUpBy": null,
+        "timeCreated": 1657879963,
+        "timeUpdated": 1657879963,
+        "user": 1
+    },
+    "1": {
+        "content": "this is a comment for a question",
+        "id": 41,
+        "thumbUpBy": null,
+        "timeCreated": 1657879967,
+        "timeUpdated": 1657879967,
+        "user": 1
+    },
+    "2": {
+        "content": "this is a comment for a question",
+        "id": 42,
+        "thumbUpBy": null,
+        "timeCreated": 1657879968,
+        "timeUpdated": 1657879968,
+        "user": 1
+    }
+}
+
+
 #Newsfeed＿API
 ## each page show how many things is in config.py : EACH_PAGE_NUMBER.
 
