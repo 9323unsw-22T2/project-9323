@@ -50,7 +50,8 @@ cur.execute(
         timeUpdated numeric, \
         author numeric, \
         thumbUpBy text, \
-        isDeleted NOT NULL DEFAULT '0') \
+        isDeleted NOT NULL DEFAULT '0',\
+        show NOT NULL DEFAULT '0') \
         ")
 
 app = Flask(__name__)
