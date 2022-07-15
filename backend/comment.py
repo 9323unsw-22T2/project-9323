@@ -13,6 +13,21 @@ CORS(comment_page)
 con = sqlite3.connect(DATABASE_NAME)
 cur = con.cursor()
 
+def update_score(user_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+
+    ret = dict()
+
+    sql = "SELECT scores from users where id = {} or token == '{}'".format(user_id,user_id)
+
+    rows = cur.execute(sql).fetchall()
+    score = int(rows[0][0])
+    score+=1
+    sql = "UPDATE users SET scores = {} where id = {} or token = '{}'".format(
+         score,user_id,user_id)
+    cur.execute(sql)
+    con.commit()
 
 @comment_page.route('/comment/questions/<int:question_id>',methods=['POST'])
 @authenticated#check whether the user login
@@ -33,6 +48,7 @@ def comment_question(question_id):
         data = request.get_json()
         content = data.get('content', None)
         userID = get_user_id_from_header()
+        update_score(userID)
         ###########user for post man############
         # content = 'aaa'
         # userID=2          
@@ -74,6 +90,7 @@ def comment_article(article_id):
         data = request.get_json()
         content = data.get('content', None)
         userID = get_user_id_from_header()
+        update_score(userID)
         ###########user for post man############
         # content = 'aaa'
         # userID=2          
