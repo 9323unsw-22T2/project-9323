@@ -14,6 +14,7 @@ CORS(article_page)
 def article_create():
     data = request.get_json()
     title_page = data.get("0", None)
+    # print(data)
     if not title_page:
         return make_response(jsonify({"error": "missing title or content"})), 400
     article_id = _article_title_create(title_page)
@@ -24,6 +25,21 @@ def article_create():
 
     return make_response(jsonify({"article_id": article_id})), 200
 
+def update_score(user_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+
+    ret = dict()
+
+    sql = "SELECT scores from users where id = {} or token == '{}'".format(user_id,user_id)
+
+    rows = cur.execute(sql).fetchall()
+    score = int(rows[0][0])
+    score+=1
+    sql = "UPDATE users SET scores = {} where id = {} or token = '{}'".format(
+         score,user_id,user_id)
+    cur.execute(sql)
+    con.commit()
 
 def _article_title_create(data):
     id = None
@@ -47,7 +63,7 @@ def _article_title_create(data):
                 [id, article_id, step_number, step_title, title, content, image, time_created, time_modified, author, reploy_ids, thumb_up_by, is_deleted])
     id = cur.lastrowid
     con.commit()
-
+    update_score(author)
     return id
 
 
@@ -136,6 +152,13 @@ def _read_artical_row(row):
     }
     return ret
 
+def get_user_id_by_article(article_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql = "SELECT author from articles where id = {} ".format(article_id)
+    rows = cur.execute(sql).fetchall()
+    user_id = rows[0][0]
+    return user_id
 
 # add user_id into the thumb_up list if not existed
 @article_page.route('/article/<int:article_id>/thumb_up', methods=['PATCH'])
@@ -164,6 +187,9 @@ def article_thumb_up_patch(article_id):
 
     cur.execute(sql)
     con.commit()
+
+    liked_user_id = get_user_id_by_article(article.py)
+    update_score(liked_user_id)
 
     return article_get_by_id(article_id)
 
