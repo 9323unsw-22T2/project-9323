@@ -128,7 +128,7 @@ def comment_question(question_id):
         
         sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,questionId from comments where questionId={question_id};"
         
-        num_of_que = cur.execute(f"SELECT count(questionId) FROM comments where questionId notnull").fetchall()[0][0]
+        num_of_que = cur.execute(f"SELECT count(questionId) FROM comments where questionId={question_id}").fetchall()[0][0]
         all_data = cur.execute(sql).fetchall()
         for i in range(num_of_que):
             temp = {}
@@ -172,7 +172,7 @@ def comment_article(article_id):
         res = {}
         sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,questionId from comments where articlesId={article_id};"
         
-        num_of_que = cur.execute(f"SELECT count(articlesId) FROM comments where articlesId notnull").fetchall()[0][0]
+        num_of_que = cur.execute(f"SELECT count(articlesId) FROM comments where articlesId={article_id}").fetchall()[0][0]
         all_data = cur.execute(sql).fetchall()
         for i in range(num_of_que):
             temp = {}
@@ -200,6 +200,6 @@ def comment_article(article_id):
         return make_response(jsonify({"error": "this article can not be found"})), 404
     
     
-    return make_response(jsonify(res)), 200
+    return make_response(jsonify(res)),200
 
 
