@@ -10,6 +10,8 @@ import CardActions from '@mui/material/CardActions';
 import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Menu } from '@mui/material';
 import AnswerCard from './AnswerCard';
+import ChargeAnswerCard from './ChargeAnswerCard';
+
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
@@ -156,7 +158,7 @@ const Home = () => {
             <MenuItem onClick={handleClose}>Price(high to low)</MenuItem>
             <MenuItem onClick={handleClose}>Price(low to high)</MenuItem>
           </Menu>
-
+         <ChargeAnswerCard></ChargeAnswerCard>
         {sample.map((ele) => {
           return (
             <AnswerCard key={ele.id}></AnswerCard>)
