@@ -26,7 +26,7 @@ def update_score(user_id):
     cur.execute(sql)
     con.commit()
 
-@comment_page.route('/comment/questions/<int:question_id>/add',methods=['POST'])
+@comment_page.route('/comment/questions/<int:question_id>',methods=['POST'])
 @authenticated#check whether the user login
 def comment_question_add(question_id):
     # connect to the sqlite3
@@ -71,7 +71,7 @@ def comment_question_add(question_id):
 
 
 
-@comment_page.route('/comment/articles/<int:article_id>/add',methods=['POST'])
+@comment_page.route('/comment/articles/<int:article_id>',methods=['POST'])
 @authenticated#check whether the user login
 def comment_article_add(article_id):
     # connect to the sqlite3
@@ -116,7 +116,7 @@ def comment_article_add(article_id):
 
 
 # just see comment for questions
-@comment_page.route('/comment/questions/<int:question_id>',methods=['POST'])
+@comment_page.route('/comment/questions/<int:question_id>',methods=['GET'])
 def comment_question(question_id):
     # connect to the sqlite3
     con = sqlite3.connect(DATABASE_NAME)
@@ -161,7 +161,7 @@ def comment_question(question_id):
 
 
 # just see comment for articles
-@comment_page.route('/comment/articles/<int:article_id>',methods=['POST'])
+@comment_page.route('/comment/articles/<int:article_id>',methods=['GET'])
 def comment_article(article_id):
     # connect to the sqlite3
     con = sqlite3.connect(DATABASE_NAME)
