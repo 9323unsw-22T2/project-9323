@@ -16,5 +16,10 @@ html {
 
   height: 100%;
 }
+@keyframes blink{
+  0% {opacity: 1;}
+  50% {opacity: 0;}
+  100% {opacity: 1;}
+}
 /* PLEASE DON WRITE ANY CSS , import app.module.css instand
  */
