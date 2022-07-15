@@ -140,5 +140,6 @@ def newsfeed_random_list_10(page):
 # just fresh the page
 @newsfeed_page.route('/newsfeed/fresh',methods=["POST"])
 def newsfeed_fresh():
+    global seed
     seed = random.randint(0,100)
     return make_response("Alread freshed"),200
