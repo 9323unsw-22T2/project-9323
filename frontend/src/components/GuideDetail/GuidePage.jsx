@@ -63,8 +63,8 @@ export default function VerticalTabs() {
     }
   }
   React.useEffect(async () => {
-    console.log(number, localStorage.getItem('user_id'), localStorage.getItem('token'))
-    try {
+    /*     console.log(number, localStorage.getItem('user_id'), localStorage.getItem('token'))
+ */ try {
       const response = await guideDetail(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
       setData(Object.fromEntries(Object.entries(response.data.article)))
     } catch (error) {}

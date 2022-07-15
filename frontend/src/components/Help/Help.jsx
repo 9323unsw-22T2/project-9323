@@ -44,7 +44,7 @@ function Help () {
     { title: 'How do i create a guide', description: 'Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.' },
     { title: 'How do i view all posts related to guides', description: '「貴方あなたの話、『色々あって』とか、『なんやかんや』とか、『そんなこんな』とか、あらすじだけの映画レビュー見てるみたいで、どうリアクション取っていいのか分からないのよね」「あ、す、すみません……」' }
   ]
-  console.log(sampleData)
+  /*  console.log(sampleData) */
   return (
     <>
     <Box sx={{ ml: 3 }}>
