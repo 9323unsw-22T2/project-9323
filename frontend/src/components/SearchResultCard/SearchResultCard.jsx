@@ -71,6 +71,21 @@ export default function ActionAreaCard({ data }) {
       </Box>
     );
   }; */
+  const handleSubmit = () => {
+    fetch('comment/articles/1', {
+      method: 'POST',
+      headers: {
+        user_id: '1',
+        token: '1301ccf6-1891-42ba-8cbb-310e3bdda032',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        comment_content: editorState.getCurrentContent().getPlainText('\u0001'),
+        comment_id: '2',
+      })
+    })
+    setEditorState('')
+  };
   return (
     <Card
       sx={{
@@ -159,7 +174,7 @@ export default function ActionAreaCard({ data }) {
   onEditorStateChange={onEditorStateChange}
 />
 
-  <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained">Submit</Button>
+  <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={handleSubmit}>Submit</Button>
         </CardContent>
       </Collapse>
     </Card>

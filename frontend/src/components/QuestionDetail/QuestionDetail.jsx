@@ -16,6 +16,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import Collapse from '@mui/material/Collapse';
+
 const Home = () => {
   const sample = [{ id: '12', type: 1 }, { id: '23', type: 2 }, { id: '45', type: 2 }]
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -35,6 +36,21 @@ const Home = () => {
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+  const handleSubmit = () => {
+    fetch('/comment/articles/1', { // somone set a proxy ?
+      method: 'POST',
+      headers: {
+        user_id: '1',
+        token: '1301ccf6-1891-42ba-8cbb-310e3bdda032',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        comment_content: editorState.getCurrentContent().getPlainText('\u0001'),
+        comment_id: '2',
+      })
+    })
+    setEditorState('')
   };
   return (
     <div className="home" style={{ overflow: 'auto' }}>
@@ -108,7 +124,7 @@ const Home = () => {
   editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto' }}
   onEditorStateChange={onEditorStateChange}
 />
-  <Button sx={{ mb: 1, mt: 2, float: 'right' }}variant="contained">Submit</Button>
+  <Button sx={{ mb: 1, mt: 2, float: 'right' }}variant="contained" onClick ={handleSubmit}>Submit</Button>
         </CardContent>
       </Collapse>
           </Box>
