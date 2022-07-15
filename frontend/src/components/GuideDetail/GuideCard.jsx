@@ -53,6 +53,21 @@ export default function RecipeReviewCard () {
   function handleChange (content, editor) {
     setContent({ content });
   }
+  const handleSubmit = () => {
+    fetch('comment/articles/1', {
+      method: 'POST',
+      headers: {
+        user_id: '1',
+        token: '1301ccf6-1891-42ba-8cbb-310e3bdda032',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        comment_content: { content },
+        comment_id: '2',
+      })
+    })
+    setContent('')
+  }
   return (
     <Card sx={{ marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>
       <CardHeader
@@ -119,7 +134,7 @@ To get started, we recommend you create private teams and add another owner to m
     onEditorChange={handleChange}
   />
   <br />
-  <Button sx={{ mb: 1, float: 'right' }} variant="contained">Submit</Button>
+  <Button sx={{ mb: 1, float: 'right' }} variant="contained" onClick={handleSubmit}>Submit</Button>
         </CardContent>
       </Collapse>
       <CardActions disableSpacing>

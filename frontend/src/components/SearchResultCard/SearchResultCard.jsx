@@ -72,7 +72,7 @@ export default function ActionAreaCard({ data }) {
     );
   }; */
   const handleSubmit = () => {
-    fetch('comment/articles/1', {
+    fetch('comment/questions/1', {
       method: 'POST',
       headers: {
         user_id: '1',

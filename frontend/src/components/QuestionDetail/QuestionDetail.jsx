@@ -36,7 +36,7 @@ const Home = () => {
     setExpanded(!expanded);
   };
   const handleSubmit = () => {
-    fetch('/comment/articles/1', { // somone set a proxy ?
+    fetch('/comment/questions/1', { // somone set a proxy ?
       method: 'POST',
       headers: {
         user_id: '1',
