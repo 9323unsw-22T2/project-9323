@@ -3,7 +3,7 @@ import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-// import TextField from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 import styles from './Expert.module.css';
 import { newGuide } from '../../service'
@@ -114,10 +114,10 @@ const App = () => {
         <div>
           <React.Fragment>
             <Box>
-              <h4 className={styles.guideh4}>Step Title</h4>
+              <h4 className={styles.guideh4}>Select your area</h4>
               <form>
-              Area you good at:<span>&nbsp;&nbsp;</span>
-              <select >
+              <p>Area you good at:</p>
+              <select className={styles.step_title}>
                 <option value="Computer Science">Computer Science</option>
                 <option value="Biology">Biology</option>
                 <option value="Policy">Policy</option>
@@ -125,8 +125,8 @@ const App = () => {
               </select>
               </form>
               {/* <TextField rows={1} id='step_title' multiline sx={{ mb: 2, width: '100%' }} defaultValue={steps[activeStep].step_title} /> */}
-
-              <h4 className={styles.guideh4}>Description</h4>
+              <br></br>
+              <h4 className={styles.guideh4}>Achieve you have gotten in this area:</h4>
               <Editor
                 editorState={editorState}
                 toolbarClassName="toolbarClassName"
@@ -136,9 +136,11 @@ const App = () => {
                 onEditorStateChange={onEditorStateChange}
               />
               </Box>
-              <Box sx={{ display: 'flex' }}>
+            <Box sx={{ display: 'flex', marginTop: '10px' }}>
+              <br></br><br></br>
                 <Box sx={{ display: 'flex' }}>
-                  <h4 className={styles.guideh4} style={{ marginRight: '5rem' }}>{'Upload Video(optional)'}</h4>
+                  <br></br><br></br>
+                  <h4 className={styles.guideh4} style={{ marginRight: '5rem' }}>{'Upload your certificates'}</h4>
                   <label htmlFor="contained-button-file" style={{ margin: 'auto' }}>
                     <Input accept="image/*" id="contained-button-file" multiple type="file" />
                     <Box>
@@ -148,7 +150,12 @@ const App = () => {
                     </Box>
                   </label>
                 </Box>
-              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', marginTop: '30px' }}>
+              <h4 className={styles.guideh4}>Guide Title</h4> <span>&nbsp;&nbsp;</span>
+              <TextField rows={1} id='guide_title' />
+            </Box>
+
             {<CommonMessage
               setVisible={setMessageStatus}
               message={errorMessage[0]}
