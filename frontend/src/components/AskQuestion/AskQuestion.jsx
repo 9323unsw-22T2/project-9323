@@ -9,6 +9,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+// import { useNavigate } from 'react-router-dom';
 const App = () => {
   const [content, setContent] = React.useState('')
   function handleChange (content, editor) {
@@ -18,10 +19,27 @@ const App = () => {
 
   }, [])
   const [field, setField] = React.useState('');
-
+  const [title, setTitle] = React.useState('');
   const handleFieldChange = (event) => {
     setField(event.target.value);
   };
+  // const navigate = useNavigate()
+  const handleSubmitQ = () => {
+    fetch('/newquestion', {
+      method: 'POST',
+      headers: {
+        user_id: '1',
+        token: 'bc7dfcd7-282e-419f-9809-18dec22bfa30'
+      },
+      body: JSON.stringify({
+        description: 'hi',
+        title: 'hi',
+        user: '1'
+      })
+    })
+    setContent('')
+    // navigate('/main')
+  }
   return (
 <Box sx={{ height: '100%' }}>
 
@@ -39,7 +57,7 @@ const App = () => {
 <form style={{ margin: '2rem' }}>
   <h2>Provide a question</h2>
 
-   <TextField rows={4} multiline sx={{ mb: 2, width: '100%' }} placeholder="Input question here..." />
+   <TextField rows={4} multiline sx={{ mb: 2, width: '100%' }} placeholder="Input question here..." value={title} onChange={(e) => setTitle(e.target.value)}/>
    <FormControl fullWidth>
   <InputLabel >Field</InputLabel>
         <Select
@@ -65,7 +83,7 @@ const App = () => {
     onEditorChange={handleChange}
   />
   <br />
-  <Button variant="contained">Submit</Button>
+  <Button variant="contained" onClick={handleSubmitQ}>Submit</Button>
 
 </form>
 </Box>

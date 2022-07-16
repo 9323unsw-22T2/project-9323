@@ -23,9 +23,8 @@ export default function RecipeReviewCard () {
   const [data, setData] = useState(['']);
 
   useEffect(() => {
-    fetch('comment/articles/1') // SAMPLE API
+    fetch('/comment/questions/1/') // SAMPLE API
       .then((res) => res.json())
-      .then((res) => console.log(res))
       .then((res) => {
         setData(res);
       });
@@ -70,7 +69,7 @@ export default function RecipeReviewCard () {
         subheader="September 14, 2016"
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary" key={user.id}>{user.comment_content}</Typography>
+        <Typography variant="body2" color="text.secondary" key={user.commentid}>{user.content}</Typography>
         </CardContent>
         <CardActions disableSpacing sx={{
           width: 'max-content',

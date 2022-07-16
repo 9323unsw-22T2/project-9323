@@ -54,12 +54,11 @@ export default function RecipeReviewCard () {
     setContent({ content });
   }
   const handleSubmit = () => {
-    fetch('comment/articles/1', {
+    fetch('comment/articles/1/', {
       method: 'POST',
       headers: {
         user_id: '1',
         token: '1301ccf6-1891-42ba-8cbb-310e3bdda032',
-        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         comment_content: { content },

@@ -23,6 +23,9 @@ ActionAreaCard.propTypes = {
 
 // eslint-disable-next-line space-before-function-paren
 export default function ActionAreaCard({ data }) {
+  if (localStorage.getItem('commentUid') === null) {
+    localStorage.setItem('commentUid', 0)
+  }
   const navigate = useNavigate();
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const onEditorStateChange = (editorState) => { setEditorState(editorState) }
@@ -71,8 +74,10 @@ export default function ActionAreaCard({ data }) {
       </Box>
     );
   }; */
+  const articleID = 0;
+  const commentUid = parseFloat(localStorage.getItem('commentUid')) + 1;
   const handleSubmit = () => {
-    fetch('comment/questions/1', {
+    fetch('comment/questions/' + articleID, {
       method: 'POST',
       headers: {
         user_id: '1',
@@ -81,11 +86,11 @@ export default function ActionAreaCard({ data }) {
       },
       body: JSON.stringify({
         comment_content: editorState.getCurrentContent().getPlainText('\u0001'),
-        comment_id: '2',
+        comment_id: commentUid,
       })
     })
     setEditorState('')
-  };
+  }
   return (
     <Card
       sx={{
