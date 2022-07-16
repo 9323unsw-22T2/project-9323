@@ -30,14 +30,8 @@ const App = () => {
   };
   const navigate = useNavigate();
   const handleSubmitQ = () => {
-    newQuestion({ title, description }, localStorage.getItem('token'), localStorage.getItem('user_id'))
-    navigate('/question')
-      .then((result) => {
-        console.log(result.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+    const response = newQuestion({ title, description }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    navigate(`/question/${response.data.question_id}`)
   }
   return (
 <Box sx={{ height: '100%' }}>

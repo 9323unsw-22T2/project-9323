@@ -25,7 +25,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import Collapse from '@mui/material/Collapse';
 import SharePopup from '../SharePopup/SharePopup'
 import draftToHtml from 'draftjs-to-html';
-
+import GuideAnswerCard from './GuideAnswerCard'
 // eslint-disable-next-line space-before-function-paren
 export default function VerticalTabs() {
   const { number } = useParams();
@@ -161,6 +161,10 @@ export default function VerticalTabs() {
           }}
         ></Box>
         </Box>
+  <GuideAnswerCard></GuideAnswerCard>
+  <h2>
+
+  </h2>
 </div>
   )
 }

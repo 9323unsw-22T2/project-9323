@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import CommentIcon from '@mui/icons-material/Comment';
 import SharePopup from '../SharePopup/SharePopup'
 import GuideAnswerCard from '../GuideDetail/GuideAnswerCard'
+// import { newArticleComment } from '../../service';
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -54,19 +55,24 @@ export default function RecipeReviewCard () {
     setContent({ content });
   }
   const handleSubmit = () => {
-    fetch('comment/articles/1/', {
+    fetch('/comment/articles/1', {
       method: 'POST',
       headers: {
         user_id: '1',
         token: '1301ccf6-1891-42ba-8cbb-310e3bdda032',
       },
       body: JSON.stringify({
-        comment_content: { content },
+        comment_content: 'hello',
         comment_id: '2',
       })
     })
     setContent('')
   }
+  /*
+  const [commentContent, setCommentContent] = React.useState('')
+  const handleSubmit = () => {
+    newArticleComment({ commentContent }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+  } */
   return (
     <Card sx={{ marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>
       <CardHeader
