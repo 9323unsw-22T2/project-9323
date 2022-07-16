@@ -13,18 +13,6 @@ import random
 newsfeed_page = Blueprint("newsfeed", __name__)
 CORS(newsfeed_page)
 
-con = sqlite3.connect(DATABASE_NAME)
-cur = con.cursor()
-
-# get the number of question and article
-question_num = cur.execute("select count(id) from questions;").fetchall()[0][0]
-article_num = cur.execute("select count(id) from articles;").fetchall()[0][0]
-con.close()
-# max page, and max_num
-max_num = question_num+article_num
-max_page = max_num//EACH_PAGE_NUMBER+1
-
-
 # random create the dict for question or article
 def generate_dit(seed):
     # get the number of question and article
@@ -142,7 +130,7 @@ def newsfeed_random_list_10(page):
                     i_q+=1
                 else:
                     
-                    id_= all[page]["article"][i_a]
+                    id_= all[page]["article"][i_q]
                     a_id=cur.execute(f"select id,title,content from articles where id={id_};").fetchall()[0][0]
                     title=cur.execute(f"select id,title,content from articles where id={id_};").fetchall()[0][1]
                     content=cur.execute(f"select id,title,content from articles where id={id_};").fetchall()[0][2]
