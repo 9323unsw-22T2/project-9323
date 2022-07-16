@@ -21,7 +21,7 @@ import { getArticleComments } from '../../service';
    return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
  })} */
 export default function RecipeReviewCard () {
-  /* const [data, setData] = useState(['']);
+/*  const [data, setData] = useState(['']);
   useEffect(() => {
     fetch('/comment/articles/1') // SAMPLE API
       .then((res) => res.json())
@@ -29,7 +29,7 @@ export default function RecipeReviewCard () {
         setData(res);
       })
   }, []);
-  */
+*/
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
 
@@ -52,7 +52,6 @@ export default function RecipeReviewCard () {
   }
   const { number } = 1;
   const data = getArticleComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
-
   return (
     <>{
     data?.map((user) => {
