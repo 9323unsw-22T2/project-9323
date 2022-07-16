@@ -152,7 +152,7 @@ const App = () => {
                 </Box>
             </Box>
             <Box sx={{ display: 'flex', marginTop: '30px' }}>
-              <h4 className={styles.guideh4}>Guide Title</h4> <span>&nbsp;&nbsp;</span>
+              <h4 className={styles.guideh4}>Contact Number:</h4> <span>&nbsp;&nbsp;</span>
               <TextField rows={1} id='guide_title' />
             </Box>
 
