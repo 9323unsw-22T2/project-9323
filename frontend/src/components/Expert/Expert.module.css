@@ -10,7 +10,10 @@
 }
 .diagram {
   width: 22vw;
-
+}
+.score {
+  margin-bottom: 30px;
+  width: 5%;
 }
 .line{
   width: 150px;

@@ -13,11 +13,13 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, convertToRaw } from 'draft-js';
 import 'react-dropdown/style.css';
+import PopupWin from '../popup/PopupWin';
 
 const App = () => {
   const [steps, setStep] = React.useState([{ step_title: 'Step1', content: EditorState.createEmpty(), finished: false }, { step_title: 'Step2', content: EditorState.createEmpty(), finished: false }, { step_title: 'Step3', content: EditorState.createEmpty(), finished: false }]);
   const [activeStep, setActiveStep] = React.useState(0);
   const [errorMessage, setErrorMessage] = React.useState(['', 'error', false]);
+  const [errorPopup, setErrorPopup] = React.useState(false);
   function setMessageStatus () {
     setErrorMessage(['', 'error', false])
   }
@@ -31,45 +33,17 @@ const App = () => {
     steps.forEach((e) => { e.finished && (count = count + 1) })
     return count;
   };
-  const isLastStep = () => {
-    return activeStep === totalSteps() - 1;
-  };
 
   const allStepsCompleted = () => {
     return completedSteps() === totalSteps();
   };
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const onEditorStateChange = (editorState) => { setEditorState(editorState) }
-  const handleNext = () => {
-    const newActiveStep =
-      isLastStep()
-        ? activeStep
-        : activeStep + 1;
-    document.getElementById('step_title').value = steps[newActiveStep].step_title
-    setEditorState(steps[activeStep + 1].content ? steps[activeStep + 1].content : EditorState.createEmpty())
-
-    setActiveStep(newActiveStep);
-  };
   const handleBack = () => {
     document.getElementById('step_title').value = steps[activeStep].step_title
     setEditorState(steps[activeStep - 1].content ? steps[activeStep - 1].content : EditorState.createEmpty())
 
     setActiveStep(activeStep - 1);
-  }
-  const handleNew = () => {
-    const list = [...steps.slice(0, activeStep + 1), { step_title: 'new step', content: EditorState.createEmpty(), finished: false }, ...steps.slice(activeStep + 1)]
-    setStep(list)
-  };
-
-  const handleDelete = () => {
-    if (isLastStep()) {
-      handleBack()
-      const list = [...steps.slice(0, activeStep)]
-      setStep(list)
-    } else {
-      const list = [...steps.slice(0, activeStep), ...steps.slice(activeStep + 1)]
-      setStep(list)
-    }
   }
 
   const handleComplete = async () => {
@@ -93,6 +67,7 @@ const App = () => {
           }
         }
       }
+      setErrorPopup(true)
     }
   };
 
@@ -108,6 +83,8 @@ const App = () => {
         : (
           <Navbar></Navbar>
           )}
+      <PopupWin trigger={errorPopup} setTrigger={setErrorPopup} message='Password dont match!'>
+      </PopupWin>
       {/* <Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', mt: 2, textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="javascript:history.back()">{'<Return'}</Button> */}
       <h1 className={styles.title}>Tell us about what you good at</h1>
       <Box sx={{ width: '70%', margin: 'auto', mt: 6, opacity: '0.95', backgroundColor: 'white', padding: '1.5rem', borderRadius: '1rem' }}>
@@ -173,35 +150,13 @@ const App = () => {
               >
                 Back
               </Button>
-              <Button
-                size="large"
-                color="inherit"
-                disabled={steps.length === 1}
-                onClick={handleDelete}
-                sx={{ mr: 1 }}
-              >
-                delete
-              </Button>
+
               <Box sx={{ flex: '1 1 auto' }} />
-              <Button size="large"
-                variant="outlined"
-                onClick={handleNew} sx={{ mr: 1 }}>
-                New
-              </Button>
-              <Button
-                size="large"
-                variant="outlined"
-                disabled={activeStep === steps.length - 1}
-                onClick={handleNext} sx={{ mr: 1 }}>
-                Next
-              </Button>
               <Button
                 size="large"
                 variant="outlined"
                 onClick={handleComplete}>
-                {activeStep === totalSteps() - 1
-                  ? 'Finish'
-                  : 'Save Step'}
+                {'Finish'}
               </Button>
 
             </Box>
