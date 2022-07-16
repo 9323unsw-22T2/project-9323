@@ -16,10 +16,10 @@ const App = () => {
     <Box sx={{ justifyContent: 'center' }} className={styles.background}>{localStorage.getItem('token') ? (<LoggedNarbar></LoggedNarbar>) : (<Navbar></Navbar>)}
       <Box sx={{ margin: 'auto', display: 'flex', flexDirection: 'column', mt: 10, width: '100%', height: '60vh', justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent', borderWidth: '0px', borderStyle: 'solid' }}>
         <div className={styles.title} >You are not a expert</div>
-      <Box sx={{ margin: 'auto', display: 'flex', mt: 10, width: '70%', height: '60vh', justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent', borderWidth: '0px', borderStyle: 'solid' }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', width: '40%', height: '50vh', backgroundColor: 'transparent', borderColor: 'gray', justifyContent: 'flex-start', alignItems: 'center', borderWidth: '0px', borderStyle: 'solid', margin: '5px' }}>
+        <Box sx={{ margin: 'auto', display: 'flex', mt: 10, width: '70%', height: '60vh', justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent', borderWidth: '0px', borderStyle: 'solid' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', width: '40%', height: '50vh', backgroundColor: 'transparent', borderColor: 'gray', justifyContent: 'flex-start', alignItems: 'center', borderWidth: '0px', borderStyle: 'solid', margin: '5px' }}>
             <img src={Diagram} alt="Logo" className={styles.diagram} />
-        </Box>
+          </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', width: '50%', height: '50vh', backgroundColor: 'transparent', justifyContent: 'flex-start', alignItems: 'center', borderColor: 'gray', borderWidth: '0px', borderStyle: 'solid', margin: '5px' }}>
             <div className={styles.text}>
               <p>From divorce lawyers and dog vets to Maytag techs and Mercedes mechanics, if you have professional expertise then you can earn cash on JustAnswer. Join the thousands of Experts who have answered over 16 million questions.</p>
