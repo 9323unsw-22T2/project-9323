@@ -188,7 +188,7 @@ def article_thumb_up_patch(article_id):
     cur.execute(sql)
     con.commit()
 
-    liked_user_id = get_user_id_by_article(article.py)
+    liked_user_id = get_user_id_by_article(article_id)
     update_score(liked_user_id)
 
     return article_get_by_id(article_id)
