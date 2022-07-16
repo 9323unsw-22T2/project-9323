@@ -21,7 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import CommentIcon from '@mui/icons-material/Comment';
 import SharePopup from '../SharePopup/SharePopup'
 import GuideAnswerCard from '../GuideDetail/GuideAnswerCard'
-import { newQuestionComment } from '../../service';
+import { newArticleComment } from '../../service';
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -71,7 +71,7 @@ export default function RecipeReviewCard () {
   } */
   const [commentContent, setCommentContent] = React.useState('')
   const handleSubmit = () => {
-    newQuestionComment({ commentContent }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    newArticleComment({ commentContent }, localStorage.getItem('token'), localStorage.getItem('user_id'))
   }
   return (
     <Card sx={{ marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>

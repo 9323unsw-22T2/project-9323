@@ -15,7 +15,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
-import { getQuestionComments } from '../../service';
+import { getArticleComments } from '../../service';
 // import { useState } from 'react';
 /* {data.map((users) => {
    return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
@@ -50,7 +50,7 @@ export default function RecipeReviewCard () {
     setContent({ content });
   }
   const { number } = 1;
-  const data = getQuestionComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
+  const data = getArticleComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
   return (
     <>{
     data?.map((user) => {
