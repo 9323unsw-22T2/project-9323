@@ -7,7 +7,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
-import MyAnswerCard from '../MyAnswerCard/MyAnswerCard';
+import MyAnswerCard from './MyAnswerCard';
 import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Button, Menu } from '@mui/material';
 import styles from './Expert.module.css';

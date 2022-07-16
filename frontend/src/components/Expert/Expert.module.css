@@ -105,3 +105,11 @@
 .tab{
   background-color: transparent;
 }
+
+.ans{
+  padding: 10px;
+  background-color: rgba(202, 202, 202, 0.486);
+  border-radius: 2px;
+  border-color: black;
+  border-style: solid;
+}
