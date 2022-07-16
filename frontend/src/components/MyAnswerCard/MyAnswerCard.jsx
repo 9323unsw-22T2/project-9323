@@ -148,7 +148,6 @@ export default function ActionAreaCard({ data }) {
         </Box>
       </CardContent>
       <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto' }}>
-        <Button size="small">Follow</Button>
         <Box sx={{ margin: 'auto' }}>2022/02/31 19:49:03</Box>
         <Box
           onClick={(e) => {
@@ -165,7 +164,6 @@ export default function ActionAreaCard({ data }) {
             cursor: 'pointer',
           }}
         >
-          <span>3 answers</span>
         </Box>
         <Box sx={{ margin: 'auto' }}>
           <Button size="small" onClick={handleExpandClick}>Answer</Button>

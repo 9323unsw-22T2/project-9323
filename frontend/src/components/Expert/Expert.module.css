@@ -54,6 +54,19 @@
   background-repeat: no-repeat;
   background-size:cover;
 }
+
+.vipbackground{
+  display: flex;
+  flex-direction:column;
+  justify-content:center;
+  align-content: center;
+  height: 100%;
+  background-image: url("vip.jpg"); 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size:cover;
+}
+
 .btn{
   display: flex;
   flex-direction: row;
@@ -87,4 +100,8 @@
 .pop{
   align-self: center;
   justify-self: center;
+}
+
+.tab{
+  background-color: transparent;
 }

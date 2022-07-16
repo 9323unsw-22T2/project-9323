@@ -144,7 +144,11 @@ const Navbar = () => {
           </MenuItem>
           <MenuItem sx={{ fontSize: '1.2rem' }} onClick={(e) => {
             e.preventDefault()
-            navigate('/expert')
+            if (localStorage.getItem('expert') === null) {
+              navigate('/expert')
+            } else {
+              navigate('/expertActivity')
+            }
           }}>
             <WorkspacePremiumIcon></WorkspacePremiumIcon>
             Expert
