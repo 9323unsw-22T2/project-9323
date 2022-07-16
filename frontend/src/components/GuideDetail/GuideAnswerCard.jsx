@@ -15,20 +15,20 @@ import CommentIcon from '@mui/icons-material/Comment';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
-import { useEffect, useState } from 'react';
+import { getQuestionComments } from '../../service';
+// import { useState } from 'react';
 /* {data.map((users) => {
    return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
  })} */
 export default function RecipeReviewCard () {
-  const [data, setData] = useState(['']);
-
-  useEffect(() => {
-    fetch('/comment/questions/1/') // SAMPLE API
+  // const [data, setData] = useState(['']);
+  /* useEffect(() => {
+    fetch('/comment/articles/1') // SAMPLE API
       .then((res) => res.json())
       .then((res) => {
         setData(res);
       });
-  }, []);
+  }, []); */
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
 
@@ -49,6 +49,8 @@ export default function RecipeReviewCard () {
   function handleChange (content, editor) {
     setContent({ content });
   }
+  const { number } = 1;
+  const data = getQuestionComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
   return (
     <>{
     data?.map((user) => {
