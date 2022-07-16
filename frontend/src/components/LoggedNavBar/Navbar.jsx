@@ -144,6 +144,7 @@ const Navbar = () => {
           </MenuItem>
           <MenuItem sx={{ fontSize: '1.2rem' }} onClick={(e) => {
             e.preventDefault()
+            alert(localStorage.getItem('expert'))
             navigate('/expert')
           }}>
             <WorkspacePremiumIcon></WorkspacePremiumIcon>
