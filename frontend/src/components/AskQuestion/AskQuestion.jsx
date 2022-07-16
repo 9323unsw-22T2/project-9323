@@ -16,6 +16,7 @@ const App = () => {
   const [content, setContent] = React.useState('')
   function handleChange (content, editor) {
     setContent({ content });
+    setDescritpion({ content });
   }
   React.useEffect(() => {
 
@@ -23,6 +24,7 @@ const App = () => {
   const [title, setTitle] = React.useState('');
   const [description, setDescritpion] = React.useState('');
   const [user, setUser] = React.useState('');
+
   const [field, setField] = React.useState('');
   const handleFieldChange = (event) => {
     setField(event.target.value);
@@ -31,6 +33,7 @@ const App = () => {
   const handleSubmitQ = () => {
     setDescritpion('hello')
     setUser('hello')
+    setTitle('hello')
     newQuestion({ user, title, description }, localStorage.getItem('token'), localStorage.getItem('user_id'))
     navigate('/question')
       .then((result) => {
@@ -57,7 +60,7 @@ const App = () => {
 <form style={{ margin: '2rem' }}>
   <h2>Provide a question</h2>
 
-   <TextField rows={4} multiline sx={{ mb: 2, width: '100%' }} placeholder="Input question here..." id='question_title' value={title} onChange={(e) => setTitle(e.target.value)}/>
+   <TextField rows={4} multiline sx={{ mb: 2, width: '100%' }} placeholder="Input question here..." value={title} onChange={(e) => setTitle(e.target.value)}/>
    <FormControl fullWidth>
   <InputLabel >Field</InputLabel>
         <Select

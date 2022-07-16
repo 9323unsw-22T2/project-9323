@@ -19,4 +19,4 @@ export const thumbUp = (number, token, userId) =>
 export const unThumbUp = (number, token, userId) =>
   axios.patch(`${BASE_URL}/article/${number}/un_thumb_up`, {}, { headers: { user_id: userId, token: token } });
 export const newQuestion = (body, token, userId) =>
-  axios.post(`${BASE_URL}/question`, body, { headers: { user_id: userId, token: token } });
+  axios.post(`${BASE_URL}/question/add`, body, { headers: { user_id: userId, token: token } });
