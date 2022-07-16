@@ -23,18 +23,14 @@ const App = () => {
   }, [])
   const [title, setTitle] = React.useState('');
   const [description, setDescritpion] = React.useState('');
-  const [user, setUser] = React.useState('');
-
+  // const [user, setUser] = React.useState('');
   const [field, setField] = React.useState('');
   const handleFieldChange = (event) => {
     setField(event.target.value);
   };
   const navigate = useNavigate();
   const handleSubmitQ = () => {
-    setDescritpion('hello')
-    setUser('hello')
-    setTitle('hello')
-    newQuestion({ user, title, description }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    newQuestion({ title, description }, localStorage.getItem('token'), localStorage.getItem('user_id'))
     navigate('/question')
       .then((result) => {
         console.log(result.data);
