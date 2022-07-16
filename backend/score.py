@@ -5,7 +5,6 @@ import sqlite3
 import json
 from flask_cors import CORS
 from flask import Flask
-app = Flask(__name__)
 
 score_page = Blueprint("score", __name__)
 CORS(score_page)
