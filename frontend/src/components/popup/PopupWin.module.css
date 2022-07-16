@@ -9,11 +9,12 @@
   justify-items: center;
   justify-self: center;
   z-index: 1;
-  background-color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.781);
   width: 50vw;
   padding: 10px;
   border-radius: 5px;
   border-style: solid;
+  border-color:rgb(194, 194, 194)
 }
 
 .text{
@@ -28,5 +29,7 @@
   justify-self: center;
 }
 .button{
-  font-size: 10px;
+  font-size: 14px;
+  padding:5px;
+  margin: 10px;
 }

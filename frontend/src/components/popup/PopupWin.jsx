@@ -11,10 +11,10 @@ function PopupWin (prop) {
         <div className={Css.popupWindows}>
           <div>
             <div className={Css.text}>
-              <h1>Alert</h1>
+              <h1>Congratulation</h1>
               <p>{prop.message}</p>
-              <button className={Css.button} onClick={() => { prop.setTrigger(false); navigate(prop.nav) }}>{prop.content}</button>
-              <button className={Css.button} onClick={() => { prop.setTrigger(false); window.location.reload(false); }}>Close</button>
+              <button className={Css.button} onClick={() => { prop.setTrigger(false); navigate(prop.nav) }}>{prop.content} close </button>
+              {/* <button className={Css.button} onClick={() => { prop.setTrigger(false); window.location.reload(false); }}>Close</button> */}
             </div>
           </div>
         </div>

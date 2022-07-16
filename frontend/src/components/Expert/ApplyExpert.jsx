@@ -67,8 +67,9 @@ const App = () => {
           }
         }
       }
-      setErrorPopup(true)
     }
+    setErrorPopup(true)
+    localStorage.setItem('expert', true);
   };
 
   const Input = styled('input')({
@@ -83,7 +84,7 @@ const App = () => {
         : (
           <Navbar></Navbar>
           )}
-      <PopupWin trigger={errorPopup} setTrigger={setErrorPopup} message='Password dont match!'>
+      <PopupWin trigger={errorPopup} setTrigger={setErrorPopup} className={styles.pop} nav='/main' message='Application successfully '>
       </PopupWin>
       {/* <Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', mt: 2, textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="javascript:history.back()">{'<Return'}</Button> */}
       <h1 className={styles.title}>Tell us about what you good at</h1>
