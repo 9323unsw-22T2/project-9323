@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
@@ -16,8 +15,21 @@ import CommentIcon from '@mui/icons-material/Comment';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
-
+import { getArticleComments } from '../../service';
+// import { useEffect, useState } from 'react';
+/* {data.map((users) => {
+   return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
+ })} */
 export default function RecipeReviewCard () {
+/*  const [data, setData] = useState(['']);
+  useEffect(() => {
+    fetch('/comment/articles/1') // SAMPLE API
+      .then((res) => res.json())
+      .then((res) => {
+        setData(res);
+      })
+  }, []);
+*/
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
 
@@ -38,8 +50,13 @@ export default function RecipeReviewCard () {
   function handleChange (content, editor) {
     setContent({ content });
   }
+  const { number } = 1;
+  const data = getArticleComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
   return (
-    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>
+    <>{
+    data?.map((user) => {
+      return (
+          <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={Comment.id}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -54,23 +71,8 @@ export default function RecipeReviewCard () {
         title="Remoteworker23"
         subheader="September 14, 2016"
       />
-      <CardMedia
-        component="img"
-        height="194"
-        image="https://cdn.windowsreport.com/wp-content/uploads/2019/12/Team-in-Microsoft-Teams-1.png"
-        alt="Paella dish"
-        sx={{ width: 'auto' }}
-      />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-        On the left side of Teams, click Teams, at the bottom of the teams list, click Join or create a team, and then click Create a new team.
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-        Once youve created the team, invite people to join it. You can add individual users, groups, and even entire contact groups (formerly known as distribution lists).
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-        Find the team that you created, click More options ...  Manage team. Then go to the Members tab. Find the people you want to designate as team owners. Under Role, click Owner.
-        </Typography>
+        <Typography variant="body2" color="text.secondary" key={user.commentid}>{user.content}</Typography>
         </CardContent>
         <CardActions disableSpacing sx={{
           width: 'max-content',
@@ -107,5 +109,8 @@ export default function RecipeReviewCard () {
         </CardContent>
       </Collapse>
     </Card>
-  );
+      )
+    })}
+    </>
+  )
 }

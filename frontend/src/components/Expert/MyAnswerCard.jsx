@@ -8,12 +8,11 @@ import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import CardHeader from '@mui/material/CardHeader';
-import { useNavigate } from 'react-router-dom';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
-
+import styles from './Expert.module.css';
 /* import Drawer from '@mui/material/Drawer';
 import Link from '@mui/material/Link';
 import SearchDetail from './SearchDetail/SearchDetail'; */
@@ -23,10 +22,6 @@ ActionAreaCard.propTypes = {
 
 // eslint-disable-next-line space-before-function-paren
 export default function ActionAreaCard({ data }) {
-  if (localStorage.getItem('commentUid') === null) {
-    localStorage.setItem('commentUid', 0)
-  }
-  const navigate = useNavigate();
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const onEditorStateChange = (editorState) => { setEditorState(editorState) }
   const [isShowMore, setIsShowMore] = React.useState(true);
@@ -37,60 +32,10 @@ export default function ActionAreaCard({ data }) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
   const text =
-    'Hi im new to microsoft teams and am struggling to navigate the UI, Does anyone know how to create a new team and add the members i want to add ?';
+    "I've setup eslint & eslint-plugin-react When I run ESLint, the linter returns no-unused-vars errors for each React component. I'm assuming it's not recognizing that I'm using JSX or React syntax. Any ideas?";
+  const Ans = 'First, install the following module npm install --save-dev eslint-plugin-react. Then, in your .eslintrc.json, under extends, include the following plugin:\'extends\': [\'plugin:react/recommended\']';
 
-  /*   const [state, setState] = React.useState(false);
-  const toggleDrawer = (open) => (event) => {
-    console.log(event, open);
-    if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
-      return;
-    }
-
-    setState(open);
-  };
-  const list = () => {
-    return (
-      <Box
-        sx={{ width: '100vw' }}
-        role="presentation"
-        onKeyDown={toggleDrawer(false)}
-      >
-        <Link
-          component="button"
-          variant="body2"
-          onClick={() => {
-            console.log('wwwwww');
-            setState(false);
-          }}
-        >
-          {'<Back to result'}
-        </Link>
-        <SearchDetail></SearchDetail>
-      </Box>
-    );
-  }; */
-  const articleID = 0;
-  const commentUid = parseFloat(localStorage.getItem('commentUid')) + 1;
-  const handleSubmit = () => {
-    fetch('comment/questions/' + articleID, {
-      method: 'POST',
-      headers: {
-        user_id: '1',
-        token: '1301ccf6-1891-42ba-8cbb-310e3bdda032',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        comment_content: editorState.getCurrentContent().getPlainText('\u0001'),
-        comment_id: commentUid,
-      })
-    })
-    setEditorState('')
-  }
   return (
     <Card
       sx={{
@@ -107,17 +52,7 @@ export default function ActionAreaCard({ data }) {
       <CardContent>
         <Box>
           <CardHeader
-            onClick={(e) => {
-              e.preventDefault();
-              navigate('/question');
-            }}
-            sx={{
-              cursor: 'pointer',
-              '&:hover': {
-                textDecoration: 'underline',
-              },
-            }}
-            title={'How do i create a new team on microsoft teams'}
+            title={'ESLint with React gives `no-unused-vars` errors '}
           ></CardHeader>
           <CardContent
             sx={{ borderBottom: '1px solid #e6e5e6' }}
@@ -142,27 +77,42 @@ export default function ActionAreaCard({ data }) {
               </Box>
             }
           ></CardContent>
+          <CardContent
+            sx={{ borderBottom: '1px solid #e6e5e6' }}
+            // eslint-disable-next-line react/no-children-prop
+            children={
+              <Box className={styles.ans}>
+                {isShowMore ? Ans.slice(0, 300) : Ans}
+                {Ans && Ans.length > 300 && (
+                  <Box
+                    onClick={toggleReadMore}
+                    sx={{
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      marginTop: '20px',
+                      marginBottom: '30px',
+                      textDecoration: 'underline',
+                    }}
+                  >
+                    {isShowMore ? 'Show more...' : 'Show less'}
+                  </Box>
+                )}
+              </Box>
+            }
+          ></CardContent>
         </Box>
       </CardContent>
       <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto' }}>
         <Button size="small">Follow</Button>
         <Box sx={{ margin: 'auto' }}>2022/02/31 19:49:03</Box>
         <Box
-          onClick={(e) => {
-            e.preventDefault(
-            )
-            navigate('/question');
-          }}
           sx={{
             margin: 'auto',
             color: '#1976d2',
-            '&:hover': {
-              textDecoration: 'underline',
-            },
             cursor: 'pointer',
           }}
         >
-          <span>3 answers</span>
+          <span>$10 points </span>
         </Box>
         <Box sx={{ margin: 'auto' }}>
           <Button size="small" onClick={handleExpandClick}>Answer</Button>
@@ -170,16 +120,14 @@ export default function ActionAreaCard({ data }) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-
-        <Editor
-  editorState={editorState}
-  toolbarClassName="toolbarClassName"
-  wrapperStyle={{ }}
-  editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto' }}
-  onEditorStateChange={onEditorStateChange}
-/>
-
-  <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={handleSubmit}>Submit</Button>
+          <Editor
+            editorState={editorState}
+            toolbarClassName="toolbarClassName"
+            wrapperStyle={{ }}
+            editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto' }}
+            onEditorStateChange={onEditorStateChange}
+          />
+          <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained">Submit</Button>
         </CardContent>
       </Collapse>
     </Card>

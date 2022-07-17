@@ -7,10 +7,10 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
-import SearchResultCard from '../SearchResultCard/SearchResultCard';
+import MyAnswerCard from './MyAnswerCard';
 import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Button, Menu } from '@mui/material';
-import GuideCard from '../GuideDetail/GuideCard'
+import styles from './Expert.module.css';
 import List from './List'
 // eslint-disable-next-line space-before-function-paren
 function TabPanel(props) {
@@ -20,9 +20,14 @@ function TabPanel(props) {
     <div>
       <div
         style={{
+          height: '100%',
           // backgroundColor: 'rgb(118, 118, 118, 0.1)',
-          backgroundImage: 'url(https://cdn.dribbble.com/users/782052/screenshots/10927554/media/e961df046013321feb28cf99b7fc7800.jpg)'
+          backgroundImage: './2.webp',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover'
         }}
+        className={styles.vipbackground}
         role="tabpanel"
         hidden={value !== index}
         id={`vertical-tabpanel-${index}`}
@@ -137,35 +142,13 @@ export default function VerticalTabs() {
           sx={{
             borderRight: 1,
             borderColor: 'divider',
-            width: '13vw',
+            width: '12vw',
             minWidth: 'max-content',
           }}
         >
-          <Tab label="Following" sx={{
-            borderRight: 1,
-            width: '13vw',
+          <Tab label="Expert Questions" {...a11yProps(0)} />
+          <Tab label="My Answer" {...a11yProps(1)} />
 
-            borderColor: 'divider',
-            minWidth: 'max-content',
-          }}{...a11yProps(0)} />
-          <Tab label="area one" sx={{
-            borderRight: 1,
-            borderColor: 'divider',
-            minWidth: 'max-content',
-            width: '13vw',
-          }}{...a11yProps(1)} />
-          <Tab label="area two" sx={{
-            borderRight: 1,
-            borderColor: 'divider',
-            minWidth: 'max-content',
-            width: '13vw',
-          }}{...a11yProps(2)} />
-          <Tab label="area three" sx={{
-            borderRight: 1,
-            borderColor: 'divider',
-            minWidth: 'max-content',
-            width: '13vw',
-          }}{...a11yProps(3)} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <Button
@@ -199,11 +182,10 @@ export default function VerticalTabs() {
             <Box sx={{ width: '50%', margin: 'auto' }}>
               {sampleData.map((e, i) => {
                 return (
-                  e.hourly
-                    ? <SearchResultCard
+                  <MyAnswerCard
                     key={'resultCard' + i}
                     data={e}
-                  ></SearchResultCard> : <GuideCard key={'resultCard' + i}></GuideCard>
+                  ></MyAnswerCard>
                 );
               })}
             </Box>
@@ -219,21 +201,7 @@ export default function VerticalTabs() {
         <TabPanel value={value} index={1}>
           Item Two
         </TabPanel>
-        <TabPanel value={value} index={2}>
-          Item Three
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-          Item Four
-        </TabPanel>
-        <TabPanel value={value} index={4}>
-          Item Five
-        </TabPanel>
-        <TabPanel value={value} index={5}>
-          Item Six
-        </TabPanel>
-        <TabPanel value={value} index={6}>
-          Item Seven
-        </TabPanel>
+
       </Box>
     </>
   );

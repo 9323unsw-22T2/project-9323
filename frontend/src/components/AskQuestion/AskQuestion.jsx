@@ -9,19 +9,30 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useNavigate } from 'react-router-dom';
+import { newQuestion } from '../../service';
+
 const App = () => {
   const [content, setContent] = React.useState('')
   function handleChange (content, editor) {
     setContent({ content });
+    setDescritpion({ content });
   }
   React.useEffect(() => {
 
   }, [])
+  const [title, setTitle] = React.useState('');
+  const [description, setDescritpion] = React.useState('');
+  // const [user, setUser] = React.useState('');
   const [field, setField] = React.useState('');
-
   const handleFieldChange = (event) => {
     setField(event.target.value);
   };
+  const navigate = useNavigate();
+  const handleSubmitQ = () => {
+    const response = newQuestion({ title, description }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    navigate(`/question/${response.data.question_id}`)
+  }
   return (
 <Box sx={{ height: '100%' }}>
 
@@ -39,11 +50,11 @@ const App = () => {
 <form style={{ margin: '2rem' }}>
   <h2>Provide a question</h2>
 
-   <TextField rows={4} multiline sx={{ mb: 2, width: '100%' }} placeholder="Input question here..." />
+   <TextField rows={4} multiline sx={{ mb: 2, width: '100%' }} placeholder="Input question here..." value={title} onChange={(e) => setTitle(e.target.value)}/>
    <FormControl fullWidth>
   <InputLabel >Field</InputLabel>
         <Select
-          id="demo-simple-select"
+          id="questionField"
           value={field}
           label="Field"
           onChange={handleFieldChange}
@@ -65,7 +76,7 @@ const App = () => {
     onEditorChange={handleChange}
   />
   <br />
-  <Button variant="contained">Submit</Button>
+  <Button variant="contained" onClick={handleSubmitQ}>Submit</Button>
 
 </form>
 </Box>

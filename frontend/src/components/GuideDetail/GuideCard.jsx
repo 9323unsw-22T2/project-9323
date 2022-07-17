@@ -20,6 +20,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import CommentIcon from '@mui/icons-material/Comment';
 import SharePopup from '../SharePopup/SharePopup'
+import GuideAnswerCard from '../GuideDetail/GuideAnswerCard'
+// import { newArticleComment } from '../../service';
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -30,7 +32,6 @@ const ExpandMore = styled((props) => {
     duration: theme.transitions.duration.shortest,
   }),
 }));
-
 export default function RecipeReviewCard () {
   const [expanded, setExpanded] = React.useState(false);
   const [commentExpanded, setCommentExpanded] = React.useState(false);
@@ -53,6 +54,25 @@ export default function RecipeReviewCard () {
   function handleChange (content, editor) {
     setContent({ content });
   }
+  const handleSubmit = () => {
+    fetch('/comment/articles/1', {
+      method: 'POST',
+      headers: {
+        user_id: '1',
+        token: '1301ccf6-1891-42ba-8cbb-310e3bdda032',
+      },
+      body: JSON.stringify({
+        comment_content: 'hello',
+        comment_id: '2',
+      })
+    })
+    setContent('')
+  }
+  /*
+  const [commentContent, setCommentContent] = React.useState('')
+  const handleSubmit = () => {
+    newArticleComment({ commentContent }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+  } */
   return (
     <Card sx={{ marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>
       <CardHeader
@@ -66,7 +86,7 @@ export default function RecipeReviewCard () {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
+        title="RemoteWorker98"
         subheader="September 14, 2016"
       />
 
@@ -74,22 +94,20 @@ export default function RecipeReviewCard () {
         navigate('/guide/1')
       }}>
       <Typography variant="h5">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the mussels,
-          if you like.
+          How to create a channel in a micosoft teams team.
       </Typography>
       <CardMedia
         component="img"
         height="194"
-        image="https://mui.com/static/images/cards/paella.jpg"
+        image="https://images.idgesg.net/images/article/2019/02/cw_microsoft_office_365_teams-100787163-large.jpg?auto=webp&quality=85,70"
         alt="Paella dish"
         sx={{ width: 'auto' }}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the mussels,
-          if you like.
+        As an admin, you can create and manage teams and channels in the Teams client or the Microsoft Teams admin center. You can create teams as public or private. You can also create an org-wide team. Anyone using Teams in your organization can join a public team. For private teams, team owners manage team membership. And for an org-wide team, everyone in your organization is automatically added.
+
+To get started, we recommend you create private teams and add another owner to manage team settings and membership.
         </Typography>
       </CardContent>
       </CardActionArea >
@@ -107,6 +125,8 @@ export default function RecipeReviewCard () {
       <SharePopup opened={social} setOpened={setSocial}></SharePopup>
       <Collapse in={commentExpanded} timeout="auto" unmountOnExit>
       <CardContent>
+        <h1 style={{ fontFamily: 'Roboto', fontSize: 25 }}>Comments</h1>
+      <GuideAnswerCard/>
       <Editor
         toolbar='redo aligncenter alignjustify alignleft alignright blockquote undo bold italic underline code'
 
@@ -119,12 +139,11 @@ export default function RecipeReviewCard () {
     onEditorChange={handleChange}
   />
   <br />
-  <Button sx={{ mb: 1, float: 'right' }} variant="contained">Submit</Button>
+  <Button sx={{ mb: 1, float: 'right' }} variant="contained" onClick={handleSubmit}>Submit</Button>
         </CardContent>
-
       </Collapse>
       <CardActions disableSpacing>
-        Step2
+        Step1
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -137,35 +156,18 @@ export default function RecipeReviewCard () {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Method:</Typography>
           <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-            aside for 10 minutes.
+          On the left side of Teams, click Teams, at the bottom of the teams list, click Join or create a team, and then click Create a new team.
+
+Once youve created the team, invite people to join it. You can add individual users, groups, and even entire contact groups (formerly known as distribution lists).
           </Typography>
           <Typography paragraph>
-            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over
-            medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring
-            occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a
-            large plate and set aside, leaving chicken and chorizo in the pan. Add
-            pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook,
-            stirring often until thickened and fragrant, about 10 minutes. Add
-            saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-          </Typography>
-          <Typography paragraph>
-            Add rice and stir very gently to distribute. Top with artichokes and
-            peppers, and cook without stirring, until most of the liquid is absorbed,
-            15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and
-            mussels, tucking them down into the rice, and cook again without
-            stirring, until mussels have opened and rice is just tender, 5 to 7
-            minutes more. (Discard any mussels that don&apos;t open.)
-          </Typography>
-          <Typography>
-            Set aside off of the heat to let rest for 10 minutes, and then serve.
+          Find the team that you created, click More options ...  Manage team. Then go to the Members tab. Find the people you want to designate as team owners. Under Role, click Owner.
           </Typography>
         </CardContent>
       </Collapse>
       <CardActions disableSpacing>
-        Step3
+        Step2
       <ExpandMore
           expand={expanded2}
           onClick={handleExpandClick2}
@@ -178,30 +180,8 @@ export default function RecipeReviewCard () {
 
       <Collapse in={expanded2} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Method:</Typography>
           <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-            aside for 10 minutes.
-          </Typography>
-          <Typography paragraph>
-            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over
-            medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring
-            occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a
-            large plate and set aside, leaving chicken and chorizo in the pan. Add
-            pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook,
-            stirring often until thickened and fragrant, about 10 minutes. Add
-            saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-          </Typography>
-          <Typography paragraph>
-            Add rice and stir very gently to distribute. Top with artichokes and
-            peppers, and cook without stirring, until most of the liquid is absorbed,
-            15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and
-            mussels, tucking them down into the rice, and cook again without
-            stirring, until mussels have opened and rice is just tender, 5 to 7
-            minutes more. (Discard any mussels that don&apos;t open.)
-          </Typography>
-          <Typography>
-            Set aside off of the heat to let rest for 10 minutes, and then serve.
+          Find the team that you created, click More options ...  Add channel. You can also click Manage team and add a channel in the Channels tab. Give the channel a descriptive name to make it easier for users to understand the purpose of the channel.
           </Typography>
         </CardContent>
       </Collapse>
