@@ -96,12 +96,14 @@ export default function VerticalTabs() {
         <Box sx={{ width: '95%', margin: 'auto' }}>
           <Stepper nonLinear activeStep={activeStep}>
           {Object.keys(data).map((ele, index) => (
+
             <Step key={`label${index}`} >
               <StepButton color="inherit" onClick={handleStep(index)}>
                 {data[ele].step_title ? data[ele].step_title : 'unknown'}
               </StepButton>
             </Step>
           ))}
+
           </Stepper>
         </Box>
 

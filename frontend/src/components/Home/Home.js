@@ -12,6 +12,8 @@ import { useMediaQueries } from '@react-hook/media-query'
 
 const Home = () => {
   const [load, setLoad] = React.useState(true);
+  const [opened, setOpened] = React.useState(false);
+
   const navigate = useNavigate();
   // eslint-disable-next-line no-unused-vars
   const { matches, matchesAny, matchesAll } = useMediaQueries({
@@ -53,7 +55,7 @@ const Home = () => {
       <div className="home" style={{ backgroundColor: '#f6f9ff', height: '100%' }}>
         {localStorage.getItem('token')
           ? <LoggedNarbar></LoggedNarbar>
-          : <Navbar></Navbar>}
+          : <Navbar opened={opened} setOpened={setOpened}></Navbar>}
 {/*         <img src="https://cdn.dribbble.com/users/782052/screenshots/10927554/media/e961df046013321feb28cf99b7fc7800.jpg"
         style={{ alignItems: 'flex-end', width: 1200, height: 900, postiion: 'absolute', left: 5, top: 5 }}/> */}
         <div className={load ? styles.unfocusbackground : styles.focusbackground} style={{ position: 'absolute', width: '100%', height: '90%', backgroundImage: 'url(\'https://cdn.dribbble.com/users/691604/screenshots/10764642/media/b9888421afd46c03efef1ff072eec418.png\')' }}></div>
@@ -83,7 +85,7 @@ const Home = () => {
         </Collapse>
         <div className={load ? styles.unfocusButton : styles.focusButton}>
         <Button
-          onClick={(e) => { e.preventDefault(); navigate('/main') }}
+          onClick={(e) => { e.preventDefault(); if (localStorage.getItem('token')) { navigate('/main') } else { setOpened(true) } }}
           onMouseOver={(e) => { e.preventDefault(); setLoad(false) }} onMouseOut={useThrottle((e) => {
             e.preventDefault();
             setLoad(true)

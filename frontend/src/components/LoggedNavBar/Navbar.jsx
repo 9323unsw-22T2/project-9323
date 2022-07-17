@@ -73,14 +73,16 @@ const Navbar = () => {
   return (
     <div className={styles.Navbar}>
       <div className={styles.logo}>
-        <svg
+        <img
           width="229"
           height="49"
           viewBox="0 0 229 49"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          src="https://my.unsw.edu.au/unsw/portallogin/muImages/muProducts/logos/unsw_logo.png"
+          onClick={(e) => { e.preventDefault(); navigate(localStorage.getItem('token') ? '/main' : '/') }}
         >
-        </svg>
+        </img>
       </div>
       <Search sx={{
         display: 'flex',

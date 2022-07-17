@@ -9,6 +9,7 @@
 .logo {
   margin-top: auto;
   margin-bottom: auto;
+  cursor: pointer;
 }
 .login {
   /* background-color: yellow; */

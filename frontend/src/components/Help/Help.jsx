@@ -13,7 +13,8 @@ import CallIcon from '@mui/icons-material/Call';
 import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Select from 'react-select'
-
+import Navbar from '../NavBar/Navbar';
+import LoggedNarbar from '../LoggedNavBar/Navbar';
 function Help () {
   const options = [
     { value: 'How It Workesws For Renters', label: 'question1' },
@@ -47,6 +48,9 @@ function Help () {
   /*  console.log(sampleData) */
   return (
     <>
+            {localStorage.getItem('token')
+              ? <LoggedNarbar></LoggedNarbar>
+              : <Navbar ></Navbar>}
     <Box sx={{ ml: 3 }}>
     <Typography variant="h5" gutterBottom component="div"sx={{ mt: 5, mb: 3 }}>
     {'What can I help you'}

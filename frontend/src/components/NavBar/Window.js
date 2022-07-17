@@ -15,15 +15,21 @@ import styles from './App.module.css';
 // import { DialogContent } from '@mui/material';
 import Signin from './Signin';
 import Register from './Register'
+import PropTypes from 'prop-types';
 
-const Window = () => {
-  const [open, setOpen] = React.useState(false);
+const Window = ({ opened, setOpened }) => {
+  const [open, setOpen] = React.useState(opened || false);
+  React.useEffect(() => {
+    setOpen(opened)
+  }, [opened])
   const handleClickOpen = (e) => {
     e.preventDefault();
+    setOpened(true)
     setOpen(true);
   };
   const handleClose = (e) => {
     e.preventDefault();
+    setOpened(false)
     setOpen(false);
   };
   const [signin, setSignin] = React.useState(false);
@@ -54,4 +60,8 @@ const Window = () => {
   </div>
   );
 }
+Window.propTypes = {
+  opened: PropTypes.bool,
+  setOpened: PropTypes.func
+};
 export default Window;

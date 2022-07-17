@@ -1,22 +1,32 @@
 import Window from './Window';
 import * as React from 'react';
 import styles from './App.module.css';
+import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ opened, setOpened }) => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.Navbar}>
       <div className={styles.logo}>
-        <svg
+        <img
           width="229"
           height="49"
           viewBox="0 0 229 49"
           fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+          src="https://my.unsw.edu.au/unsw/portallogin/muImages/muProducts/logos/unsw_logo.png"
+          onClick={(e) => { e.preventDefault(); navigate(localStorage.getItem('token') ? '/main' : '/') }}
+
         >
-        </svg>
+        </img>
       </div>
-      <Window></Window>
+      <Window opened={opened} setOpened={setOpened}></Window>
     </div>
   );
+};
+Navbar.propTypes = {
+  opened: PropTypes.bool,
+  setOpened: PropTypes.func
 };
 export default Navbar;
