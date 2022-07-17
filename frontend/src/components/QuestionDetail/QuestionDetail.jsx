@@ -17,6 +17,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import Collapse from '@mui/material/Collapse';
 import { newQuestionComment } from '../../service';
+import { useParams } from 'react-router-dom';
 
 const Home = () => {
   //  const sample = [{ id: '12', type: 1 }, { id: '23', type: 2 }, { id: '45', type: 2 }]
@@ -35,6 +36,8 @@ const Home = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { number } = useParams();
+
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -42,7 +45,7 @@ const Home = () => {
   };
   const [content, setCommentContent] = React.useState();
   const handleSubmit = () => {
-    newQuestionComment({ content }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    newQuestionComment({ content }, localStorage.getItem('token'), localStorage.getItem('user_id'), number)
   }
   /* const handleSubmit = () => {
     fetch('/comment/questions/1', { // somone set a proxy ?

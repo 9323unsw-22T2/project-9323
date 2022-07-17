@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import CardHeader from '@mui/material/CardHeader';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -26,6 +26,8 @@ export default function ActionAreaCard({ data }) {
   if (localStorage.getItem('commentUid') === null) {
     localStorage.setItem('commentUid', 0)
   }
+  const { number } = useParams();
+
   const navigate = useNavigate();
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const onEditorStateChange = (editorState) => { setEditorState(editorState) }
@@ -74,14 +76,13 @@ export default function ActionAreaCard({ data }) {
       </Box>
     );
   }; */
-  const articleID = 0;
   const commentUid = parseFloat(localStorage.getItem('commentUid')) + 1;
   const handleSubmit = () => {
-    fetch('comment/questions/' + articleID, {
+    fetch('comment/questions/' + number, {
       method: 'POST',
       headers: {
-        user_id: '1',
-        token: '1301ccf6-1891-42ba-8cbb-310e3bdda032',
+        user_id: localStorage.getItem('user_id'),
+        token: localStorage.getItem('token'),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({

@@ -98,7 +98,7 @@ const App = () => {
         <Route element={<AnimationLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/main" element={<MainPage />} />
-          <Route path="/question" element={<Question />} />
+          <Route path="/question/:number" element={<Question />} />
           <Route path="/newquestion" element={<NewQuestion />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/newguide" element={<NewGuide />} />

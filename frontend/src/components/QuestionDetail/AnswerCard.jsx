@@ -18,6 +18,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
 import { getQuestionComments } from '../../service';
 import { useState } from 'react'
+import { useParams } from 'react-router-dom';
 
 export default function RecipeReviewCard () {
   const [thumbUp, setThumbUp] = React.useState(false);
@@ -36,20 +37,21 @@ export default function RecipeReviewCard () {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const { number } = useParams();
+
   const [content, setContent] = React.useState('')
   function handleChange (content, editor) {
     setContent({ content });
   }
-  const [data, setData] = useState([]);
-  const number = 0;
-  React.useEffect(() => {
-    const response = getQuestionComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
+  const [data, setData] = useState([{ }]);
+  React.useEffect(async () => {
+    const response = await getQuestionComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
     console.log(response.data)
     setData(response.data);
   }, [])
 
   return (
-    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={data?.hello}>
+    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} >
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -73,7 +75,7 @@ export default function RecipeReviewCard () {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-        {data?.map((user) => {
+        {data.length && data.map((user) => {
           return (
             <h1 key={user?.hello}>{user?.content}</h1>
           )

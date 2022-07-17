@@ -17,11 +17,13 @@ import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
 import { getArticleComments } from '../../service';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+
 /* {data.map((users) => {
    return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
  })} */
 export default function RecipeReviewCard () {
-  const [data, setData] = useState(['']);
+  const [data, setData] = useState([]);
   /*  useEffect(() => {
     fetch('/comment/articles/1') // SAMPLE API
       .then((res) => res.json())
@@ -32,6 +34,7 @@ export default function RecipeReviewCard () {
 */
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
+  const { number } = useParams();
 
   const ThumbUp = (e) => {
     if (thumbDown) { ThumbDown() }
@@ -50,10 +53,17 @@ export default function RecipeReviewCard () {
   function handleChange (content, editor) {
     setContent({ content });
   }
-  const { number } = 1;
-  setData(getArticleComments(localStorage.getItem('user_id'), '1301ccf6-1891-42ba-8cbb-310e3bdda032', number))
+  React.useEffect(async () => {
+    try {
+      const response = await getArticleComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
+      setData(response.data)
+    } catch (error) {
+
+    }
+  }, [])
   return (
     <>{
+      data.length &&
     data?.map((user) => {
       return (
           <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={Comment.id}>
