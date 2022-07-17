@@ -16,7 +16,7 @@ const App = () => {
   const [contentt, setContent] = React.useState('')
   function handleChange (contentt, editor) {
     setContent({ contentt });
-    setDescritpion('hello') // FIX THIS
+    setDescritpion(contentt.replace(/<[^>]+>/g, '')) // FIX THIS
   }
   React.useEffect(() => {
 
