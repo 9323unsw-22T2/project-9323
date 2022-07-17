@@ -11,7 +11,9 @@ import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Menu } from '@mui/material';
 import AnswerCard from './AnswerCard';
 import ChargeAnswerCard from './ChargeAnswerCard';
-
+import Checkbox from '@mui/material/Checkbox';
+import Input from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
@@ -43,6 +45,8 @@ const Home = () => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const [charged, setCharged] = React.useState(false)
+
   const [content, setCommentContent] = React.useState();
   const handleSubmit = () => {
     newQuestionComment({ content }, localStorage.getItem('token'), localStorage.getItem('user_id'), number)
@@ -113,7 +117,6 @@ const Home = () => {
         }} size="small">Unfollow</Button>}
 
           <Box sx={{ margin: 'auto' }}>2022/02/31 19:49:03</Box>
-          <Box sx={{ margin: 'auto' }}>{"author:'people1'"}</Box>
           <Box
             sx={{
               margin: 'auto'
@@ -134,7 +137,20 @@ const Home = () => {
   editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto' }}
   onEditorStateChange={onEditorStateChange}
 />
+<Box sx={{}}>
+
+<FormControlLabel
+          value="start"
+          control={<Checkbox checked={charged} onClick={(e) => { e.preventDefault(); setCharged(!charged) }}/>}
+          label="charge score"
+          labelPlacement="charge score"
+  />
+  <Box sx={{ transition: '1s all', opacity: charged ? 1 : 0, height: '2rem', pointerEvents: charged ? 'all' : 'none' }}>
+  <Input type="number"placeholder="Score you want" />
+  </Box>
   <Button sx={{ mb: 1, mt: 2, float: 'right' }}variant="contained" onClick ={handleSubmit}>Submit</Button>
+  </Box>
+
         </CardContent>
       </Collapse>
           </Box>

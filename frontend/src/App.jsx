@@ -69,24 +69,28 @@ const App = () => {
 
   async function addLink (event) {
     event.preventDefault();
-    console.log(event.clientX, event.clientY)
-    const pagelink = '\n\n Original author at: ' + document.location.href;
-    const copytext = window.getSelection() + pagelink;
-    console.log(copytext, window.clipboardData)
+    if (localStorage.getItem('token')) {
+      console.log(event.clientX, event.clientY)
+      const pagelink = '\n\n Original author at: ' + document.location.href;
+      const copytext = window.getSelection() + pagelink;
+      console.log(copytext, window.clipboardData)
 
-    navigator.clipboard.writeText(copytext).then(function () {
-      document.getElementById('copynotify').style.opacity = 1;
+      navigator.clipboard.writeText(copytext).then(function () {
+        document.getElementById('copynotify').style.opacity = 1;
 
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-      timerRef.current = setTimeout(() => {
-        document.getElementById('copynotify').style.opacity = 0;
-      }, 500);
-      console.log('Async: Copying to clipboard was successful!');
-    }, function (err) {
-      console.error('Async: Could not copy text: ', err);
-    });
+        if (timerRef.current) {
+          clearTimeout(timerRef.current);
+        }
+        timerRef.current = setTimeout(() => {
+          document.getElementById('copynotify').style.opacity = 0;
+        }, 500);
+        console.log('Async: Copying to clipboard was successful!');
+      }, function (err) {
+        window.alert('Async: Could not copy text: ', err);
+      });
+    } else {
+      window.alert('Only login user can copy text');
+    }
   }
   React.useEffect(() => {
     document.addEventListener('copy', addLink);

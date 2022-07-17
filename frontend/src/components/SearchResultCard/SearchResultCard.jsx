@@ -1,5 +1,6 @@
 /* eslint-disable multiline-ternary */
 import * as React from 'react';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -13,6 +14,8 @@ import Collapse from '@mui/material/Collapse';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
+import Checkbox from '@mui/material/Checkbox';
+import Input from '@mui/material/TextField';
 
 /* import Drawer from '@mui/material/Drawer';
 import Link from '@mui/material/Link';
@@ -39,7 +42,7 @@ export default function ActionAreaCard({ data }) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
+  const [charged, setCharged] = React.useState(false)
   const text =
     'Hi im new to microsoft teams and am struggling to navigate the UI, Does anyone know how to create a new team and add the members i want to add ?';
 
@@ -166,6 +169,7 @@ export default function ActionAreaCard({ data }) {
           <span>3 answers</span>
         </Box>
         <Box sx={{ margin: 'auto' }}>
+
           <Button size="small" onClick={handleExpandClick}>Answer</Button>
         </Box>
       </CardActions>
@@ -179,8 +183,18 @@ export default function ActionAreaCard({ data }) {
   editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto' }}
   onEditorStateChange={onEditorStateChange}
 />
-
+<Box sx={{}}>
+<FormControlLabel
+          value="start"
+          control={<Checkbox checked={charged} onClick={(e) => { e.preventDefault(); setCharged(!charged) }}/>}
+          label="charge score"
+          labelPlacement="charge score"
+  />
+  <Box sx={{ transition: '1s all', opacity: charged ? 1 : 0, height: '2rem', pointerEvents: charged ? 'all' : 'none' }}>
+  <Input type="number"placeholder="Score you want" />
+  </Box>
   <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={handleSubmit}>Submit</Button>
+</Box>
         </CardContent>
       </Collapse>
     </Card>
