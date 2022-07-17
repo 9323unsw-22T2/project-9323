@@ -16,6 +16,8 @@ import CommentIcon from '@mui/icons-material/Comment';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
+import { getQuestionComments } from '../../service';
+import { useState } from 'react'
 
 export default function RecipeReviewCard () {
   const [thumbUp, setThumbUp] = React.useState(false);
@@ -38,8 +40,16 @@ export default function RecipeReviewCard () {
   function handleChange (content, editor) {
     setContent({ content });
   }
+  const [data, setData] = useState(['a']);
+  const number = 1;
+  getQuestionComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
+    .then((res) => res.json())
+    .then((res) => {
+      setData(res);
+    }
+    )
   return (
-    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>
+    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={data.hello}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -63,13 +73,11 @@ export default function RecipeReviewCard () {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-        On the left side of Teams, click Teams, at the bottom of the teams list, click Join or create a team, and then click Create a new team.
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-        Once youve created the team, invite people to join it. You can add individual users, groups, and even entire contact groups (formerly known as distribution lists).
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-        Find the team that you created, click More options ...  Manage team. Then go to the Members tab. Find the people you want to designate as team owners. Under Role, click Owner.
+        {data.map((user) => {
+          return (
+            <h1 key={user.hello}>{user.content}</h1>
+          )
+        })}
         </Typography>
         </CardContent>
         <CardActions disableSpacing sx={{
@@ -107,5 +115,5 @@ export default function RecipeReviewCard () {
         </CardContent>
       </Collapse>
     </Card>
-  );
+  )
 }

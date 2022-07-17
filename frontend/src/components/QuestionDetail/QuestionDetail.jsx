@@ -19,7 +19,7 @@ import Collapse from '@mui/material/Collapse';
 import { newQuestionComment } from '../../service';
 
 const Home = () => {
-  const sample = [{ id: '12', type: 1 }, { id: '23', type: 2 }, { id: '45', type: 2 }]
+  //  const sample = [{ id: '12', type: 1 }, { id: '23', type: 2 }, { id: '45', type: 2 }]
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [follow, setFollow] = React.useState(true);
@@ -30,7 +30,7 @@ const Home = () => {
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState)
-    setCommentContent(editorState)
+    setCommentContent(editorState.getCurrentContent().getPlainText('\u0001'))
   }
   const handleClose = () => {
     setAnchorEl(null);
@@ -40,9 +40,9 @@ const Home = () => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const [commentContent, setCommentContent] = React.useState();
+  const [content, setCommentContent] = React.useState();
   const handleSubmit = () => {
-    newQuestionComment({ commentContent }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    newQuestionComment({ content }, localStorage.getItem('token'), localStorage.getItem('user_id'))
   }
   /* const handleSubmit = () => {
     fetch('/comment/questions/1', { // somone set a proxy ?
@@ -166,10 +166,7 @@ const Home = () => {
             <MenuItem onClick={handleClose}>Price(low to high)</MenuItem>
           </Menu>
          <ChargeAnswerCard></ChargeAnswerCard>
-        {sample.map((ele) => {
-          return (
-            <AnswerCard key={ele.id}></AnswerCard>)
-        })}
+          <AnswerCard></AnswerCard>)
       </Box>
         <Box
           sx={{

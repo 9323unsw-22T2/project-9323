@@ -58,7 +58,7 @@ def comment_question_add(question_id):
     else:
         print('error')
         con.close()
-        return make_response(jsonify({"error": "this question can not be found"})), 404
+        return make_response(jsonify({"error": "this question can not be found"})), 405
     
     id = cur.lastrowid
     content=cur.execute(f"select content from comments where id={id}").fetchall()[0][0]

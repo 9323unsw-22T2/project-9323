@@ -13,16 +13,16 @@ import { useNavigate } from 'react-router-dom';
 import { newQuestion } from '../../service';
 
 const App = () => {
-  const [content, setContent] = React.useState('')
-  function handleChange (content, editor) {
-    setContent({ content });
-    setDescritpion({ content });
+  const [contentt, setContent] = React.useState('')
+  function handleChange (contentt, editor) {
+    setContent({ contentt });
+    setDescritpion('hello') // FIX THIS
   }
   React.useEffect(() => {
 
   }, [])
   const [title, setTitle] = React.useState('');
-  const [description, setDescritpion] = React.useState('');
+  const [content, setDescritpion] = React.useState('');
   // const [user, setUser] = React.useState('');
   const [field, setField] = React.useState('');
   const handleFieldChange = (event) => {
@@ -30,8 +30,8 @@ const App = () => {
   };
   const navigate = useNavigate();
   const handleSubmitQ = () => {
-    const response = newQuestion({ title, description }, localStorage.getItem('token'), localStorage.getItem('user_id'))
-    navigate(`/question/${response.data.question_id}`)
+    newQuestion({ title, content }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    navigate('/newquestion')
   }
   return (
 <Box sx={{ height: '100%' }}>
@@ -68,7 +68,7 @@ const App = () => {
 
   <Editor
     apiKey="yhf0swre6kb5yv1owq7bcxmfxaxwundoc1htcq2tpvhkyz8t"
-    value={content.innerText}
+    value={contentt.innerText}
     init={{
       height: 300,
       menubar: false

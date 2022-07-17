@@ -16,13 +16,13 @@ import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
 import { getArticleComments } from '../../service';
-// import { useEffect, useState } from 'react';
+import { useState } from 'react';
 /* {data.map((users) => {
    return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
  })} */
 export default function RecipeReviewCard () {
-/*  const [data, setData] = useState(['']);
-  useEffect(() => {
+  const [data, setData] = useState(['']);
+  /*  useEffect(() => {
     fetch('/comment/articles/1') // SAMPLE API
       .then((res) => res.json())
       .then((res) => {
@@ -51,7 +51,7 @@ export default function RecipeReviewCard () {
     setContent({ content });
   }
   const { number } = 1;
-  const data = getArticleComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
+  setData(getArticleComments(localStorage.getItem('user_id'), '1301ccf6-1891-42ba-8cbb-310e3bdda032', number))
   return (
     <>{
     data?.map((user) => {
