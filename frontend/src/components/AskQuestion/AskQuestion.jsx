@@ -29,9 +29,13 @@ const App = () => {
     setField(event.target.value);
   };
   const navigate = useNavigate();
-  const handleSubmitQ = () => {
-    newQuestion({ title, content }, localStorage.getItem('token'), localStorage.getItem('user_id'))
-    navigate('/newquestion')
+  const handleSubmitQ = async () => {
+    try {
+      const response = await newQuestion({ title, content }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+      if (response.status === 200) { navigate(`/question/${response.data.question_id}`) }
+    } catch (error) {
+
+    }
   }
   return (
 <Box sx={{ height: '100%' }}>
