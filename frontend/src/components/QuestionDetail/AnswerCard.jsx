@@ -40,16 +40,16 @@ export default function RecipeReviewCard () {
   function handleChange (content, editor) {
     setContent({ content });
   }
-  const [data, setData] = useState(['a']);
-  const number = 1;
-  getQuestionComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
-    .then((res) => res.json())
-    .then((res) => {
-      setData(res);
-    }
-    )
+  const [data, setData] = useState([]);
+  const number = 0;
+  React.useEffect(() => {
+    const response = getQuestionComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
+    console.log(response.data)
+    setData(response.data);
+  }, [])
+
   return (
-    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={data.hello}>
+    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={data?.hello}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -73,9 +73,9 @@ export default function RecipeReviewCard () {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-        {data.map((user) => {
+        {data?.map((user) => {
           return (
-            <h1 key={user.hello}>{user.content}</h1>
+            <h1 key={user?.hello}>{user?.content}</h1>
           )
         })}
         </Typography>
