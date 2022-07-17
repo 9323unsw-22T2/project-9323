@@ -28,3 +28,5 @@ export const newQuestionComment = (body, token, userId, number) =>
   axios.post(`${BASE_URL}/comment/questions/${number}`, body, { headers: { user_id: userId, token: token } });
 export const getQuestionComments = (userId, token, number) =>
   axios.get(`${BASE_URL}/comment/questions/${number}`, { headers: { user_id: userId, token: token } });
+export const questionDetail = (userId, token, number) =>
+  axios.get(`${BASE_URL}/questions/${number}`, { headers: { user_id: userId, token: token } });

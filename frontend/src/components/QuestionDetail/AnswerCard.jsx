@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
@@ -49,9 +48,11 @@ export default function RecipeReviewCard () {
     console.log(response.data)
     setData(response.data);
   }, [])
-
   return (
-    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} >
+    <>{
+      data && Object.keys(data).map((key) => {
+        return (
+    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={`comments${data[key].id}`}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -66,20 +67,9 @@ export default function RecipeReviewCard () {
         title="Remoteworker23"
         subheader="September 14, 2016"
       />
-      <CardMedia
-        component="img"
-        height="194"
-        image="https://cdn.windowsreport.com/wp-content/uploads/2019/12/Team-in-Microsoft-Teams-1.png"
-        alt="Paella dish"
-        sx={{ width: 'auto' }}
-      />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-        {data && Object.keys(data).map((key) => {
-          return (
-            <h1 key={`comments${data[key].id}`}>{data[key].content}</h1>
-          )
-        })}
+            {data[key].content}
         </Typography>
         </CardContent>
         <CardActions disableSpacing sx={{
@@ -117,5 +107,8 @@ export default function RecipeReviewCard () {
         </CardContent>
       </Collapse>
     </Card>
+        )
+      })}
+  </>
   )
 }
