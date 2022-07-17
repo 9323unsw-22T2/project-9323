@@ -1,5 +1,5 @@
 /* eslint-disable multiline-ternary */
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
 import CardContent from '@mui/material/CardContent';
@@ -11,12 +11,12 @@ import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Menu } from '@mui/material';
 import AnswerCard from './AnswerCard';
 import ChargeAnswerCard from './ChargeAnswerCard';
-
+import List from './List'
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import Collapse from '@mui/material/Collapse';
-import { newQuestionComment } from '../../service';
+import { newQuestionComment, questionDetail } from '../../service';
 import { useParams } from 'react-router-dom';
 
 const Home = () => {
@@ -46,6 +46,7 @@ const Home = () => {
   const [content, setCommentContent] = React.useState();
   const handleSubmit = () => {
     newQuestionComment({ content }, localStorage.getItem('token'), localStorage.getItem('user_id'), number)
+    window.location.reload(false);
   }
   /* const handleSubmit = () => {
     fetch('/comment/questions/1', { // somone set a proxy ?
@@ -62,6 +63,12 @@ const Home = () => {
     })
     setEditorState('')
   }; */
+  const [data, setData] = useState([{ }]);
+  React.useEffect(async () => {
+    const response = await questionDetail(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
+    console.log(response)
+    setData(Object.fromEntries(Object.entries(response.data.question)))
+  }, [])
   return (
     <div className="home" style={{ overflow: 'auto' }}>
       {localStorage.getItem('token') ? (
@@ -95,14 +102,12 @@ const Home = () => {
                   margin: 'auto',
                   textAlign: 'center',
                 }}
-                title={'Does anyone know how to create a teams account'}
+                title={data[1]}
               ></CardHeader>
               <CardContent
                 sx={{ borderBottom: '1px solid #e6e5e6', width: '90%', margin: 'auto' }}
                 // eslint-disable-next-line react/no-children-prop
-                children={
-                  'Hi im new to microsoft teams and am struggling to navigate the UI, Does anyone know how to create a new team and add the members i want to add ?'
-                }
+                children={data[2]}
               ></CardContent>
         <CardActions sx={{ ml: 3, margin: 'auto', width: '90%' }}>{follow ? <Button onClick={(e) => {
           e.preventDefault()
@@ -171,16 +176,7 @@ const Home = () => {
          <ChargeAnswerCard></ChargeAnswerCard>
           <AnswerCard></AnswerCard>)
       </Box>
-        <Box
-          sx={{
-            width: '20%',
-            marginLeft: 'auto',
-            marginRight: ' auto',
-            height: '80vh',
-            border: '1px solid red',
-            marginTop: ' 2rem',
-          }}
-        ></Box>
+        <List></List>
 
       </Box>
     </div>
