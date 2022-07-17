@@ -24,12 +24,12 @@ const Window = ({ opened, setOpened }) => {
   }, [opened])
   const handleClickOpen = (e) => {
     e.preventDefault();
-    setOpened(true)
+    setOpened && setOpened(true)
     setOpen(true);
   };
   const handleClose = (e) => {
     e.preventDefault();
-    setOpened(false)
+    setOpened && setOpened(false)
     setOpen(false);
   };
   const [signin, setSignin] = React.useState(false);

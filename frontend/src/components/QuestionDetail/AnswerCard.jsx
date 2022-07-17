@@ -75,9 +75,9 @@ export default function RecipeReviewCard () {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-        {data.length && data.map((user) => {
+        {data && Object.keys(data).map((key) => {
           return (
-            <h1 key={user?.hello}>{user?.content}</h1>
+            <h1 key={`comments${data[key].id}`}>{data[key].content}</h1>
           )
         })}
         </Typography>
