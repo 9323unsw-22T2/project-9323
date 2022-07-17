@@ -1,175 +1,77 @@
 import React from 'react';
+import { Editor } from '@tinymce/tinymce-react';
 import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { styled } from '@mui/material/styles';
-import styles from './Expert.module.css';
-import { newGuide } from '../../service'
-import CommonMessage from '../CommonMessage/CommonMessage'
-import { useNavigate } from 'react-router-dom';
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState, convertToRaw } from 'draft-js';
-import 'react-dropdown/style.css';
-
-import PopupWin from '../popup/PopupWin';
-
+import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 const App = () => {
-  const [steps, setStep] = React.useState([{ step_title: 'Step1', content: EditorState.createEmpty(), finished: false }, { step_title: 'Step2', content: EditorState.createEmpty(), finished: false }, { step_title: 'Step3', content: EditorState.createEmpty(), finished: false }]);
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [errorMessage, setErrorMessage] = React.useState(['', 'error', false]);
-
-  const [errorPopup, setErrorPopup] = React.useState(false);
-  function setMessageStatus () {
-    setErrorMessage(['', 'error', false])
+  const [content, setContent] = React.useState('')
+  function handleChange (content, editor) {
+    setContent({ content });
   }
-  const navigate = useNavigate();
+  React.useEffect(() => {
 
-  const totalSteps = () => {
-    return steps.length;
+  }, [])
+  const [field, setField] = React.useState('');
+
+  const handleFieldChange = (event) => {
+    setField(event.target.value);
   };
-  const completedSteps = () => {
-    let count = 0
-    steps.forEach((e) => { e.finished && (count = count + 1) })
-    return count;
-  };
-
-  const allStepsCompleted = () => {
-    return completedSteps() === totalSteps();
-  };
-  const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
-  const onEditorStateChange = (editorState) => { setEditorState(editorState) }
-  const handleBack = () => {
-    document.getElementById('step_title').value = steps[activeStep].step_title
-    setEditorState(steps[activeStep - 1].content ? steps[activeStep - 1].content : EditorState.createEmpty())
-
-    setActiveStep(activeStep - 1);
-  }
-
-  const handleComplete = async () => {
-    const newSteps = steps;
-    if (!editorState || !document.getElementById('guide_title').value) { setErrorMessage(['Please fill in all fields', 'error', true]) } else {
-      newSteps[activeStep] = { step_title: document.getElementById('step_title').value, content: editorState, finished: true };
-      setStep(newSteps)
-      if (allStepsCompleted()) {
-        /* console.log(steps) */
-
-        Object.keys(steps).forEach((ele) => { steps[ele].title = document.getElementById('guide_title').value })
-        Object.keys(steps).forEach((ele) => { steps[ele].content = convertToRaw(steps[ele].content.getCurrentContent()) })
-        /* console.log(steps) */
-
-        if (!(localStorage.getItem('token'))) { window.alert('Please log in first') } else {
-          try {
-            const response = await newGuide(Object.assign({}, steps), localStorage.getItem('token'), localStorage.getItem('user_id'))
-            navigate(`/guide/${response.data.article_id}`)
-          } catch (error) {
-            setErrorMessage(['network error', 'error', true])
-          }
-        }
-      }
-    }
-
-    setErrorPopup(true)
-    localStorage.setItem('expert', true);
-  };
-
-  const Input = styled('input')({
-    display: 'none',
-  });
   return (
-    <Box sx={{ height: '100%' }} className={styles.background}>
-      {localStorage.getItem('token')
-        ? (
+<Box sx={{ height: '100%' }}>
+
+{localStorage.getItem('token')
+  ? (
           <LoggedNarbar></LoggedNarbar>
-          )
-        : (
+    )
+  : (
           <Navbar></Navbar>
-          )}
+    )}
+<Box sx={{ display: 'flex', mt: 3, height: '88%', width: '100%', backgroundImage: 'url(https://cdn.dribbble.com/users/1362913/screenshots/4606447/media/781df62e1f36d160f60d855938b1e41d.png?compress=1&resize=800x600&vertical=top)' }}>
+<Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="javascript:history.back()">{'<Return'}</Button>
+  <h1>Tell us about what you are good at</h1>
+  <Box sx={{ width: '75%', opacity: '0.95', margin: 'auto', backgroundColor: 'white', borderRadius: '1rem' }}>
+  <form style={{ margin: '2rem' }}>
+  <h2>Provide a question</h2>
 
-      <PopupWin trigger={errorPopup} setTrigger={setErrorPopup} className={styles.pop} nav='/main' message='Application successfully '>
-      </PopupWin>
-      {/* <Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', mt: 2, textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="javascript:history.back()">{'<Return'}</Button> */}
-      <h1 className={styles.title}>Tell us about what you good at</h1>
-      <Box sx={{ width: '70%', margin: 'auto', mt: 6, opacity: '0.95', backgroundColor: 'white', padding: '1.5rem', borderRadius: '1rem' }}>
-        <div>
-          <React.Fragment>
-            <Box>
-              <h4 className={styles.guideh4}>Select your area</h4>
-              <form>
-              <p>Area you good at:</p>
-              <select className={styles.step_title}>
-                <option value="Computer Science">Computer Science</option>
-                <option value="Biology">Biology</option>
-                <option value="Policy">Policy</option>
-                <option value="Animal">Animal</option>
-              </select>
-              </form>
-              {/* <TextField rows={1} id='step_title' multiline sx={{ mb: 2, width: '100%' }} defaultValue={steps[activeStep].step_title} /> */}
-              <br></br>
-              <h4 className={styles.guideh4}>Achieve you have gotten in this area:</h4>
-              <Editor
-                editorState={editorState}
-                toolbarClassName="toolbarClassName"
-                wrapperStyle={{}}
-                initialContentState={steps[activeStep].content}
-                editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto', height: '10rem' }}
-                onEditorStateChange={onEditorStateChange}
-              />
-              </Box>
-            <Box sx={{ display: 'flex', marginTop: '10px' }}>
-              <br></br><br></br>
-                <Box sx={{ display: 'flex' }}>
-                  <br></br><br></br>
-                  <h4 className={styles.guideh4} style={{ marginRight: '5rem' }}>{'Upload your certificates'}</h4>
-                  <label htmlFor="contained-button-file" style={{ margin: 'auto' }}>
-                    <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                    <Box>
-                      <Button variant="contained" component="span">
-                        Upload
-                      </Button>
-                    </Box>
-                  </label>
-                </Box>
-            </Box>
-            <Box sx={{ display: 'flex', marginTop: '30px' }}>
-              <h4 className={styles.guideh4}>Contact Number:</h4> <span>&nbsp;&nbsp;</span>
-              <TextField rows={1} id='guide_title' />
-            </Box>
+   <TextField rows={4} multiline sx={{ mb: 2, width: '100%' }} placeholder="Input question here..." />
+   <FormControl fullWidth>
+  <InputLabel >Field</InputLabel>
+        <Select
+          id="demo-simple-select"
+          value={field}
+          label="Field"
+          onChange={handleFieldChange}
+        >
+          <MenuItem value={'Health'}>Health</MenuItem>
+          <MenuItem value={'Science'}>Science</MenuItem>
+          <MenuItem value={'Pet'}>Pet</MenuItem>
+        </Select>
+      </FormControl>
+  <h2>Descpition</h2>
 
-            {<CommonMessage
-              setVisible={setMessageStatus}
-              message={errorMessage[0]}
-              severity={errorMessage[1]}
-              visible={errorMessage[2]}
-            ></CommonMessage>}
-            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-              <Button
-                color="inherit"
-                size="large"
-                variant="outlined"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 }}
-              >
-                Back
-              </Button>
+  <Editor
+    apiKey="yhf0swre6kb5yv1owq7bcxmfxaxwundoc1htcq2tpvhkyz8t"
+    value={content.innerText}
+    init={{
+      height: 300,
+      menubar: false
+    }}
+    onEditorChange={handleChange}
+  />
+  <br />
+  <Button variant="contained">Submit</Button>
 
-              <Box sx={{ flex: '1 1 auto' }} />
-              <Button
-                size="large"
-                variant="outlined"
-                onClick={handleComplete}>
-
-                {'Finish'}
-              </Button>
-
-            </Box>
-          </React.Fragment>
-        </div>
-      </Box>
-    </Box>
+</form>
+</Box>
+{/* <Box sx={{ width: '35%', margin: 'auto', height: '100%', border: '1px solid red' }}></Box>
+ */}</Box>
+</Box>
   );
 };
 

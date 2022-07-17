@@ -23,9 +23,6 @@ ActionAreaCard.propTypes = {
 
 // eslint-disable-next-line space-before-function-paren
 export default function ActionAreaCard({ data }) {
-  if (localStorage.getItem('commentUid') === null) {
-    localStorage.setItem('commentUid', 0)
-  }
   const navigate = useNavigate();
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const onEditorStateChange = (editorState) => { setEditorState(editorState) }
@@ -39,7 +36,7 @@ export default function ActionAreaCard({ data }) {
   };
 
   const text =
-    'Hi im new to microsoft teams and am struggling to navigate the UI, Does anyone know how to create a new team and add the members i want to add ?';
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut viverra tellus, sit amet sagittis libero. Integer nibh tortor, facilisis vel mollis dapibus, mattis ut nisl. Praesent convallis consequat eros, at interdum lorem lacinia eget. Praesent posuere leo nec tempor pretium. Quisque imperdiet semper ex, in maximus urna porttitor laoreet. Curabitur hendrerit est eget ante pulvinar tristique. Nullam vulputate, nulla vel posuere ullamcorper, mauris leo molestie tellus, a volutpat orci velit eu justo. Curabitur erat lectus, luctus non mauris ut, ultricies ornare diam. Praesent iaculis sapien nec blandit tempus. Praesent vitae gravida nisi. Donec consequat interdum elementum. Donec nec lacus mi. Fusce posuere cursus augue, sit amet vulputate eros dapibus ac. Nulla consequat massa massa, vel hendrerit nunc mattis ut. Morbi lobortis tristique tincidunt. Nulla facilisi';
 
   /*   const [state, setState] = React.useState(false);
   const toggleDrawer = (open) => (event) => {
@@ -74,23 +71,6 @@ export default function ActionAreaCard({ data }) {
       </Box>
     );
   }; */
-  const articleID = 0;
-  const commentUid = parseFloat(localStorage.getItem('commentUid')) + 1;
-  const handleSubmit = () => {
-    fetch('comment/questions/' + articleID, {
-      method: 'POST',
-      headers: {
-        user_id: '1',
-        token: '1301ccf6-1891-42ba-8cbb-310e3bdda032',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        comment_content: editorState.getCurrentContent().getPlainText('\u0001'),
-        comment_id: commentUid,
-      })
-    })
-    setEditorState('')
-  }
   return (
     <Card
       sx={{
@@ -117,7 +97,7 @@ export default function ActionAreaCard({ data }) {
                 textDecoration: 'underline',
               },
             }}
-            title={'How do i create a new team on microsoft teams'}
+            title={'This is a title'}
           ></CardHeader>
           <CardContent
             sx={{ borderBottom: '1px solid #e6e5e6' }}
@@ -179,7 +159,7 @@ export default function ActionAreaCard({ data }) {
   onEditorStateChange={onEditorStateChange}
 />
 
-  <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={handleSubmit}>Submit</Button>
+  <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained">Submit</Button>
         </CardContent>
       </Collapse>
     </Card>

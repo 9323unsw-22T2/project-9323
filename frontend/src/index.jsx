@@ -6,6 +6,5 @@ ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById('root'),
-  window.localStorage.removeItem('expert')
+  document.getElementById('root')
 );

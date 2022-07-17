@@ -10,27 +10,21 @@ import CardActions from '@mui/material/CardActions';
 import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Menu } from '@mui/material';
 import AnswerCard from './AnswerCard';
-import ChargeAnswerCard from './ChargeAnswerCard';
-
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import Collapse from '@mui/material/Collapse';
-import { newQuestionComment } from '../../service';
-
 const Home = () => {
   const sample = [{ id: '12', type: 1 }, { id: '23', type: 2 }, { id: '45', type: 2 }]
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [follow, setFollow] = React.useState(true);
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState)
-    setCommentContent(editorState)
   }
   const handleClose = () => {
     setAnchorEl(null);
@@ -40,25 +34,6 @@ const Home = () => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const [commentContent, setCommentContent] = React.useState();
-  const handleSubmit = () => {
-    newQuestionComment({ commentContent }, localStorage.getItem('token'), localStorage.getItem('user_id'))
-  }
-  /* const handleSubmit = () => {
-    fetch('/comment/questions/1', { // somone set a proxy ?
-      method: 'POST',
-      headers: {
-        user_id: '1',
-        token: '1301ccf6-1891-42ba-8cbb-310e3bdda032',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        comment_content: editorState.getCurrentContent().getPlainText('\u0001'),
-        comment_id: '2',
-      })
-    })
-    setEditorState('')
-  }; */
   return (
     <div className="home" style={{ overflow: 'auto' }}>
       {localStorage.getItem('token') ? (
@@ -92,13 +67,13 @@ const Home = () => {
                   margin: 'auto',
                   textAlign: 'center',
                 }}
-                title={'Does anyone know how to create a teams account'}
+                title={'This is a title'}
               ></CardHeader>
               <CardContent
                 sx={{ borderBottom: '1px solid #e6e5e6', width: '90%', margin: 'auto' }}
                 // eslint-disable-next-line react/no-children-prop
                 children={
-                  'Hi im new to microsoft teams and am struggling to navigate the UI, Does anyone know how to create a new team and add the members i want to add ?'
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut viverra tellus, sit amet sagittis libero. Integer nibh tortor, facilisis vel mollis dapibus, mattis ut nisl. Praesent convallis consequat eros, at interdum lorem lacinia eget. Praesent posuere leo nec tempor pretium. Quisque imperdiet semper ex, in maximus urna porttitor laoreet. Curabitur hendrerit est eget ante pulvinar tristique. Nullam vulputate, nulla vel posuere ullamcorper, mauris leo molestie tellus, a volutpat orci velit eu justo. Curabitur erat lectus, luctus non mauris ut, ultricies ornare diam. Praesent iaculis sapien nec blandit tempus. Praesent vitae gravida nisi. Donec consequat interdum elementum. Donec nec lacus mi. Fusce posuere cursus augue, sit amet vulputate eros dapibus ac. Nulla consequat massa massa, vel hendrerit nunc mattis ut. Morbi lobortis tristique tincidunt. Nulla facilisi'
                 }
               ></CardContent>
         <CardActions sx={{ ml: 3, margin: 'auto', width: '90%' }}>{follow ? <Button onClick={(e) => {
@@ -131,7 +106,7 @@ const Home = () => {
   editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto' }}
   onEditorStateChange={onEditorStateChange}
 />
-  <Button sx={{ mb: 1, mt: 2, float: 'right' }}variant="contained" onClick ={handleSubmit}>Submit</Button>
+  <Button sx={{ mb: 1, mt: 2, float: 'right' }}variant="contained">Submit</Button>
         </CardContent>
       </Collapse>
           </Box>
@@ -165,7 +140,7 @@ const Home = () => {
             <MenuItem onClick={handleClose}>Price(high to low)</MenuItem>
             <MenuItem onClick={handleClose}>Price(low to high)</MenuItem>
           </Menu>
-         <ChargeAnswerCard></ChargeAnswerCard>
+
         {sample.map((ele) => {
           return (
             <AnswerCard key={ele.id}></AnswerCard>)

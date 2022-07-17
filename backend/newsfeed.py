@@ -1,5 +1,3 @@
-from http.client import REQUEST_TIMEOUT
-from unicodedata import east_asian_width
 from config import *
 from flask import Blueprint, request, make_response, jsonify
 from flask_cors import CORS

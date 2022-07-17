@@ -85,11 +85,11 @@ const App = () => {
       newSteps[activeStep] = { step_title: document.getElementById('step_title').value, content: editorState, finished: true };
       setStep(newSteps)
       if (allStepsCompleted()) {
-        /* console.log(steps) */
+        console.log(steps)
 
         Object.keys(steps).forEach((ele) => { steps[ele].title = document.getElementById('guide_title').value })
         Object.keys(steps).forEach((ele) => { steps[ele].content = convertToRaw(steps[ele].content.getCurrentContent()) })
-        /* console.log(steps) */
+        console.log(steps)
 
         if (!(localStorage.getItem('token'))) { window.alert('Please log in first') } else {
           try {
