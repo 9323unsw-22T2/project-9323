@@ -16,7 +16,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { logOut } from '../../service';
 import { useNavigate } from 'react-router-dom';
-
+import logo from './UNSW.png';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -74,13 +74,14 @@ const Navbar = () => {
     <div className={styles.Navbar}>
       <div className={styles.logo}>
         <img
-          width="229"
-          height="49"
+
+          height="60"
           viewBox="0 0 229 49"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          src="https://my.unsw.edu.au/unsw/portallogin/muImages/muProducts/logos/unsw_logo.png"
+          src={logo}
           onClick={(e) => { e.preventDefault(); navigate(localStorage.getItem('token') ? '/main' : '/') }}
+          className={styles.UNSWlogo}
         >
         </img>
       </div>

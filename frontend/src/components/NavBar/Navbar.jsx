@@ -3,7 +3,7 @@ import * as React from 'react';
 import styles from './App.module.css';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-
+import logo from './UNSW.png';
 const Navbar = ({ opened, setOpened }) => {
   const navigate = useNavigate();
 
@@ -11,11 +11,10 @@ const Navbar = ({ opened, setOpened }) => {
     <div className={styles.Navbar}>
       <div className={styles.logo}>
         <img
-          width="229"
-          height="49"
+          height="60"
           viewBox="0 0 229 49"
           fill="none"
-          src="https://my.unsw.edu.au/unsw/portallogin/muImages/muProducts/logos/unsw_logo.png"
+          src={logo}
           onClick={(e) => { e.preventDefault(); navigate(localStorage.getItem('token') ? '/main' : '/') }}
 
         >
