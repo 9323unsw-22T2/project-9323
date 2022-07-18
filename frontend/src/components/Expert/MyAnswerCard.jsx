@@ -97,6 +97,7 @@ export default function ActionAreaCard({ data }) {
                     {isShowMore ? 'Show more...' : 'Show less'}
                   </Box>
                 )}
+                <button onClick={handleExpandClick} className={styles.btn1}> Edit</button>
               </Box>
             }
           ></CardContent>

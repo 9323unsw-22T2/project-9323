@@ -56,14 +56,8 @@
 }
 
 .vipbackground{
-  display: flex;
-  flex-direction:column;
-  justify-content:center;
-  align-content: center;
-  height: 100%;
   background-image: url("vip.jpg"); 
   background-position: center;
-  background-repeat: no-repeat;
   background-size:cover;
 }
 
@@ -107,9 +101,32 @@
 }
 
 .ans{
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
   padding: 20px;
-  background-color: rgba(202, 202, 202, 0.486);
+  background-color: rgb(0, 52, 80);
   border-radius: 5px;
-  border-color: rgba(0, 0, 0, 0.514);
+  border-color: rgba(0, 0, 0, 0.082);
   border-style: solid;
+  justify-content: center;
+  align-content: center;
+}
+
+.btn1{
+  margin-top: 30px;
+  color: white;
+  background-color:rgb(0, 118, 187);
+  border-color: rgba(240, 255, 255, 0);
+  border-radius: 2px;
+  width:10%;
+  height:32px;
+  align-self: flex-end;
+  align-items: flex-end;
+  align-content: flex-end;
+  justify-Content: flex-end;
+  justify-self: flex-end;
+  justify-items: flex-end;
+
 }

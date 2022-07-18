@@ -19,14 +19,6 @@ function TabPanel(props) {
   return (
     <div>
       <div
-        style={{
-          height: '100%',
-          // backgroundColor: 'rgb(118, 118, 118, 0.1)',
-          backgroundImage: './2.webp',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover'
-        }}
         className={styles.vipbackground}
         role="tabpanel"
         hidden={value !== index}
