@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 
 const popup = ({ opened, setOpened }) => {
   const handleCopyLink = () => {
-    navigator.clipboard.writeText('/joinGame/swsws');
+    navigator.clipboard.writeText('I see a answer in this website');
   };
   const handleClose = () => setOpened(!opened);
 

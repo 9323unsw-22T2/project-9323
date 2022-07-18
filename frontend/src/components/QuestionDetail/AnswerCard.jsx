@@ -15,11 +15,12 @@ import CommentIcon from '@mui/icons-material/Comment';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
-import { getQuestionComments } from '../../service';
-import { useState } from 'react'
-import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-export default function RecipeReviewCard () {
+RecipeReviewCard.propTypes = {
+  data: PropTypes.Object,
+}
+export default function RecipeReviewCard ({ data }) {
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
 
@@ -31,28 +32,20 @@ export default function RecipeReviewCard () {
     if (thumbUp) { ThumbUp() }
     setThumbDown(!thumbDown)
   }
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState({});
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const { number } = useParams();
 
   const [content, setContent] = React.useState('')
   function handleChange (content, editor) {
     setContent({ content });
   }
-  const [data, setData] = useState([{ }]);
-  React.useEffect(async () => {
-    const response = await getQuestionComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
-    console.log(response.data)
-    setData(response.data);
-  }, [])
+
   return (
-    <>{
-      data && Object.keys(data).map((key) => {
-        return (
-    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={`comments${data[key].id}`}>
+    <>
+    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={`comments${data.id}`}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -64,12 +57,12 @@ export default function RecipeReviewCard () {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Remoteworker23"
-        subheader="September 14, 2016"
+        title={data.user}
+        subheader={new Date(data.timeCreated).toLocaleString()}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-            {data[key].content}
+            {data.content}
         </Typography>
         </CardContent>
         <CardActions disableSpacing sx={{
@@ -107,8 +100,6 @@ export default function RecipeReviewCard () {
         </CardContent>
       </Collapse>
     </Card>
-        )
-      })}
   </>
   )
 }

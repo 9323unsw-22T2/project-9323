@@ -19,7 +19,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import Collapse from '@mui/material/Collapse';
-import { newQuestionComment, questionDetail } from '../../service';
+import { newQuestionComment, questionDetail, getQuestionComments } from '../../service';
 import { useParams } from 'react-router-dom';
 
 const Home = () => {
@@ -27,6 +27,7 @@ const Home = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [follow, setFollow] = React.useState(true);
+  const [commentData, setCommentData] = useState([{ }]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -73,6 +74,11 @@ const Home = () => {
     const response = await questionDetail(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
     console.log(response)
     setData(Object.fromEntries(Object.entries(response.data.question)))
+  }, [])
+  React.useEffect(async () => {
+    const response = await getQuestionComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
+    console.log(response.data)
+    setCommentData(response.data);
   }, [])
   return (
     <div className="home" style={{ overflow: 'auto' }}>
@@ -122,7 +128,7 @@ const Home = () => {
           setFollow(!follow)
         }} size="small">Unfollow</Button>}
 
-          <Box sx={{ margin: 'auto' }}>2022/02/31 19:49:03</Box>
+          <Box sx={{ margin: 'auto' }}>{new Date(data[3]).toLocaleString()}</Box>
           <Box
             sx={{
               margin: 'auto'
@@ -191,7 +197,9 @@ const Home = () => {
             <MenuItem onClick={handleClose}>Price(low to high)</MenuItem>
           </Menu>
          <ChargeAnswerCard></ChargeAnswerCard>
-          <AnswerCard></AnswerCard>)
+         { commentData && Object.keys(commentData).map((key) => {
+           return (<AnswerCard key={`ele${key}`} data={commentData[key]}></AnswerCard>)
+         })}
       </Box>
         <List></List>
 

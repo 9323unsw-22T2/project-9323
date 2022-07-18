@@ -49,6 +49,9 @@ export default function RecipeReviewCard () {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const hanedleSubmit = () => {
+
+  }
   const [content, setContent] = React.useState('')
   function handleChange (content, editor) {
     setContent({ content });
@@ -63,9 +66,9 @@ export default function RecipeReviewCard () {
   }, [])
   return (
     <>{
-      data.length &&
-    data?.map((user) => {
-      return (
+      data &&
+      Object.keys(data).map((user) => {
+        return (
           <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={Comment.id}>
       <CardHeader
         avatar={
@@ -82,7 +85,7 @@ export default function RecipeReviewCard () {
         subheader="September 14, 2016"
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary" key={user.commentid}>{user.content}</Typography>
+        <Typography variant="body2" color="text.secondary" key={data[user].commentid}>{data[user].content}</Typography>
         </CardContent>
         <CardActions disableSpacing sx={{
           width: 'max-content',
@@ -115,12 +118,12 @@ export default function RecipeReviewCard () {
     onEditorChange={handleChange}
   />
   <br />
-  <Button sx={{ mb: 1, float: 'right' }} variant="contained">Submit</Button>
+  <Button sx={{ mb: 1, float: 'right' }} variant="contained" onClick={hanedleSubmit}>Submit</Button>
         </CardContent>
       </Collapse>
     </Card>
-      )
-    })}
+        )
+      })}
     </>
   )
 }
