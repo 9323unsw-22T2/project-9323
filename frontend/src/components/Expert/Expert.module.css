@@ -130,3 +130,10 @@
   justify-items: flex-end;
 
 }
+
+.text1{
+  color: black;
+  margin-left: 15px;
+  margin-top: 10px;
+  font-weight: 800;
+}
