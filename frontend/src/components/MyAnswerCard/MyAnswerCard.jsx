@@ -89,7 +89,7 @@ export default function ActionAreaCard({ data }) {
           <CardHeader
             onClick={(e) => {
               e.preventDefault();
-              navigate('/question');
+              navigate('/question/1');
             }}
             sx={{
               cursor: 'pointer',
@@ -154,7 +154,7 @@ export default function ActionAreaCard({ data }) {
           onClick={(e) => {
             e.preventDefault(
             )
-            navigate('/question');
+            navigate('/question/1');
           }}
           sx={{
             margin: 'auto',

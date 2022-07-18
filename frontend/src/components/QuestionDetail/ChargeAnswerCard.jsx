@@ -74,7 +74,7 @@ export default function RecipeReviewCard () {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Remoteworker23"
+        title="Bill Gates"
         subheader="September 14, 2016"
       />
       {!locked
