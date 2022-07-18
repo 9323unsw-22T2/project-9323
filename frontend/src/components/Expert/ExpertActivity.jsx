@@ -139,7 +139,6 @@ export default function VerticalTabs() {
           }}
         >
           <Tab label="Expert Questions" {...a11yProps(0)} />
-          <Tab label="My Answer" {...a11yProps(1)} />
 
         </Tabs>
         <TabPanel value={value} index={0}>
