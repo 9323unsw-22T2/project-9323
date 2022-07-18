@@ -39,6 +39,7 @@ export default function ActionAreaCard({ data }) {
   return (
     <Card
       sx={{
+        boxShadow: 12,
         borderRadius: '1rem',
         borderStyle: 'solid',
         borderWidth: '1px',
@@ -52,6 +53,11 @@ export default function ActionAreaCard({ data }) {
       <CardContent>
         <Box>
           <CardHeader
+            sx={{
+              color: 'primary.main',
+              fontWeight: 'bold',
+              m: 1,
+            }}
             title={'ESLint with React gives `no-unused-vars` errors '}
           ></CardHeader>
           <CardContent
