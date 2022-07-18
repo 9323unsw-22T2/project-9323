@@ -77,6 +77,7 @@ export default function ActionAreaCard({ data }) {
               </Box>
             }
           ></CardContent>
+          <Box className={styles.text1}>Your Answer:</Box>
           <CardContent
             sx={{ borderBottom: '1px solid #e6e5e6' }}
             // eslint-disable-next-line react/no-children-prop
