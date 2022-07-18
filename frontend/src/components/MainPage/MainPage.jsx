@@ -141,31 +141,37 @@ export default function VerticalTabs() {
             minWidth: 'max-content',
           }}
         >
-          <Tab label="Following" sx={{
+          <Tab label="All" sx={{
             borderRight: 1,
             width: '13vw',
 
             borderColor: 'divider',
             minWidth: 'max-content',
           }}{...a11yProps(0)} />
-          <Tab label="area one" sx={{
+          <Tab label="Following" sx={{
             borderRight: 1,
             borderColor: 'divider',
             minWidth: 'max-content',
             width: '13vw',
           }}{...a11yProps(1)} />
-          <Tab label="area two" sx={{
+          <Tab label="area one" sx={{
             borderRight: 1,
             borderColor: 'divider',
             minWidth: 'max-content',
             width: '13vw',
           }}{...a11yProps(2)} />
-          <Tab label="area three" sx={{
+          <Tab label="area two" sx={{
             borderRight: 1,
             borderColor: 'divider',
             minWidth: 'max-content',
             width: '13vw',
           }}{...a11yProps(3)} />
+          <Tab label="area three" sx={{
+            borderRight: 1,
+            borderColor: 'divider',
+            minWidth: 'max-content',
+            width: '13vw',
+          }}{...a11yProps(4)} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <Button
