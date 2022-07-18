@@ -5,8 +5,8 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/TrendingUpRounded';
-
+import logo from './1.png'
+import styles from './Expert.module.css';
 const style = {
   width: '100%',
   maxWidth: 360,
@@ -20,7 +20,7 @@ export default function ListDividers () {
       <ListItem>
         <ListItemAvatar>
           <Avatar>
-            <ImageIcon />
+            <img src={logo} className={styles.ted} ></img>
           </Avatar>
         </ListItemAvatar>
         <ListItemText primary="Trending"/>
@@ -33,7 +33,7 @@ export default function ListDividers () {
         <ListItemText primary="64 Comments" secondary="Totally 64 users comment on your answer " />
       </ListItem>
       <ListItem button>
-        <ListItemText primary="5 Stars" secondary="You have earn 5 stars" />
+        <ListItemText primary="15 Points" secondary="You have earn 15 points" />
       </ListItem>
 
     </List>

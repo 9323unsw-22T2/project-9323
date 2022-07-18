@@ -185,14 +185,11 @@ export default function VerticalTabs() {
                 width: '40%',
               }}
             >
-              <List></List>
+            <List></List>
+
             </Box>
           </Box>
         </TabPanel>
-        <TabPanel value={value} index={1}>
-          Item Two
-        </TabPanel>
-
       </Box>
     </>
   );
