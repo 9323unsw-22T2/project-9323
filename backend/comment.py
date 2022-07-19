@@ -128,7 +128,7 @@ def comment_question(question_id):
     if c1 != []:
         res = {}
         
-        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,questionId,show from comments where questionId={question_id};"
+        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,questionId,show,isDeleted from comments where questionId={question_id};"
         
         num_of_que = cur.execute(f"SELECT count(questionId) FROM comments where questionId={question_id}").fetchall()[0][0]
         all_data = cur.execute(sql).fetchall()
@@ -141,7 +141,7 @@ def comment_question(question_id):
             timeUpdated = all_data[i][3]
             thumbUpBy = all_data[i][4]
             user=all_data[i][5]
-            show_=all_data[i][6]
+            show_=all_data[i][7]
             temp["id"] = id
             temp["content"] = content
             temp["timeCreated"] = timeCreated
@@ -149,6 +149,8 @@ def comment_question(question_id):
             temp["thumbUpBy"] = thumbUpBy
             temp["user"] = user
             temp["show"] = show_
+            temp['questionId']= all_data[i][6]
+            temp['isdeleted']=all_data[i][8]
             res[i] = temp
         
         # can get the last autoincrement data(for this table  is the id)        
@@ -159,7 +161,7 @@ def comment_question(question_id):
     else:
         print('error')
         con.close()
-        return make_response(jsonify({"error": "this article can not be found"})), 404
+        return make_response(jsonify({"error": "this question can not be found"})), 404
     
 
 
@@ -174,11 +176,12 @@ def comment_article(article_id):
     c1=cur.execute(f'SELECT 1 FROM articles WHERE articleId={article_id} LIMIT 1;').fetchall()
     if c1 != []:
         res = {}
-        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,articlesId,show from comments where articlesId={article_id};"
+        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,articlesId,show,isDeleted from comments where articlesId={article_id};"
         
-        num_of_que = cur.execute(f"SELECT count(articlesId) FROM comments where articlesId={article_id}").fetchall()[0][0]
+        num_of_art = cur.execute(f"SELECT count(articlesId) FROM comments where articlesId={article_id}").fetchall()[0][0]
         all_data = cur.execute(sql).fetchall()
-        for i in range(num_of_que):
+        print(all_data)
+        for i in range(num_of_art):
             temp = {}
         
             id = all_data[i][0]
@@ -187,7 +190,7 @@ def comment_article(article_id):
             timeUpdated = all_data[i][3]
             thumbUpBy = all_data[i][4]
             user=all_data[i][5]
-            show_=all_data[i][6]
+            show_=all_data[i][7]
             temp["id"] = id
             temp["content"] = content
             temp["timeCreated"] = timeCreated
@@ -195,6 +198,8 @@ def comment_article(article_id):
             temp["thumbUpBy"] = thumbUpBy
             temp["user"] = user
             temp["show"] = show_
+            temp["articlesid"]= all_data[i][6]
+            temp["isDeleted"]=all_data[i][8]
             res[i] = temp
             
         # can get the last autoincrement data(for this table  is the id)        
