@@ -91,7 +91,7 @@ export default function VerticalTabs() {
               </Avatar>
             }
             title="Shrimp and Chorizo Paella"
-            subheader="September 14, 2016"
+            subheader={new Date(data[0].time_created * 1000).toLocaleString()}
           />
         <Box sx={{ width: '95%', margin: 'auto' }}>
           <Stepper nonLinear activeStep={activeStep}>
@@ -106,7 +106,10 @@ export default function VerticalTabs() {
 
           </Stepper>
         </Box>
-
+        {data[activeStep].video &&
+        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+        <iframe width="560" height="315" src={data[activeStep].video.replace('https://youtu.be/', 'https://www.youtube.com/embed/')} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+        </div>}
         <Card sx={{ width: '95%', border: 'none', margin: 'auto', boxShadow: 'none', height: '32rem', overflow: 'scroll', mt: 3 }}>
 
           <CardMedia

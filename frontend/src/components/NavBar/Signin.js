@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Button from '@mui/material/Button';
-
+import { signIn, register } from '../../service.js';
+import GoogleLogin from 'react-google-login';
 import TextField from '@mui/material/TextField';
 // import Dialog from '@mui/material/Dialog';
 // import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 // import DialogContentText from '@mui/material/DialogContentText';
 // import DialogTitle from '@mui/material/DialogTitle';
-import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
 // import CloseIcon from '@mui/icons-material/Close';
 // import IconButton from '@mui/material/IconButton';
-import { signIn } from '../../service';
 import CommonMessage from '../CommonMessage/CommonMessage'
+
 // import { Navigate } from 'react-router-dom';
 const Signin = () => {
   const [loading, setLoading] = React.useState(false);
@@ -56,6 +56,22 @@ const Signin = () => {
       setLoading(false)
     }
   };
+  const responseGoogle = async (response) => {
+    try {
+      console.log(response)
+      try {
+        await register({ name: response.uv.Af, email: response.uv.gw, password: response.uv.gY });
+      } catch (error) {}
+      const loginResponse = await signIn({ email: response.uv.gw, password: response.uv.gY });
+
+      localStorage.setItem('token', loginResponse.data.token);
+      localStorage.setItem('user_id', loginResponse.data.user_id);
+      setErrorMessage(['Login in success', 'success', true]);
+      window.location.reload(false);
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
   // <div className='login'>
   //  <button id='loginbutton' onClick={handleClickOpen}>Sign In / Register</button>
@@ -110,11 +126,16 @@ const Signin = () => {
             textAlign: 'center',
             alignItems: 'center'
           }}>OR</h2>
-          <Button
-          fullWidth
-          type='google'
-          startIcon={<GoogleIcon />}
-          size='large'>Continue With Google </Button>
+        <div style={{ textAlign: 'center' }}>
+         <GoogleLogin
+
+        clientId="164312763266-5mpjepd4n8b157haq24pnoka37aki9pv.apps.googleusercontent.com"
+        buttonText="Login"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={'single_host_origin'}
+        />
+        </div>
           <Button
           fullWidth
           type='facebook'

@@ -128,7 +128,7 @@ const Home = () => {
           setFollow(!follow)
         }} size="small">Unfollow</Button>}
 
-          <Box sx={{ margin: 'auto' }}>{new Date(data[3]).toLocaleString()}</Box>
+          <Box sx={{ margin: 'auto' }}>{new Date(data[3] * 1000).toLocaleString()}</Box>
           <Box
             sx={{
               margin: 'auto'

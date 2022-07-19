@@ -55,12 +55,13 @@ def _article_title_create(data):
     reploy_ids = json.dumps(list())
     thumb_up_by = json.dumps(list())
     is_deleted = 0
+    video=data.get('video', None)
 
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
 
-    cur.execute("insert into articles values (?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?)",
-                [id, article_id, step_number, step_title, title, content, image, time_created, time_modified, author, reploy_ids, thumb_up_by, is_deleted])
+    cur.execute("insert into articles values (?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?)",
+                [id, article_id, step_number, step_title, title, content, image, time_created, time_modified, author, reploy_ids, thumb_up_by, is_deleted, video])
     id = cur.lastrowid
     con.commit()
     update_score(author)
@@ -82,12 +83,13 @@ def _article_page_create(data, article_id, step_number):
     reploy_ids = json.dumps(list())
     thumb_up_by = json.dumps(list())
     is_deleted = 0
+    video=None
 
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
 
-    cur.execute("insert into articles values (?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?)",
-                [id, article_id, step_number, step_title, title, content, image, time_created, time_modified, author, reploy_ids, thumb_up_by, is_deleted])
+    cur.execute("insert into articles values (?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?)",
+                [id, article_id, step_number, step_title, title, content, image, time_created, time_modified, author, reploy_ids, thumb_up_by, is_deleted, video])
     con.commit()
 
     return make_response(jsonify({"article_id": article_id})), 200
@@ -149,6 +151,7 @@ def _read_artical_row(row):
         "reploy_ids": json.loads(row[10]),
         "thumb_up_by": json.loads(row[11]),
         "is_deleted": row[12],
+        "video": row[13],
     }
     return ret
 

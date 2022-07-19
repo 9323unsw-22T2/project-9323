@@ -8,8 +8,8 @@ import StepButton from '@mui/material/StepButton';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { styled } from '@mui/material/styles';
-import styles from './App.module.css';
+/* import { styled } from '@mui/material/styles';
+ */import styles from './App.module.css';
 import { newGuide } from '../../service'
 import CommonMessage from '../CommonMessage/CommonMessage'
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +17,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, convertToRaw } from 'draft-js';
 const App = () => {
-  const [steps, setStep] = React.useState([{ step_title: 'Step1', content: EditorState.createEmpty(), finished: false }, { step_title: 'Step2', content: EditorState.createEmpty(), finished: false }, { step_title: 'Step3', content: EditorState.createEmpty(), finished: false }]);
+  const [steps, setStep] = React.useState([{ step_title: 'Step1', content: EditorState.createEmpty(), finished: false, video: '', }, { video: '', step_title: 'Step2', content: EditorState.createEmpty(), finished: false }, { step_title: 'Step3', content: EditorState.createEmpty(), finished: false, video: '', }]);
   const [activeStep, setActiveStep] = React.useState(0);
   const [errorMessage, setErrorMessage] = React.useState(['', 'error', false]);
   function setMessageStatus () {
@@ -40,6 +40,7 @@ const App = () => {
   const allStepsCompleted = () => {
     return completedSteps() === totalSteps();
   };
+  const [video, setVideo] = React.useState(null)
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const onEditorStateChange = (editorState) => { setEditorState(editorState) }
   const handleNext = () => {
@@ -47,7 +48,9 @@ const App = () => {
       isLastStep()
         ? activeStep
         : activeStep + 1;
+
     document.getElementById('step_title').value = steps[newActiveStep].step_title
+    setVideo(steps[activeStep + 1].video)
     setEditorState(steps[activeStep + 1].content ? steps[activeStep + 1].content : EditorState.createEmpty())
 
     setActiveStep(newActiveStep);
@@ -55,11 +58,11 @@ const App = () => {
   const handleBack = () => {
     document.getElementById('step_title').value = steps[activeStep].step_title
     setEditorState(steps[activeStep - 1].content ? steps[activeStep - 1].content : EditorState.createEmpty())
-
+    setVideo(steps[activeStep - 1].video)
     setActiveStep(activeStep - 1);
   }
   const handleNew = () => {
-    const list = [...steps.slice(0, activeStep + 1), { step_title: 'new step', content: EditorState.createEmpty(), finished: false }, ...steps.slice(activeStep + 1)]
+    const list = [...steps.slice(0, activeStep + 1), { step_title: 'new step', content: EditorState.createEmpty(), finished: false, video: '', }, ...steps.slice(activeStep + 1)]
     setStep(list)
   };
   const handleStep = (step) => () => {
@@ -82,7 +85,7 @@ const App = () => {
   const handleComplete = async () => {
     const newSteps = steps;
     if (!editorState || !document.getElementById('guide_title').value) { setErrorMessage(['Please fill in all fields', 'error', true]) } else {
-      newSteps[activeStep] = { step_title: document.getElementById('step_title').value, content: editorState, finished: true };
+      newSteps[activeStep] = { step_title: document.getElementById('step_title').value, content: editorState, finished: true, video };
       setStep(newSteps)
       if (allStepsCompleted()) {
         /* console.log(steps) */
@@ -103,9 +106,9 @@ const App = () => {
     }
   };
 
-  const Input = styled('input')({
+  /*   const Input = styled('input')({
     display: 'none',
-  });
+  }); */
   return (
 <Box sx={{ height: '100%', backgroundImage: 'url(https://cdn.dribbble.com/users/1362913/screenshots/4606447/media/781df62e1f36d160f60d855938b1e41d.png?compress=1&resize=800x600&vertical=top)' }}>
 {localStorage.getItem('token')
@@ -140,12 +143,15 @@ const App = () => {
               <Box sx={{ display: 'flex' }}>
               <h4 className={styles.guideh4} style={{ marginRight: '5rem' }}>{'Upload Video(optional)'}</h4>
               <label htmlFor="contained-button-file" style={{ margin: 'auto' }}>
-                <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                <Box>
-                <Button variant="contained" component="span">
+{/*                 <Input accept="image/*" id="contained-button-file" multiple type="file" />
+ */}                <Box>
+                <Button disabled variant="contained" component="span">
                   Upload
                 </Button>
-                <TextField rows={1} multiline sx={{ mb: 1, mt: 2, width: '100%' }} placeholder="Or input youtube video here..." />
+                <TextField onChange={(e) => {
+                  setVideo(e.target.value)
+                }
+                } value={video} rows={1} multiline sx={{ mb: 1, mt: 2, width: '100%' }} placeholder="Or input youtube video here..." />
                 </Box>
               </label>
               </Box>
