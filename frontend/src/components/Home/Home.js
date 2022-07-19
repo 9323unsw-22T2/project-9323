@@ -35,7 +35,6 @@ const Home = () => {
       }
     }, dep);
   }
-
   /*   React.useEffect(async (e) => {
     try {
       const response = await fetchDashboard({ });
@@ -89,7 +88,7 @@ const Home = () => {
           onMouseOver={(e) => { e.preventDefault(); setLoad(false) }} onMouseOut={useThrottle((e) => {
             e.preventDefault();
             setLoad(true)
-          })}sx={{ fontSize: '4rem', backgroundColor: 'rgba(60, 179, 113,0.5)', borderRadius: '2rem', '&:hover': { backgroundColor: 'rgba(60, 179, 113,0.8)' } }} color='success' variant="contained">Explore</Button>
+          }, 300)}sx={{ fontSize: '4rem', backgroundColor: 'rgba(60, 179, 113,0.5)', borderRadius: '2rem', '&:hover': { backgroundColor: 'rgba(60, 179, 113,0.8)' } }} color='success' variant="contained">Explore</Button>
         </div>
 
         </Box>

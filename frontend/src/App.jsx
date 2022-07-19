@@ -70,24 +70,26 @@ const App = () => {
   async function addLink (event) {
     event.preventDefault();
     if (localStorage.getItem('token')) {
-      console.log(event.clientX, event.clientY)
       const pagelink = '\n\n Original author at: ' + document.location.href;
       const copytext = window.getSelection() + pagelink;
-      console.log(copytext, window.clipboardData)
+      console.log(copytext, navigator.clipboard)
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(copytext).then(function () {
+          document.getElementById('copynotify').style.opacity = 1;
 
-      navigator.clipboard.writeText(copytext).then(function () {
-        document.getElementById('copynotify').style.opacity = 1;
-
-        if (timerRef.current) {
-          clearTimeout(timerRef.current);
-        }
-        timerRef.current = setTimeout(() => {
-          document.getElementById('copynotify').style.opacity = 0;
-        }, 500);
-        console.log('Async: Copying to clipboard was successful!');
-      }, function (err) {
-        window.alert('Async: Could not copy text: ', err);
-      });
+          if (timerRef.current) {
+            clearTimeout(timerRef.current);
+          }
+          timerRef.current = setTimeout(() => {
+            document.getElementById('copynotify').style.opacity = 0;
+          }, 500);
+          console.log('Async: Copying to clipboard was successful!');
+        }, function (err) {
+          window.alert('Async: Could not copy text: ', err);
+        });
+      } else {
+        window.alert('This website isn\'t https or localhost');
+      }
     } else {
       window.alert('Only login user can copy text');
     }
@@ -101,15 +103,15 @@ const App = () => {
       <Routes location={location} key={location.pathname}>
         <Route element={<AnimationLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/main" element={<MainPage />} />
-          <Route path="/question/:number" element={<Question />} />
-          <Route path="/newquestion" element={<NewQuestion />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/newguide" element={<NewGuide />} />
-          <Route path="/activity" element={<Activity />} />
-          <Route path="/expert" element={<Expert />} />
-          <Route path="/expertActivity" element={<ExpertActivity />} />
-          <Route path="/applyexpert" element={<ApplyExpert />} />
+          <Route path="/main" element={localStorage.getItem('token') ? <MainPage /> : <Home />} />
+          <Route path="/question/:number" element={ <Question /> } />
+          <Route path="/newquestion" element={localStorage.getItem('token') ? <NewQuestion /> : <Home />} />
+          <Route path="/profile" element={localStorage.getItem('token') ? <Profile /> : <Home />} />
+          <Route path="/newguide" element={localStorage.getItem('token') ? <NewGuide /> : <Home />} />
+          <Route path="/activity" element={localStorage.getItem('token') ? <Activity /> : <Home />} />
+          <Route path="/expert" element={localStorage.getItem('token') ? <Expert /> : <Home />} />
+          <Route path="/expertActivity" element={localStorage.getItem('token') ? <ExpertActivity /> : <Home />} />
+          <Route path="/applyexpert" element={localStorage.getItem('token') ? <ApplyExpert /> : <Home />} />
           <Route path="/guide/:number" element={<GuideDetail />} />
           <Route path="/help" element={<Help />} />
         </Route>

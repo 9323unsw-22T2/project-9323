@@ -40,7 +40,8 @@ cur.execute(
         author numeric, \
         replyIds text, \
         thumbUpBy text, \
-        isDeleted NOT NULL DEFAULT '0') \
+        isDeleted NOT NULL DEFAULT '0', \
+        video text) \
         ")
 cur.execute(
     "CREATE TABLE IF NOT EXISTS articles ( \

@@ -17,12 +17,11 @@ import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
 function Help () {
   const options = [
-    { value: 'How It Workesws For Renters', label: 'question1' },
-    { value: 'How It Workwes For comsumers', label: 'question2' },
-    { value: '「……というわけで、無事解決しましたっ!!」ヒ口をつけつつ、つまらなそうに顔を顰しかめ', label: 'ョン取っていいのか分からないのよね」「あ、す、すみません……」' },
-    { value: 'How It Workss wwFor Renters', label: 'Please condupective A is d' },
-    { value: 'How It Workssws For comsumers', label: 'Cras maac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.' },
-    { value: '「……というわけで、無事解決しましたカップに口をつけつつ', label: '「貴方あなたの話、『色々あって』とか、『なんやかんや』とか、『そんなこんな』とか、ン取っていいのか分からないのよね」「あ、す、すみません……」' }
+    { label: 'How do i create an account', value: 'Please conduct the Retrospective A meeting as soon as possible after Progressive Demo A.You need to be present at your Retrospective A meeting to receive a mark for this Retrospective A assessment item.The report for Retrospective A is d' },
+    { label: 'How do i create a post', value: 'Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.' },
+    { label: 'How do i comment on a post', value: 'Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.' },
+    { label: 'Where can i view replys from posts ive made', value: 'Please conduct the Retrospective A meeting as soon as possible after Progressive Demo A.You need to be present at your Retrospective A meeting to receive a mark for this Retrospective A assessment item.The report for Retrospective A is d' },
+    { label: 'How do i create a guide', value: 'Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.' },
   ]
   const [open, setOpen] = React.useState(false);
   const [popTitle, setPopTitle] = React.useState('this is a title');
@@ -40,7 +39,7 @@ function Help () {
   const sampleData = [
     { title: 'How do i create an account', description: 'Please conduct the Retrospective A meeting as soon as possible after Progressive Demo A.You need to be present at your Retrospective A meeting to receive a mark for this Retrospective A assessment item.The report for Retrospective A is d' },
     { title: 'How do i create a post', description: 'Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.' },
-    { title: 'How do i comment on a post' },
+    { title: 'How do i comment on a post', description: 'Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.' },
     { title: 'Where can i view replys from posts ive made', description: 'Please conduct the Retrospective A meeting as soon as possible after Progressive Demo A.You need to be present at your Retrospective A meeting to receive a mark for this Retrospective A assessment item.The report for Retrospective A is d' },
     { title: 'How do i create a guide', description: 'Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.' },
     { title: 'How do i view all posts related to guides', description: '「貴方あなたの話、『色々あって』とか、『なんやかんや』とか、『そんなこんな』とか、あらすじだけの映画レビュー見てるみたいで、どうリアクション取っていいのか分からないのよね」「あ、す、すみません……」' }

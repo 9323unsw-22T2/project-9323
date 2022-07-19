@@ -32,7 +32,7 @@ export default function RecipeReviewCard ({ data }) {
     if (thumbUp) { ThumbUp() }
     setThumbDown(!thumbDown)
   }
-  const [expanded, setExpanded] = React.useState({});
+  const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -58,7 +58,7 @@ export default function RecipeReviewCard ({ data }) {
           </IconButton>
         }
         title={data.user}
-        subheader={new Date(data.timeCreated).toLocaleString()}
+        subheader={new Date(data.timeCreated * 1000).toLocaleString()}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
