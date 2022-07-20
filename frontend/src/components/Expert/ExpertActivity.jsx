@@ -83,7 +83,7 @@ export default function VerticalTabs() {
       qes: 'I was working on leetcode problem 792. Number of Matching Subsequences, and one of the initial solutions I came up with was to create a list of ordered sets. Then we can determine if a word is a subsequence of string s by trying to find the ceiling of the next available character of string word using the current index we are in of s. If we can reach the end of word, it is then a subsequence, otherwise, it is not.',
       ans: '',
       photoURL: '',
-      score: 20,
+      score: 3,
       time: '2022/01/11 12:49:03'
     },
     {
@@ -91,7 +91,7 @@ export default function VerticalTabs() {
       qes: "I'm trying to build a project with vitis using the library xuartps.h but I can't because of this error code screenchot. I don't know why this happens. Could you help me please?",
       ans: '',
       photoURL: '',
-      score: 20,
+      score: 10,
       time: '2022/01/11 12:49:03'
     },
   ];
