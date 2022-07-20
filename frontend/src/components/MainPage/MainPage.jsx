@@ -12,6 +12,7 @@ import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Button, Menu } from '@mui/material';
 import GuideCard from '../GuideDetail/GuideCard'
 import List from './List'
+import { getNewsFeed } from '../../service'
 // eslint-disable-next-line space-before-function-paren
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,53 +55,15 @@ function a11yProps(index) {
 
 export default function VerticalTabs() {
   const [value, setValue] = React.useState(0);
-  const sampleData = [
-    {
-      id: '123',
-      photo: ['', '', ''],
-      location: 'George Street, Redfern New South Wales',
-      description:
-        'Redfern- Security Motorcycle Parking For Lease,Redfern- Security Motorcycle Parking For LeaseRedfern- Security Motorcycle Parking For Lease,Redfern- Security Motorcycle Parking For Lease                                                              Redfern- Security Motorcycle Parking For Lease,Redfern- Security Motorcycle Parking For LeaseRedfern- Security Motorcycle Parking For Lease,Redfern- Security Motorcycle Parking For Lease',
-      size: 'Van',
-      type: 'Undercover',
-      monthly: true,
-      hourly: true,
-      daily: true,
-      priceCurrent: 980,
-      electricCharing: true,
-    },
-    {
-      id: '123',
-      location:
-        'George Street, Redfern New South Wales,Redfern- Security Motorcycle Parking For Lease',
-      description: 'Redfern- Security Motorcycle Parking For Lease',
-      size: 'samoleedew',
-      type: 'Undercover',
-      monthly: true,
-      hourly: false,
-      daily: true,
-      priceMonth: 300,
-      priceDay: 20,
-      pricehour: null,
-      priceCurrent: 980,
-      electricCharing: true,
-    },
-    {
-      id: '123',
-      location: 'George Street, Redfern New South Wales',
-      description: 'Redfern- Security Motorcycle Parking For Lease',
-      size: 'Van',
-      type: 'Undercover',
-      monthly: true,
-      hourly: true,
-      daily: true,
-      priceCurrent: 980,
-      electricCharing: false,
-    },
-  ];
+  const [data, setData] = React.useState([]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  React.useEffect(async() => {
+    const response = await getNewsFeed(1)
+    setData(response.data)
+    console.log(response.data)
+  }, [])
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -203,13 +166,14 @@ export default function VerticalTabs() {
           </Menu>
           <Box sx={{ margin: 'auto', display: 'flex', opacity: '0.95' }}>
             <Box sx={{ width: '50%', margin: 'auto' }}>
-              {sampleData.map((e, i) => {
+              {typeof data === 'object' && Object.keys(data).map((e, i) => {
+                console.log(data[e])
                 return (
-                  e.hourly
+                  data[e].type !== 'article'
                     ? <SearchResultCard
                     key={'resultCard' + i}
-                    data={e}
-                  ></SearchResultCard> : <GuideCard key={'resultCard' + i}></GuideCard>
+                    data={data[e]}
+                  ></SearchResultCard> : <GuideCard key={'resultCard' + i} data={data[e]}></GuideCard>
                 );
               })}
             </Box>

@@ -15,7 +15,9 @@ function GoogleSignIn () {
     const password = claims.aud
     // console.log('password', password)
     // console.log(claims)
-    await register({ name: firstName, email, password });
+    try {
+      await register({ name: firstName, email, password });
+    } catch (error) {}
     const response = await signIn({ email, password })
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);

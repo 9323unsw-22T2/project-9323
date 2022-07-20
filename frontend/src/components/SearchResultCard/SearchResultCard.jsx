@@ -81,7 +81,7 @@ export default function ActionAreaCard({ data }) {
   }; */
   const commentUid = parseFloat(localStorage.getItem('commentUid')) + 1;
   const handleSubmit = () => {
-    fetch('comment/questions/' + number, {
+    fetch('comment/questions/' + number ? number : data.id, {
       method: 'POST',
       headers: {
         user_id: localStorage.getItem('user_id'),
@@ -121,7 +121,7 @@ export default function ActionAreaCard({ data }) {
                 textDecoration: 'underline',
               },
             }}
-            title={'How do i create a new team on microsoft teams'}
+            title={data.title}
           ></CardHeader>
           <CardContent
             sx={{ borderBottom: '1px solid #e6e5e6' }}
