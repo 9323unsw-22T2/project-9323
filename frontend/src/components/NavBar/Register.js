@@ -6,12 +6,12 @@ import TextField from '@mui/material/TextField';
 import DialogContent from '@mui/material/DialogContent';
 // import DialogContentText from '@mui/material/DialogContentText';
 // import DialogTitle from '@mui/material/DialogTitle';
-import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
 // import CloseIcon from '@mui/icons-material/Close';
 // import IconButton from '@mui/material/IconButton';
 import { register } from '../../service';
 import CommonMessage from '../CommonMessage/CommonMessage'
+import GoogleSignIn from './GoogleSignin';
 
 const Signin = () => {
   const [name, setName] = useState('');
@@ -97,11 +97,9 @@ const Signin = () => {
             textAlign: 'center',
             alignItems: 'center'
           }}>OR</h2>
-          <Button
-          fullWidth
-          type='google'
-          startIcon={<GoogleIcon />}
-          size='large'>Continue With Google </Button>
+        <div style={{ textAlign: 'center' }}>
+        <GoogleSignIn></GoogleSignIn>
+        </div>
           <Button
           fullWidth
           type='facebook'

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Button from '@mui/material/Button';
-import { signIn, register } from '../../service.js';
-import GoogleLogin from 'react-google-login';
+import { signIn } from '../../service.js';
 import TextField from '@mui/material/TextField';
+import GoogleSignIn from './GoogleSignin';
+
 // import Dialog from '@mui/material/Dialog';
 // import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -56,22 +57,6 @@ const Signin = () => {
       setLoading(false)
     }
   };
-  const responseGoogle = async (response) => {
-    try {
-      console.log(response)
-      try {
-        await register({ name: response.uv.Af, email: response.uv.gw, password: response.uv.gY });
-      } catch (error) {}
-      const loginResponse = await signIn({ email: response.uv.gw, password: response.uv.gY });
-
-      localStorage.setItem('token', loginResponse.data.token);
-      localStorage.setItem('user_id', loginResponse.data.user_id);
-      setErrorMessage(['Login in success', 'success', true]);
-      window.location.reload(false);
-    } catch (error) {
-      console.log(error)
-    }
-  }
   return (
   // <div className='login'>
   //  <button id='loginbutton' onClick={handleClickOpen}>Sign In / Register</button>
@@ -127,14 +112,8 @@ const Signin = () => {
             alignItems: 'center'
           }}>OR</h2>
         <div style={{ textAlign: 'center' }}>
-         <GoogleLogin
+        <GoogleSignIn></GoogleSignIn>
 
-        clientId="164312763266-5mpjepd4n8b157haq24pnoka37aki9pv.apps.googleusercontent.com"
-        buttonText="Login"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        cookiePolicy={'single_host_origin'}
-        />
         </div>
           <Button
           fullWidth

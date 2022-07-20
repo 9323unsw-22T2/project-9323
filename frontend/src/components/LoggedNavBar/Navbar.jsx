@@ -17,6 +17,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { logOut } from '../../service';
 import { useNavigate } from 'react-router-dom';
 import logo from './UNSW.png';
+import { googleLogout } from '@react-oauth/google';
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -169,6 +171,7 @@ const Navbar = () => {
           </MenuItem>
           <MenuItem sx={{ fontSize: '1.2rem' }} onClick={async (e) => {
             e.preventDefault()
+            googleLogout();
             try {
               await logOut({});
               localStorage.removeItem('token')
