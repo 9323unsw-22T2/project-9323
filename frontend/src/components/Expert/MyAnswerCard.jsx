@@ -98,35 +98,46 @@ export default function ActionAreaCard({ data }) {
             ></CardContent> : <></>
           }
           <Box className={styles.text1}>Your Answer:</Box>
-          <CardContent
-            sx={{ borderBottom: '1px solid #e6e5e6' }}
-            // eslint-disable-next-line react/no-children-prop
-            children={
-              <Box className={styles.ans}>
-                {isShowMore ? Ans.slice(0, 300) : Ans}
-                {Ans && Ans.length > 300 && (
-                  <Box
-                    onClick={toggleReadMore}
-                    sx={{
-                      cursor: 'pointer',
-                      fontSize: '14px',
-                      marginTop: '20px',
-                      marginBottom: '30px',
-                      textDecoration: 'underline',
-                    }}
-                  >
-                    {isShowMore ? 'Show more...' : 'Show less'}
-                  </Box>
-                )}
-                <button onClick={handleExpandClick} className={styles.btn1}> Edit</button>
-              </Box>
+          {(data.photoURL !== '')
+            ? <CardContent
+              sx={{ borderBottom: '1px solid #e6e5e6' }}
+              // eslint-disable-next-line react/no-children-prop
+              children={
+                <Box className={styles.ans}>
+                  {isShowMore ? Ans.slice(0, 300) : Ans}
+                  {Ans && Ans.length > 300 && (
+                    <Box
+                      onClick={toggleReadMore}
+                      sx={{
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                        marginTop: '20px',
+                        marginBottom: '30px',
+                        textDecoration: 'underline',
+                      }}
+                    >
+                      {isShowMore ? 'Show more...' : 'Show less'}
+                    </Box>
+                  )}
+                  <button onClick={handleExpandClick} className={styles.btn1}> Edit</button>
+                </Box>
+              }
+            ></CardContent> : <CardContent
+              sx={{ borderBottom: '1px solid #e6e5e6' }}
+              // eslint-disable-next-line react/no-children-prop
+              children={
+                <Box className={styles.ansN}>
+                  You have not yet answer this question
+                  <button onClick={handleExpandClick} className={styles.btn1}> Answer </button>
+                </Box>
+              }
+            ></CardContent>
             }
-          ></CardContent>
-        </Box>
+          </Box>
       </CardContent>
       <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto' }}>
         <Button size="small">Follow</Button>
-        <Box sx={{ margin: 'auto' }}>2022/02/31 19:49:03</Box>
+        <Box sx={{ margin: 'auto' }}>{data.time}</Box>
         <Box
           sx={{
             margin: 'auto',
@@ -134,7 +145,7 @@ export default function ActionAreaCard({ data }) {
             cursor: 'pointer',
           }}
         >
-          <span>$10 points </span>
+          <span>{data.score} Points </span>
         </Box>
         <Box sx={{ margin: 'auto' }}>
           <Button size="small" onClick={handleExpandClick}>Answer</Button>
