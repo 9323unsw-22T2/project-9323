@@ -30,3 +30,5 @@ export const getQuestionComments = (userId, token, number) =>
   axios.get(`${BASE_URL}/comment/questions/${number}`, { headers: { user_id: userId, token: token } });
 export const questionDetail = (userId, token, number) =>
   axios.get(`${BASE_URL}/questions/${number}`, { headers: { user_id: userId, token: token } });
+export const commentLike = (number, token, userId) =>
+  axios.patch(`${BASE_URL}/questions/${number}/thumb_up`, {}, { headers: { user_id: userId, token: token } });

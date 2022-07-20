@@ -16,17 +16,21 @@ import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
+import { commentLike } from '../../service'
+import { useParams } from 'react-router-dom';
 
 RecipeReviewCard.propTypes = {
   data: PropTypes.Object,
 }
 export default function RecipeReviewCard ({ data }) {
+  const { number } = useParams();
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
 
   const ThumbUp = (e) => {
     if (thumbDown) { ThumbDown() }
     setThumbUp(!thumbUp)
+    commentLike(number, localStorage.getItem('token'), localStorage.getItem('user_id'))
   }
   const ThumbDown = (e) => {
     if (thumbUp) { ThumbUp() }
