@@ -11,7 +11,7 @@ import CardHeader from '@mui/material/CardHeader';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState } from 'draft-js';
+import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import styles from './Expert.module.css';
 /* import Drawer from '@mui/material/Drawer';
 import Link from '@mui/material/Link';
@@ -31,6 +31,11 @@ export default function ActionAreaCard({ data }) {
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
+    setEditorState(
+      EditorState.createWithContent(
+        ContentState.createFromBlockArray(
+          convertFromHTML('<p>My initial content.</p>'))
+      ));
   };
   const text =
     "I've setup eslint & eslint-plugin-react When I run ESLint, the linter returns no-unused-vars errors for each React component. I'm assuming it's not recognizing that I'm using JSX or React syntax. Any ideas?";
@@ -134,6 +139,7 @@ export default function ActionAreaCard({ data }) {
             wrapperStyle={{ }}
             editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto' }}
             onEditorStateChange={onEditorStateChange}
+            editorContent='Gi'
           />
           <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained">Submit</Button>
         </CardContent>

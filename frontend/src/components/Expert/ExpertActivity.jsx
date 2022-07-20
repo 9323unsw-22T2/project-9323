@@ -17,7 +17,7 @@ function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div>
+    <div className={styles.vipbackground2}>
       <div
         className={styles.vipbackground}
         role="tabpanel"
@@ -123,6 +123,7 @@ export default function VerticalTabs() {
           bgcolor: 'background.paper',
           display: 'flex',
           height: '100%',
+          weight: '100%'
         }}
       >
         <Tabs

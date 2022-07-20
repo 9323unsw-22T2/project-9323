@@ -60,6 +60,9 @@
   background-position: center;
   background-size:cover;
 }
+.vipbackground2{
+  width: 100%;
+}
 
 .btn{
   display: flex;
