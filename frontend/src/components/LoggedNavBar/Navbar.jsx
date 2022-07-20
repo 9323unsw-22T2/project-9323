@@ -11,7 +11,7 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+// import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { logOut } from '../../service';
@@ -138,13 +138,13 @@ const Navbar = () => {
             <AccountBoxIcon></AccountBoxIcon>
             Profile
           </MenuItem>
-          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={(e) => {
+          {/* <MenuItem sx={{ fontSize: '1.2rem' }} onClick={(e) => {
             e.preventDefault()
             navigate('/activity')
           }}>
             <QuestionAnswerIcon></QuestionAnswerIcon>
             Activity
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem sx={{ fontSize: '1.2rem' }} onClick={(e) => {
             e.preventDefault()
             if (localStorage.getItem('expert') === null) {

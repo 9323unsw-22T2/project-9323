@@ -34,13 +34,13 @@ export default function ActionAreaCard({ data }) {
     setEditorState(
       EditorState.createWithContent(
         ContentState.createFromBlockArray(
-          convertFromHTML('<p>My initial content.</p>'))
+          convertFromHTML(Ans)
+        )
       ));
   };
-  const text =
-    "I've setup eslint & eslint-plugin-react When I run ESLint, the linter returns no-unused-vars errors for each React component. I'm assuming it's not recognizing that I'm using JSX or React syntax. Any ideas?";
-  const Ans = 'First, install the following module npm install --save-dev eslint-plugin-react. Then, in your .eslintrc.json, under extends, include the following plugin:\'extends\': [\'plugin:react/recommended\']';
-
+  const text = data.qes;
+  const Ans = data.ans;
+  const title = data.title;
   return (
     <Card
       sx={{
@@ -63,7 +63,7 @@ export default function ActionAreaCard({ data }) {
               fontWeight: 'bold',
               m: 1,
             }}
-            title={'ESLint with React gives `no-unused-vars` errors '}
+            title={title}
           ></CardHeader>
           <CardContent
             sx={{ borderBottom: '1px solid #e6e5e6' }}
@@ -86,6 +86,13 @@ export default function ActionAreaCard({ data }) {
                   </Box>
                 )}
               </Box>
+            }
+          ></CardContent>
+          <CardContent
+            sx={{ borderBottom: '1px solid #e6e5e6' }}
+            // eslint-disable-next-line react/no-children-prop
+            children={
+              <img src={data.photoURL} className={styles.cardImg} />
             }
           ></CardContent>
           <Box className={styles.text1}>Your Answer:</Box>

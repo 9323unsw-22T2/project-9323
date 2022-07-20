@@ -53,46 +53,23 @@ export default function VerticalTabs() {
   const [value, setValue] = React.useState(0);
   const sampleData = [
     {
-      id: '123',
+      title: 'ESLint with React gives `no-unused-vars` errors',
       photo: ['', '', ''],
-      location: 'George Street, Redfern New South Wales',
-      description:
-        'Redfern- Security Motorcycle Parking For Lease,Redfern- Security Motorcycle Parking For LeaseRedfern- Security Motorcycle Parking For Lease,Redfern- Security Motorcycle Parking For Lease                                                              Redfern- Security Motorcycle Parking For Lease,Redfern- Security Motorcycle Parking For LeaseRedfern- Security Motorcycle Parking For Lease,Redfern- Security Motorcycle Parking For Lease',
-      size: 'Van',
-      type: 'Undercover',
-      monthly: true,
-      hourly: true,
-      daily: true,
-      priceCurrent: 980,
-      electricCharing: true,
+      qes: "I've setup eslint & eslint-plugin-react When I run ESLint, the linter returns no-unused-vars errors for each React component. I'm assuming it's not recognizing that I'm using JSX or React syntax. Any ideas?",
+      ans: 'First, install the following module npm install --save-dev eslint-plugin-react. Then, in your .eslintrc.json, under extends, include the following plugin:\'extends\': [\'plugin:react/recommended\']',
+      photoURL: 'https://i.postimg.cc/xC7fp7LN/1.jpg'
     },
     {
-      id: '123',
-      location:
-        'George Street, Redfern New South Wales,Redfern- Security Motorcycle Parking For Lease',
-      description: 'Redfern- Security Motorcycle Parking For Lease',
-      size: 'samoleedew',
-      type: 'Undercover',
-      monthly: true,
-      hourly: false,
-      daily: true,
-      priceMonth: 300,
-      priceDay: 20,
-      pricehour: null,
-      priceCurrent: 980,
-      electricCharing: true,
+      title: 'Why is java var type variables not working?',
+      qes: 'I declared var type variable however the program throws compilation error. Can someone suggest the reason for this error?',
+      ans: 'The output from the java -version command you posted above indicates you are using Java 8. var was only introduced in to the language at java 10. If you want to use var you need to install a more recent version of Java - Java 10 or above. ',
+      photoURL: 'https://i.postimg.cc/BvP4Lprq/2.jpg'
     },
     {
-      id: '123',
-      location: 'George Street, Redfern New South Wales',
-      description: 'Redfern- Security Motorcycle Parking For Lease',
-      size: 'Van',
-      type: 'Undercover',
-      monthly: true,
-      hourly: true,
-      daily: true,
-      priceCurrent: 980,
-      electricCharing: false,
+      title: 'How can I fix this problem with bulding project at Vitis?',
+      qes: "I'm trying to build a project with vitis using the library xuartps.h but I can't because of this error code screenchot. I don't know why this happens. Could you help me please?",
+      ans: ' This is an include file. It gets literally copy-pasted on your sources. On top of that, the compiler could notify the error around the wrong line, but it could be before or after the one which is actually wrong. Check your sources that include such header, you must miss a semicolon there, or another typo. You should not look into the header.',
+      photoURL: ''
     },
   ];
   const handleChange = (event, newValue) => {
