@@ -88,13 +88,15 @@ export default function ActionAreaCard({ data }) {
               </Box>
             }
           ></CardContent>
-          <CardContent
-            sx={{ borderBottom: '1px solid #e6e5e6' }}
-            // eslint-disable-next-line react/no-children-prop
-            children={
-              <img src={data.photoURL} className={styles.cardImg} />
-            }
-          ></CardContent>
+          {(data.photoURL !== '')
+            ? <CardContent
+              sx={{ borderBottom: '1px solid #e6e5e6' }}
+              // eslint-disable-next-line react/no-children-prop
+              children={
+                <img src={data.photoURL} className={styles.cardImg} />
+              }
+            ></CardContent> : <></>
+          }
           <Box className={styles.text1}>Your Answer:</Box>
           <CardContent
             sx={{ borderBottom: '1px solid #e6e5e6' }}
