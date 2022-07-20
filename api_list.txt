@@ -463,7 +463,7 @@ curl --location --request PATCH '127.0.0.1:5000/comment/<int:comment_id>/thumb_u
 
 
 # un_thumb_up
-curl --location --request PATCH '127.0.0.1:5000/comment/articles/1/un_thumb_up' \
+curl --location --request PATCH '127.0.0.1:5000/comment/<int:comment_id>/un_thumb_up' \
 --header 'token: 614ed659-6d3f-41a4-bd67-7c135645da67' \
 --header 'user_id: 3' \
 --header 'Content-Type: application/json'
