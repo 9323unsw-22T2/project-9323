@@ -41,7 +41,7 @@ export default function ActionAreaCard({ data }) {
   const text = data.qes;
   const Ans = data.ans;
   const title = data.title;
-  if (Ans !== '') {
+  if (Ans === '') {
     return (
       <Card
         sx={{

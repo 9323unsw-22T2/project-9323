@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
 import MyAnswerCard from './MyAnswerCard';
+import MyQesCard from './MyQesCard';
 import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Button, Menu } from '@mui/material';
 import styles from './Expert.module.css';
@@ -77,6 +78,22 @@ export default function VerticalTabs() {
       score: 20,
       time: '2022/01/11 12:49:03'
     },
+    {
+      title: 'C++ set slower than Java TreeSet?',
+      qes: 'I was working on leetcode problem 792. Number of Matching Subsequences, and one of the initial solutions I came up with was to create a list of ordered sets. Then we can determine if a word is a subsequence of string s by trying to find the ceiling of the next available character of string word using the current index we are in of s. If we can reach the end of word, it is then a subsequence, otherwise, it is not.',
+      ans: '',
+      photoURL: '',
+      score: 3,
+      time: '2022/01/11 12:49:03'
+    },
+    {
+      title: 'How can I fix this problem with bulding project at Vitis?',
+      qes: "I'm trying to build a project with vitis using the library xuartps.h but I can't because of this error code screenchot. I don't know why this happens. Could you help me please?",
+      ans: '',
+      photoURL: '',
+      score: 10,
+      time: '2022/01/11 12:49:03'
+    },
   ];
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -118,12 +135,12 @@ export default function VerticalTabs() {
           sx={{
             borderRight: 1,
             borderColor: 'divider',
-            width: '12vw',
+            width: '15vw',
             minWidth: 'max-content',
           }}
         >
-          <Tab label="Expert Questions" {...a11yProps(0)} />
-
+          <Tab label="Answer History" {...a11yProps(0)} />
+          <Tab label="New Questions" {...a11yProps(1)} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <Button
@@ -149,9 +166,8 @@ export default function VerticalTabs() {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={handleClose}>Distance</MenuItem>
-            <MenuItem onClick={handleClose}>Price(high to low)</MenuItem>
-            <MenuItem onClick={handleClose}>Price(low to high)</MenuItem>
+            <MenuItem onClick={handleClose}>Time (new to old)</MenuItem>
+            <MenuItem onClick={handleClose}>Time (old to new)</MenuItem>
           </Menu>
           <Box sx={{ margin: 'auto', display: 'flex', opacity: '0.95' }}>
             <Box sx={{ width: '50%', margin: 'auto' }}>
@@ -161,6 +177,54 @@ export default function VerticalTabs() {
                     key={'resultCard' + i}
                     data={e}
                   ></MyAnswerCard>
+                );
+              })}
+            </Box>
+            <Box
+              sx={{
+                width: '40%',
+              }}
+            >
+            <List></List>
+
+            </Box>
+          </Box>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Button
+            id="basic-button"
+            aria-controls={open ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+            sx={{
+              margin: 'auto',
+              color: 'grey !important',
+              marginLeft: '1.5rem',
+            }}
+          >
+            <SortIcon></SortIcon>Sort
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+          >
+            <MenuItem onClick={handleClose}>Time (new to old)</MenuItem>
+            <MenuItem onClick={handleClose}>Time (old to new)</MenuItem>
+          </Menu>
+          <Box sx={{ margin: 'auto', display: 'flex', opacity: '0.95' }}>
+            <Box sx={{ width: '50%', margin: 'auto' }}>
+              {sampleData.map((e, i) => {
+                return (
+                  <MyQesCard
+                    key={'resultCard' + i}
+                    data={e}
+                  ></MyQesCard>
                 );
               })}
             </Box>

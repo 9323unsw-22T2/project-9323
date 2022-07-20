@@ -430,39 +430,16 @@ curl --location --request get '127.0.0.1:5000/comment/questions/<int:article_id>
     }
 }
  
- # delete comment for question
 
- curl --location --request DELETE '127.0.0.1:5000/comment/questions/<id:question_id>/delete' \
+ # delete comment 
+
+ curl --location --request DELETE '127.0.0.1:5000/comment/<id:comment_id>/delete' \
 --header 'token: 614ed659-6d3f-41a4-bd67-7c135645da67' \
 --header 'user_id: 3' \
 --header 'Content-Type: application/json' \
---data-raw '{
-    "content":"this is a comment for a article"
-}'
-# no such question
-{
-    "error": "No such question with question_id = 1"
-}
-# if the user is not the author for this comment
-{
-    "error": "you can not delete this, because this is not write by you"
-}
-# if correct
-
-"this question <int:question_id> has been deleted"
-
- # delete comment for article
-
- curl --location --request DELETE '127.0.0.1:5000/comment/articles/<id:article_id>/delete' \
---header 'token: 614ed659-6d3f-41a4-bd67-7c135645da67' \
---header 'user_id: 3' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "content":"this is a comment for a article"
-}'
 # no such article
 {
-    "error": "No such article with article_id = 1"
+    "error": "No such comment with comment_id = 1"
 }
 # if the user is not the author for this comment
 {
@@ -474,7 +451,7 @@ curl --location --request get '127.0.0.1:5000/comment/questions/<int:article_id>
 
 ### same for questions and articles
 # thump 
-curl --location --request PATCH '127.0.0.1:5000/comment/articles/1/thumb_up' \
+curl --location --request PATCH '127.0.0.1:5000/comment/<int:comment_id>/thumb_up' \
 --header 'token: 614ed659-6d3f-41a4-bd67-7c135645da67' \
 --header 'user_id: 3' \
 --header 'Content-Type: application/json'
@@ -486,7 +463,7 @@ curl --location --request PATCH '127.0.0.1:5000/comment/articles/1/thumb_up' \
 
 
 # un_thumb_up
-curl --location --request PATCH '127.0.0.1:5000/comment/articles/1/un_thumb_up' \
+curl --location --request PATCH '127.0.0.1:5000/comment/<int:comment_id>/un_thumb_up' \
 --header 'token: 614ed659-6d3f-41a4-bd67-7c135645da67' \
 --header 'user_id: 3' \
 --header 'Content-Type: application/json'
