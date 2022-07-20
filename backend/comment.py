@@ -302,7 +302,7 @@ def delete_comment(comment_id):
 def get_user_id_by_comment(comment_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
-    sql = f"SELECT articlesId from comments where id = {comment_id};"
+    sql = f"SELECT articlesId from comments where id = {comment_id} and articlesId is not null;"
     rows = cur.execute(sql).fetchall()
     if len(rows)==0:
         sql = f"SELECT questionId from comments where id = {comment_id};"
