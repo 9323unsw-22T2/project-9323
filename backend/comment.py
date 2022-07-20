@@ -232,6 +232,10 @@ def question_thumb_up_patch(comment_id):
 
     if user_id not in thumb_up_by:
         thumb_up_by.append(user_id)
+        # get the id of artucleid 
+        liked_user_id = get_user_id_by_comment(comment_id)
+        # add score for author
+        update_score(liked_user_id)
 
     thumb_up_by_string = json.dumps(thumb_up_by)
 
@@ -240,10 +244,7 @@ def question_thumb_up_patch(comment_id):
     cur.execute(sql)
     con.commit()
     con.close()
-    # get the id of artucleid 
-    liked_user_id = get_user_id_by_comment(comment_id)
-    # add score for author
-    update_score(liked_user_id)
+    
 
     return make_response(jsonify({"like by":user_id})),200
 
