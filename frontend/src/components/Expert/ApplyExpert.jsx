@@ -50,7 +50,9 @@ const App = () => {
 
   const handleComplete = async () => {
     const newSteps = steps;
-    if (!editorState || !document.getElementById('guide_title').value) { setErrorMessage(['Please fill in all fields', 'error', true]) } else {
+    if (!editorState || !document.getElementById('guide_title').value) {
+      setErrorMessage(['Please fill in all fields', 'error', true])
+    } else {
       newSteps[activeStep] = { step_title: document.getElementById('step_title').value, content: editorState, finished: true };
       setStep(newSteps)
       if (allStepsCompleted()) {

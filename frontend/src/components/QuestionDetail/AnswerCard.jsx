@@ -16,21 +16,28 @@ import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
+import { commentLike, commentDislike } from '../../service'
+import { useParams } from 'react-router-dom';
 
 RecipeReviewCard.propTypes = {
   data: PropTypes.Object,
 }
 export default function RecipeReviewCard ({ data }) {
+  const { number } = useParams();
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
 
   const ThumbUp = (e) => {
     if (thumbDown) { ThumbDown() }
     setThumbUp(!thumbUp)
+    commentLike(number, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    window.location.reload(false);
   }
   const ThumbDown = (e) => {
     if (thumbUp) { ThumbUp() }
     setThumbDown(!thumbDown)
+    commentDislike(number, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    window.location.reload(false);
   }
   const [expanded, setExpanded] = React.useState(false);
 
@@ -42,7 +49,6 @@ export default function RecipeReviewCard ({ data }) {
   function handleChange (content, editor) {
     setContent({ content });
   }
-
   return (
     <>
     <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={`comments${data.id}`}>
@@ -69,6 +75,7 @@ export default function RecipeReviewCard ({ data }) {
           width: 'max-content',
           float: 'right'
         }}>
+          <Typography> {data?.thumbUpBy?.length} Thumbs up </Typography>
         <IconButton aria-label="Thumb up" onClick={ThumbUp} sx={{ color: thumbUp ? 'blue' : '' }}>
           <ThumbUpIcon />
         </IconButton>

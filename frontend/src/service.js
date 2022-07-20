@@ -32,3 +32,8 @@ export const questionDetail = (userId, token, number) =>
   axios.get(`${BASE_URL}/questions/${number}`, { headers: { user_id: userId, token: token } });
 export const getNewsFeed = (number) =>
   axios.post(`${BASE_URL}/newsfeed/random_list_10/${number}`);
+
+export const commentLike = (number, token, userId) =>
+  axios.patch(`${BASE_URL}/comment/${number}/thumb_up`, {}, { headers: { user_id: userId, token: token } });
+export const commentDislike = (number, token, userId) =>
+  axios.patch(`${BASE_URL}/comment/${number}/un_thumb_up`, {}, { headers: { user_id: userId, token: token } });

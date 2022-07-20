@@ -162,7 +162,9 @@ export default function ActionAreaCard({ data }) {
               onEditorStateChange={onEditorStateChange}
               editorContent='Gi'
             />
-            <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained">Submit</Button>
+            <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={() => {
+              console.log(localStorage.getItem('data')[0])
+            }} >Submit</Button>
           </CardContent>
         </Collapse>
       </Card>
