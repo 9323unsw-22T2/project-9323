@@ -213,89 +213,18 @@ def comment_article(article_id):
     
     return make_response(jsonify(res)),200
 
-
-# add thumbp by
-@comment_page.route('/comment/articles/<int:article_id>/thumb_up', methods=['PATCH'])
-@authenticated
-def article_thumb_up_patch(article_id):
-    con = sqlite3.connect(DATABASE_NAME)
-    cur = con.cursor()
-
-    sql = "SELECT * from comments where articlesId = '{}' and isDeleted != '1'".format(
-        article_id)
-    rows = cur.execute(sql).fetchall()
-    if len(rows) == 0:
-        return make_response(jsonify({"error": "No such article with article_id = {}".format(article_id)})), 400
-
-    user_id = get_user_id_from_header()
-
-    thumb_up_by = json.loads(rows[0][7])
-
-    if user_id not in thumb_up_by:
-        thumb_up_by.append(user_id)
-
-    thumb_up_by_string = json.dumps(thumb_up_by)
-
-    sql = "UPDATE comments SET thumbUpBy = '{}' where articlesId = '{}' and isDeleted != '1';".format(
-        thumb_up_by_string, article_id)
-
-    cur.execute(sql)
-    con.commit()
-    con.close()
-    # get the id of artucleid 
-    liked_user_id = get_user_id_by_article(article_id)
-    # add score for author
-    update_score(liked_user_id)
-
-    return make_response(jsonify({"like by":user_id})),200
-
-
-# delete user_id from the thumbup list if existed
-@comment_page.route('/comment/articles/<int:article_id>/un_thumb_up', methods=['PATCH'])
-@authenticated
-def article_un_thumb_up_patch(article_id):
-    con = sqlite3.connect(DATABASE_NAME)
-    cur = con.cursor()
-
-    sql = "SELECT * from comments where id = '{}' and isDeleted != '1'".format(
-        article_id)
-    rows = cur.execute(sql).fetchall()
-    # print(rows)
-    if len(rows) == 0:
-        return make_response(jsonify({"error": "No such article with article_id = {}".format(article_id)})), 400
-
-    # get user for now
-    user_id = get_user_id_from_header()
-
-    thumb_up_by = json.loads(rows[0][7])
-    # print(thumb_up_by," ", user_id)
-    if user_id in thumb_up_by:
-        thumb_up_by.remove(user_id)
-    # print(thumb_up_by)
-    thumb_up_by_string = json.dumps(thumb_up_by)
-
-    sql = "UPDATE comments SET thumbUpBy = '{}' where articlesId = '{}' and isDeleted != '1';".format(
-        thumb_up_by_string, article_id)
-
-    cur.execute(sql)
-    con.commit()
-    con.close()
-    return make_response(jsonify({"unlike by":user_id})),200
-
-
 ####################################################################################################################
-# add thumbp by for question
-@comment_page.route('/comment/questions/<int:question_id>/thumb_up', methods=['PATCH'])
+# add thumbp
+@comment_page.route('/comment/<int:comment_id>/thumb_up', methods=['PATCH'])
 @authenticated
-def question_thumb_up_patch(question_id):
+def question_thumb_up_patch(comment_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
 
-    sql = "SELECT * from comments where questionId = '{}' and isDeleted != '1'".format(
-        question_id)
+    sql = f"SELECT * from comments where id = '{comment_id}' and isDeleted != '1';"
     rows = cur.execute(sql).fetchall()
     if len(rows) == 0:
-        return make_response(jsonify({"error": "No such question with question_id = {}".format(question_id)})), 400
+        return make_response(jsonify({"error": f"No such comment with comment_id = {comment_id}"})), 400
 
     user_id = get_user_id_from_header()
 
@@ -306,32 +235,30 @@ def question_thumb_up_patch(question_id):
 
     thumb_up_by_string = json.dumps(thumb_up_by)
 
-    sql = "UPDATE comments SET thumbUpBy = '{}' where questionId = '{}' and isDeleted != '1';".format(
-        thumb_up_by_string, question_id)
+    sql = f"UPDATE comments SET thumbUpBy = '{thumb_up_by_string}' where id = '{comment_id}' and isDeleted != '1';"
 
     cur.execute(sql)
     con.commit()
     con.close()
     # get the id of artucleid 
-    liked_user_id = get_user_id_by_question(question_id)
+    liked_user_id = get_user_id_by_comment(comment_id)
     # add score for author
     update_score(liked_user_id)
 
     return make_response(jsonify({"like by":user_id})),200
 
 # delete user_id from the thumbup list if existed
-@comment_page.route('/comment/questions/<int:question_id>/un_thumb_up', methods=['PATCH'])
+@comment_page.route('/comment/<int:comment_id>/un_thumb_up', methods=['PATCH'])
 @authenticated
-def question_un_thumb_up_patch(question_id):
+def question_un_thumb_up_patch(comment_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
 
-    sql = "SELECT * from comments where id = '{}' and isDeleted != '1'".format(
-        question_id)
+    sql = f"SELECT * from comments where id='{comment_id}'and isDeleted != '1'"
     rows = cur.execute(sql).fetchall()
     # print(rows)
     if len(rows) == 0:
-        return make_response(jsonify({"error": "No such question with question_id = {}".format(question_id)})), 400
+        return make_response(jsonify({"error": f"No such comment with id = {comment_id}"})), 400
 
     # get user for now
     user_id = get_user_id_from_header()
@@ -343,70 +270,50 @@ def question_un_thumb_up_patch(question_id):
     # print(thumb_up_by)
     thumb_up_by_string = json.dumps(thumb_up_by)
 
-    sql = "UPDATE comments SET thumbUpBy = '{}' where questionId = '{}' and isDeleted != '1';".format(
-        thumb_up_by_string, question_id)
+    sql = f"UPDATE comments SET thumbUpBy = '{thumb_up_by_string}' where id={comment_id} and isDeleted != 1;"
 
     cur.execute(sql)
     con.commit()
     con.close()
-    return make_response(jsonify({"unlike by":user_id})),200
+    return make_response(jsonify({f"this comment {comment_id} unlike by":user_id})),200
 
-@comment_page.route("/comment/articles/<int:article_id>/delete",methods=["DELETE"])
+@comment_page.route("/comment/<int:comment_id>/delete",methods=["DELETE"])
 @authenticated
-def delete_artilces_comment(article_id):
-    # 有没有这个问题， isdelete是否为0
-    sql=f"select articlesId,author from comments where articlesId='{article_id}' and isDeleted == 0"
+def delete_comment(comment_id):
+    sql=f"select id,author from comments where id='{comment_id}' and isDeleted == 0 "
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     rows = cur.execute(sql).fetchall()
 
     if len(rows) == 0:
-        return make_response(jsonify({"error": "No such article with article_id = {}".format(article_id)})), 400
+        return make_response(jsonify({"error": "No such comment = {}".format(comment_id)})), 400
     
     user_id = get_user_id_from_header()
-    comment_art_id = rows[0][1]
-    if user_id != comment_art_id:
+    comment_auth_id = rows[0][1]
+    if user_id != comment_auth_id:
         return make_response(jsonify({"error":"you can not delete this, because this is not write by you"})), 400
-    sql = f"UPDATE comments SET isDeleted = '{1}' where articlesId = '{article_id}';"
+    sql = f"UPDATE comments SET isDeleted = 1 where id = '{comment_id}';"
     cur.execute(sql)
     con.commit()
-    return make_response(jsonify(f"this article {article_id} has been deleted")), 200
+    return make_response(jsonify(f"this comment {comment_id} has been deleted")), 200
 
-@comment_page.route("/comment/questions/<int:question_id>/delete",methods=["DELETE"])
-@authenticated
-def delete_question_comment(question_id):
-    sql=f"select questionId,author from comments where questionId='{question_id}' and isDeleted == 0"
+
+def get_user_id_by_comment(comment_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
+    sql = f"SELECT articlesId from comments where id = {comment_id};"
     rows = cur.execute(sql).fetchall()
-
-    if len(rows) == 0:
-        return make_response(jsonify({"error": "No such question with question_id = {}".format(question_id)})), 400
-    
-    user_id = get_user_id_from_header()
-    comment_art_id = rows[0][1]
-    if user_id != comment_art_id:
-        return make_response(jsonify({"error":"you can not delete this, because this is not write by you"})), 400
-    sql = f"UPDATE comments SET isDeleted = '{1}' where questionId = '{question_id}';"
-    cur.execute(sql)
-    con.commit()
-    return make_response(jsonify(f"this question {question_id} has been deleted")), 200
-
-
-def get_user_id_by_article(article_id):
-    con = sqlite3.connect(DATABASE_NAME)
-    cur = con.cursor()
-    sql = "SELECT author from articles where id = {} ".format(article_id)
-    rows = cur.execute(sql).fetchall()
-    user_id = rows[0][0]
-    con.close()
-    return user_id
-
-def get_user_id_by_question(question_id):
-    con = sqlite3.connect(DATABASE_NAME)
-    cur = con.cursor()
-    sql = "SELECT author from questions where id = {} ".format(question_id)
-    rows = cur.execute(sql).fetchall()
-    user_id = rows[0][0]
+    if len(rows)==0:
+        sql = f"SELECT questionId from comments where id = {comment_id};"
+        rows = cur.execute(sql).fetchall()
+        question_id = rows[0][0]
+        sql2=f"SELECT author from questions where id = {question_id};"
+        rows2 = cur.execute(sql2).fetchall()
+        user_id = rows2[0][0]
+        return user_id
+    article_id = rows[0][0]
+    sql2=f"SELECT author from articles where articleId = {article_id};"
+    rows2 = cur.execute(sql2).fetchall()
+    user_id = rows2[0][0]
     con.close()
     return user_id
