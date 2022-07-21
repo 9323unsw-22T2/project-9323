@@ -36,19 +36,19 @@ def _question_title_create(data):
     # step_title = data.get('step_title', None)
     title = data.get('title', None)
     content = data.get('content', None)
-    # image = None
+    image = data.get('image', None)
     time_created = get_unix_time()
     time_modified = get_unix_time()
     author = get_user_id_from_header()
     reploy_ids = json.dumps(list())
     thumb_up_by = json.dumps(list())
     is_deleted = 0
-
+    video=data.get('video', None)
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
 
-    cur.execute("insert into questions values (?, ?, ?, ?, ?, ?, ?, ?, ? )",
-                [id, title, content, time_created, time_modified, author, reploy_ids, thumb_up_by, is_deleted])
+    cur.execute("insert into questions values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )",
+                [id, title, content,time_created, time_modified, author, reploy_ids, thumb_up_by, is_deleted,image,video])
     id = cur.lastrowid
     con.commit()
     update_score(author)
@@ -106,6 +106,18 @@ def question_get_by_id(question_id):
     ret['question'] = rows[0]
     return make_response(jsonify(ret)), 200
 
+@question_page.route('/questions_like/<int:user_id>', methods=['GET'])
+@authenticated
+def get_user_like_questions(user_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    ret = dict()
+    sql = "SELECT likeArticles from users where id = '{}'".format(user_id)
+    rows = cur.execute(sql).fetchall()
+    if len(rows) == 0:
+        return make_response(jsonify({"error": "Question not found with question_id = {}".format(question_id)})), 400
+    ret['articles_like'] = rows[0]
+    return make_response(jsonify(ret)), 200
 
 # allow user to like a question.
 @question_page.route('/questions/<int:question_id>/like', methods=['PATCH'])
@@ -136,6 +148,20 @@ def question_like_patch(question_id):
 
     cur.execute(sql)
     con.commit()
+
+    sql = "SELECT likeQuestions from users where id = '{}'".format(user_id)
+    rows = cur.execute(sql).fetchall()
+    user_like_quesitons = json.loads(rows[0][0])
+    if question_id in user_like_quesitons:
+        pass
+    else:
+        user_like_quesitons.append(question_id)
+
+    sql = "UPDATE users SET likeQuestions = '{}' where id = '{}';".format(
+        json.dumps(user_like_quesitons), user_id)
+    cur.execute(sql)
+    con.commit()
+
     liked_user_id = get_user_id_by_question(question_id)
     update_score(liked_user_id)
     return question_get_by_id(question_id)
@@ -170,6 +196,19 @@ def question_dislike_patch(question_id):
     cur.execute(sql)
     con.commit()
 
+    sql = "SELECT likeQuestions from users where id = '{}'".format(user_id)
+    rows = cur.execute(sql).fetchall()
+    user_like_quesitons = json.loads(rows[0][0])
+    if question_id in user_like_quesitons:
+        user_like_quesitons.remove(question_id)
+    else:
+        pass
+
+    sql = "UPDATE users SET likeQuestions = '{}' where id = '{}';".format(
+        json.dumps(user_like_quesitons), user_id)
+    cur.execute(sql)
+    con.commit()
+    
     return question_get_by_id(question_id)
 
 # ping    
