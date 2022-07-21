@@ -21,6 +21,8 @@ import { useNavigate } from 'react-router-dom';
 import CommentIcon from '@mui/icons-material/Comment';
 import SharePopup from '../SharePopup/SharePopup'
 import GuideAnswerCard from '../GuideDetail/GuideAnswerCard'
+import PropTypes from 'prop-types';
+
 // import { newArticleComment } from '../../service';
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -32,7 +34,10 @@ const ExpandMore = styled((props) => {
     duration: theme.transitions.duration.shortest,
   }),
 }));
-export default function RecipeReviewCard () {
+RecipeReviewCard.propTypes = {
+  data: PropTypes.object,
+};
+export default function RecipeReviewCard ({ data }) {
   const [expanded, setExpanded] = React.useState(false);
   const [commentExpanded, setCommentExpanded] = React.useState(false);
   const [social, setSocial] = React.useState(false);
@@ -86,15 +91,15 @@ export default function RecipeReviewCard () {
             <MoreVertIcon />
           </IconButton>
         }
-        title="RemoteWorker98"
-        subheader="September 14, 2016"
+        title={data.author}
+        subheader={new Date(data.timeCreated * 1000).toLocaleString()}
       />
 
       <CardActionArea sx={{ cursor: 'pointer' }} onClick={() => {
         navigate('/guide/1')
       }}>
       <Typography variant="h5">
-          How to create a channel in a micosoft teams team.
+          {data.title}
       </Typography>
       <CardMedia
         component="img"

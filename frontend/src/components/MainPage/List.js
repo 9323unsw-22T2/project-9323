@@ -12,6 +12,7 @@ const style = {
   maxWidth: 360,
   bgcolor: 'background.paper',
   borderRadius: 3,
+  float: 'right'
 };
 
 export default function ListDividers () {
