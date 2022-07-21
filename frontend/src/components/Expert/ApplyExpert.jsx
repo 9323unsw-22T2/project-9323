@@ -6,12 +6,10 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 import styles from './Expert.module.css';
-import { newGuide } from '../../service'
 import CommonMessage from '../CommonMessage/CommonMessage'
-import { useNavigate } from 'react-router-dom';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState } from 'draft-js';
 import 'react-dropdown/style.css';
 
 import PopupWin from '../popup/PopupWin';
@@ -22,10 +20,10 @@ const App = () => {
   const [errorMessage, setErrorMessage] = React.useState(['', 'error', false]);
 
   const [errorPopup, setErrorPopup] = React.useState(false);
+
   function setMessageStatus () {
     setErrorMessage(['', 'error', false])
   }
-  const navigate = useNavigate();
 
   const totalSteps = () => {
     return steps.length;
@@ -53,28 +51,19 @@ const App = () => {
     if (!editorState || !document.getElementById('guide_title').value) {
       setErrorMessage(['Please fill in all fields', 'error', true])
     } else {
-      newSteps[activeStep] = { step_title: document.getElementById('step_title').value, content: editorState, finished: true };
+      try {
+        newSteps[activeStep] = { step_title: document.getElementById('step_title').value, content: editorState, finished: true };
+      } catch {
+        setErrorPopup(true)
+        localStorage.setItem('expert', true);
+      }
       setStep(newSteps)
       if (allStepsCompleted()) {
         /* console.log(steps) */
-
-        Object.keys(steps).forEach((ele) => { steps[ele].title = document.getElementById('guide_title').value })
-        Object.keys(steps).forEach((ele) => { steps[ele].content = convertToRaw(steps[ele].content.getCurrentContent()) })
-        /* console.log(steps) */
-
-        if (!(localStorage.getItem('token'))) { window.alert('Please log in first') } else {
-          try {
-            const response = await newGuide(Object.assign({}, steps), localStorage.getItem('token'), localStorage.getItem('user_id'))
-            navigate(`/guide/${response.data.article_id}`)
-          } catch (error) {
-            setErrorMessage(['network error', 'error', true])
-          }
-        }
+        setErrorPopup(true)
+        localStorage.setItem('expert', true);
       }
     }
-
-    setErrorPopup(true)
-    localStorage.setItem('expert', true);
   };
 
   const Input = styled('input')({
