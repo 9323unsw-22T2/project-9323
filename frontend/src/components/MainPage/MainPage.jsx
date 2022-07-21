@@ -18,9 +18,11 @@ function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div>
+    <div >
       <div
         style={{
+          width: '86vw',
+          minHeight: '100%',
           // backgroundColor: 'rgb(118, 118, 118, 0.1)',
           backgroundImage: 'url(https://cdn.dribbble.com/users/782052/screenshots/10927554/media/e961df046013321feb28cf99b7fc7800.jpg)'
         }}
@@ -88,7 +90,7 @@ export default function VerticalTabs() {
           flexGrow: 1,
           bgcolor: 'background.paper',
           display: 'flex',
-          height: '100%',
+          height: '89%',
         }}
       >
         <Tabs

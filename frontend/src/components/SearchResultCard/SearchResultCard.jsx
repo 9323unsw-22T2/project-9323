@@ -16,6 +16,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import Checkbox from '@mui/material/Checkbox';
 import Input from '@mui/material/TextField';
+import { newQuestionComment } from '../../service';
 
 /* import Drawer from '@mui/material/Drawer';
 import Link from '@mui/material/Link';
@@ -76,21 +77,11 @@ export default function ActionAreaCard({ data }) {
       </Box>
     );
   }; */
-  const commentUid = parseFloat(localStorage.getItem('commentUid')) + 1;
-  const handleSubmit = () => {
-    fetch('comment/questions/' + data.id, {
-      method: 'POST',
-      headers: {
-        user_id: localStorage.getItem('user_id'),
-        token: localStorage.getItem('token'),
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        comment_content: editorState.getCurrentContent().getPlainText('\u0001'),
-        comment_id: commentUid,
-      })
-    })
-    setEditorState('')
+  const handleSubmit = async () => {
+    const temp = editorState.getCurrentContent().getPlainText('\u0001')
+    console.log(temp)
+    await newQuestionComment({ content: temp }, localStorage.getItem('token'), localStorage.getItem('user_id'), data.id)
+    setEditorState(EditorState.createEmpty())
   }
   return (
     <Card
