@@ -1,6 +1,3 @@
-from array import typecodes
-from ctypes.wintypes import MAX_PATH
-from sys import maxunicode
 from config import *
 from flask import Blueprint, request, make_response, jsonify
 from flask_cors import CORS
@@ -16,7 +13,8 @@ def generate_all_dit(seed):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     question_num = cur.execute("select count(id) from questions;").fetchall()[0][0]
-    article_num = cur.execute("select count(id) from articles;").fetchall()[0][0]
+    article_num = cur.execute("select count(id) from articles where articleId is null;").fetchall()[0][0]
+    # print(article_num)
     con.close()
     # max page, and max_num
     max_num = question_num+article_num
@@ -48,7 +46,7 @@ def generate_all_dit(seed):
     
     
 
-    
+    # print(que_or_art)
     con.close()
     # print("def", max_page, max_num)
     return max_page, max_num, que_or_art,question_random,article_random
@@ -100,9 +98,38 @@ def newsfeed_random(page):
             # print("page ", page,'art id',que_or_art[:_].count(1))
             t = que_or_art[:i].count(1)
             art_id = article_random[t-1]
-            content_art = get_article(art_id)[0]
+            art_all_id = get_all_artilce_id()
+            content_art = get_article(art_all_id[art_id-1])
+            len_step=len(content_art)
+            # print("changdu !!!",content_art)
+            # artilce_id = content_art[0][0]
+            # author = content_art[0][9]
+            # # title is 4
+            # title = content_art[0][4]
+            # timeCreated = content_art[0][7]
+            # timeUpdated = content_art[0][8]
+            # thumbUpBy = content_art[0][11]
+            # isDeleted = content_art[0][12]
+
             for _ in range(len(col_art)):
-                temp[col_art[_]] = content_art[_]
+                temp[col_art[_]] = content_art[0][_]
+            t_list = []
+            
+            for j in range(len_step):
+                tm = {}
+                for _ in range(len(col_art)):
+                    tm[col_art[_]] = content_art[j][_]
+                t_list.append(tm)
+            temp["each_step"] = t_list
+            # for _ in range(len(col_art)):
+                
+                
+                # t_list=[]
+                # tem_step={}
+                # for j in range(len_step):
+                #     t_list.append(content_art[j])
+                #     # print("step",j, t_list)
+                # temp[col_art[_]] = content_art[_]
         # print(temp)
         result[i] = temp
     # print(result)    
@@ -124,22 +151,30 @@ def get_qeustion(id):
     # sql = f"select id,title,content,timeCreated,timeUpdated,author,thumbUpby,isDeleted from questions where id = {id};"
     sql = f"select * from questions where id = {id};"
     res = cur.execute(sql).fetchall()
-    print(res)
+    # print(res)
     return res
-def question_type():
-    type_c =["id","title","content","timeCreated","timeUpdated","author","thumbUpby","isDeleted"]
-    return type_c
-
-def get_article(id):
+def get_all_artilce_id():
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     # sql = f"select id,articleId,stepTitle,content,image,timeCreated,timeUpdated,author,thumbUpby,isDeleted,video from articles where id = {id};"
-    sql = f"select * from articles where id = {id};"
+    sql = f"select articleId from articles where articleId is not null;"
     res = cur.execute(sql).fetchall()
+    res = set(res)
+    temp =[]
+    for i in res:
+        temp.append(i[0])
+    res = temp
+    # print("all articles id", res)
     return res
-def article_type():
-    type_c = ["id","articleId","stepTitle","content","image","timeCreated","timeUpdated","author","thumbUpby","isDeleted","video"]
-    return type_c
+
+def get_article(article_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    # sql = f"select id,articleId,stepTitle,content,image,timeCreated,timeUpdated,author,thumbUpby,isDeleted,video from articles where id = {id};"
+    sql = f"select * from articles where articleId = {article_id} or (articleId is Null and id = {article_id});"
+    res = cur.execute(sql).fetchall()
+    # print("get !!! article : ","article_id is ",article_id,res)
+    return res
 
 def get_table_column(table_name):
     con = sqlite3.connect(DATABASE_NAME)

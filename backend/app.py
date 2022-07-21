@@ -70,7 +70,9 @@ cur.execute(
         author numeric, \
         thumbUpBy text, \
         isDeleted NOT NULL DEFAULT '0',\
-        show NOT NULL DEFAULT '0') \
+        score numeric,\
+        userPaied text,\
+        image text)\
         ")
 
 app = Flask(__name__)

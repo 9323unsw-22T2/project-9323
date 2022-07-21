@@ -11,7 +11,7 @@ CORS(comment_page)
 con = sqlite3.connect(DATABASE_NAME)
 cur = con.cursor()
 
-def update_score(user_id):
+def update_score(user_id,sco):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
 
@@ -21,7 +21,7 @@ def update_score(user_id):
 
     rows = cur.execute(sql).fetchall()
     score = int(rows[0][0])
-    score+=1
+    score+=sco
     sql = "UPDATE users SET scores = {} where id = {} or token = '{}'".format(
          score,user_id,user_id)
     cur.execute(sql)
@@ -42,20 +42,25 @@ def comment_question_add(question_id):
         timeCreated=get_unix_time()
         timeUpdated=timeCreated
         thumbUpBy=json.dumps(list()) # user id starts from 1?
+        userPaied=json.dumps(list())
         is_deleted=0
         #############for regular################
         data = request.get_json()
         content = data.get('content', None)
         userID = get_user_id_from_header()
-        update_score(userID)
-        show=1
-        ###########user for post man############
-        # content = 'aaa'
-        # userID=2          
+        update_score(userID,1)
+        score = 0
+        image = data.get('image',None)
+    
+
+        # check whether the user is expert 
+        if get_isExpert(userID):
+            score = data.get('score', None)
+        
         ###########user for post man############
         # just create an comment not edit
-        cur.execute(f"insert into comments values(?,?,?,?,?,?,?,?,?,?)",
-                    [id, question_id, articleId, content,timeCreated, timeUpdated, userID, thumbUpBy, is_deleted, show ])
+        cur.execute(f"insert into comments values(?,?,?,?,?,?,?,?,?,?,?)",
+                    [id, question_id, articleId, content,timeCreated, timeUpdated, userID, thumbUpBy, is_deleted, score, userPaied ])
         con.commit()
     else:
         print('error')
@@ -67,8 +72,7 @@ def comment_question_add(question_id):
     con.close()
     
     # can get the last autoincrement data(for this table  is the id)
-    # print(id)
-    return make_response(jsonify({ "comment_content":content,"comment_id": id})), 200
+    return make_response(jsonify({ "comment_content":content,"comment_id": id, "score":score})), 200
    
 
 
@@ -87,20 +91,22 @@ def comment_article_add(article_id):
         timeCreated=get_unix_time()
         timeUpdated=timeCreated
         thumbUpBy=json.dumps(list()) # user id starts from 1?
+        userPaied=json.dumps(list())
         is_deleted=0
-        show=1
         #############for regular################
         data = request.get_json()
         content = data.get('content', None)
         userID = get_user_id_from_header()
-        update_score(userID)
-        ###########user for post man############
-        # content = 'aaa'
-        # userID=2          
-        ###########user for post man############
+        update_score(userID,1)
+        score = 0
+
+        # check whether the user is expert 
+        if get_isExpert(userID):
+            score = data.get('score', None)
+        
         # just create an comment not edit
-        cur.execute(f"insert into comments values(?,?,?,?,?,?,?,?,?,?)",
-                    [id, questionId, article_id, content,timeCreated, timeUpdated, userID, thumbUpBy,is_deleted,show ])
+        cur.execute(f"insert into comments values(?,?,?,?,?,?,?,?,?,?,?)",
+                    [id, questionId, article_id, content,timeCreated, timeUpdated, userID, thumbUpBy,is_deleted,score,userPaied])
         con.commit()
     else:
         print('error')
@@ -114,7 +120,7 @@ def comment_article_add(article_id):
     
     # can get the last autoincrement data(for this table  is the id)
     # print(id)
-    return make_response(jsonify({"comment_content":content,"comment_id": id})), 200
+    return make_response(jsonify({"comment_content":content,"comment_id": id,"score":score})), 200
 
 
 # just see comment for questions
@@ -235,7 +241,7 @@ def question_thumb_up_patch(comment_id):
         # get the id of artucleid 
         liked_user_id = get_user_id_by_comment(comment_id)
         # add score for author
-        update_score(liked_user_id)
+        update_score(liked_user_id,1)
 
     thumb_up_by_string = json.dumps(thumb_up_by)
 
@@ -302,8 +308,12 @@ def delete_comment(comment_id):
 def get_user_id_by_comment(comment_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
+    # 先查是否为评论的article
+    # check whether the user comment to article
     sql = f"SELECT articlesId from comments where id = {comment_id} and articlesId is not null;"
     rows = cur.execute(sql).fetchall()
+    # 如果不是的话， 那就是question
+    # if not，search the author from question
     if len(rows)==0:
         sql = f"SELECT questionId from comments where id = {comment_id};"
         rows = cur.execute(sql).fetchall()
@@ -318,3 +328,15 @@ def get_user_id_by_comment(comment_id):
     user_id = rows2[0][0]
     con.close()
     return user_id
+
+def get_isExpert(user_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql = f"select expertOrNot from users where id={user_id};"
+    res = cur.execute(sql).fetchall
+    if res != None:
+        res = res[0][0]
+    if res == 1:
+        return True
+    else:
+        return False
