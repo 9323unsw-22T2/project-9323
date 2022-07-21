@@ -1,3 +1,4 @@
+from email.mime import image
 from flask import Blueprint, make_response, jsonify,request
 from config import *
 from flask_cors import CORS
@@ -59,8 +60,8 @@ def comment_question_add(question_id):
         
         ###########user for post man############
         # just create an comment not edit
-        cur.execute(f"insert into comments values(?,?,?,?,?,?,?,?,?,?,?)",
-                    [id, question_id, articleId, content,timeCreated, timeUpdated, userID, thumbUpBy, is_deleted, score, userPaied ])
+        cur.execute(f"insert into comments values(?,?,?,?,?,?,?,?,?,?,?,?)",
+                    [id, question_id, articleId, content,timeCreated, timeUpdated, userID, thumbUpBy, is_deleted, score, userPaied,image ])
         con.commit()
     else:
         print('error')
@@ -99,14 +100,14 @@ def comment_article_add(article_id):
         userID = get_user_id_from_header()
         update_score(userID,1)
         score = 0
-
+        image = data.get('image',None)
         # check whether the user is expert 
         if get_isExpert(userID):
             score = data.get('score', None)
         
         # just create an comment not edit
-        cur.execute(f"insert into comments values(?,?,?,?,?,?,?,?,?,?,?)",
-                    [id, questionId, article_id, content,timeCreated, timeUpdated, userID, thumbUpBy,is_deleted,score,userPaied])
+        cur.execute(f"insert into comments values(?,?,?,?,?,?,?,?,?,?,?,?)",
+                    [id, questionId, article_id, content,timeCreated, timeUpdated, userID, thumbUpBy,is_deleted,score,userPaied,image])
         con.commit()
     else:
         print('error')
@@ -134,7 +135,7 @@ def comment_question(question_id):
     if c1 != []:
         res = {}
         
-        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,questionId,show,isDeleted from comments where questionId={question_id};"
+        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,questionId,score,isDeleted from comments where questionId={question_id};"
         
         num_of_que = cur.execute(f"SELECT count(questionId) FROM comments where questionId={question_id}").fetchall()[0][0]
         all_data = cur.execute(sql).fetchall()
@@ -154,7 +155,7 @@ def comment_question(question_id):
             temp["timeUpdated"] = timeUpdated
             temp["thumbUpBy"] = thumbUpBy
             temp["user"] = user
-            temp["show"] = show_
+            temp["score"] = show_
             temp['questionId']= all_data[i][6]
             temp['isdeleted']=all_data[i][8]
             res[i] = temp
@@ -182,7 +183,7 @@ def comment_article(article_id):
     c1=cur.execute(f'SELECT 1 FROM articles WHERE articleId={article_id} LIMIT 1;').fetchall()
     if c1 != []:
         res = {}
-        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,articlesId,show,isDeleted from comments where articlesId={article_id};"
+        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,articlesId,score,isDeleted,userPaied from comments where articlesId={article_id};"
         
         num_of_art = cur.execute(f"SELECT count(articlesId) FROM comments where articlesId={article_id}").fetchall()[0][0]
         all_data = cur.execute(sql).fetchall()
@@ -203,7 +204,7 @@ def comment_article(article_id):
             temp["timeUpdated"] = timeUpdated
             temp["thumbUpBy"] = thumbUpBy
             temp["user"] = user
-            temp["show"] = show_
+            temp["score"] = show_
             temp["articlesid"]= all_data[i][6]
             temp["isDeleted"]=all_data[i][8]
             res[i] = temp
@@ -333,10 +334,11 @@ def get_isExpert(user_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     sql = f"select expertOrNot from users where id={user_id};"
-    res = cur.execute(sql).fetchall
+    res = cur.execute(sql).fetchall()
     if res != None:
-        res = res[0][0]
-    if res == 1:
+        flag = res[0][0]
+    print(flag)
+    if flag == 1:
         return True
     else:
         return False
