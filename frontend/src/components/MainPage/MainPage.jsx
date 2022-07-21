@@ -169,7 +169,7 @@ export default function VerticalTabs() {
               {typeof data === 'object' && Object.keys(data).map((e, i) => {
                 console.log(data[e])
                 return (
-                  data[e].type !== 'article'
+                  data[e].TYPE !== 'ARTICLE'
                     ? <SearchResultCard
                     key={'resultCard' + i}
                     data={data[e]}

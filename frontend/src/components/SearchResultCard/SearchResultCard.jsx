@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import CardHeader from '@mui/material/CardHeader';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -29,8 +29,6 @@ export default function ActionAreaCard({ data }) {
   if (localStorage.getItem('commentUid') === null) {
     localStorage.setItem('commentUid', 0)
   }
-  const { number } = useParams();
-
   const navigate = useNavigate();
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const onEditorStateChange = (editorState) => { setEditorState(editorState) }
@@ -43,8 +41,7 @@ export default function ActionAreaCard({ data }) {
     setExpanded(!expanded);
   };
   const [charged, setCharged] = React.useState(false)
-  const text =
-    'Hi im new to microsoft teams and am struggling to navigate the UI, Does anyone know how to create a new team and add the members i want to add ?';
+  const text = data.content
 
   /*   const [state, setState] = React.useState(false);
   const toggleDrawer = (open) => (event) => {
@@ -81,7 +78,7 @@ export default function ActionAreaCard({ data }) {
   }; */
   const commentUid = parseFloat(localStorage.getItem('commentUid')) + 1;
   const handleSubmit = () => {
-    fetch('comment/questions/' + number ? number : data.id, {
+    fetch('comment/questions/' + data.id, {
       method: 'POST',
       headers: {
         user_id: localStorage.getItem('user_id'),
@@ -150,8 +147,9 @@ export default function ActionAreaCard({ data }) {
       </CardContent>
       <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto' }}>
         <Button size="small">Follow</Button>
-        <Box sx={{ margin: 'auto' }}>2022/02/31 19:49:03</Box>
-        <Box
+        <Box sx={{ margin: 'auto' }}>{new Date(data.timeCreated * 1000).toLocaleString()}</Box>
+        {JSON.parse(data.replyIds).length
+          ? <Box
           onClick={(e) => {
             e.preventDefault(
             )
@@ -166,8 +164,9 @@ export default function ActionAreaCard({ data }) {
             cursor: 'pointer',
           }}
         >
-          <span>3 answers</span>
-        </Box>
+          <span>{`${JSON.parse(data.replyIds).length}answers`}</span>
+        </Box> : <span style={{ margin: 'auto' }}>{'no answer'}</span>
+        }
         <Box sx={{ margin: 'auto' }}>
 
           <Button size="small" onClick={handleExpandClick}>Answer</Button>
@@ -188,7 +187,6 @@ export default function ActionAreaCard({ data }) {
           value="start"
           control={<Checkbox checked={charged} onClick={(e) => { e.preventDefault(); setCharged(!charged) }}/>}
           label="charge score"
-          labelPlacement="charge score"
   />
   <Box sx={{ transition: '1s all', opacity: charged ? 1 : 0, height: '2rem', pointerEvents: charged ? 'all' : 'none' }}>
   <Input type="number"placeholder="Score you want" />
