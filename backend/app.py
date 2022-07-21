@@ -13,7 +13,10 @@ cur = con.cursor()
 cur.execute(
     "CREATE TABLE IF NOT EXISTS users (id integer primary key autoincrement,\
      name text, email text, password text, token text, expertArea text,\
-      scores integer, coins integer,expertOrNot NOT NULL DEFAULT '0',isPpublic NOT NULL DEFAULT '0')")
+      scores integer, coins integer,expertOrNot NOT NULL DEFAULT '0',\
+      isPpublic NOT NULL DEFAULT '0',likeArticles NOT NULL DEFAULT '[]',likeQuestions NOT NULL DEFAULT '[]')")
+
+
 cur.execute(
     "CREATE TABLE IF NOT EXISTS questions ( \
         id integer primary key autoincrement, \
@@ -24,24 +27,9 @@ cur.execute(
         author numeric, \
         replyIds text, \
         thumbUpBy text, \
-        isDeleted NOT NULL DEFAULT '0') \
-        ")
-cur.execute(
-    "CREATE TABLE IF NOT EXISTS articles ( \
-        id integer primary key autoincrement, \
-        articleId numeric, \
-        stepNumber numeric, \
-        stepTitle text, \
-        title text, \
-        content text, \
-        image text, \
-        timeCreated numeric, \
-        timeUpdated numeric, \
-        author numeric, \
-        replyIds text, \
-        thumbUpBy text, \
         isDeleted NOT NULL DEFAULT '0', \
-        video text) \
+        image text,\
+        video text)\
         ")
 cur.execute(
     "CREATE TABLE IF NOT EXISTS articles ( \
@@ -57,8 +45,9 @@ cur.execute(
         author numeric, \
         replyIds text, \
         thumbUpBy text, \
-        isDeleted NOT NULL DEFAULT '0') \
+        isDeleted NOT NULL DEFAULT '0',video text) \
         ")
+
 cur.execute(
     "CREATE TABLE IF NOT EXISTS comments ( \
         id integer primary key autoincrement, \
@@ -69,8 +58,7 @@ cur.execute(
         timeUpdated numeric, \
         author numeric, \
         thumbUpBy text, \
-        isDeleted NOT NULL DEFAULT '0',\
-        show NOT NULL DEFAULT '0') \
+        isDeleted NOT NULL DEFAULT '0') \
         ")
 
 app = Flask(__name__)
@@ -89,4 +77,3 @@ def ping():
 if __name__ == '__main__':
 
     app.run(debug=DEBUG, port= PORT)
-
