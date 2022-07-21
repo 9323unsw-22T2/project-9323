@@ -154,6 +154,18 @@ def _read_artical_row(row):
         "video": row[13],
     }
     return ret
+@article_page.route('/articles_like/<int:user_id>', methods=['GET'])
+@authenticated
+def get_user_like_articles(user_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    ret = dict()
+    sql = "SELECT likeQuestions from users where id = '{}'".format(user_id)
+    rows = cur.execute(sql).fetchall()
+    # if len(rows) == 0:
+    #     return make_response(jsonify({"error": "Question not found with question_id = {}".format(question_id)})), 400
+    ret['questions_like'] = rows[0]
+    return make_response(jsonify(ret)), 200
 
 def get_user_id_by_article(article_id):
     con = sqlite3.connect(DATABASE_NAME)
@@ -191,6 +203,18 @@ def article_thumb_up_patch(article_id):
     cur.execute(sql)
     con.commit()
 
+    sql = "SELECT likeArticles from users where id = '{}'".format(user_id)
+    rows = cur.execute(sql).fetchall()
+    user_like_articles = json.loads(rows[0][0])
+    if article_id in user_like_articles:
+        pass
+    else:
+        user_like_articles.append(article_id)
+
+    sql = "UPDATE users SET likeArticles = '{}' where id = '{}';".format(
+        json.dumps(user_like_articles), user_id)
+    cur.execute(sql)
+    con.commit()
     liked_user_id = get_user_id_by_article(article_id)
     update_score(liked_user_id)
 
@@ -225,6 +249,18 @@ def article_un_thumb_up_patch(article_id):
     cur.execute(sql)
     con.commit()
 
+    sql = "SELECT likeArticles from users where id = '{}'".format(user_id)
+    rows = cur.execute(sql).fetchall()
+    user_like_articles = json.loads(rows[0][0])
+    if article_id in user_like_articles:
+        user_like_articles.remove(article_id)
+    else:
+        pass
+
+    sql = "UPDATE users SET likeArticles = '{}' where id = '{}';".format(
+        json.dumps(user_like_articles), user_id)
+    cur.execute(sql)
+    con.commit()
     return article_get_by_id(article_id)
 
 
