@@ -1,22 +1,17 @@
-from http.client import REQUEST_TIMEOUT
-from unicodedata import east_asian_width
+from array import typecodes
+from ctypes.wintypes import MAX_PATH
+from sys import maxunicode
 from config import *
 from flask import Blueprint, request, make_response, jsonify
 from flask_cors import CORS
 import sqlite3
 import random
-
-from flask import Blueprint, request, make_response, jsonify
-from config import *
-from flask_cors import CORS
-import sqlite3
-import random
+from math import ceil
 
 newsfeed_page = Blueprint("newsfeed", __name__)
 CORS(newsfeed_page)
 
-# random create the dict for question or article
-def generate_dit(seed):
+def generate_all_dit(seed):
     # get the number of question and article
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
@@ -24,66 +19,40 @@ def generate_dit(seed):
     article_num = cur.execute("select count(id) from articles;").fetchall()[0][0]
     con.close()
     # max page, and max_num
-    global max_num
-    global max_page
     max_num = question_num+article_num
-    max_page = max_num//EACH_PAGE_NUMBER+1
+    max_page = ceil(max_num/EACH_PAGE_NUMBER)
+    
     # random seed
-
     random.seed(seed)
-    # ramdom generate the list to store the question and aricle
+    # ramdom generate the list to store the question and aricle (use id)
+    # from 1 to num+1 is due the begin id is 1
     question_random = random.sample(range(1,question_num+1), question_num)
     article_random = random.sample(range(1,article_num+1), article_num)
 
+    # random article or question
+    # que is 0, art is 1
     que_or_art = []
     for i in range(max_num):
-        # print(i)
         temp = random.randint(0,1)
         if temp == 0:
-            if que_or_art.count(0) <=question_num-1:
+            if que_or_art.count(0) < question_num:
                 que_or_art.append(0)
-            elif que_or_art.count(1) <=article_num-1:
+            elif que_or_art.count(1) < article_num:
                 que_or_art.append(1)
             
         if temp == 1:
-            if que_or_art.count(1)<=article_num-1:
+            if que_or_art.count(1) < article_num:
                 que_or_art.append(1)
-            elif que_or_art.count(0) <=question_num-1:
+            elif que_or_art.count(0) < question_num:
                 que_or_art.append(0)
-    ## used to check the list is right   
-    # print(question_random)
-    # print(article_random)
-    # print(que_or_art)
+    
+    
 
-    all = {}
-    temp = {}
-    i_que = 0
-    i_art = 0
-    t_q = []
-    t_a = []
-    for page in range(max_page):
-        temp = {}
-        if (max_num - page*EACH_PAGE_NUMBER)>=EACH_PAGE_NUMBER:
-            num_=EACH_PAGE_NUMBER
-        else:
-            num_=(max_num - page*EACH_PAGE_NUMBER)%EACH_PAGE_NUMBER
-        # print("max", max_num,"page", page,"this page ", num_)
-        t_q = []
-        t_a = []
-        for i in range(num_):
-            
-            index = (page)*EACH_PAGE_NUMBER+i
-            if que_or_art[index] == 0:
-                t_q.append(question_random[i_que])
-                i_que+=1
-            else:
-                t_a.append(article_random[i_art])
-                i_art+=1
-        temp['question']=t_q
-        temp['article']=t_a
-        all[page+1] = temp
+    
     con.close()
-    return all,que_or_art
+    # print("def", max_page, max_num)
+    return max_page, max_num, que_or_art,question_random,article_random
+
 
 global seed
 seed = 1
@@ -93,63 +62,91 @@ seed = 1
 def newsfeed_ping():
     return "Pong", 200
 
-@newsfeed_page.route('/newsfeed/random_list_10/<int:page>', methods=['POST'])
-def newsfeed_random_list_10(page):
-    if request.method == 'POST':
-        
-        all,que_or_art = generate_dit(seed)
-
-        if page > max_page:
-            return make_response(jsonify({"error": "out range of pages"})), 404
-        else:
-            con = sqlite3.connect(DATABASE_NAME)
-            cur = con.cursor()
-            result={}
+@newsfeed_page.route('/newsfeed/<int:page>', methods=['GET'])
+def newsfeed_random(page):
+    # max_num is the all number of questions and articles,
+    # the 
+    max_page, max_num, que_or_art,question_random,article_random  = generate_all_dit(seed)
+    if page > max_page or page <= 0:
+        return make_response(jsonify({"error": f"out range of pages, page should be 1 to {max_page}"})), 404
+    # print(que_or_art)
+    # if page is in , just go on 
+    result={}
+    # caculate the each page has how much thing in this page
+    # 这页显示多少个项目
+    item_list = []
+    for i in range(EACH_PAGE_NUMBER):
+        item = i+1+(page-1)*EACH_PAGE_NUMBER
+        if item <= max_num:
+            item_list.append(item)
+    # get column name from other table
+    col_que = get_table_column("questions")
+    col_art = get_table_column("articles")
+    # print(col_que, len(col_que))
+    for i in item_list:
+        temp={}
+        if que_or_art[i-1] == 0:
+            temp["TYPE"]="QUESTION"
+            # print("page ", page, 'que id',que_or_art[:i].count(0))
+            t = que_or_art[:i].count(0)
+            que_id = question_random[t-1]
+            content_que = get_qeustion(que_id)[0]
+            # print("content!!!", content)
+            for _ in range(len(col_que)):
+                temp[col_que[_]] = content_que[_]
             
-            if (max_num - (page-1)*EACH_PAGE_NUMBER)>=EACH_PAGE_NUMBER:
-                num_=EACH_PAGE_NUMBER
-            else:
-                num_=(max_num - (page-1)*EACH_PAGE_NUMBER)%EACH_PAGE_NUMBER
-        
-            i_q=0
-            i_a=0
-            for i in range(num_):
-                temp={}
-                
-                # used to check whether it is question or article
-                t = que_or_art[i+(page-1)*EACH_PAGE_NUMBER]
-                
-                if t==0:
-                    id_=all[page]["question"][i_q]
-                    q_id=cur.execute(f"select id,title,content from articles where id={id_};").fetchall()[0][0]
-                    title=cur.execute(f"select id,title,content from articles where id={id_};").fetchall()[0][1]
-                    content=cur.execute(f"select id,title,content from articles where id={id_};").fetchall()[0][2]
-                    temp['type']='question'
-                    temp['id']=q_id
-                    temp['title']=title
-                    temp['content']=content
-                    # result.append(all[page]["question"][i_q])
-                    i_q+=1
-                else:
-                    
-                    id_= all[page]["article"][i_q]
-                    a_id=cur.execute(f"select id,title,content from articles where id={id_};").fetchall()[0][0]
-                    title=cur.execute(f"select id,title,content from articles where id={id_};").fetchall()[0][1]
-                    content=cur.execute(f"select id,title,content from articles where id={id_};").fetchall()[0][2]
-                    # result.append(all[page]["article"][i_a])
-                    temp['type']='article'
-                    temp['id']=a_id
-                    temp['title']=title
-                    temp['content']=content
-                    i_a+=1
-                result[i]=temp
-            con.close()     
-            # print(result)
-            return jsonify(result)
-   
+        if que_or_art[i-1] == 1:
+            temp["TYPE"]="ARTICLE"
+            # print("page ", page,'art id',que_or_art[:_].count(1))
+            t = que_or_art[:i].count(1)
+            art_id = article_random[t-1]
+            content_art = get_article(art_id)[0]
+            for _ in range(len(col_art)):
+                temp[col_art[_]] = content_art[_]
+        # print(temp)
+        result[i] = temp
+    # print(result)    
+    return jsonify(result)
+
+
 # just fresh the page
 @newsfeed_page.route('/newsfeed/fresh',methods=["POST"])
 def newsfeed_fresh():
     global seed
     seed = random.randint(0,100)
     return make_response("Alread freshed"),200
+
+
+
+def get_qeustion(id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    # sql = f"select id,title,content,timeCreated,timeUpdated,author,thumbUpby,isDeleted from questions where id = {id};"
+    sql = f"select * from questions where id = {id};"
+    res = cur.execute(sql).fetchall()
+    print(res)
+    return res
+def question_type():
+    type_c =["id","title","content","timeCreated","timeUpdated","author","thumbUpby","isDeleted"]
+    return type_c
+
+def get_article(id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    # sql = f"select id,articleId,stepTitle,content,image,timeCreated,timeUpdated,author,thumbUpby,isDeleted,video from articles where id = {id};"
+    sql = f"select * from articles where id = {id};"
+    res = cur.execute(sql).fetchall()
+    return res
+def article_type():
+    type_c = ["id","articleId","stepTitle","content","image","timeCreated","timeUpdated","author","thumbUpby","isDeleted","video"]
+    return type_c
+
+def get_table_column(table_name):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql=f'PRAGMA table_info([{table_name}])'
+    all = cur.execute(sql).fetchall()
+    res = []
+    for _ in all:
+        res.append(_[1])
+    return res
