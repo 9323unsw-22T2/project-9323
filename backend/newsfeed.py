@@ -101,15 +101,6 @@ def newsfeed_random(page):
             art_all_id = get_all_artilce_id()
             content_art = get_article(art_all_id[art_id-1])
             len_step=len(content_art)
-            # print("changdu !!!",content_art)
-            # artilce_id = content_art[0][0]
-            # author = content_art[0][9]
-            # # title is 4
-            # title = content_art[0][4]
-            # timeCreated = content_art[0][7]
-            # timeUpdated = content_art[0][8]
-            # thumbUpBy = content_art[0][11]
-            # isDeleted = content_art[0][12]
 
             for _ in range(len(col_art)):
                 temp[col_art[_]] = content_art[0][_]
@@ -121,16 +112,7 @@ def newsfeed_random(page):
                     tm[col_art[_]] = content_art[j][_]
                 t_list.append(tm)
             temp["each_step"] = t_list
-            # for _ in range(len(col_art)):
-                
-                
-                # t_list=[]
-                # tem_step={}
-                # for j in range(len_step):
-                #     t_list.append(content_art[j])
-                #     # print("step",j, t_list)
-                # temp[col_art[_]] = content_art[_]
-        # print(temp)
+            temp["articleId"] = content_art[0][0]
         result[i] = temp
     # print(result)    
     return jsonify(result)
