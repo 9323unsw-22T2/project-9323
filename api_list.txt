@@ -479,7 +479,7 @@ curl --location --request PATCH '127.0.0.1:5000/comment/<int:comment_id>/un_thum
 ## each page show how many things is in config.py : EACH_PAGE_NUMBER.
 
 
-curl --location --request POST '127.0.0.1:5000/newsfeed/random_list_10/<int:page>' \
+curl --location --request GET '127.0.0.1:5000/newsfeed/<int:page>' \
 
 # if page = 1
 # ATTENTION: this data is in my database, you should add data in your local database,or it will not work

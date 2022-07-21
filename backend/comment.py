@@ -1,4 +1,3 @@
-from email.mime import image
 from flask import Blueprint, make_response, jsonify,request
 from config import *
 from flask_cors import CORS
@@ -63,6 +62,12 @@ def comment_question_add(question_id):
         cur.execute(f"insert into comments values(?,?,?,?,?,?,?,?,?,?,?,?)",
                     [id, question_id, articleId, content,timeCreated, timeUpdated, userID, thumbUpBy, is_deleted, score, userPaied,image ])
         con.commit()
+        sql = f"select count(id) from comments where questionId={question_id}"
+        com_num_que = cur.execute(sql).fetchall()[0][0]
+        sql = f"UPDATE questions SET replyIds = {com_num_que} where id ={question_id};"
+        cur.execute(sql)
+        con.commit()
+
     else:
         print('error')
         con.close()
@@ -135,7 +140,7 @@ def comment_question(question_id):
     if c1 != []:
         res = {}
         
-        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,questionId,score,isDeleted from comments where questionId={question_id};"
+        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,questionId,score,isDeleted,userPaid from comments where questionId={question_id};"
         
         num_of_que = cur.execute(f"SELECT count(questionId) FROM comments where questionId={question_id}").fetchall()[0][0]
         all_data = cur.execute(sql).fetchall()
@@ -158,6 +163,7 @@ def comment_question(question_id):
             temp["score"] = show_
             temp['questionId']= all_data[i][6]
             temp['isdeleted']=all_data[i][8]
+            temp['userPaid']=all_data[i][9]
             res[i] = temp
         
         # can get the last autoincrement data(for this table  is the id)        
@@ -183,11 +189,11 @@ def comment_article(article_id):
     c1=cur.execute(f'SELECT 1 FROM articles WHERE articleId={article_id} LIMIT 1;').fetchall()
     if c1 != []:
         res = {}
-        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,articlesId,score,isDeleted,userPaied from comments where articlesId={article_id};"
+        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,articlesId,score,isDeleted,userPaid from comments where articlesId={article_id};"
         
         num_of_art = cur.execute(f"SELECT count(articlesId) FROM comments where articlesId={article_id}").fetchall()[0][0]
         all_data = cur.execute(sql).fetchall()
-        print(all_data)
+        # print(all_data)
         for i in range(num_of_art):
             temp = {}
         
@@ -207,6 +213,7 @@ def comment_article(article_id):
             temp["score"] = show_
             temp["articlesid"]= all_data[i][6]
             temp["isDeleted"]=all_data[i][8]
+            temp["userPaid"]=all_data[i][9]
             res[i] = temp
             
         # can get the last autoincrement data(for this table  is the id)        
@@ -224,7 +231,7 @@ def comment_article(article_id):
 # add thumbp
 @comment_page.route('/comment/<int:comment_id>/thumb_up', methods=['PATCH'])
 @authenticated
-def question_thumb_up_patch(comment_id):
+def comment_thumb_up_patch(comment_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
 
@@ -258,7 +265,7 @@ def question_thumb_up_patch(comment_id):
 # delete user_id from the thumbup list if existed
 @comment_page.route('/comment/<int:comment_id>/un_thumb_up', methods=['PATCH'])
 @authenticated
-def question_un_thumb_up_patch(comment_id):
+def comment_un_thumb_up_patch(comment_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
 
@@ -306,6 +313,7 @@ def delete_comment(comment_id):
     return make_response(jsonify(f"this comment {comment_id} has been deleted")), 200
 
 
+
 def get_user_id_by_comment(comment_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
@@ -337,8 +345,52 @@ def get_isExpert(user_id):
     res = cur.execute(sql).fetchall()
     if res != None:
         flag = res[0][0]
-    print(flag)
+    # print(flag)
     if flag == 1:
         return True
     else:
         return False
+
+
+
+## buy to see comment
+@comment_page.route('/comment/<int:comment_id>/buy', methods=['POST'])
+@authenticated
+def buy(comment_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql = f"select id from comments where id= {comment_id};"
+    if len(cur.execute(sql).fetchall()) == 0:
+        return make_response(jsonify({"error": "this comment is not exist"})),404
+    userID = get_user_id_from_header()
+    sql = f"select userPaid from comments where id = {comment_id}"
+    user_paid = json.loads(cur.execute(sql).fetchall()[0][0])
+    # print(user_paid,type(user_paid))
+    if userID not in user_paid:
+        sql = f"select scores from users where id={userID};"
+        current_user_score = cur.execute(sql).fetchall()[0][0]
+        # print(current_user_score,type(current_user_score))
+        sql = f"select score from comments where id = {comment_id}"
+        comment_score = cur.execute(sql).fetchall()[0][0]
+        if comment_score == 0:
+            return "this comment is free, no need to pay"
+        # print(comment_score, type(comment_score))
+        if current_user_score < comment_score:
+            return jsonify("your score is not enough to see this comment")
+        else:
+            user_score =current_user_score - comment_score
+            sql = f"update users SET scores = {user_score} where id ={userID};"
+            cur.execute(sql)
+            con.commit()
+            user_paid.append(userID)
+            
+            user_paid_s = json.dumps(user_paid)
+            # print(user_paid_s,type(user_paid_s))
+
+            sql = f"UPDATE comments SET userPaid = '{user_paid_s}' where id = {comment_id};"
+            cur.execute(sql)
+            con.commit()
+
+        return make_response({"user_score":f"{user_score}"}),200
+    else:
+        return "You already bought this, please enjoy"

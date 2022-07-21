@@ -60,7 +60,7 @@ cur.execute(
         thumbUpBy text, \
         isDeleted NOT NULL DEFAULT '0',\
         score numeric,\
-        userPaied text,\
+        userPaid text,\
         image text)\
         ")
 
