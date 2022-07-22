@@ -123,10 +123,10 @@ const Home = () => {
         <CardActions sx={{ ml: 3, margin: 'auto', width: '90%' }}>{follow ? <Button onClick={(e) => {
           e.preventDefault()
           setFollow(!follow)
-        }}size="small">Follow</Button> : <Button color="error" onClick={(e) => {
+        }}size="small">Like</Button> : <Button color="error" onClick={(e) => {
           e.preventDefault()
           setFollow(!follow)
-        }} size="small">Unfollow</Button>}
+        }} size="small">UnLike</Button>}
 
           <Box sx={{ margin: 'auto' }}>{new Date(data[3] * 1000).toLocaleString()}</Box>
           <Box
