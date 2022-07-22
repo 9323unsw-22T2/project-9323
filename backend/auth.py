@@ -105,7 +105,7 @@ def auth_info_get():
     return make_response(jsonify(user_info)), 200
 
 
-@auth_page.route('/auth/expert_by_certificate', methods=['PATCH'])
+@auth_page.route('/auth/expert_by_certificate', methods=['POST'])
 @authenticated
 def auth_expert_by_certificate():
     user_id = get_user_id_from_header()
