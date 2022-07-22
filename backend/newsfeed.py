@@ -13,9 +13,13 @@ def generate_all_dit(seed):
     # get the number of question and article
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
-    question_num = cur.execute("select count(id) from questions;").fetchall()[0][0]
-    article_num = cur.execute("select count(id) from articles where articleId is null;").fetchall()[0][0]
-    # print(article_num)
+    question_num = cur.execute("select count(id) from questions where isDeleted = 0;").fetchall()[0][0]
+    article_num = cur.execute("select count(id) from articles where articleId is null and isDeleted = 0;").fetchall()[0][0]
+
+    
+    
+    
+    # print(f"que num is {question_num},\n art num is {article_num}")
     con.close()
     # max page, and max_num
     max_num = question_num+article_num
@@ -25,8 +29,11 @@ def generate_all_dit(seed):
     random.seed(seed)
     # ramdom generate the list to store the question and aricle (use id)
     # from 1 to num+1 is due the begin id is 1
-    question_random = random.sample(range(1,question_num+1), question_num)
-    article_random = random.sample(range(1,article_num+1), article_num)
+    article_random= get_all_artilce_id()
+    question_random = get_all_question_id()
+    random.shuffle(article_random)
+    random.shuffle(question_random)
+    # print(article_random, question_random)
 
     # random article or question
     # que is 0, art is 1
@@ -100,10 +107,12 @@ def newsfeed_random(page):
             temp["TYPE"]="ARTICLE"
             # print("page ", page,'art id',que_or_art[:_].count(1))
             t = que_or_art[:i].count(1)
+            # print(t)
+            # print(article_random)
             art_id = article_random[t-1]
-            art_all_id = get_all_artilce_id()
-            content_art = get_article(art_all_id[art_id-1])
-            print("111!! ",content_art[0][9])
+            # art_all_id = get_all_artilce_id()
+            content_art = get_article(art_id)
+            # print("111!! ",content_art[0][9])
             len_step=len(content_art)
 
             for _ in range(len(col_art)):
@@ -136,7 +145,7 @@ def get_qeustion(id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     # sql = f"select id,title,content,timeCreated,timeUpdated,author,thumbUpby,isDeleted from questions where id = {id};"
-    sql = f"select * from questions where id = {id};"
+    sql = f"select * from questions where id = {id} ;"
     res = cur.execute(sql).fetchall()
     # print(res)
     return res
@@ -144,7 +153,7 @@ def get_all_artilce_id():
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     # sql = f"select id,articleId,stepTitle,content,image,timeCreated,timeUpdated,author,thumbUpby,isDeleted,video from articles where id = {id};"
-    sql = f"select articleId from articles where articleId is not null;"
+    sql = f"select articleId from articles where articleId is not null and isDeleted = 0;"
     res = cur.execute(sql).fetchall()
     res = set(res)
     temp =[]
@@ -154,11 +163,19 @@ def get_all_artilce_id():
     # print("all articles id", res)
     return res
 
+def get_all_question_id():
+        con = sqlite3.connect(DATABASE_NAME)
+        cur = con.cursor()
+        sql = f"select id from questions where isDeleted = 0;"
+        all_que = cur.execute(sql).fetchall()
+        # print(all_que)
+        return [i[0] for i in all_que]
+
 def get_article(article_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     # sql = f"select id,articleId,stepTitle,content,image,timeCreated,timeUpdated,author,thumbUpby,isDeleted,video from articles where id = {id};"
-    sql = f"select * from articles where articleId = {article_id} or (articleId is Null and id = {article_id});"
+    sql = f"select * from articles where (articleId = {article_id} or (articleId is Null and id = {article_id})) and isDeleted = 0;"
     res = cur.execute(sql).fetchall()
     # print("get !!! article : ","article_id is ",article_id,res)
     return res
@@ -174,7 +191,7 @@ def get_table_column(table_name):
     return res
 
 
-# test for ping
+# trending
 @newsfeed_page.route('/newsfeed/trending', methods=['GET'])
 def newsfeed_trending():
     # only question!!!
@@ -183,10 +200,10 @@ def newsfeed_trending():
     cur = con.cursor()
     
     # get all question_thumb up by
-    sql = "select id,title,content,thumbUpBy,replyIds from questions;"
+    sql = "select id,title,content,thumbUpBy,replyIds from questions where isDeleted =0;"
     all_thumb = cur.execute(sql).fetchall()
     num_question = len(all_thumb)
-    print(all_thumb,num_question)
+    # print(all_thumb,num_question)
     tem_list=[]
     for i in all_thumb:
         temp ={}
@@ -201,9 +218,10 @@ def newsfeed_trending():
     res = sorted(tem_list, key=lambda i: i['num-thum'],reverse=True)
 
     
-
-    return make_response(jsonify(res[:5])),200
-
+    if len(res) >=5:
+        return make_response(jsonify(res[:5])),200
+    else:
+        return make_response(jsonify(res[:5])),200
 def get_author_name(author_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
