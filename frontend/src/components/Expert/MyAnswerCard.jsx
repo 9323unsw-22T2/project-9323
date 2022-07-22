@@ -41,6 +41,7 @@ export default function ActionAreaCard({ data }) {
   const text = data.qes;
   const Ans = data.ans;
   const title = data.title;
+  const id = data.id;
   if (Ans !== '') {
     return (
       <Card
@@ -64,7 +65,7 @@ export default function ActionAreaCard({ data }) {
                 fontWeight: 'bold',
                 m: 1,
               }}
-              title={title}
+              title={'Q.' + id + ' ' + title}
             ></CardHeader>
             <CardContent
               sx={{ borderBottom: '1px solid #e6e5e6' }}
@@ -163,7 +164,14 @@ export default function ActionAreaCard({ data }) {
               editorContent='Gi'
             />
             <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={() => {
-              console.log(localStorage.getItem('data')[0])
+              const jsonStr = JSON.parse(localStorage.getItem('data'))
+
+              for (let i = 0; i < jsonStr.length; i++) {
+                if (jsonStr[i].id === id) {
+                  jsonStr[i].ans = editorState.getCurrentContent().getPlainText()
+                }
+              }
+              localStorage.setItem('data', JSON.stringify(jsonStr))
             }} >Submit</Button>
           </CardContent>
         </Collapse>

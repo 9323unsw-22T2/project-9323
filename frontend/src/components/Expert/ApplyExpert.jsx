@@ -70,7 +70,7 @@ const App = () => {
     display: 'none',
   });
   return (
-    <Box sx={{ height: '100%' }} className={styles.background}>
+    <Box className={styles.background}>
       {localStorage.getItem('token')
         ? (
           <LoggedNarbar></LoggedNarbar>
