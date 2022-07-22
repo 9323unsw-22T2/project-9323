@@ -103,7 +103,7 @@ export default function RecipeReviewCard ({ data }) {
           textDecoration: 'underline'
         },
       }} onClick={() => {
-        navigate('/guide/1')
+        navigate(`/guide/${data.id}`)
       }}>
         <Typography variant="h4">
         {data.title}
