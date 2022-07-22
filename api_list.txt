@@ -6,7 +6,7 @@ curl --location --request GET '127.0.0.1:5000/ping'
 return "pong"
 
 Auth:
-1.
+1. REGISTER
 curl --location --request POST '127.0.0.1:5000/auth/register' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -24,7 +24,7 @@ response:
 		"error": "This email has been registed, please login"
 	}
 
-2.
+2. LOGIN
 curl --location --request POST '127.0.0.1:5000/auth/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -34,8 +34,16 @@ curl --location --request POST '127.0.0.1:5000/auth/login' \
 
 response:
 	200 ok {
-    "token": "83b19d9c-728c-4415-b7b3-12a4bf58e8ec",
-    "user_id": 1
+    "coins": 0,
+    "email": "yyu@unsw.edu.au",
+    "expertArea": null,
+    "expertOrNot": 0,
+    "id": 1,
+    "isPpublic": "0",
+    "name": "yyu",
+    "password": "123",
+    "scores": 2,
+    "token": "6be47f5d-36a2-46e6-9df1-80154a9c2af3"
 } or 
 	400 Bad Input {
 		"error": "Email and password don't match"
@@ -49,6 +57,45 @@ response:
 	200 ok {}
    
 The following detail list will be change base on frontend developing.
+
+4. expert_by_certificate   (make a user expert by certificate)
+curl --location --request POST '127.0.0.1:5000/auth/expert_by_certificate' \
+--header 'user_id: 1' \
+--header 'token: 6be47f5d-36a2-46e6-9df1-80154a9c2af3'
+
+response
+{
+    "coins": 0,
+    "email": "yyu@unsw.edu.au",
+    "expertArea": null,
+    "expertOrNot": 1,
+    "id": 1,
+    "isPpublic": "0",
+    "name": "yyu",
+    "password": "123",
+    "scores": 2,
+    "token": "6be47f5d-36a2-46e6-9df1-80154a9c2af3"
+}
+
+4. INFO  (check user current info)
+curl --location --request GET '127.0.0.1:5000/auth/info' \
+--header 'user_id: 1' \
+--header 'token: 6be47f5d-36a2-46e6-9df1-80154a9c2af3'
+
+response
+{
+    "coins": 0,
+    "email": "yyu@unsw.edu.au",
+    "expertArea": null,
+    "expertOrNot": 1,
+    "id": 1,
+    "isPpublic": "0",
+    "name": "yyu",
+    "password": "123",
+    "scores": 2,
+    "token": "6be47f5d-36a2-46e6-9df1-80154a9c2af3"
+}
+
 
 4.
 curl --location --request GET '127.0.0.1:5000/auth/ping'
