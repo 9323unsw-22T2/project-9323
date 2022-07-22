@@ -19,28 +19,122 @@ def get_history():
     # get user iD
     # get qustion and its answers which write by the user?
     user_id = get_user_id_from_header()
+    com_que_id = get_question_comment(user_id)
+    res=[]
+    q_id = []
+    for j in com_que_id:
+        q_id.append(j[1])
+    q_id = set(q_id)
+    for i in com_que_id:
+        temp={}
+        que_id = i[1]
+        com_id = i[0]
+        tab_que = get_question(que_id)
+        tab_com = get_comment(com_id)
+        print(f"com_id is {com_id}, que_id is {que_id}")
+        temp['qes_id'] = que_id
+        temp['title'] = tab_que[0]
+        temp['qes'] = tab_que[1]
+        temp['ans'] = tab_com[0]
+        temp['ans_id'] = com_id
+        temp['photoURL'] = tab_com[1]
+        temp['score'] = tab_com[2]
+        temp['time'] = tab_com[3]
+        res.append(temp)
+    
+    all_que_id = [_[0] for _ in get_all_queid()]
+    not_ans=[]
+    for i in all_que_id:
+        if i not in q_id:
+            not_ans.append(i)
+    # print(not_ans)
 
-    pass
+    for i in not_ans[:5]:
+        temp={}
+        tab_que = get_question(i)
+       
+        temp['qes_id'] = i
+        temp['title'] = tab_que[0]
+        temp['qes'] = tab_que[1]
+        temp['ans'] = None
+        temp['ans_id'] = None
+        temp['photoURL'] = None
+        temp['score'] = None
+        temp['time'] = tab_que[2]
+        res.append(temp)
+
+    if len(q_id) >=5 and len(not_ans)>=5:
+        return jsonify(res[:5]+ res[-5:])
+    else:
+        return jsonify(res[:10])
 # update table
 @expert_page.route('/expert/<int:comment_id>/update',methods=["POST"])
 @authenticated
 def edit_comment(comment_id):
     # get qustion and its answers which write by the user?
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    # user_id = get_user_id_from_header()
     
-    pass
+    data = request.get_json()
+    content = data.get('content', None)
+    # print(content)
+    sql=f"update comments SET content = '{content}' where id = {comment_id}"
+    cur.execute(sql)
+    con.commit()
+
+    sql=f"update comments SET timeUpdated = {get_unix_time()} where id = {comment_id}"
+    cur.execute(sql)
+    con.commit()
+    return make_response(jsonify({"already updated content with":f"{content}" })),200
 
 def get_question_comment(user_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     # get the comment for this user
-    sql = f"select * from comment where author={user_id};"
-    all_info_comment = cur.execute(sql).fetchall()
-    com_num = len(all_info_comment)
+    sql = f"select id,questionId from comments where author={user_id} and questionId is not null;"
+    com_que_id = cur.execute(sql).fetchall()
+    print(com_que_id)
+    return com_que_id
 
-    sql = f"select questionId from comment where author={user_id};"
-    all_question_id = cur.execute(sql).fetchall()
-    print(all_info_comment)
-    pass
+def get_que_id_no_answer(user_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql=f"select questionId from comments where questionId is not Null and author != {user_id};"
+    rows = cur.execute(sql).fetchall()
+    if len(rows) == 0:
+        return "no such question that your ever answered"
+    # print("12s3",rows)
+    return rows
+def get_all_queid():
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql=f"select id from questions;"
+    rows = cur.execute(sql).fetchall()
+    if len(rows) == 0:
+        return "no such question"
+    # print("12s3",rows)
+    return rows
+
+def get_question(question_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql=f"select title,content,image,timeUpdated from questions where id = {question_id}"
+    rows = cur.execute(sql).fetchall()
+    if len(rows) == 0:
+        return "no such question"
+
+    return rows[0]
+def get_comment(comment_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql=f"select content,image,score,timeUpdated from comments where id = {comment_id}"
+    rows = cur.execute(sql).fetchall()
+    if len(rows) == 0:
+        return "no such comment"
+
+    return rows[0]
+
 
 def isExpert(user_id):
     con = sqlite3.connect(DATABASE_NAME)
@@ -54,6 +148,7 @@ def isExpert(user_id):
         return True
     else:
         return False
+
 
 def get_table_column(table_name):
     con = sqlite3.connect(DATABASE_NAME)

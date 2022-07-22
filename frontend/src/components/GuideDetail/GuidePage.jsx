@@ -25,6 +25,8 @@ import Collapse from '@mui/material/Collapse';
 import SharePopup from '../SharePopup/SharePopup'
 import draftToHtml from 'draftjs-to-html';
 import GuideAnswerCard from './GuideAnswerCard'
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 // eslint-disable-next-line space-before-function-paren
 export default function VerticalTabs() {
   const { number } = useParams();
@@ -34,7 +36,9 @@ export default function VerticalTabs() {
   const handleCommentClick = () => {
     setCommentExpanded(!commentExpanded);
   };
-
+  const matchesPad = useMediaQuery(
+    '(max-width: 950px)'
+  )
   const [social, setSocial] = React.useState(false);
 
   const [content, setContent] = React.useState('')
@@ -81,7 +85,7 @@ export default function VerticalTabs() {
         <Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="/main">{'<Return'}</Button>
         </Box>
       <Box sx={{ display: 'flex' }}>
-      <Box className={styles.guideDetail}>
+      <Box className={styles.guideDetail} sx={{ width: matchesPad ? '90%' : '70%' }}>
       <CardHeader
             sx={{ width: '95%', margin: 'auto', mt: 3 }}
             avatar={
@@ -150,6 +154,8 @@ export default function VerticalTabs() {
       </Box>
       <Box
           sx={{
+            display: matchesPad ? 'none' : 'block',
+
             width: '20%',
             marginLeft: 'auto',
             marginRight: ' auto',

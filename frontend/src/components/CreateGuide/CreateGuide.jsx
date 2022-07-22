@@ -56,9 +56,10 @@ const App = () => {
     setActiveStep(newActiveStep);
   };
   const handleBack = () => {
-    document.getElementById('step_title').value = steps[activeStep].step_title
+    document.getElementById('step_title').value = steps[activeStep - 1].step_title
     setEditorState(steps[activeStep - 1].content ? steps[activeStep - 1].content : EditorState.createEmpty())
     setVideo(steps[activeStep - 1].video)
+
     setActiveStep(activeStep - 1);
   }
   const handleNew = () => {

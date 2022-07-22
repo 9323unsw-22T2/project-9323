@@ -14,15 +14,15 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import CommentIcon from '@mui/icons-material/Comment';
 import SharePopup from '../SharePopup/SharePopup'
 import GuideAnswerCard from '../GuideDetail/GuideAnswerCard'
 import PropTypes from 'prop-types';
 import draftToHtml from 'draftjs-to-html';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { deleteGuide } from '../../service'
 
-// import { newArticleComment } from '../../service';
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -40,7 +40,14 @@ export default function RecipeReviewCard ({ data }) {
   const [commentExpanded, setCommentExpanded] = React.useState(false);
   const [social, setSocial] = React.useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
-
+  const handleDelete = async () => {
+    try {
+      await deleteGuide(data.articleId, localStorage.getItem('token'), localStorage.getItem('user_id'))
+      window.location.reload(false);
+    } catch (error) {
+      window.alert('cant delete, please check you login status')
+    }
+  }
   const handleExpandClick = (e) => {
     if (activeStep !== e) {
       setActiveStep(e)
@@ -82,11 +89,12 @@ export default function RecipeReviewCard ({ data }) {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
+          parseInt(localStorage.getItem('user_id')) === data.author &&
+          <IconButton aria-label="settings" onClick={handleDelete}>
+            <DeleteIcon />
           </IconButton>
         }
-        title={data.author}
+        title={data.author_name}
         subheader={new Date(data.timeCreated * 1000).toLocaleString()}
       />
       <CardContent sx={{
@@ -95,7 +103,7 @@ export default function RecipeReviewCard ({ data }) {
           textDecoration: 'underline'
         },
       }} onClick={() => {
-        navigate('/guide/1')
+        navigate(`/guide/${data.id}`)
       }}>
         <Typography variant="h4">
         {data.title}
@@ -120,11 +128,11 @@ export default function RecipeReviewCard ({ data }) {
             </CardActions>
             <Collapse in={index === activeStep} timeout="auto" unmountOnExit>
             {e.video &&
-        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+        <div style={{ marginTop: '2rem', textAlign: 'center', overflow: 'auto' }}>
         <iframe width="560" height="315" src={e.video.replace('https://youtu.be/', 'https://www.youtube.com/embed/')} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
         </div>}
             <CardContent>
-            <div dangerouslySetInnerHTML={{ __html: draftToHtml(JSON.parse(e.content)) }}></div>
+            <div style={{ overflow: 'auto' }}dangerouslySetInnerHTML={{ __html: draftToHtml(JSON.parse(e.content)) }}></div>
 
             </CardContent>
           </Collapse>
