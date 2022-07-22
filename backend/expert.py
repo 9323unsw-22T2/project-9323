@@ -1,3 +1,4 @@
+from asyncio import FastChildWatcher
 from flask import Blueprint, make_response, jsonify,request
 from config import *
 from flask_cors import CORS
@@ -25,7 +26,11 @@ def get_history():
     for j in com_que_id:
         q_id.append(j[1])
     q_id = set(q_id)
+
+    
     for i in com_que_id:
+        if get_question(i[0])==False:
+            return make_response("no such question, please check your databases"), 404
         temp={}
         que_id = i[1]
         com_id = i[0]
@@ -41,28 +46,35 @@ def get_history():
         temp['score'] = tab_com[2]
         temp['time'] = tab_com[3]
         res.append(temp)
-    
-    all_que_id = [_[0] for _ in get_all_queid()]
-    not_ans=[]
-    for i in all_que_id:
-        if i not in q_id:
-            not_ans.append(i)
-    # print(not_ans)
 
-    for i in not_ans[:5]:
-        temp={}
-        tab_que = get_question(i)
-       
-        temp['qes_id'] = i
-        temp['title'] = tab_que[0]
-        temp['qes'] = tab_que[1]
-        temp['ans'] = None
-        temp['ans_id'] = None
-        temp['photoURL'] = None
-        temp['score'] = None
-        temp['time'] = tab_que[2]
-        res.append(temp)
+    if get_all_queid() != False:
 
+        all_que_id = [_[0] for _ in get_all_queid()]
+        not_ans=[]
+        print(all_que_id)
+        for i in all_que_id:
+            if i not in q_id:
+                not_ans.append(i)
+        # print(not_ans)
+
+        for i in not_ans[:5]:
+            if get_question(i)==False:
+                return make_response("no such question, please check your databases or just delete it tu rebuild"), 404
+            temp={}
+            
+            tab_que = get_question(i)
+
+            temp['qes_id'] = i
+            temp['title'] = tab_que[0]
+            temp['qes'] = tab_que[1]
+            temp['ans'] = None
+            temp['ans_id'] = None
+            temp['photoURL'] = None
+            temp['score'] = None
+            temp['time'] = tab_que[2]
+            res.append(temp)
+    else:
+        not_ans = []
     if len(q_id) >=5 and len(not_ans)>=5:
         return jsonify(res[:5]+ res[-5:])
     else:
@@ -78,21 +90,25 @@ def edit_comment(comment_id):
     
     data = request.get_json()
     content = data.get('content', None)
-    # print(content)
+
     sql=f"update comments SET content = '{content}' where id = {comment_id}"
     cur.execute(sql)
     con.commit()
 
-    sql=f"update comments SET timeUpdated = {get_unix_time()} where id = {comment_id}"
+    sql=f"update comments SET timeUpdated = {get_unix_time()} where id = {comment_id} and isDeleted=0"
     cur.execute(sql)
     con.commit()
     return make_response(jsonify({"already updated content with":f"{content}" })),200
+    # else:
+    #     sql=f"update comments SET isDeleted = 1 where id = {comment_id}"
+    #     cur.execute(sql)
+    #     con.commit()
 
 def get_question_comment(user_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     # get the comment for this user
-    sql = f"select id,questionId from comments where author={user_id} and questionId is not null;"
+    sql = f"select id,questionId from comments where author={user_id} and questionId is not null and isDeleted = 0;"
     com_que_id = cur.execute(sql).fetchall()
     print(com_que_id)
     return com_que_id
@@ -100,7 +116,7 @@ def get_question_comment(user_id):
 def get_que_id_no_answer(user_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
-    sql=f"select questionId from comments where questionId is not Null and author != {user_id};"
+    sql=f"select questionId from comments where questionId is not Null and author != {user_id} and isDeleted = 0;"
     rows = cur.execute(sql).fetchall()
     if len(rows) == 0:
         return "no such question that your ever answered"
@@ -112,17 +128,18 @@ def get_all_queid():
     sql=f"select id from questions;"
     rows = cur.execute(sql).fetchall()
     if len(rows) == 0:
-        return "no such question"
+        return False
     # print("12s3",rows)
     return rows
 
 def get_question(question_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
-    sql=f"select title,content,image,timeUpdated from questions where id = {question_id}"
+    print("que_id",question_id)
+    sql=f"select title,content,image,timeUpdated from questions where isDeleted = 0 and id = {question_id}"
     rows = cur.execute(sql).fetchall()
     if len(rows) == 0:
-        return "no such question"
+        return False
 
     return rows[0]
 def get_comment(comment_id):
