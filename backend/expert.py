@@ -28,7 +28,7 @@ def get_history():
 
     
     for i in com_que_id:
-        if get_question(i[0])==False:
+        if get_question(i[1])==False:
             return make_response("no such question, please check your databases"), 404
         temp={}
         que_id = i[1]
@@ -94,7 +94,7 @@ def edit_comment(comment_id):
     cur.execute(sql)
     con.commit()
 
-    sql=f"update comments SET timeUpdated = {get_unix_time()} where id = {comment_id} and isDeleted=0"
+    sql=f"update comments SET timeUpdated = {get_unix_time()} where id = {comment_id}"
     cur.execute(sql)
     con.commit()
     return make_response(jsonify({"already updated content with":f"{content}" })),200
@@ -144,7 +144,7 @@ def get_question(question_id):
 def get_comment(comment_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
-    sql=f"select content,image,score,timeUpdated from comments where id = {comment_id}"
+    sql=f"select content,image,score,timeUpdated from comments where id = {comment_id} and isDeleted=0"
     rows = cur.execute(sql).fetchall()
     if len(rows) == 0:
         return "no such comment"
