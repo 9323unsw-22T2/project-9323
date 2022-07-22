@@ -46,7 +46,6 @@ const Signin = () => {
     setLoading(true)
     try {
       const response = await signIn({ email, password });
-
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user_id', response.data.user_id);
 

@@ -5,11 +5,15 @@ import Box from '@mui/material/Box';
 import Diagram from './1.jpg';
 import styles from './Expert.module.css';
 import { useNavigate } from 'react-router-dom';
-
 const App = () => {
   const navigate = useNavigate();
-  React.useEffect(() => {
-
+  React.useEffect(async () => {
+    try {
+      console.log(localStorage.getItem('user_id'))
+      console.log(localStorage.getItem('token'))
+    } catch (error) {
+      console.log(error)
+    }
   }, [])
   return (
     <Box sx={{ }} className={styles.background}>{localStorage.getItem('token') ? (<LoggedNarbar></LoggedNarbar>) : (<Navbar></Navbar>)}

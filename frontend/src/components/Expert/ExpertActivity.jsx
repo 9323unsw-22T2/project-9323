@@ -68,10 +68,12 @@ export default function VerticalTabs() {
 
   React.useEffect(async() => {
     try {
+      console.log(localStorage.getItem('user_id'))
       const response = await answerhistory(localStorage.getItem('token'), localStorage.getItem('user_id'))
       console.log(response.data)
       setData(JSON.parse(response.data))
     } catch (error) {
+      console.log(error)
     }
   }, [data])
 
