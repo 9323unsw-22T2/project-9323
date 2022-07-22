@@ -101,22 +101,29 @@ export default function ActionAreaCard({ data }) {
           <CardHeader
             onClick={(e) => {
               e.preventDefault();
-              navigate('/question/1');
+              navigate(`/question/${data.id}`);
             }}
             sx={{
               cursor: 'pointer',
               '&:hover': {
                 textDecoration: 'underline',
               },
+              wordBreak: 'break-all',
+              overflowWrap: 'break-word'
             }}
             title={data.title}
           ></CardHeader>
           <CardContent
-            sx={{ borderBottom: '1px solid #e6e5e6' }}
+            sx={{
+              borderBottom: '1px solid #e6e5e6',
+              wordBreak: 'break-all',
+              overflowWrap: 'break-word',
+              transition: 'auto'
+            }}
             // eslint-disable-next-line react/no-children-prop
             children={
               <Box>
-                {isShowMore ? text.slice(0, 300) : text}
+                {isShowMore ? text?.slice(0, 300) : text}
                 {text && text.length > 300 && (
                   <Box
                     onClick={toggleReadMore}
@@ -139,7 +146,7 @@ export default function ActionAreaCard({ data }) {
       <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto' }}>
         <Button size="small">Follow</Button>
         <Box sx={{ margin: 'auto' }}>{new Date(data.timeCreated * 1000).toLocaleString()}</Box>
-        {JSON.parse(data.replyIds).length
+        {data.replyIds !== '[]'
           ? <Box
           onClick={(e) => {
             e.preventDefault(
@@ -155,8 +162,8 @@ export default function ActionAreaCard({ data }) {
             cursor: 'pointer',
           }}
         >
-          <span>{`${JSON.parse(data.replyIds).length}answers`}</span>
-        </Box> : <span style={{ margin: 'auto' }}>{'no answer'}</span>
+          <span>{`${data.replyIds} answers`}</span>
+        </Box> : <span style={{ marginRight: 'auto' }}>{'no answer'}</span>
         }
         <Box sx={{ margin: 'auto' }}>
 

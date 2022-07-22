@@ -7,6 +7,7 @@ from question import question_page
 from comment import comment_page
 from article import article_page
 from score import score_page
+from expert import expert_page
 con = sqlite3.connect(DATABASE_NAME)
 cur = con.cursor()
 
@@ -71,6 +72,7 @@ app.register_blueprint(question_page)
 app.register_blueprint(comment_page)
 app.register_blueprint(article_page)
 app.register_blueprint(score_page)
+app.register_blueprint(expert_page)
 
 @app.route("/ping")
 def ping():

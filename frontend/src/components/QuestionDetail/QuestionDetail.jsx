@@ -69,15 +69,13 @@ const Home = () => {
     })
     setEditorState('')
   }; */
+
   const [data, setData] = useState([{ }]);
+
   React.useEffect(async () => {
-    const response = await questionDetail(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
-    console.log(response)
-    setData(Object.fromEntries(Object.entries(response.data.question)))
-  }, [])
-  React.useEffect(async () => {
+    const responseDetail = await questionDetail(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
+    setData(Object.fromEntries(Object.entries(responseDetail.data.question)))
     const response = await getQuestionComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
-    console.log(response.data)
     setCommentData(response.data);
   }, [])
   return (
@@ -90,7 +88,7 @@ const Home = () => {
       <Box
         sx={{
           backgroundImage: 'url(https://cdn.dribbble.com/users/782052/screenshots/10927554/media/e961df046013321feb28cf99b7fc7800.jpg)',
-
+          height: '86vh',
           // backgroundColor: 'rgb(118, 118, 118, 0.1)',
           display: 'flex',
           paddingTop: '1.3rem'
@@ -112,11 +110,19 @@ const Home = () => {
                   width: '90%',
                   margin: 'auto',
                   textAlign: 'center',
+                  wordBreak: 'break-all',
+                  overflowWrap: 'break-word',
                 }}
                 title={data[1]}
               ></CardHeader>
               <CardContent
-                sx={{ borderBottom: '1px solid #e6e5e6', width: '90%', margin: 'auto' }}
+                sx={{
+                  borderBottom: '1px solid #e6e5e6',
+                  width: '90%',
+                  margin: 'auto',
+                  wordBreak: 'break-all',
+                  overflowWrap: 'break-word',
+                }}
                 // eslint-disable-next-line react/no-children-prop
                 children={data[2]}
               ></CardContent>
@@ -196,9 +202,9 @@ const Home = () => {
             <MenuItem onClick={handleClose}>Price(high to low)</MenuItem>
             <MenuItem onClick={handleClose}>Price(low to high)</MenuItem>
           </Menu>
-         <ChargeAnswerCard></ChargeAnswerCard>
+
          { commentData && Object.keys(commentData).map((key) => {
-           return (<AnswerCard key={`ele${key}`} data={commentData[key]}></AnswerCard>)
+           return (commentData[key].isdeleted ? <></> : commentData[key].score ? <ChargeAnswerCard></ChargeAnswerCard> : <AnswerCard key={`ele${key}`} data={commentData[key]}></AnswerCard>)
          })}
       </Box>
         <List></List>

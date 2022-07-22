@@ -2,10 +2,8 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import CardActionArea from '@mui/material/CardActionArea';
 import { Editor } from '@tinymce/tinymce-react';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
@@ -16,14 +14,15 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import CommentIcon from '@mui/icons-material/Comment';
 import SharePopup from '../SharePopup/SharePopup'
 import GuideAnswerCard from '../GuideDetail/GuideAnswerCard'
 import PropTypes from 'prop-types';
+import draftToHtml from 'draftjs-to-html';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { deleteGuide } from '../../service'
 
-// import { newArticleComment } from '../../service';
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -38,21 +37,24 @@ RecipeReviewCard.propTypes = {
   data: PropTypes.object,
 };
 export default function RecipeReviewCard ({ data }) {
-  const [expanded, setExpanded] = React.useState(false);
   const [commentExpanded, setCommentExpanded] = React.useState(false);
   const [social, setSocial] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-    setExpanded2(false);
+  const [activeStep, setActiveStep] = React.useState(0);
+  const handleDelete = async () => {
+    try {
+      await deleteGuide(data.articleId, localStorage.getItem('token'), localStorage.getItem('user_id'))
+      window.location.reload(false);
+    } catch (error) {
+      window.alert('cant delete, please check you login status')
+    }
+  }
+  const handleExpandClick = (e) => {
+    if (activeStep !== e) {
+      setActiveStep(e)
+    } else { setActiveStep(null) }
   };
-  const [expanded2, setExpanded2] = React.useState(false);
   const handleCommentClick = () => {
     setCommentExpanded(!commentExpanded);
-  };
-  const handleExpandClick2 = () => {
-    setExpanded2(!expanded2);
-    setExpanded(false);
   };
   const navigate = useNavigate();
   const [content, setContent] = React.useState('')
@@ -87,35 +89,57 @@ export default function RecipeReviewCard ({ data }) {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
+          parseInt(localStorage.getItem('user_id')) === data.author &&
+          <IconButton aria-label="settings" onClick={handleDelete}>
+            <DeleteIcon />
           </IconButton>
         }
-        title={data.author}
+        title={data.author_name}
         subheader={new Date(data.timeCreated * 1000).toLocaleString()}
       />
-
-      <CardActionArea sx={{ cursor: 'pointer' }} onClick={() => {
-        navigate('/guide/1')
+      <CardContent sx={{
+        cursor: 'pointer',
+        '&:hover': {
+          textDecoration: 'underline'
+        },
+      }} onClick={() => {
+        navigate(`/guide/${data.id}`)
       }}>
-      <Typography variant="h5">
-          {data.title}
-      </Typography>
-      <CardMedia
-        component="img"
-        height="194"
-        image="https://images.idgesg.net/images/article/2019/02/cw_microsoft_office_365_teams-100787163-large.jpg?auto=webp&quality=85,70"
-        alt="Paella dish"
-        sx={{ width: 'auto' }}
-      />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-        As an admin, you can create and manage teams and channels in the Teams client or the Microsoft Teams admin center. You can create teams as public or private. You can also create an org-wide team. Anyone using Teams in your organization can join a public team. For private teams, team owners manage team membership. And for an org-wide team, everyone in your organization is automatically added.
-
-To get started, we recommend you create private teams and add another owner to manage team settings and membership.
+        <Typography variant="h4">
+        {data.title}
         </Typography>
       </CardContent>
-      </CardActionArea >
+
+      {
+        data.each_step.map((e, index) => {
+          return (
+          <div key={`step${index}`}>
+            <CardActions disableSpacing>
+                  {e.stepTitle}
+                  <ExpandMore
+                    expand={index === activeStep}
+                    onClick={(event) => { event.preventDefault(); handleExpandClick(index) }}
+                    aria-expanded={index === activeStep}
+                    aria-label="show more"
+                  >
+                    <ExpandMoreIcon />
+                  </ExpandMore>
+
+            </CardActions>
+            <Collapse in={index === activeStep} timeout="auto" unmountOnExit>
+            {e.video &&
+        <div style={{ marginTop: '2rem', textAlign: 'center', overflow: 'auto' }}>
+        <iframe width="560" height="315" src={e.video.replace('https://youtu.be/', 'https://www.youtube.com/embed/')} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+        </div>}
+            <CardContent>
+            <div style={{ overflow: 'auto' }}dangerouslySetInnerHTML={{ __html: draftToHtml(JSON.parse(e.content)) }}></div>
+
+            </CardContent>
+          </Collapse>
+          </div>
+          )
+        })
+      }
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
@@ -145,49 +169,6 @@ To get started, we recommend you create private teams and add another owner to m
   />
   <br />
   <Button sx={{ mb: 1, float: 'right' }} variant="contained" onClick={handleSubmit}>Submit</Button>
-        </CardContent>
-      </Collapse>
-      <CardActions disableSpacing>
-        Step1
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>
-          On the left side of Teams, click Teams, at the bottom of the teams list, click Join or create a team, and then click Create a new team.
-
-Once youve created the team, invite people to join it. You can add individual users, groups, and even entire contact groups (formerly known as distribution lists).
-          </Typography>
-          <Typography paragraph>
-          Find the team that you created, click More options ...  Manage team. Then go to the Members tab. Find the people you want to designate as team owners. Under Role, click Owner.
-          </Typography>
-        </CardContent>
-      </Collapse>
-      <CardActions disableSpacing>
-        Step2
-      <ExpandMore
-          expand={expanded2}
-          onClick={handleExpandClick2}
-          aria-expanded={expanded2}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
-
-      <Collapse in={expanded2} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>
-          Find the team that you created, click More options ...  Add channel. You can also click Manage team and add a channel in the Channels tab. Give the channel a descriptive name to make it easier for users to understand the purpose of the channel.
-          </Typography>
         </CardContent>
       </Collapse>
     </Card>

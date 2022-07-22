@@ -1,14 +1,16 @@
+import enum
 from flask import request, Blueprint
 import sqlite3
 import uuid
 from flask import jsonify, make_response
 from config import *
 from flask_cors import CORS
-from helper import authenticated
+from helper import authenticated, get_user_id_from_header
 
 
 auth_page = Blueprint("auth", __name__)
 CORS(auth_page)
+
 
 @auth_page.route('/auth/register', methods=['POST'])
 def auth_register():
@@ -44,6 +46,18 @@ def auth_register():
     return make_response(jsonify({"token": token, "user_id": user_id})), 200
 
 
+def _get_user_info(cur, user_id):
+    sql = "SELECT * from users where id = '{}'".format(user_id)
+    rows = cur.execute(sql).fetchall()
+    row = rows[0]
+    user_info = dict()
+
+    for index, value in enumerate(["id", "name", "email", "password", "token", "expertArea", "scores", "coins", "expertOrNot", "isPpublic"]):
+        user_info[value] = row[index]
+
+    return user_info
+
+
 @auth_page.route('/auth/login', methods=['POST'])
 def auth_login():
     data = request.get_json()
@@ -60,9 +74,10 @@ def auth_login():
         return make_response(jsonify({"error": "Email and password don't match"})), 400
 
     user_id = rows[0][0]
-    token = rows[0][1]
 
-    return make_response(jsonify({"token": token, "user_id": user_id})), 200
+    user_info = _get_user_info(cur, user_id)
+
+    return make_response(jsonify(user_info)), 200
 
 
 @auth_page.route('/auth/logout', methods=['POST'])
@@ -75,6 +90,37 @@ def auth_logout():
 @auth_page.route('/auth/ping', methods=['GET'])
 def auth_ping():
     return "Pong", 200
+
+
+@auth_page.route('/auth/info', methods=['GET'])
+@authenticated
+def auth_info_get():
+    user_id = get_user_id_from_header()
+
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+
+    user_info = _get_user_info(cur, user_id)
+
+    return make_response(jsonify(user_info)), 200
+
+
+@auth_page.route('/auth/expert_by_certificate', methods=['POST'])
+@authenticated
+def auth_expert_by_certificate():
+    user_id = get_user_id_from_header()
+
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+
+    sql = "UPDATE users SET expertOrNot = 1 where id = {}".format(user_id)
+    cur.execute(sql)
+    con.commit()
+
+    user_info = _get_user_info(cur, user_id)
+
+    return make_response(jsonify(user_info)), 200
+
 
 @auth_page.route('/auth/auth_ping', methods=['GET'])
 @authenticated

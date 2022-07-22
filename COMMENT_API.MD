@@ -7,13 +7,14 @@ curl --location --request POST '127.0.0.1:5000/comment/articles/<int:article_id>
 --header 'Content-Type: application/json' \
 --data-raw '{
     "content":"this is a comment for a article"
-}'
+}
 ```
 IF EXISTS:
 ```json
 {
     "comment_content": "this is a comment for a article",
     "comment_id": 2
+  	
 }
 ```
 

@@ -3,6 +3,7 @@ from flask import Blueprint, request, make_response, jsonify
 from flask_cors import CORS
 import sqlite3
 import random
+import json
 from math import ceil
 
 newsfeed_page = Blueprint("newsfeed", __name__)
@@ -12,9 +13,13 @@ def generate_all_dit(seed):
     # get the number of question and article
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
-    question_num = cur.execute("select count(id) from questions;").fetchall()[0][0]
-    article_num = cur.execute("select count(id) from articles where articleId is null;").fetchall()[0][0]
-    # print(article_num)
+    question_num = cur.execute("select count(id) from questions where isDeleted = 0;").fetchall()[0][0]
+    article_num = cur.execute("select count(id) from articles where articleId is null and isDeleted = 0;").fetchall()[0][0]
+
+    
+    
+    
+    # print(f"que num is {question_num},\n art num is {article_num}")
     con.close()
     # max page, and max_num
     max_num = question_num+article_num
@@ -24,8 +29,11 @@ def generate_all_dit(seed):
     random.seed(seed)
     # ramdom generate the list to store the question and aricle (use id)
     # from 1 to num+1 is due the begin id is 1
-    question_random = random.sample(range(1,question_num+1), question_num)
-    article_random = random.sample(range(1,article_num+1), article_num)
+    article_random= get_all_artilce_id()
+    question_random = get_all_question_id()
+    random.shuffle(article_random)
+    random.shuffle(question_random)
+    # print(article_random, question_random)
 
     # random article or question
     # que is 0, art is 1
@@ -93,13 +101,18 @@ def newsfeed_random(page):
             for _ in range(len(col_que)):
                 temp[col_que[_]] = content_que[_]
             
+            temp["author_name"]=get_author_name(content_que[5])
+            
         if que_or_art[i-1] == 1:
             temp["TYPE"]="ARTICLE"
             # print("page ", page,'art id',que_or_art[:_].count(1))
             t = que_or_art[:i].count(1)
+            # print(t)
+            # print(article_random)
             art_id = article_random[t-1]
-            art_all_id = get_all_artilce_id()
-            content_art = get_article(art_all_id[art_id-1])
+            # art_all_id = get_all_artilce_id()
+            content_art = get_article(art_id)
+            # print("111!! ",content_art[0][9])
             len_step=len(content_art)
 
             for _ in range(len(col_art)):
@@ -113,6 +126,7 @@ def newsfeed_random(page):
                 t_list.append(tm)
             temp["each_step"] = t_list
             temp["articleId"] = content_art[0][0]
+            temp["author_name"] = get_author_name(content_art[0][9])
         result[i] = temp
     # print(result)    
     return jsonify(result)
@@ -131,7 +145,7 @@ def get_qeustion(id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     # sql = f"select id,title,content,timeCreated,timeUpdated,author,thumbUpby,isDeleted from questions where id = {id};"
-    sql = f"select * from questions where id = {id};"
+    sql = f"select * from questions where id = {id} ;"
     res = cur.execute(sql).fetchall()
     # print(res)
     return res
@@ -139,7 +153,7 @@ def get_all_artilce_id():
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     # sql = f"select id,articleId,stepTitle,content,image,timeCreated,timeUpdated,author,thumbUpby,isDeleted,video from articles where id = {id};"
-    sql = f"select articleId from articles where articleId is not null;"
+    sql = f"select articleId from articles where articleId is not null and isDeleted = 0;"
     res = cur.execute(sql).fetchall()
     res = set(res)
     temp =[]
@@ -149,11 +163,19 @@ def get_all_artilce_id():
     # print("all articles id", res)
     return res
 
+def get_all_question_id():
+        con = sqlite3.connect(DATABASE_NAME)
+        cur = con.cursor()
+        sql = f"select id from questions where isDeleted = 0;"
+        all_que = cur.execute(sql).fetchall()
+        # print(all_que)
+        return [i[0] for i in all_que]
+
 def get_article(article_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     # sql = f"select id,articleId,stepTitle,content,image,timeCreated,timeUpdated,author,thumbUpby,isDeleted,video from articles where id = {id};"
-    sql = f"select * from articles where articleId = {article_id} or (articleId is Null and id = {article_id});"
+    sql = f"select * from articles where (articleId = {article_id} or (articleId is Null and id = {article_id})) and isDeleted = 0;"
     res = cur.execute(sql).fetchall()
     # print("get !!! article : ","article_id is ",article_id,res)
     return res
@@ -167,3 +189,44 @@ def get_table_column(table_name):
     for _ in all:
         res.append(_[1])
     return res
+
+
+# trending
+@newsfeed_page.route('/newsfeed/trending', methods=['GET'])
+def newsfeed_trending():
+    # only question!!!
+    col_que = get_table_column("questions")
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    
+    # get all question_thumb up by
+    sql = "select id,title,content,thumbUpBy,replyIds from questions where isDeleted =0;"
+    all_thumb = cur.execute(sql).fetchall()
+    num_question = len(all_thumb)
+    # print(all_thumb,num_question)
+    tem_list=[]
+    for i in all_thumb:
+        temp ={}
+        num_thu = len(json.loads(i[3]))
+        temp["id"] = i[0]
+        temp["title"]=i[1]
+        temp['content']=i[2]
+        temp['thumbUpBy']=i[3]
+        temp['answer_nums'] = i[4]
+        temp["num-thum"] = num_thu
+        tem_list.append(temp)
+    res = sorted(tem_list, key=lambda i: i['num-thum'],reverse=True)
+
+    
+    if len(res) >=5:
+        return make_response(jsonify(res[:5])),200
+    else:
+        return make_response(jsonify(res[:5])),200
+def get_author_name(author_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql = f"select name from users where id = {author_id}"
+    name = cur.execute(sql).fetchall()
+    if len(name) == 0:
+        return "no such user, please check your table"
+    return name[0][0]

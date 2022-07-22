@@ -10,7 +10,6 @@ import { Box } from '@mui/material';
 import styles from './App.module.css';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
@@ -26,6 +25,8 @@ import Collapse from '@mui/material/Collapse';
 import SharePopup from '../SharePopup/SharePopup'
 import draftToHtml from 'draftjs-to-html';
 import GuideAnswerCard from './GuideAnswerCard'
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 // eslint-disable-next-line space-before-function-paren
 export default function VerticalTabs() {
   const { number } = useParams();
@@ -35,7 +36,9 @@ export default function VerticalTabs() {
   const handleCommentClick = () => {
     setCommentExpanded(!commentExpanded);
   };
-
+  const matchesPad = useMediaQuery(
+    '(max-width: 950px)'
+  )
   const [social, setSocial] = React.useState(false);
 
   const [content, setContent] = React.useState('')
@@ -82,7 +85,7 @@ export default function VerticalTabs() {
         <Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="/main">{'<Return'}</Button>
         </Box>
       <Box sx={{ display: 'flex' }}>
-      <Box className={styles.guideDetail}>
+      <Box className={styles.guideDetail} sx={{ width: matchesPad ? '90%' : '70%' }}>
       <CardHeader
             sx={{ width: '95%', margin: 'auto', mt: 3 }}
             avatar={
@@ -90,7 +93,7 @@ export default function VerticalTabs() {
                 R
               </Avatar>
             }
-            title="Shrimp and Chorizo Paella"
+            title={data[0].author}
             subheader={new Date(data[0].time_created * 1000).toLocaleString()}
           />
         <Box sx={{ width: '95%', margin: 'auto' }}>
@@ -111,13 +114,6 @@ export default function VerticalTabs() {
         <iframe width="560" height="315" src={data[activeStep].video.replace('https://youtu.be/', 'https://www.youtube.com/embed/')} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
         </div>}
         <Card sx={{ width: '95%', border: 'none', margin: 'auto', boxShadow: 'none', height: '32rem', overflow: 'scroll', mt: 3 }}>
-
-          <CardMedia
-            component="img"
-            sx={{ height: 'max-content', width: 'max-content' }}
-            image="https://cdn.sstatic.net/Img/teams/teams-illo-free-sidebar-promo.svg?v=47faa659a05e"
-            alt="Paella dish"
-          />
           <CardContent>
             <Typography variant="h4" color="text.secondary">
             <div dangerouslySetInnerHTML={{ __html: draftToHtml(data[activeStep].content) }}></div>
@@ -158,6 +154,8 @@ export default function VerticalTabs() {
       </Box>
       <Box
           sx={{
+            display: matchesPad ? 'none' : 'block',
+
             width: '20%',
             marginLeft: 'auto',
             marginRight: ' auto',
