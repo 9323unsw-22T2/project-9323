@@ -94,6 +94,8 @@ def newsfeed_random(page):
             for _ in range(len(col_que)):
                 temp[col_que[_]] = content_que[_]
             
+            temp["author_name"]=get_author_name(content_que[5])
+            
         if que_or_art[i-1] == 1:
             temp["TYPE"]="ARTICLE"
             # print("page ", page,'art id',que_or_art[:_].count(1))
@@ -101,6 +103,7 @@ def newsfeed_random(page):
             art_id = article_random[t-1]
             art_all_id = get_all_artilce_id()
             content_art = get_article(art_all_id[art_id-1])
+            print("111!! ",content_art[0][9])
             len_step=len(content_art)
 
             for _ in range(len(col_art)):
@@ -114,6 +117,7 @@ def newsfeed_random(page):
                 t_list.append(tm)
             temp["each_step"] = t_list
             temp["articleId"] = content_art[0][0]
+            temp["author_name"] = get_author_name(content_art[0][9])
         result[i] = temp
     # print(result)    
     return jsonify(result)
@@ -199,3 +203,12 @@ def newsfeed_trending():
     
 
     return make_response(jsonify(res[:5])),200
+
+def get_author_name(author_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql = f"select name from users where id = {author_id}"
+    name = cur.execute(sql).fetchall()
+    if len(name) == 0:
+        return "no such user, please check your table"
+    return name[0][0]

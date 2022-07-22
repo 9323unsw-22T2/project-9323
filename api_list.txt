@@ -356,18 +356,26 @@ body:{
     "error": "this article can not be found"
 }
 
-curl --location --request POST '127.0.0.1:5000/comment/questions/<int:question_id>' \
+curl --location --request POST '127.0.0.1:5000/comment/questions/<int:id>' \
+--header 'token: 176379f7-0074-4639-bbe4-13e5a1614b25' \
 --header 'user_id: 1' \
---header 'token: 1301ccf6-1891-42ba-8cbb-310e3bdda032' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "content":"this is a comment for a question"
+    "content":"this is a comment for a question",
+    "score": 100
 }'
 
-IF EXIST THIS QUESTION:
+IF EXIST THIS QUESTION and the user is expert:
 {
     "comment_content": "this is a comment for a question",
-    "comment_id": 1
+    "comment_id": id
+    "score": 100
+}
+# IF USER NOT expert(score will not be changed)
+{
+    "comment_content": "this is a comment for a question",
+    "comment_id": id
+    "score": 0
 }
 
 IF THIS QUESTION NOT EXSTS:
@@ -472,10 +480,35 @@ curl --location --request PATCH '127.0.0.1:5000/comment/<int:comment_id>/un_thum
     "unlike by": 3
 }
 
+# buy comment
+curl --location --request POST '127.0.0.1:5000/comment/3/buy' \
+--header 'token: 176379f7-0074-4639-bbe4-13e5a1614b25' \
+--header 'user_id: 1' \
+--header 'Content-Type: application/json' \
+
+# if the comment is free (score = 0)
+# return 
+
+"this comment is free, no need to pay"
+
+# if the comment's score is bigger than user?
+# return
+
+"your score is not enough to see this comment"
+
+# if the user had bought this comment
+# return
+
+"You already bought this, please enjoy "
 
 
+# if enough buy this comment
+# return
 
-#Newsfeed＿API
+"user_score":"{user_score}"
+
+
+# Newsfeed＿API
 ## each page show how many things is in config.py : EACH_PAGE_NUMBER.
 
 
@@ -555,3 +588,52 @@ curl --location --request GET '127.0.0.1:5000/newsfeed/<int:page>' \
 curl --location --request POST '127.0.0.1:5000/newsfeed/fresh'
 
 # it will return "Already freshed" . and the content already be freshed
+
+# Trending
+
+curl --location --request GET '127.0.0.1:5000/newsfeed/trending' \
+--header 'Content-Type: application/json' \
+
+# return
+[
+    {
+        "answer_nums": "42",
+        "content": "1414",
+        "id": 3,
+        "num-thum": 10,
+        "thumbUpBy": "[1,2,3,3,4,5,6,7,8,9]",
+        "title": "123123"
+    },
+    {
+        "answer_nums": "15",
+        "content": "123",
+        "id": 1,
+        "num-thum": 7,
+        "thumbUpBy": "[1,3,2,4,5,6,7]",
+        "title": "123"
+    },
+    {
+        "answer_nums": "5",
+        "content": "1",
+        "id": 5,
+        "num-thum": 2,
+        "thumbUpBy": "[1,2]",
+        "title": "1"
+    },
+    {
+        "answer_nums": "23",
+        "content": "34",
+        "id": 2,
+        "num-thum": 1,
+        "thumbUpBy": "[1]",
+        "title": "4343"
+    },
+    {
+        "answer_nums": "42",
+        "content": "155",
+        "id": 4,
+        "num-thum": 1,
+        "thumbUpBy": "[3]",
+        "title": "1234"
+    }
+]
