@@ -112,11 +112,19 @@ const Home = () => {
                   width: '90%',
                   margin: 'auto',
                   textAlign: 'center',
+                  wordBreak: 'break-all',
+                  overflowWrap: 'break-word',
                 }}
                 title={data[1]}
               ></CardHeader>
               <CardContent
-                sx={{ borderBottom: '1px solid #e6e5e6', width: '90%', margin: 'auto' }}
+                sx={{
+                  borderBottom: '1px solid #e6e5e6',
+                  width: '90%',
+                  margin: 'auto',
+                  wordBreak: 'break-all',
+                  overflowWrap: 'break-word',
+                }}
                 // eslint-disable-next-line react/no-children-prop
                 children={data[2]}
               ></CardContent>

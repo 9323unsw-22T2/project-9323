@@ -10,7 +10,6 @@ import { Box } from '@mui/material';
 import styles from './App.module.css';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
@@ -90,7 +89,7 @@ export default function VerticalTabs() {
                 R
               </Avatar>
             }
-            title="Shrimp and Chorizo Paella"
+            title={data[0].author}
             subheader={new Date(data[0].time_created * 1000).toLocaleString()}
           />
         <Box sx={{ width: '95%', margin: 'auto' }}>
@@ -111,13 +110,6 @@ export default function VerticalTabs() {
         <iframe width="560" height="315" src={data[activeStep].video.replace('https://youtu.be/', 'https://www.youtube.com/embed/')} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
         </div>}
         <Card sx={{ width: '95%', border: 'none', margin: 'auto', boxShadow: 'none', height: '32rem', overflow: 'scroll', mt: 3 }}>
-
-          <CardMedia
-            component="img"
-            sx={{ height: 'max-content', width: 'max-content' }}
-            image="https://cdn.sstatic.net/Img/teams/teams-illo-free-sidebar-promo.svg?v=47faa659a05e"
-            alt="Paella dish"
-          />
           <CardContent>
             <Typography variant="h4" color="text.secondary">
             <div dangerouslySetInnerHTML={{ __html: draftToHtml(data[activeStep].content) }}></div>
