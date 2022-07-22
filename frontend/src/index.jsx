@@ -11,7 +11,7 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root'),
   window.localStorage.removeItem('expert'),
-
+  window.localStorage.removeItem('data'),
   window.localStorage.setItem('data', JSON.stringify([
     {
       id: 1,

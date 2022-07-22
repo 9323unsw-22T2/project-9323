@@ -12,7 +12,8 @@ import MyQesCard from './MyQesCard';
 import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Button, Menu } from '@mui/material';
 import styles from './Expert.module.css';
-import List from './List'
+import List from './List';
+import { answerhistory } from '../../service'
 // eslint-disable-next-line space-before-function-paren
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -52,8 +53,7 @@ function a11yProps(index) {
 
 export default function VerticalTabs() {
   const [value, setValue] = React.useState(0);
-
-  const sampleData = JSON.parse(localStorage.getItem('data'))
+  const [data, setData] = React.useState(JSON.parse(localStorage.getItem('data')));
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -65,6 +65,16 @@ export default function VerticalTabs() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  React.useEffect(async() => {
+    try {
+      const response = await answerhistory(localStorage.getItem('token'), localStorage.getItem('user_id'))
+      console.log(response.data)
+      setData(JSON.parse(response.data))
+    } catch (error) {
+    }
+  }, [data])
+
   return (
     <>
       {' '}
@@ -130,7 +140,7 @@ export default function VerticalTabs() {
           </Menu>
           <Box sx={{ margin: 'auto', display: 'flex', opacity: '0.95' }}>
             <Box sx={{ width: '50%', margin: 'auto' }}>
-              {sampleData.map((e, i) => {
+              {data.map((e, i) => {
                 return (
                   <MyAnswerCard
                     key={'resultCard' + i}
@@ -178,7 +188,7 @@ export default function VerticalTabs() {
           </Menu>
           <Box sx={{ margin: 'auto', display: 'flex', opacity: '0.95' }}>
             <Box sx={{ width: '50%', margin: 'auto' }}>
-              {sampleData.map((e, i) => {
+              {data.map((e, i) => {
                 return (
                   <MyQesCard
                     key={'resultCard' + i}
