@@ -14,6 +14,8 @@ export const fetchDashboard = () =>
   axios.get('actors');
 export const newGuide = (body, token, userId) =>
   axios.post(`${BASE_URL}/article`, body, { headers: { user_id: userId, token: token } });
+export const deleteGuide = (number, token, userId) =>
+  axios.delete(`${BASE_URL}/article/${number}`, { headers: { user_id: userId, token: token } });
 export const thumbUp = (number, token, userId) =>
   axios.patch(`${BASE_URL}/article/${number}/thumb_up`, {}, { headers: { user_id: userId, token: token } });
 export const unThumbUp = (number, token, userId) =>
@@ -26,6 +28,8 @@ export const getArticleComments = (userId, token, number) =>
   axios.get(`${BASE_URL}/comment/articles/${number}`, { headers: { user_id: userId, token: token } });
 export const newQuestionComment = (body, token, userId, number) =>
   axios.post(`${BASE_URL}/comment/questions/${number}`, body, { headers: { user_id: userId, token: token } });
+export const deleteQuestionComment = (number, token, userId) =>
+  axios.delete(`${BASE_URL}/comment/${number}/delete`, { headers: { user_id: userId, token: token } });
 export const getQuestionComments = (userId, token, number) =>
   axios.get(`${BASE_URL}/comment/questions/${number}`, { headers: { user_id: userId, token: token } });
 export const questionDetail = (userId, token, number) =>

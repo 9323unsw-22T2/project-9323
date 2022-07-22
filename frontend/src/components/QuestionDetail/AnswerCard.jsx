@@ -9,15 +9,15 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ShareIcon from '@mui/icons-material/Share';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import CommentIcon from '@mui/icons-material/Comment';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
-import { commentLike, commentDislike } from '../../service'
+import { commentLike, commentDislike, deleteQuestionComment } from '../../service'
 import { useParams } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 RecipeReviewCard.propTypes = {
   data: PropTypes.Object,
@@ -26,7 +26,14 @@ export default function RecipeReviewCard ({ data }) {
   const { number } = useParams();
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
-
+  const handleDelete = async () => {
+    try {
+      await deleteQuestionComment(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+      window.location.reload(false);
+    } catch (error) {
+      window.alert('cant delete, please check you login status')
+    }
+  }
   const ThumbUp = (e) => {
     if (thumbDown) { ThumbDown() }
     setThumbUp(!thumbUp)
@@ -59,8 +66,8 @@ export default function RecipeReviewCard ({ data }) {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
+          parseInt(localStorage.getItem('user_id')) === data.user && <IconButton aria-label="settings" onClick={handleDelete}>
+            <DeleteIcon />
           </IconButton>
         }
         title={data.user}

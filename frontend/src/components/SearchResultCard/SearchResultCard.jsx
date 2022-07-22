@@ -101,7 +101,7 @@ export default function ActionAreaCard({ data }) {
           <CardHeader
             onClick={(e) => {
               e.preventDefault();
-              navigate('/question/1');
+              navigate(`/question/${data.id}`);
             }}
             sx={{
               cursor: 'pointer',
@@ -123,7 +123,7 @@ export default function ActionAreaCard({ data }) {
             // eslint-disable-next-line react/no-children-prop
             children={
               <Box>
-                {isShowMore ? text.slice(0, 300) : text}
+                {isShowMore ? text?.slice(0, 300) : text}
                 {text && text.length > 300 && (
                   <Box
                     onClick={toggleReadMore}

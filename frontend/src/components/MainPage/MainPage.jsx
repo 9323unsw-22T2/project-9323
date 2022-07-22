@@ -13,15 +13,20 @@ import { MenuItem, Button, Menu } from '@mui/material';
 import GuideCard from '../GuideDetail/GuideCard'
 import List from './List'
 import { getNewsFeed } from '../../service'
+import useMediaQuery from '@mui/material/useMediaQuery';
+import CommonMessage from '../CommonMessage/CommonMessage'
+
 // eslint-disable-next-line space-before-function-paren
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
+  const matchesPad = useMediaQuery(
+    '(max-width: 950px)'
+  )
   return (
     <div >
       <div
         style={{
-          width: '86vw',
+          width: matchesPad ? '100vw' : '86vw',
           minHeight: '100%',
           // backgroundColor: 'rgb(118, 118, 118, 0.1)',
           backgroundImage: 'url(https://cdn.dribbble.com/users/782052/screenshots/10927554/media/e961df046013321feb28cf99b7fc7800.jpg)'
@@ -61,11 +66,24 @@ export default function VerticalTabs() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const matchesPad = useMediaQuery(
+    '(max-width: 950px)'
+  )
+  const [feed, setFeed] = React.useState(1)
   React.useEffect(async() => {
-    const response = await getNewsFeed(1)
-    setData(response.data)
-    console.log(response.data)
-  }, [])
+    try {
+      const response = await getNewsFeed(feed)
+      console.log(response.data)
+      setData([...Object.values(response.data)])
+    } catch (error) {
+      setErrorMessage(['last page', 'error', true])
+    }
+  }, [feed])
+  const [errorMessage, setErrorMessage] = React.useState(['', 'error', false]);
+
+  function setMessageStatus () {
+    setErrorMessage(['', 'error', false])
+  }
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -74,6 +92,39 @@ export default function VerticalTabs() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  function compareTime (a, b) {
+    if (a.timeCreated < b.timeCreated) {
+      return 1;
+    }
+    if (a.timeCreated > b.timeCreated) {
+      return -1;
+    }
+    return 0;
+  }
+  function compareTimeDescend (a, b) {
+    if (a.timeCreated < b.timeCreated) {
+      return -1;
+    }
+    if (a.timeCreated > b.timeCreated) {
+      return 1;
+    }
+    return 0;
+  }
+  // a simple debounce function https://www.cnblogs.com/Peter2014/p/13254268.html
+  /*   function debounce (fn, delay) {
+    let timer = null
+    return function () {
+      const context = this
+      const args = arguments
+      if (timer) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(() => {
+        fn.apply(context, args)
+      }, delay)
+    }
+  } */
+
   return (
     <>
       {' '}
@@ -89,17 +140,18 @@ export default function VerticalTabs() {
         sx={{
           flexGrow: 1,
           bgcolor: 'background.paper',
-          display: 'flex',
+          display: matchesPad ? 'block' : 'flex',
           height: '89%',
         }}
       >
         <Tabs
-          orientation="vertical"
+          orientation={matchesPad ? 'horizontal' : 'vertical'}
           variant="scrollable"
           value={value}
           onChange={handleChange}
           aria-label="Vertical tabs example"
           sx={{
+            margin: matchesPad ? 'auto' : '',
             borderRight: 1,
             borderColor: 'divider',
             width: '13vw',
@@ -153,6 +205,7 @@ export default function VerticalTabs() {
           >
             <SortIcon></SortIcon>Sort
           </Button>
+
           <Menu
             id="basic-menu"
             anchorEl={anchorEl}
@@ -162,26 +215,50 @@ export default function VerticalTabs() {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={handleClose}>Distance</MenuItem>
-            <MenuItem onClick={handleClose}>Price(high to low)</MenuItem>
-            <MenuItem onClick={handleClose}>Price(low to high)</MenuItem>
+            <MenuItem onClick={(e) => {
+              e.preventDefault()
+              setData(data.sort(compareTime))
+              handleClose()
+            }}>Time (new to old)</MenuItem>
+            <MenuItem onClick={(e) => {
+              e.preventDefault()
+              setData(data.sort(compareTimeDescend))
+              handleClose()
+            }}>Time (old to new)</MenuItem>
           </Menu>
           <Box sx={{ margin: 'auto', display: 'flex', opacity: '0.95' }}>
-            <Box sx={{ width: '50%', margin: 'auto' }}>
-              {typeof data === 'object' && Object.keys(data).map((e, i) => {
-                console.log(data[e])
+            <Box sx={{ width: matchesPad ? '90%' : '60%', margin: 'auto' }}>
+              <Box>{feed === 1 ? <Button disabled size="large">{'<Previous'} </Button>
+
+                : <Button size="large" onClick={(e) => {
+                  setFeed(feed - 1)
+                }}>{'<Previous'} </Button>}
+
+                <Button sx={{ float: 'right' }} size="large" onClick={(e) => {
+                  setFeed(feed + 1)
+                }}>{'Next>'}</Button>
+              </Box>
+              {<CommonMessage
+              setVisible={setMessageStatus}
+              message={errorMessage[0]}
+              severity={errorMessage[1]}
+              visible={errorMessage[2]}
+            ></CommonMessage>}
+              { data.length && data.map((e, i) => {
                 return (
-                  data[e].TYPE !== 'ARTICLE'
-                    ? <SearchResultCard
+                  e.isDeleted ? <></>
+                    : e.TYPE !== 'ARTICLE'
+                      ? <SearchResultCard
                     key={'resultCard' + i}
-                    data={data[e]}
-                  ></SearchResultCard> : <GuideCard key={'resultCard' + i} data={data[e]}></GuideCard>
+                    data={e}
+                  ></SearchResultCard> : <GuideCard key={'resultCard' + i} data={e}></GuideCard>
                 );
               })}
             </Box>
             <Box
               sx={{
-                width: '40%',
+                display: matchesPad ? 'none' : 'block',
+                width: '30%',
               }}
             >
               <List></List>

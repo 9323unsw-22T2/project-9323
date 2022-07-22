@@ -173,9 +173,8 @@ export default function VerticalTabs() {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={handleClose}>Distance</MenuItem>
-            <MenuItem onClick={handleClose}>Price(high to low)</MenuItem>
-            <MenuItem onClick={handleClose}>Price(low to high)</MenuItem>
+            <MenuItem onClick={handleClose}>Time (new to old)</MenuItem>
+            <MenuItem onClick={handleClose}>Time (old to new)</MenuItem>
           </Menu>
           <Box sx={{ margin: 'auto', display: 'flex', opacity: '0.95' }}>
             <Box sx={{ width: '50%', margin: 'auto' }}>
