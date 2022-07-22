@@ -150,7 +150,7 @@ export default function ActionAreaCard({ data }) {
             <span>{data.score} Points </span>
           </Box>
           <Box sx={{ margin: 'auto' }}>
-            <Button size="small" onClick={handleExpandClick}>Answer</Button>
+            <Button size="small" sx={{ color: 'red' }}>Delete</Button>
           </Box>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
