@@ -3,6 +3,7 @@ from flask import Blueprint, request, make_response, jsonify
 from flask_cors import CORS
 import sqlite3
 import random
+import json
 from math import ceil
 
 newsfeed_page = Blueprint("newsfeed", __name__)
@@ -167,3 +168,34 @@ def get_table_column(table_name):
     for _ in all:
         res.append(_[1])
     return res
+
+
+# test for ping
+@newsfeed_page.route('/newsfeed/trending', methods=['GET'])
+def newsfeed_trending():
+    # only question!!!
+    col_que = get_table_column("questions")
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    
+    # get all question_thumb up by
+    sql = "select id,title,content,thumbUpBy,replyIds from questions;"
+    all_thumb = cur.execute(sql).fetchall()
+    num_question = len(all_thumb)
+    print(all_thumb,num_question)
+    tem_list=[]
+    for i in all_thumb:
+        temp ={}
+        num_thu = len(json.loads(i[3]))
+        temp["id"] = i[0]
+        temp["title"]=i[1]
+        temp['content']=i[2]
+        temp['thumbUpBy']=i[3]
+        temp['answer_nums'] = i[4]
+        temp["num-thum"] = num_thu
+        tem_list.append(temp)
+    res = sorted(tem_list, key=lambda i: i['num-thum'],reverse=True)
+
+    
+
+    return make_response(jsonify(res[:5])),200
