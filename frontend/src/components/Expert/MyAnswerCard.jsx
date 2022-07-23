@@ -13,6 +13,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import styles from './Expert.module.css';
+import { expertChangeAns } from '../../service'
 /* import Drawer from '@mui/material/Drawer';
 import Link from '@mui/material/Link';
 import SearchDetail from './SearchDetail/SearchDetail'; */
@@ -41,7 +42,7 @@ export default function ActionAreaCard({ data }) {
   const text = data.qes.split('\n')[0];
   const Ans = data.ans;
   const title = data.title;
-  const id = data.qes_id;
+  const ansId = data.ans_id;
   if (Ans !== null && Ans !== '') {
     return (
       <Card
@@ -165,7 +166,7 @@ export default function ActionAreaCard({ data }) {
               onEditorStateChange={onEditorStateChange}
               editorContent='Gi'
             />
-            <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={() => {
+            {/* <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={() => {
               const jsonStr = JSON.parse(localStorage.getItem('data'))
 
               for (let i = 0; i < jsonStr.length; i++) {
@@ -174,6 +175,18 @@ export default function ActionAreaCard({ data }) {
                 }
               }
               localStorage.setItem('data', JSON.stringify(jsonStr))
+            }} >Submit</Button> */}
+            <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={async () => {
+              const ansTmp = editorState.getCurrentContent().getPlainText()
+              console.log(ansTmp)
+              console.log(data.qes_id)
+              console.log(ansId)
+              try {
+                const response = await expertChangeAns(data.qes_id, { content: ansTmp }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+                console.log(await (response.data))
+              } catch (error) {
+                console.log(error)
+              }
             }} >Submit</Button>
           </CardContent>
         </Collapse>

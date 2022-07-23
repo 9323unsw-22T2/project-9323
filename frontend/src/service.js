@@ -50,3 +50,5 @@ export const getScore = (token, userId) =>
   axios.get(`${BASE_URL}/auth/info`, { headers: { user_id: userId, token: token } });
 export const expertCertificate = (body, token, userId) =>
   axios.post(`${BASE_URL}/auth/expert_by_certificate`, body, { headers: { user_id: userId, token: token } });
+export const expertChangeAns = (Qid, body, token, userId) =>
+  axios.post(`${BASE_URL}/expert/${Qid}/update`, body, { headers: { user_id: userId, token: token } });
