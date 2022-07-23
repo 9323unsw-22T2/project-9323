@@ -17,7 +17,7 @@ import styles from './Expert.module.css';
 import Link from '@mui/material/Link';
 import SearchDetail from './SearchDetail/SearchDetail'; */
 ActionAreaCard.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.object
 };
 
 // eslint-disable-next-line space-before-function-paren
@@ -38,11 +38,11 @@ export default function ActionAreaCard({ data }) {
         )
       ));
   };
-  const text = data.qes;
+  const text = data.qes.split('\n')[0];
   const Ans = data.ans;
   const title = data.title;
-  const id = data.id;
-  if (Ans !== '') {
+  const id = data.qes_id;
+  if (Ans !== null && Ans !== '') {
     return (
       <Card
         sx={{
@@ -65,7 +65,7 @@ export default function ActionAreaCard({ data }) {
                 fontWeight: 'bold',
                 m: 1,
               }}
-              title={'Q.' + id + ' ' + title}
+              title={'Q.' + data.qes_id + ' ' + title}
             ></CardHeader>
             <CardContent
               sx={{ borderBottom: '1px solid #e6e5e6' }}
@@ -90,7 +90,7 @@ export default function ActionAreaCard({ data }) {
                 </Box>
               }
             ></CardContent>
-            {(data.photoURL !== '')
+            {(data.photoURL !== null && data.photoURL !== '')
               ? <CardContent
                 sx={{ borderBottom: '1px solid #e6e5e6' }}
                 // eslint-disable-next-line react/no-children-prop
@@ -100,7 +100,7 @@ export default function ActionAreaCard({ data }) {
               ></CardContent> : <></>
             }
             <Box className={styles.text1}>Your Answer:</Box>
-            {(data.photoURL !== '')
+            {(Ans !== null && Ans !== '')
               ? <CardContent
                 sx={{ borderBottom: '1px solid #e6e5e6' }}
                 // eslint-disable-next-line react/no-children-prop
@@ -139,7 +139,9 @@ export default function ActionAreaCard({ data }) {
         </CardContent>
         <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto' }}>
           <Button size="small">Follow</Button>
-          <Box sx={{ margin: 'auto' }}>{data.time}</Box>
+          {/* <Box sx={{ margin: 'auto' }}>{new Date(data.time).toUTCString()}</Box> */}
+          {/* <Box sx={{ margin: 'auto' }}>{'2022/07/23 14:43:39'}</Box> */}
+          <Box sx={{ margin: 'auto' }}>{new Date().toLocaleString()}</Box>
           <Box
             sx={{
               margin: 'auto',
@@ -147,10 +149,10 @@ export default function ActionAreaCard({ data }) {
               cursor: 'pointer',
             }}
           >
-            <span>{data.score} Points </span>
+            {(data.score !== null) ? <span> {data.score} Points</span> : <span> 10 Points</span>}
           </Box>
           <Box sx={{ margin: 'auto' }}>
-            <Button size="small" sx={{ color: 'red' }}>Delete</Button>
+            <Button size="small" sx={{ color: 'red' }}>Delete Answer</Button>
           </Box>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
