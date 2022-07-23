@@ -20,7 +20,7 @@ import ApplyExpert from './components/Expert/ApplyExpert'
 import Expert from './components/Expert/Expert'
 import ExpertActivity from './components/Expert/ExpertActivity'
 import Help from './components/Help/Help'
-
+import { isExpert } from './service'
 const PageLayout = ({ children }) => children;
 
 const pageVariants = {
@@ -66,7 +66,15 @@ const AnimationLayout = () => {
 const App = () => {
   const location = useLocation();
   const timerRef = React.useRef();
-
+  const [isexpert, setIsexpert] = React.useState(false);
+  React.useEffect(async () => {
+    try {
+      const response = await isExpert(localStorage.getItem('token'), localStorage.getItem('user_id'))
+      setIsexpert(await Boolean(!response.data.expertOrNot))
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
   async function addLink (event) {
     event.preventDefault();
     if (localStorage.getItem('token')) {
@@ -110,9 +118,9 @@ const App = () => {
           <Route path="/newguide" element={localStorage.getItem('token') ? <NewGuide /> : <Home />} />
           <Route path="/activity" element={localStorage.getItem('token') ? <Activity /> : <Home />} />
           <Route path="/expert" element={localStorage.getItem('token') ? <Expert /> : <Home />} />
-          <Route path="/expertActivity" element={localStorage.getItem('token') ? <ExpertActivity /> : <Home />} />
+          <Route path="/expertActivity" element={localStorage.getItem('token') ? isexpert ? <ExpertActivity /> : <Expert /> : <Home />} />
           <Route path="/applyexpert" element={localStorage.getItem('token') ? <ApplyExpert /> : <Home />} />
-          <Route path="/guide/:number" element={<GuideDetail />} />
+          <Route path="/guide/:number" element={localStorage.getItem('token') ? <GuideDetail /> : <Home />} />
           <Route path="/help" element={<Help />} />
         </Route>
 

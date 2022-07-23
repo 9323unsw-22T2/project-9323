@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = '';
+const BASE_URL = 'http://127.0.0.1:5000';
 // ADMIN AUTH
 export const register = (body) =>
   axios.post(`${BASE_URL}/auth/register`, body);
@@ -46,3 +46,5 @@ export const answerhistory = (token, userId) =>
   axios.get(`${BASE_URL}/expert/answer_history`, { headers: { user_id: userId, token: token } });
 export const isExpert = (token, userId) =>
   axios.get(`${BASE_URL}/become_expert`, { headers: { user_id: userId, token: token } });
+export const getScore = (token, userId) =>
+  axios.get(`${BASE_URL}/auth/info`, { headers: { user_id: userId, token: token } });
