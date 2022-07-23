@@ -12,7 +12,7 @@ import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Button, Menu } from '@mui/material';
 import GuideCard from '../GuideDetail/GuideCard'
 import List from './List'
-import { getNewsFeed } from '../../service'
+import { getNewsFeed, getLikedQuestions } from '../../service'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CommonMessage from '../CommonMessage/CommonMessage'
 
@@ -63,6 +63,7 @@ function a11yProps(index) {
 export default function VerticalTabs() {
   const [value, setValue] = React.useState(0);
   const [data, setData] = React.useState([]);
+  const [likedQ, setLikedQ] = React.useState([]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -80,7 +81,15 @@ export default function VerticalTabs() {
     }
   }, [feed])
   const [errorMessage, setErrorMessage] = React.useState(['', 'error', false]);
-
+  React.useEffect(async() => {
+    try {
+      const response = await getLikedQuestions(localStorage.getItem('user_id'))
+      console.log(response.data)
+      setLikedQ([...Object.values(response.data)])
+    } catch (error) {
+      setErrorMessage(['last page', 'error', true])
+    }
+  }, [feed])
   function setMessageStatus () {
     setErrorMessage(['', 'error', false])
   }
@@ -248,7 +257,17 @@ export default function VerticalTabs() {
           </Box>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item Two
+          <h1> LIKED POSTS HERE </h1>
+          { likedQ.length && likedQ.map((e, i) => {
+            return (
+              e.isDeleted ? <></>
+                : e.TYPE !== 'ARTICLE'
+                  ? <SearchResultCard
+                  key={'resultCard' + i}
+                    data={e}
+                  ></SearchResultCard> : <GuideCard key={'resultCard' + i} likedQ={e}></GuideCard>
+            );
+          })}
         </TabPanel>
         <TabPanel value={value} index={2}>
           Item Three

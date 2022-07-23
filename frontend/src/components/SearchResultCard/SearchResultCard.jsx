@@ -16,7 +16,9 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import Checkbox from '@mui/material/Checkbox';
 import Input from '@mui/material/TextField';
-import { newQuestionComment } from '../../service';
+import { newQuestionComment, questionLike } from '../../service';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import IconButton from '@mui/material/IconButton';
 
 /* import Drawer from '@mui/material/Drawer';
 import Link from '@mui/material/Link';
@@ -77,6 +79,9 @@ export default function ActionAreaCard({ data }) {
       </Box>
     );
   }; */
+  const handleLike = async () => {
+    await questionLike(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+  }
   const handleSubmit = async () => {
     const temp = editorState.getCurrentContent().getPlainText('\u0001')
     console.log(temp)
@@ -144,7 +149,9 @@ export default function ActionAreaCard({ data }) {
         </Box>
       </CardContent>
       <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto' }}>
-        <Button size="small">Follow</Button>
+        <IconButton aria-label="add to favorites" onClick = {handleLike}>
+          <FavoriteIcon />
+        </IconButton>
         <Box sx={{ margin: 'auto' }}>{new Date(data.timeCreated * 1000).toLocaleString()}</Box>
         {data.replyIds !== '[]'
           ? <Box
