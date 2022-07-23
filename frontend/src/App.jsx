@@ -71,6 +71,7 @@ const App = () => {
     try {
       const response = await isExpert(localStorage.getItem('token'), localStorage.getItem('user_id'))
       setIsexpert(await Boolean(!response.data.expertOrNot))
+      console.log(response.data)
     } catch (error) {
       console.log(error)
     }
@@ -118,7 +119,8 @@ const App = () => {
           <Route path="/newguide" element={localStorage.getItem('token') ? <NewGuide /> : <Home />} />
           <Route path="/activity" element={localStorage.getItem('token') ? <Activity /> : <Home />} />
           <Route path="/expert" element={localStorage.getItem('token') ? <Expert /> : <Home />} />
-          <Route path="/expertActivity" element={localStorage.getItem('token') ? isexpert ? <ExpertActivity /> : <Expert /> : <Home />} />
+          {/* <Route path="/expertActivity" element={localStorage.getItem('token') ? isexpert ? <ExpertActivity /> : <Expert /> : <Home />} /> */}
+          <Route path="/expertActivity" element={localStorage.getItem('token') ? isexpert ? <ExpertActivity /> : <ExpertActivity /> : <Home />} />
           <Route path="/applyexpert" element={localStorage.getItem('token') ? <ApplyExpert /> : <Home />} />
           <Route path="/guide/:number" element={localStorage.getItem('token') ? <GuideDetail /> : <Home />} />
           <Route path="/help" element={<Help />} />

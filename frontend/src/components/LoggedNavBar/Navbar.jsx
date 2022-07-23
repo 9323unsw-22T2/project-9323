@@ -76,6 +76,7 @@ const Navbar = () => {
     try {
       const response = await isExpert(localStorage.getItem('token'), localStorage.getItem('user_id'))
       setIsexpert(await Boolean(!response.data.expertOrNot))
+      console.log(response.data)
     } catch (error) {
       console.log(error)
     }

@@ -11,7 +11,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import 'react-dropdown/style.css';
-
+import { expertCertificate } from '../../service'
 import PopupWin from '../popup/PopupWin';
 
 const App = () => {
@@ -63,6 +63,12 @@ const App = () => {
         setErrorPopup(true)
         localStorage.setItem('expert', true);
       }
+    }
+    try {
+      const response = await expertCertificate({}, localStorage.getItem('token'), localStorage.getItem('user_id'))
+      console.log(await response.data)
+    } catch (error) {
+      console.log(error)
     }
   };
 

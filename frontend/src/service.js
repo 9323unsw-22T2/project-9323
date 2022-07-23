@@ -48,3 +48,5 @@ export const isExpert = (token, userId) =>
   axios.get(`${BASE_URL}/become_expert`, { headers: { user_id: userId, token: token } });
 export const getScore = (token, userId) =>
   axios.get(`${BASE_URL}/auth/info`, { headers: { user_id: userId, token: token } });
+export const expertCertificate = (body, token, userId) =>
+  axios.post(`${BASE_URL}/auth/expert_by_certificate`, body, { headers: { user_id: userId, token: token } });
