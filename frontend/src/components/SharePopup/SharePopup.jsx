@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 
 const popup = ({ opened, setOpened }) => {
   const handleCopyLink = () => {
-    navigator.clipboard.writeText('I see a answer in this website');
+    navigator.clipboard.writeText(window.location.href);
   };
   const handleClose = () => setOpened(!opened);
 
@@ -42,25 +42,25 @@ const popup = ({ opened, setOpened }) => {
       >
      <TwitterShareButton
                style={{ marginRight: '1rem' }}
-                url={'Join in my game!/joinGame/'}
+                url={'I see a answer in this website: ' + window.location.href}
               >
                 <TwitterIcon size={32} round={true} />
               </TwitterShareButton>
               <FacebookShareButton
               style={{ marginRight: '1rem' }}
-                url={'Join in my game! /joinGame/'}
+                url={'I see a answer in this website: ' + window.location.href}
               >
                 <FacebookIcon sx={{ mr: 1 }} size={32} round={true} />
               </FacebookShareButton>
               <LineShareButton
               style={{ marginRight: '1rem' }}
-                url={'Join in my game! /joinGame/'}
+                url={'I see a answer in this website: ' + window.location.href}
               >
                 <LineIcon sx={{ mr: 1 }} size={32} round={true} />
               </LineShareButton>
               <LinkedinShareButton
               style={{ marginRight: '1rem' }}
-                url={'Join in my game! /joinGame/'}
+                url={'I see a answer in this website: ' + window.location.href}
               >
                 <LinkedinIcon sx={{ mr: 1 }} size={32} round={true} />
               </LinkedinShareButton>
