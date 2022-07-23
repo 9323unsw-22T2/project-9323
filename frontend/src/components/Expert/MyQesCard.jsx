@@ -40,6 +40,10 @@ export default function ActionAreaCard({ data }) {
       ));
   };
   const text = data.qes.split('\n')[0];
+  function randomNumberInRange (min, max) {
+    // 👇️ get number between min (inclusive) and max (inclusive)
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
   let Ans = ''
   if (data.ans !== null) {
     Ans = data.ans;
@@ -103,7 +107,13 @@ export default function ActionAreaCard({ data }) {
                 children={
                   <img src={data.photoURL} className={styles.cardImg} />
                 }
-              ></CardContent> : <></>
+              ></CardContent> : <CardContent
+                sx={{ borderBottom: '1px solid #e6e5e6' }}
+                // eslint-disable-next-line react/no-children-prop
+                children={
+                  <img src={localStorage.getItem(randomNumberInRange(1, 4).toString())} className={styles.cardImg} />
+                }
+              ></CardContent>
             }
             <Box className={styles.text1}>Your Answer:</Box>
             {(Ans !== null && Ans !== '')

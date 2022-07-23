@@ -12,6 +12,11 @@ ReactDOM.render(
   document.getElementById('root'),
   window.localStorage.removeItem('expert'),
   window.localStorage.removeItem('data'),
+  window.localStorage.setItem('1', ['https://assets.entrepreneur.com/content/3x2/2000/1590643852-shutterstock-1687380997.jpg']),
+  window.localStorage.setItem('2', ['https://media.wired.com/photos/621575377d11d746344b5a72/master/pass/Business_Person%20Working%20on%20Laptop_1302475706.jpg']),
+  window.localStorage.setItem('3', ['https://img-cdn.inc.com/image/upload/w_1920,h_1080,c_fill/images/panoramic/GettyImages-1217543710_466446_qh2vvr.jpg']),
+  window.localStorage.setItem('4', ['https://images.idgesg.net/images/article/2020/03/remote_worker_working_from_home_by_valentinrussanov_gettyimages-1202687018_2400x1600-100835400-large.jpg?auto=webp&quality=85,70']),
+
   // window.localStorage.setItem('data', JSON.stringify([
   //   {
   //     id: 1,
