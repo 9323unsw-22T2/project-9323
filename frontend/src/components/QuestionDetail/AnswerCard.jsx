@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 import { commentLike, commentDislike, deleteQuestionComment } from '../../service'
 import { useParams } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
+import SharePopup from '../SharePopup/SharePopup'
 
 RecipeReviewCard.propTypes = {
   data: PropTypes.Object,
@@ -39,6 +40,8 @@ export default function RecipeReviewCard ({ data }) {
     setThumbUp(!thumbUp)
     commentLike(number, localStorage.getItem('token'), localStorage.getItem('user_id'))
   }
+  const [social, setSocial] = React.useState(false);
+
   const ThumbDown = (e) => {
     if (thumbUp) { ThumbUp() }
     setThumbDown(!thumbDown)
@@ -90,10 +93,12 @@ export default function RecipeReviewCard ({ data }) {
         <IconButton aria-label="comment" onClick={handleExpandClick}>
           <CommentIcon />
         </IconButton>
-        <IconButton aria-label="share">
+        <IconButton aria-label="share" onClick={(e) => { e.preventDefault(); setSocial(!social) }}>
           <ShareIcon />
         </IconButton>
       </CardActions>
+      <SharePopup opened={social} setOpened={setSocial}></SharePopup>
+
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Editor
