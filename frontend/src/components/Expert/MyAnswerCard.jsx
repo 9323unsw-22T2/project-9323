@@ -13,7 +13,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import styles from './Expert.module.css';
-import { expertChangeAns } from '../../service'
+import { expertChangeAns, deleteQuestionComment } from '../../service'
 
 /* import Drawer from '@mui/material/Drawer';
 import Link from '@mui/material/Link';
@@ -165,7 +165,8 @@ export default function ActionAreaCard({ data }) {
               console.log(data.qes_id)
               console.log(ansId)
               try {
-                const response = await expertChangeAns(data.qes_id, { content: '' }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+                console.log(data)
+                const response = await deleteQuestionComment(data.ans_id, localStorage.getItem('token'), localStorage.getItem('user_id'))
                 console.log(await (response.data))
               } catch (error) {
                 console.log(error)

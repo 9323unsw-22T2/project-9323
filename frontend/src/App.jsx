@@ -120,7 +120,7 @@ const App = () => {
           <Route path="/expert" element={localStorage.getItem('token') ? (isexpert === '0') ? <Expert /> : <ExpertActivity /> : <Home />} />
           <Route path="/expertActivity" element={localStorage.getItem('token') ? (isexpert === '0') ? <Expert /> : <ExpertActivity /> : <Home />} />
           {/* <Route path="/expertActivity" element={localStorage.getItem('token') ? <ExpertActivity /> : <Home />} /> */}
-          <Route path="/applyexpert" element={localStorage.getItem('token') ? <ApplyExpert /> : <Home />} />
+          <Route path="/applyexpert" element={localStorage.getItem('token') ? (isexpert === '0') ? <ApplyExpert /> : <ExpertActivity /> : <Home />} />
           <Route path="/guide/:number" element={localStorage.getItem('token') ? <GuideDetail /> : <Home />} />
           <Route path="/help" element={<Help />} />
         </Route>
