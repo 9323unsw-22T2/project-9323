@@ -160,11 +160,11 @@ def get_user_like_articles(user_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     ret = dict()
-    sql = "SELECT likeQuestions from users where id = '{}'".format(user_id)
+    sql = "SELECT likeArticles from users where id = '{}'".format(user_id)
     rows = cur.execute(sql).fetchall()
     # if len(rows) == 0:
-    #     return make_response(jsonify({"error": "Question not found with question_id = {}".format(question_id)})), 400
-    ret['questions_like'] = rows[0]
+    #     return make_response(jsonify({"error": "Article not found with article_id = {}".format(article_id)})), 400
+    ret['articles_like'] = rows[0]
     return make_response(jsonify(ret)), 200
 
 def get_user_id_by_article(article_id):
