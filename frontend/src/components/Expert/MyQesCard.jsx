@@ -41,7 +41,7 @@ export default function ActionAreaCard({ data }) {
   const text = data.qes;
   const Ans = data.ans;
   const title = data.title;
-  if (Ans === '') {
+  if (Ans === null || Ans === '') {
     return (
       <Card
         sx={{
@@ -89,7 +89,7 @@ export default function ActionAreaCard({ data }) {
                 </Box>
               }
             ></CardContent>
-            {(data.photoURL !== '')
+            {(data.photoURL !== null && data.photoURL !== '')
               ? <CardContent
                 sx={{ borderBottom: '1px solid #e6e5e6' }}
                 // eslint-disable-next-line react/no-children-prop
@@ -99,7 +99,7 @@ export default function ActionAreaCard({ data }) {
               ></CardContent> : <></>
             }
             <Box className={styles.text1}>Your Answer:</Box>
-            {(data.photoURL !== '')
+            {(data.photoURL !== null && data.photoURL !== '')
               ? <CardContent
                 sx={{ borderBottom: '1px solid #e6e5e6' }}
                 // eslint-disable-next-line react/no-children-prop
