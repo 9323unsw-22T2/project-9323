@@ -20,7 +20,7 @@ import ApplyExpert from './components/Expert/ApplyExpert'
 import Expert from './components/Expert/Expert'
 import ExpertActivity from './components/Expert/ExpertActivity'
 import Help from './components/Help/Help'
-import { isExpert } from './service'
+import { getScore } from './service'
 const PageLayout = ({ children }) => children;
 
 const pageVariants = {
@@ -66,16 +66,15 @@ const AnimationLayout = () => {
 const App = () => {
   const location = useLocation();
   const timerRef = React.useRef();
-  const [isexpert, setIsexpert] = React.useState(false);
-  React.useEffect(async () => {
-    try {
-      const response = await isExpert(localStorage.getItem('token'), localStorage.getItem('user_id'))
-      setIsexpert(await Boolean(!response.data.expertOrNot))
-      console.log(response.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
+  const [isexpert, setIsexpert] = React.useState('0');
+
+  try {
+    getScore(localStorage.getItem('token'), localStorage.getItem('user_id')).then((response) => {
+      setIsexpert(response.data.expertOrNot)
+    }).then(console.log(isexpert))
+  } catch (error) {
+    console.log(error)
+  }
   async function addLink (event) {
     event.preventDefault();
     if (localStorage.getItem('token')) {
@@ -118,10 +117,10 @@ const App = () => {
           <Route path="/profile" element={localStorage.getItem('token') ? <Profile /> : <Home />} />
           <Route path="/newguide" element={localStorage.getItem('token') ? <NewGuide /> : <Home />} />
           <Route path="/activity" element={localStorage.getItem('token') ? <Activity /> : <Home />} />
-          <Route path="/expert" element={localStorage.getItem('token') ? <Expert /> : <Home />} />
-          {/* <Route path="/expertActivity" element={localStorage.getItem('token') ? isexpert ? <ExpertActivity /> : <Expert /> : <Home />} /> */}
-          <Route path="/expertActivity" element={localStorage.getItem('token') ? isexpert ? <ExpertActivity /> : <ExpertActivity /> : <Home />} />
-          <Route path="/applyexpert" element={localStorage.getItem('token') ? <ApplyExpert /> : <Home />} />
+          <Route path="/expert" element={localStorage.getItem('token') ? (isexpert === '0') ? <Expert /> : <ExpertActivity /> : <Home />} />
+          <Route path="/expertActivity" element={localStorage.getItem('token') ? (isexpert === '0') ? <Expert /> : <ExpertActivity /> : <Home />} />
+          {/* <Route path="/expertActivity" element={localStorage.getItem('token') ? <ExpertActivity /> : <Home />} /> */}
+          <Route path="/applyexpert" element={localStorage.getItem('token') ? (isexpert === '0') ? <ApplyExpert /> : <ExpertActivity /> : <Home />} />
           <Route path="/guide/:number" element={localStorage.getItem('token') ? <GuideDetail /> : <Home />} />
           <Route path="/help" element={<Help />} />
         </Route>
