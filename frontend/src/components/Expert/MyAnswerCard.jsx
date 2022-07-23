@@ -72,7 +72,7 @@ export default function ActionAreaCard({ data }) {
                 fontWeight: 'bold',
                 m: 1,
               }}
-              title={'Q.' + data.qes_id + ' ' + title}
+              title={'Q.' + ' ' + title}
             ></CardHeader>
             <CardContent
               sx={{ borderBottom: '1px solid #e6e5e6' }}
@@ -159,7 +159,18 @@ export default function ActionAreaCard({ data }) {
             {(data.score !== null) ? <span> {data.score} Points</span> : <span> 10 Points</span>}
           </Box>
           <Box sx={{ margin: 'auto' }}>
-            <Button size="small" sx={{ color: 'red' }}>Delete Answer</Button>
+            <Button size="small" sx={{ color: 'red' }} onClick={async () => {
+              const ansTmp = editorState.getCurrentContent().getPlainText()
+              console.log(ansTmp)
+              console.log(data.qes_id)
+              console.log(ansId)
+              try {
+                const response = await expertChangeAns(data.qes_id, { content: '' }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+                console.log(await (response.data))
+              } catch (error) {
+                console.log(error)
+              }
+            }}>Delete Answer</Button>
           </Box>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -193,6 +204,7 @@ export default function ActionAreaCard({ data }) {
               } catch (error) {
                 console.log(error)
               }
+              window.location.reload()
             }} >Submit</Button>
           </CardContent>
         </Collapse>

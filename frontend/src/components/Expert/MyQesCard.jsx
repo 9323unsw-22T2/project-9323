@@ -180,6 +180,7 @@ export default function ActionAreaCard({ data }) {
               } catch (error) {
                 console.log(error)
               }
+              window.location.reload()
             }} >Submit</Button>
           </CardContent>
         </Collapse>
