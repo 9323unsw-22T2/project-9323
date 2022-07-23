@@ -114,8 +114,8 @@ def get_user_like_questions(user_id):
     ret = dict()
     sql = "SELECT likeQuestions from users where id = '{}'".format(user_id)
     rows = cur.execute(sql).fetchall()
-    if len(rows) == 0:
-        return make_response(jsonify({"error": "Question not found with question_id = {}".format(question_id)})), 400
+#    if len(rows) == 0:
+#        return make_response(jsonify({"error": "Question not found with question_id = {}".format(question_id)})), 400
     ret['questions_like'] = rows[0]
     return make_response(jsonify(ret)), 200
 
