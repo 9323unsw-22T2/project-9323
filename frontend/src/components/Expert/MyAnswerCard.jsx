@@ -14,6 +14,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import styles from './Expert.module.css';
 import { expertChangeAns } from '../../service'
+
 /* import Drawer from '@mui/material/Drawer';
 import Link from '@mui/material/Link';
 import SearchDetail from './SearchDetail/SearchDetail'; */
@@ -40,7 +41,12 @@ export default function ActionAreaCard({ data }) {
       ));
   };
   const text = data.qes.split('\n')[0];
-  const Ans = data.ans;
+  let Ans = ''
+  if (data.ans !== null) {
+    Ans = data.ans;
+  } else {
+    Ans = ''
+  }
   const title = data.title;
   const ansId = data.ans_id;
   if (Ans !== null && Ans !== '') {
