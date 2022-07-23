@@ -62,6 +62,8 @@ const App = () => {
 
     setActiveStep(activeStep - 1);
   }
+  const regex = /https:\/\/youtu.be\/.*/g;
+
   const handleNew = () => {
     const list = [...steps.slice(0, activeStep + 1), { step_title: 'new step', content: EditorState.createEmpty(), finished: false, video: '', }, ...steps.slice(activeStep + 1)]
     setStep(list)
@@ -82,10 +84,11 @@ const App = () => {
       setStep(list)
     }
   }
-
   const handleComplete = async () => {
     const newSteps = steps;
-    if (!editorState || !document.getElementById('guide_title').value) { setErrorMessage(['Please fill in all fields', 'error', true]) } else {
+    if (!editorState || !document.getElementById('guide_title').value) { setErrorMessage(['Please fill in all fields', 'error', true]) } else if (video && !video.match(regex)) {
+      setErrorMessage(['Please input video link https://youtu.be/***', 'error', true])
+    } else {
       newSteps[activeStep] = { step_title: document.getElementById('step_title').value, content: editorState, finished: true, video };
       setStep(newSteps)
       if (allStepsCompleted()) {

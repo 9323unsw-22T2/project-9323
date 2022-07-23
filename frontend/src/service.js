@@ -41,7 +41,8 @@ export const commentLike = (number, token, userId) =>
   axios.patch(`${BASE_URL}/comment/${number}/thumb_up`, {}, { headers: { user_id: userId, token: token } });
 export const commentDislike = (number, token, userId) =>
   axios.patch(`${BASE_URL}/comment/${number}/un_thumb_up`, {}, { headers: { user_id: userId, token: token } });
-
+export const getTrend = () =>
+  axios.get(`${BASE_URL}/newsfeed/trending`);
 export const answerhistory = (token, userId) =>
   axios.get(`${BASE_URL}/expert/answer_history`, { headers: { user_id: userId, token: token } });
 export const isExpert = (token, userId) =>

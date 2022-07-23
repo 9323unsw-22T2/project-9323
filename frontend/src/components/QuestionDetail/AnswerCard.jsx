@@ -38,13 +38,11 @@ export default function RecipeReviewCard ({ data }) {
     if (thumbDown) { ThumbDown() }
     setThumbUp(!thumbUp)
     commentLike(number, localStorage.getItem('token'), localStorage.getItem('user_id'))
-    window.location.reload(false);
   }
   const ThumbDown = (e) => {
     if (thumbUp) { ThumbUp() }
     setThumbDown(!thumbDown)
     commentDislike(number, localStorage.getItem('token'), localStorage.getItem('user_id'))
-    window.location.reload(false);
   }
   const [expanded, setExpanded] = React.useState(false);
 
