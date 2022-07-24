@@ -44,6 +44,8 @@ export default function ActionAreaCard({ data }) {
     setExpanded(!expanded);
   };
   const [charged, setCharged] = React.useState(false)
+  const [score, setScore] = React.useState(null);
+
   const text = data.content
 
   /*   const [state, setState] = React.useState(false);
@@ -85,7 +87,9 @@ export default function ActionAreaCard({ data }) {
   const handleSubmit = async () => {
     const temp = editorState.getCurrentContent().getPlainText('\u0001')
     console.log(temp)
-    await newQuestionComment({ content: temp }, localStorage.getItem('token'), localStorage.getItem('user_id'), data.id)
+    await newQuestionComment({ content: temp, score }, localStorage.getItem('token'), localStorage.getItem('user_id'), data.id)
+    setScore(null)
+    setCharged(false)
     setEditorState(EditorState.createEmpty())
   }
   return (
@@ -194,7 +198,7 @@ export default function ActionAreaCard({ data }) {
           label="charge score"
   />
   <Box sx={{ transition: '1s all', opacity: charged ? 1 : 0, height: '2rem', pointerEvents: charged ? 'all' : 'none' }}>
-  <Input type="number"placeholder="Score you want" />
+  <Input type="number"placeholder="Score you want" value={score}onChange={(e) => setScore(e.target.value)}/>
   </Box>
   <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={handleSubmit}>Submit</Button>
 </Box>

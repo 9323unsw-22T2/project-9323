@@ -50,6 +50,7 @@ const Home = () => {
         <img src="https://cdn.dribbble.com/users/782052/screenshots/10927554/media/e961df046013321feb28cf99b7fc7800.jpg"
         style={{ alignItems: 'flex-end', width: 1200, height: 900, postiion: 'absolute', left: 5, top: 5 }}/>
   */
+
   return (
       <div className="home" style={{ backgroundColor: '#f6f9ff', height: '100%' }}>
         {localStorage.getItem('token')

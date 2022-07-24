@@ -7,7 +7,8 @@ import {
   Outlet
 } from 'react-router-dom';
 import { motion } from 'framer-motion';
-
+import { Widget, addResponseMessage } from 'react-chat-widget';
+import 'react-chat-widget/lib/styles.css';
 import Home from './components/Home/Home';
 import MainPage from './components/MainPage/MainPage';
 import Question from './components/QuestionDetail/QuestionDetail';
@@ -67,14 +68,16 @@ const App = () => {
   const location = useLocation();
   const timerRef = React.useRef();
   const [isexpert, setIsexpert] = React.useState('0');
+  React.useEffect(() => {
+    try {
+      getScore(localStorage.getItem('token'), localStorage.getItem('user_id')).then((response) => {
+        setIsexpert(response.data.expertOrNot)
+      }).then(console.log(isexpert))
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
 
-  try {
-    getScore(localStorage.getItem('token'), localStorage.getItem('user_id')).then((response) => {
-      setIsexpert(response.data.expertOrNot)
-    }).then(console.log(isexpert))
-  } catch (error) {
-    console.log(error)
-  }
   async function addLink (event) {
     event.preventDefault();
     if (localStorage.getItem('token')) {
@@ -105,9 +108,16 @@ const App = () => {
   React.useEffect(() => {
     document.addEventListener('copy', addLink);
   }, [])
+  const handleNewUserMessage = (newMessage) => {
+    console.log(`New message incoming! ${newMessage}`);
+    addResponseMessage('response');
+
+    // Now send the message throught the backend API
+  };
   return (
     <>
       <div id='copynotify' style={{ opacity: 0, transition: 'all 0.5s', color: 'white', textShadow: '3px 0px 3px red,-3px 0px 3px red,6px 0px 6px red,-6px 0px 6px red', marginLeft: '40%', marginTop: '10%', position: 'absolute', fontSize: '1rem', zIndex: 10000 }}>Copying to clipboard was successful!</div>
+      <Widget emojis= {true} resizable={true}subtitle={'This is the helpbot, you can also chat with other user'}handleNewUserMessage={handleNewUserMessage}/>
       <Routes location={location} key={location.pathname}>
         <Route element={<AnimationLayout />}>
           <Route path="/" element={<Home />} />
