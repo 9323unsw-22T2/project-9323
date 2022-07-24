@@ -5,10 +5,6 @@ import LoggedNarbar from '../LoggedNavBar/Navbar';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { useNavigate } from 'react-router-dom';
 import { newQuestion } from '../../service';
 
@@ -24,10 +20,6 @@ const App = () => {
   const [title, setTitle] = React.useState('');
   const [content, setDescritpion] = React.useState('');
   // const [user, setUser] = React.useState('');
-  const [field, setField] = React.useState('');
-  const handleFieldChange = (event) => {
-    setField(event.target.value);
-  };
   const navigate = useNavigate();
   const handleSubmitQ = async () => {
     try {
@@ -55,19 +47,6 @@ const App = () => {
   <h2>Provide a question</h2>
 
    <TextField rows={4} multiline sx={{ mb: 2, width: '100%' }} placeholder="Input question here..." value={title} onChange={(e) => setTitle(e.target.value)}/>
-   <FormControl fullWidth>
-  <InputLabel >Field</InputLabel>
-        <Select
-          id="questionField"
-          value={field}
-          label="Field"
-          onChange={handleFieldChange}
-        >
-          <MenuItem value={'Health'}>Health</MenuItem>
-          <MenuItem value={'Science'}>Science</MenuItem>
-          <MenuItem value={'Pet'}>Pet</MenuItem>
-        </Select>
-      </FormControl>
   <h2>Descpition</h2>
 
   <Editor

@@ -36,13 +36,22 @@ export const questionDetail = (userId, token, number) =>
   axios.get(`${BASE_URL}/questions/${number}`, { headers: { user_id: userId, token: token } });
 export const getNewsFeed = (number) =>
   axios.get(`${BASE_URL}/newsfeed/${number}`);
+export const getLikedQuestions = (number, userId, token) =>
+  axios.get(`${BASE_URL}/questions_like/${number}`, { headers: { user_id: userId, token: token } });
 
 export const commentLike = (number, token, userId) =>
   axios.patch(`${BASE_URL}/comment/${number}/thumb_up`, {}, { headers: { user_id: userId, token: token } });
 export const commentDislike = (number, token, userId) =>
   axios.patch(`${BASE_URL}/comment/${number}/un_thumb_up`, {}, { headers: { user_id: userId, token: token } });
+
+export const questionLike = (number, token, userId) =>
+  axios.patch(`${BASE_URL}/questions/${number}/like`, {}, { headers: { user_id: userId, token: token } });
+export const articleLike = (number, token, userId) =>
+  axios.patch(`${BASE_URL}/article/${number}/thumb_up`, {}, { headers: { user_id: userId, token: token } });
+
 export const getTrend = () =>
   axios.get(`${BASE_URL}/newsfeed/trending`);
+
 export const answerhistory = (token, userId) =>
   axios.get(`${BASE_URL}/expert/answer_history`, { headers: { user_id: userId, token: token } });
 export const isExpert = (token, userId) =>
