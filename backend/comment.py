@@ -63,7 +63,7 @@ def comment_question_add(question_id):
         cur.execute(f"insert into comments values(?,?,?,?,?,?,?,?,?,?,?,?)",
                     [id, question_id, articleId, content,timeCreated, timeUpdated, userID, thumbUpBy, is_deleted, score, userPaied,image ])
         con.commit()
-        sql = f"select count(id) from comments where questionId={question_id}"
+        sql = f"select count(id) from comments where questionId={question_id} and isDeleted= 0"
         com_num_que = cur.execute(sql).fetchall()[0][0]
         sql = f"UPDATE questions SET replyIds = {com_num_que} where id ={question_id};"
         cur.execute(sql)
@@ -238,7 +238,7 @@ def comment_thumb_up_patch(comment_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
 
-    sql = f"SELECT * from comments where id = '{comment_id}' and isDeleted != '1';"
+    sql = f"SELECT * from comments where id = '{comment_id}' and isDeleted =0 ;"
     rows = cur.execute(sql).fetchall()
     if len(rows) == 0:
         return make_response(jsonify({"error": f"No such comment with comment_id = {comment_id}"})), 400
@@ -298,7 +298,7 @@ def comment_un_thumb_up_patch(comment_id):
 @comment_page.route("/comment/<int:comment_id>/delete",methods=["DELETE"])
 @authenticated
 def delete_comment(comment_id):
-    sql=f"select id,author from comments where id='{comment_id}' and isDeleted == 0 "
+    sql=f"select id,author,questionId,articlesId from comments where id={comment_id} and isDeleted = 0 "
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     rows = cur.execute(sql).fetchall()
@@ -313,6 +313,15 @@ def delete_comment(comment_id):
     sql = f"UPDATE comments SET isDeleted = 1 where id = '{comment_id}';"
     cur.execute(sql)
     con.commit()
+    # print(rows)
+    if rows[0][2]:
+        sql = f"select replyIds from questions where id = {rows[0][2]}"
+        num_replys = cur.execute(sql).fetchall()[0][0]
+        # print(num_replys)
+        num_replys = int(num_replys) - 1
+        sql = f"UPDATE questions SET replyIds = {num_replys} where id = '{rows[0][1]}' ;"
+        cur.execute(sql)
+        con.commit()
     return make_response(jsonify(f"this comment {comment_id} has been deleted")), 200
 
 
