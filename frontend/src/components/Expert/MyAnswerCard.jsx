@@ -13,6 +13,8 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import styles from './Expert.module.css';
+import { expertChangeAns, deleteQuestionComment } from '../../service'
+
 /* import Drawer from '@mui/material/Drawer';
 import Link from '@mui/material/Link';
 import SearchDetail from './SearchDetail/SearchDetail'; */
@@ -39,9 +41,18 @@ export default function ActionAreaCard({ data }) {
       ));
   };
   const text = data.qes.split('\n')[0];
-  const Ans = data.ans;
+  let Ans = ''
+  if (data.ans !== null) {
+    Ans = data.ans;
+  } else {
+    Ans = ''
+  }
   const title = data.title;
-  const id = data.qes_id;
+  const ansId = data.ans_id;
+  function randomNumberInRange (min, max) {
+    // 👇️ get number between min (inclusive) and max (inclusive)
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
   if (Ans !== null && Ans !== '') {
     return (
       <Card
@@ -65,7 +76,7 @@ export default function ActionAreaCard({ data }) {
                 fontWeight: 'bold',
                 m: 1,
               }}
-              title={'Q.' + data.qes_id + ' ' + title}
+              title={'Q.' + ' ' + title}
             ></CardHeader>
             <CardContent
               sx={{ borderBottom: '1px solid #e6e5e6' }}
@@ -97,7 +108,13 @@ export default function ActionAreaCard({ data }) {
                 children={
                   <img src={data.photoURL} className={styles.cardImg} />
                 }
-              ></CardContent> : <></>
+              ></CardContent> : <CardContent
+                sx={{ borderBottom: '1px solid #e6e5e6' }}
+                // eslint-disable-next-line react/no-children-prop
+                children={
+                  <img src={localStorage.getItem(randomNumberInRange(1, 4).toString())} className={styles.cardImg} />
+                }
+              ></CardContent>
             }
             <Box className={styles.text1}>Your Answer:</Box>
             {(Ans !== null && Ans !== '')
@@ -152,7 +169,19 @@ export default function ActionAreaCard({ data }) {
             {(data.score !== null) ? <span> {data.score} Points</span> : <span> 10 Points</span>}
           </Box>
           <Box sx={{ margin: 'auto' }}>
-            <Button size="small" sx={{ color: 'red' }}>Delete Answer</Button>
+            <Button size="small" sx={{ color: 'red' }} onClick={async () => {
+              const ansTmp = editorState.getCurrentContent().getPlainText()
+              console.log(ansTmp)
+              console.log(data.qes_id)
+              console.log(ansId)
+              try {
+                console.log(data)
+                const response = await deleteQuestionComment(data.ans_id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+                console.log(await (response.data))
+              } catch (error) {
+                console.log(error)
+              }
+            }}>Delete Answer</Button>
           </Box>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -165,7 +194,7 @@ export default function ActionAreaCard({ data }) {
               onEditorStateChange={onEditorStateChange}
               editorContent='Gi'
             />
-            <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={() => {
+            {/* <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={() => {
               const jsonStr = JSON.parse(localStorage.getItem('data'))
 
               for (let i = 0; i < jsonStr.length; i++) {
@@ -174,6 +203,19 @@ export default function ActionAreaCard({ data }) {
                 }
               }
               localStorage.setItem('data', JSON.stringify(jsonStr))
+            }} >Submit</Button> */}
+            <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={async () => {
+              const ansTmp = editorState.getCurrentContent().getPlainText()
+              console.log(ansTmp)
+              console.log(data.qes_id)
+              console.log(ansId)
+              try {
+                const response = await expertChangeAns(data.qes_id, { content: ansTmp }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+                console.log(await (response.data))
+              } catch (error) {
+                console.log(error)
+              }
+              window.location.reload()
             }} >Submit</Button>
           </CardContent>
         </Collapse>

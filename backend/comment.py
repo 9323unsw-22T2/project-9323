@@ -1,4 +1,5 @@
 from flask import Blueprint, make_response, jsonify,request
+from newsfeed import get_author_name
 from config import *
 from flask_cors import CORS
 import sqlite3
@@ -55,7 +56,7 @@ def comment_question_add(question_id):
 
         # check whether the user is expert 
         if get_isExpert(userID):
-            score = data.get('score', None)
+            score = data.get('score', 0)
         
         ###########user for post man############
         # just create an comment not edit
@@ -108,7 +109,7 @@ def comment_article_add(article_id):
         image = data.get('image',None)
         # check whether the user is expert 
         if get_isExpert(userID):
-            score = data.get('score', None)
+            score = data.get('score', 0)
         
         # just create an comment not edit
         cur.execute(f"insert into comments values(?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -164,6 +165,7 @@ def comment_question(question_id):
             temp['questionId']= all_data[i][6]
             temp['isdeleted']=all_data[i][8]
             temp['userPaid']=all_data[i][9]
+            temp['author_name'] = get_author_name(user)
             res[i] = temp
         
         # can get the last autoincrement data(for this table  is the id)        
@@ -214,6 +216,7 @@ def comment_article(article_id):
             temp["articlesid"]= all_data[i][6]
             temp["isDeleted"]=all_data[i][8]
             temp["userPaid"]=all_data[i][9]
+            temp['author_name'] = get_author_name(user)
             res[i] = temp
             
         # can get the last autoincrement data(for this table  is the id)        

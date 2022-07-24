@@ -53,7 +53,7 @@ function a11yProps(index) {
 
 export default function VerticalTabs() {
   const [value, setValue] = React.useState(0);
-  const [data, setData] = React.useState(JSON.parse(localStorage.getItem('data')));
+  const [data, setData] = React.useState([]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -69,7 +69,6 @@ export default function VerticalTabs() {
   React.useEffect(async() => {
     try {
       const response = await answerhistory(localStorage.getItem('token'), localStorage.getItem('user_id'))
-      console.log(await (response.data))
       setData(response.data)
     } catch (error) {
       console.log(error)

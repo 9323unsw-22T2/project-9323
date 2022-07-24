@@ -14,7 +14,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 // import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { logOut, isExpert } from '../../service';
+import { logOut, getScore } from '../../service';
 import { useNavigate } from 'react-router-dom';
 import logo from './UNSW.png';
 import { googleLogout } from '@react-oauth/google';
@@ -71,16 +71,7 @@ const Navbar = () => {
   const handleClose = (e) => {
     setAnchorEl(null);
   };
-  const [isexpert, setIsexpert] = React.useState(false);
-  React.useEffect(async () => {
-    try {
-      const response = await isExpert(localStorage.getItem('token'), localStorage.getItem('user_id'))
-      setIsexpert(await Boolean(!response.data.expertOrNot))
-      console.log(response.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
+
   return (
     <div className={styles.Navbar}>
       <div className={styles.logo}>
@@ -158,10 +149,18 @@ const Navbar = () => {
           </MenuItem> */}
           <MenuItem sx={{ fontSize: '1.2rem' }} onClick={(e) => {
             e.preventDefault()
-            if (!isexpert) {
-              navigate('/expert')
-            } else {
-              navigate('/expertActivity')
+            try {
+              getScore(localStorage.getItem('token'), localStorage.getItem('user_id')).then((response) => {
+                const isexpert = response.data.expertOrNot
+                console.log(response.data.expertOrNot)
+                if (isexpert === '0') {
+                  navigate('/expert')
+                } else {
+                  navigate('/expertActivity')
+                }
+              })
+            } catch (error) {
+              console.log(error)
             }
           }}>
             <WorkspacePremiumIcon></WorkspacePremiumIcon>

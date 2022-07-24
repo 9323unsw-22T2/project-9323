@@ -43,10 +43,14 @@ export const commentLike = (number, token, userId) =>
   axios.patch(`${BASE_URL}/comment/${number}/thumb_up`, {}, { headers: { user_id: userId, token: token } });
 export const commentDislike = (number, token, userId) =>
   axios.patch(`${BASE_URL}/comment/${number}/un_thumb_up`, {}, { headers: { user_id: userId, token: token } });
+
 export const questionLike = (number, token, userId) =>
   axios.patch(`${BASE_URL}/questions/${number}/like`, {}, { headers: { user_id: userId, token: token } });
 export const articleLike = (number, token, userId) =>
   axios.patch(`${BASE_URL}/article/${number}/thumb_up`, {}, { headers: { user_id: userId, token: token } });
+
+export const getTrend = () =>
+  axios.get(`${BASE_URL}/newsfeed/trending`);
 
 export const answerhistory = (token, userId) =>
   axios.get(`${BASE_URL}/expert/answer_history`, { headers: { user_id: userId, token: token } });
@@ -56,3 +60,5 @@ export const getScore = (token, userId) =>
   axios.get(`${BASE_URL}/auth/info`, { headers: { user_id: userId, token: token } });
 export const expertCertificate = (body, token, userId) =>
   axios.post(`${BASE_URL}/auth/expert_by_certificate`, body, { headers: { user_id: userId, token: token } });
+export const expertChangeAns = (Qid, body, token, userId) =>
+  axios.post(`${BASE_URL}/expert/${Qid}/update`, body, { headers: { user_id: userId, token: token } });

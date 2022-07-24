@@ -140,7 +140,7 @@ const Home = () => {
               margin: 'auto'
             }}
           >
-            <span>3 answers</span>
+            <span>{parseInt(data[6]) ? `${data[6]} answer` : 'no answer'}</span>
           </Box>
           <Box sx={{ margin: 'auto' }}>
             <Button size="small" onClick={handleExpandClick}>Answer</Button>

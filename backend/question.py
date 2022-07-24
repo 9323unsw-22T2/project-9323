@@ -112,11 +112,11 @@ def get_user_like_questions(user_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     ret = dict()
-    sql = "SELECT likeArticles from users where id = '{}'".format(user_id)
+    sql = "SELECT likeQuestions from users where id = '{}'".format(user_id)
     rows = cur.execute(sql).fetchall()
-    if len(rows) == 0:
-        return make_response(jsonify({"error": "Question not found with question_id = {}".format(question_id)})), 400
-    ret['articles_like'] = rows[0]
+#    if len(rows) == 0:
+#        return make_response(jsonify({"error": "Question not found with question_id = {}".format(question_id)})), 400
+    ret['questions_like'] = rows[0]
     return make_response(jsonify(ret)), 200
 
 # allow user to like a question.
@@ -132,7 +132,7 @@ def question_like_patch(question_id):
     rows = cur.execute(sql).fetchall()
     print(rows)
     if len(rows) == 0:
-        return make_response(jsonify({"error": "No such article with question_id = {}".format(question_id)})), 400
+        return make_response(jsonify({"error": "No such question with question_id = {}".format(question_id)})), 400
 
     user_id = get_user_id_from_header()
 
@@ -179,7 +179,7 @@ def question_dislike_patch(question_id):
         question_id)
     rows = cur.execute(sql).fetchall()
     if len(rows) == 0:
-        return make_response(jsonify({"error": "No such article with question_id = {}".format(question_id)})), 400
+        return make_response(jsonify({"error": "No such question with question_id = {}".format(question_id)})), 400
 
     user_id = get_user_id_from_header()
 

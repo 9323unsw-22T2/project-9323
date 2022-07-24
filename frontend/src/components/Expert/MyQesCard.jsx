@@ -13,6 +13,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import styles from './Expert.module.css';
+import { newQuestionComment } from '../../service'
 /* import Drawer from '@mui/material/Drawer';
 import Link from '@mui/material/Link';
 import SearchDetail from './SearchDetail/SearchDetail'; */
@@ -38,9 +39,19 @@ export default function ActionAreaCard({ data }) {
         )
       ));
   };
-  const text = data.qes;
-  const Ans = data.ans;
+  const text = data.qes.split('\n')[0];
+  function randomNumberInRange (min, max) {
+    // 👇️ get number between min (inclusive) and max (inclusive)
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  let Ans = ''
+  if (data.ans !== null) {
+    Ans = data.ans;
+  } else {
+    Ans = ''
+  }
   const title = data.title;
+  const ansId = data.ans_id;
   if (Ans === null || Ans === '') {
     return (
       <Card
@@ -96,10 +107,16 @@ export default function ActionAreaCard({ data }) {
                 children={
                   <img src={data.photoURL} className={styles.cardImg} />
                 }
-              ></CardContent> : <></>
+              ></CardContent> : <CardContent
+                sx={{ borderBottom: '1px solid #e6e5e6' }}
+                // eslint-disable-next-line react/no-children-prop
+                children={
+                  <img src={localStorage.getItem(randomNumberInRange(1, 4).toString())} className={styles.cardImg} />
+                }
+              ></CardContent>
             }
             <Box className={styles.text1}>Your Answer:</Box>
-            {(data.photoURL !== null && data.photoURL !== '')
+            {(Ans !== null && Ans !== '')
               ? <CardContent
                 sx={{ borderBottom: '1px solid #e6e5e6' }}
                 // eslint-disable-next-line react/no-children-prop
@@ -129,7 +146,7 @@ export default function ActionAreaCard({ data }) {
                 children={
                   <Box className={styles.ansN}>
                     You have not yet answer this question
-                    <button onClick={handleExpandClick} className={styles.btn1}> Answer </button>
+                    <button onClick={handleExpandClick} className={styles.btn1}> Edit </button>
                   </Box>
                 }
               ></CardContent>
@@ -138,7 +155,7 @@ export default function ActionAreaCard({ data }) {
         </CardContent>
         <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto' }}>
           <Button size="small">Follow</Button>
-          <Box sx={{ margin: 'auto' }}>{data.time}</Box>
+          <Box sx={{ margin: 'auto' }}>{new Date().toLocaleString()}</Box>
           <Box
             sx={{
               margin: 'auto',
@@ -146,7 +163,7 @@ export default function ActionAreaCard({ data }) {
               cursor: 'pointer',
             }}
           >
-            <span>{data.score} Points </span>
+             {(data.score !== null) ? <span> {data.score} Points</span> : <span> 10 Points</span>}
           </Box>
           <Box sx={{ margin: 'auto' }}>
             <Button size="small" onClick={handleExpandClick}>Answer</Button>
@@ -162,7 +179,19 @@ export default function ActionAreaCard({ data }) {
               onEditorStateChange={onEditorStateChange}
               editorContent='Gi'
             />
-            <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained">Submit</Button>
+            <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={async () => {
+              const ansTmp = editorState.getCurrentContent().getPlainText()
+              console.log(ansTmp)
+              console.log(data.qes_id)
+              console.log(ansId)
+              try {
+                const response = await newQuestionComment({ content: ansTmp, score: 100 }, localStorage.getItem('token'), localStorage.getItem('user_id'), data.qes_id)
+                console.log(await (response.data))
+              } catch (error) {
+                console.log(error)
+              }
+              window.location.reload()
+            }} >Submit</Button>
           </CardContent>
         </Collapse>
       </Card>

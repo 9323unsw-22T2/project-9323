@@ -48,6 +48,7 @@ export default function VerticalTabs() {
   const handleStep = (step) => () => {
     setActiveStep(step);
   };
+
   const hendleThumb = async () => {
     if (data[0]?.thumb_up_by?.find((e) => e === parseInt(localStorage.getItem('user_id')))) {
       try {

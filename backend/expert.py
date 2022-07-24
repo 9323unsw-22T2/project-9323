@@ -35,7 +35,7 @@ def get_history():
         com_id = i[0]
         tab_que = get_question(que_id)
         tab_com = get_comment(com_id)
-        print(f"com_id is {com_id}, que_id is {que_id}")
+        # print(f"com_id is {com_id}, que_id is {que_id}")
         temp['qes_id'] = que_id
         temp['title'] = tab_que[0]
         temp['qes'] = tab_que[1]
@@ -50,7 +50,7 @@ def get_history():
 
         all_que_id = [_[0] for _ in get_all_queid()]
         not_ans=[]
-        print(all_que_id)
+        # print(all_que_id)
         for i in all_que_id:
             if i not in q_id:
                 not_ans.append(i)
@@ -109,7 +109,7 @@ def get_question_comment(user_id):
     # get the comment for this user
     sql = f"select id,questionId from comments where author={user_id} and questionId is not null and isDeleted = 0;"
     com_que_id = cur.execute(sql).fetchall()
-    print(com_que_id)
+    # print(com_que_id)
     return com_que_id
 
 def get_que_id_no_answer(user_id):
@@ -134,7 +134,7 @@ def get_all_queid():
 def get_question(question_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
-    print("que_id",question_id)
+    # print("que_id",question_id)
     sql=f"select title,content,image,timeUpdated from questions where isDeleted = 0 and id = {question_id}"
     rows = cur.execute(sql).fetchall()
     if len(rows) == 0:

@@ -12,7 +12,8 @@ import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Button, Menu } from '@mui/material';
 import GuideCard from '../GuideDetail/GuideCard'
 import List from './List'
-import { getNewsFeed, getLikedQuestions } from '../../service'
+
+import { getNewsFeed, getLikedQuestions, getTrend } from '../../service'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CommonMessage from '../CommonMessage/CommonMessage'
 
@@ -27,7 +28,7 @@ function TabPanel(props) {
       <div
         style={{
           width: matchesPad ? '100vw' : '86vw',
-          minHeight: '100%',
+          minHeight: '89vh',
           // backgroundColor: 'rgb(118, 118, 118, 0.1)',
           backgroundImage: 'url(https://cdn.dribbble.com/users/782052/screenshots/10927554/media/e961df046013321feb28cf99b7fc7800.jpg)'
         }}
@@ -63,7 +64,11 @@ function a11yProps(index) {
 export default function VerticalTabs() {
   const [value, setValue] = React.useState(0);
   const [data, setData] = React.useState([]);
+
   const [likedQ, setLikedQ] = React.useState([]);
+
+  const [trend, setTrend] = React.useState({})
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -74,10 +79,12 @@ export default function VerticalTabs() {
   React.useEffect(async() => {
     try {
       const response = await getNewsFeed(feed)
-      console.log(response.data)
+      const trendResponse = await getTrend()
+      setTrend(trendResponse.data)
       setData([...Object.values(response.data)])
     } catch (error) {
       setErrorMessage(['last page', 'error', true])
+      setFeed(feed - 1)
     }
   }, [feed])
   const [errorMessage, setErrorMessage] = React.useState(['', 'error', false]);
@@ -252,7 +259,7 @@ export default function VerticalTabs() {
                 width: '30%',
               }}
             >
-              <List></List>
+              <List data={trend}></List>
             </Box>
           </Box>
         </TabPanel>

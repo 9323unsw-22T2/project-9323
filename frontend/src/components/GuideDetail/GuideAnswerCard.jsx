@@ -18,6 +18,7 @@ import Button from '@mui/material/Button';
 import { getArticleComments } from '../../service';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import SharePopup from '../SharePopup/SharePopup'
 
 /* {data.map((users) => {
    return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
@@ -44,6 +45,8 @@ export default function RecipeReviewCard () {
     if (thumbUp) { ThumbUp() }
     setThumbDown(!thumbDown)
   }
+  const [social, setSocial] = React.useState(false);
+
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -100,10 +103,12 @@ export default function RecipeReviewCard () {
         <IconButton aria-label="comment" onClick={handleExpandClick}>
           <CommentIcon />
         </IconButton>
-        <IconButton aria-label="share">
+        <IconButton aria-label="share" onClick={(e) => { e.preventDefault(); setSocial(!social) }}>
           <ShareIcon />
         </IconButton>
       </CardActions>
+      <SharePopup opened={social} setOpened={setSocial}></SharePopup>
+
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Editor
