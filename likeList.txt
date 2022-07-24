@@ -1,0 +1,170 @@
+1.
+curl --location --request POST '127.0.0.1:5000/auth/register' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "email": "123@gmail.com",
+  "password": "789",
+  "name": "joe"
+}'
+{
+    "token": "67c155ab-bd66-435a-bfd4-3ade0a99f71e",
+    "user_id": 1
+}
+
+
+2.
+curl --location --request POST '127.0.0.1:5000/auth/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "email": "123@gmail.com",
+  "password": "789"
+}'
+{
+    "coins": 0,
+    "email": "123@gmail.com",
+    "expertArea": null,
+    "expertOrNot": "0",
+    "id": 1,
+    "isPpublic": "0",
+    "name": "joe",
+    "password": "789",
+    "scores": 0,
+    "token": "67c155ab-bd66-435a-bfd4-3ade0a99f71e"
+}
+
+
+3.
+curl --location --request POST '127.0.0.1:5000/article' \
+--header 'user_id: 1' \
+--header 'token: 67c155ab-bd66-435a-bfd4-3ade0a99f71e' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "0": {
+        "title": "this is a title",
+        "step_title": "this is step_title0",
+        "content": "this is a content in page 0"
+    }
+}'
+{
+    "article_id": 1
+}
+
+
+4.
+curl --location --request POST '127.0.0.1:5000/questions/add' \
+--header 'user_id: 1' \
+--header 'token: 67c155ab-bd66-435a-bfd4-3ade0a99f71e' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "title": "123",
+    "content": "789"
+
+}'
+{
+    "question_id": 1
+}
+
+
+5.
+curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
+--header 'user_id: 1' \
+--header 'token: 67c155ab-bd66-435a-bfd4-3ade0a99f71e'
+{
+    "article": {
+        "0": {
+            "article_id": null,
+            "author": 1,
+            "content": "this is a content in page 0",
+            "id": 1,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": [],
+            "step_number": 0,
+            "step_title": "this is step_title0",
+            "thumb_up_by": [
+                1
+            ],
+            "time_created": 1658675559,
+            "time_modified": 1658675559,
+            "title": "this is a title",
+            "video": null
+        }
+    }
+}
+
+
+6.
+curl --location --request PATCH '127.0.0.1:5000/questions/1/like' \
+--header 'user_id: 1' \
+--header 'token: 67c155ab-bd66-435a-bfd4-3ade0a99f71e'
+{
+    "question": [
+        1,
+        "123",
+        "789",
+        1658675566,
+        1658675566,
+        1,
+        "[]",
+        "[1]",
+        0,
+        null,
+        null
+    ]
+}
+
+
+
+
+7.
+curl --location --request GET '127.0.0.1:5000/questions_like/1' \
+--header 'user_id: 1' \
+--header 'token: 67c155ab-bd66-435a-bfd4-3ade0a99f71e'
+{
+    "questions_like": [
+        [
+            [
+                1,
+                "123",
+                "789",
+                1658675566,
+                1658675566,
+                1,
+                "[]",
+                "[1]",
+                0,
+                null,
+                null
+            ]
+        ]
+    ]
+}
+
+
+
+8.
+curl --location --request GET '127.0.0.1:5000/articles_like/1' \
+--header 'user_id: 1' \
+--header 'token: 67c155ab-bd66-435a-bfd4-3ade0a99f71e'
+{
+    "articles_like": [
+        [
+            [
+                1,
+                null,
+                0,
+                "this is step_title0",
+                "this is a title",
+                "\"this is a content in page 0\"",
+                null,
+                1658675559,
+                1658675559,
+                1,
+                "[]",
+                "[1]",
+                0,
+                null
+            ]
+        ]
+    ]
+}
