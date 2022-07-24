@@ -49,8 +49,8 @@ def comment_question_add(question_id):
         data = request.get_json()
         content = data.get('content', None)
         userID = get_user_id_from_header()
-        update_score(userID,1)
-        score = 0
+        score = data.get('score', 0)
+        update_score(userID,1)   
         image = data.get('image',None)
     
 
