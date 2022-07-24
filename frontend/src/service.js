@@ -36,8 +36,8 @@ export const questionDetail = (userId, token, number) =>
   axios.get(`${BASE_URL}/questions/${number}`, { headers: { user_id: userId, token: token } });
 export const getNewsFeed = (number) =>
   axios.get(`${BASE_URL}/newsfeed/${number}`);
-export const getLikedQuestions = (userId) =>
-  axios.get(`${BASE_URL}/questions_like/${userId}`);
+export const getLikedQuestions = (number, userId, token) =>
+  axios.get(`${BASE_URL}/questions_like/${number}`, { headers: { user_id: userId, token: token } });
 
 export const commentLike = (number, token, userId) =>
   axios.patch(`${BASE_URL}/comment/${number}/thumb_up`, {}, { headers: { user_id: userId, token: token } });

@@ -16,14 +16,12 @@ import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
 import { commentLike, commentDislike, deleteQuestionComment } from '../../service'
-import { useParams } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 RecipeReviewCard.propTypes = {
   data: PropTypes.Object,
 }
 export default function RecipeReviewCard ({ data }) {
-  const { number } = useParams();
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
   const handleDelete = async () => {
@@ -37,13 +35,13 @@ export default function RecipeReviewCard ({ data }) {
   const ThumbUp = (e) => {
     if (thumbDown) { ThumbDown() }
     setThumbUp(!thumbUp)
-    commentLike(number, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    commentLike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
     window.location.reload(false);
   }
   const ThumbDown = (e) => {
     if (thumbUp) { ThumbUp() }
     setThumbDown(!thumbDown)
-    commentDislike(number, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    commentDislike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
     window.location.reload(false);
   }
   const [expanded, setExpanded] = React.useState(false);
@@ -82,7 +80,7 @@ export default function RecipeReviewCard ({ data }) {
           width: 'max-content',
           float: 'right'
         }}>
-          <Typography> {data?.thumbUpBy?.length} Thumbs up </Typography>
+          <Typography> {data?.thumbUpBy?.length - 2 } Thumbs up </Typography>
         <IconButton aria-label="Thumb up" onClick={ThumbUp} sx={{ color: thumbUp ? 'blue' : '' }}>
           <ThumbUpIcon />
         </IconButton>

@@ -149,7 +149,7 @@ export default function ActionAreaCard({ data }) {
         </Box>
       </CardContent>
       <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto' }}>
-        <IconButton aria-label="add to favorites" onClick = {handleLike}>
+        <IconButton aria-label="add to favorites" onClick = {handleLike} >
           <FavoriteIcon />
         </IconButton>
         <Box sx={{ margin: 'auto' }}>{new Date(data.timeCreated * 1000).toLocaleString()}</Box>

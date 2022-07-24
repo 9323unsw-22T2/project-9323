@@ -83,7 +83,7 @@ export default function VerticalTabs() {
   const [errorMessage, setErrorMessage] = React.useState(['', 'error', false]);
   React.useEffect(async() => {
     try {
-      const response = await getLikedQuestions(localStorage.getItem('user_id'))
+      const response = await getLikedQuestions(localStorage.getItem('user_id'), localStorage.getItem('user_id'), localStorage.getItem('token'))
       console.log(response.data)
       setLikedQ([...Object.values(response.data)])
     } catch (error) {
@@ -258,14 +258,10 @@ export default function VerticalTabs() {
         </TabPanel>
         <TabPanel value={value} index={1}>
           <h1> LIKED POSTS HERE </h1>
+
           { likedQ.length && likedQ.map((e, i) => {
             return (
-              e.isDeleted ? <></>
-                : e.TYPE !== 'ARTICLE'
-                  ? <SearchResultCard
-                  key={'resultCard' + i}
-                    data={e}
-                  ></SearchResultCard> : <GuideCard key={'resultCard' + i} likedQ={e}></GuideCard>
+              <h1 key={ likedQ.sdfsdf }>{ e }</h1>
             );
           })}
         </TabPanel>
