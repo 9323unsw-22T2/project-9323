@@ -116,8 +116,22 @@ def get_user_like_questions(user_id):
     rows = cur.execute(sql).fetchall()
 #    if len(rows) == 0:
 #        return make_response(jsonify({"error": "Question not found with question_id = {}".format(question_id)})), 400
-    ret['questions_like'] = rows[0]
+    # ret['questions_like'] = rows[0]
+    res = []
+    for idx in json.loads(rows[0][0]):
+        res.append(get_qeustion(idx))
+    ret['questions_like'] = res
+    
     return make_response(jsonify(ret)), 200
+
+def get_qeustion(id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    # sql = f"select id,title,content,timeCreated,timeUpdated,author,thumbUpby,isDeleted from questions where id = {id};"
+    sql = f"select * from questions where id = {id} and isDeleted = 0;"
+    res = cur.execute(sql).fetchall()
+    # print(res)
+    return res
 
 # allow user to like a question.
 @question_page.route('/questions/<int:question_id>/like', methods=['PATCH'])
