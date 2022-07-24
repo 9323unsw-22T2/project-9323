@@ -71,7 +71,7 @@ export default function RecipeReviewCard ({ data }) {
             <DeleteIcon />
           </IconButton>
         }
-        title={data.user}
+        title={data.author_name}
         subheader={new Date(data.timeCreated * 1000).toLocaleString()}
       />
       <CardContent>
