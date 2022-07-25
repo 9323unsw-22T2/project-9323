@@ -264,11 +264,10 @@ export default function VerticalTabs() {
           </Box>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <h1> LIKED POSTS HERE </h1>
-          { likedQ.length && likedQ.map((e, i) => {
+          { likedQ.length && likedQ[0].map((e, i) => {
             return (
-              <h1 key={likedQ.sdfgd}>{ JSON.parse(likedQ)}</h1>
-            )
+              <h1 key={likedQ.fgdfgd}>liked posts here</h1>
+            );
           })}
         </TabPanel>
         <TabPanel value={value} index={2}>
