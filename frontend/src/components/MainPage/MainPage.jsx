@@ -266,7 +266,10 @@ export default function VerticalTabs() {
         <TabPanel value={value} index={1}>
           { likedQ.length && likedQ[0].map((e, i) => {
             return (
-              <h1 key={likedQ.fgdfgd}>liked posts here</h1>
+              <SearchResultCard
+                    key={'resultCard' + i}
+                    data={e}
+                  ></SearchResultCard>
             );
           })}
         </TabPanel>
