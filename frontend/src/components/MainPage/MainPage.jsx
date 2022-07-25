@@ -13,7 +13,7 @@ import { MenuItem, Button, Menu } from '@mui/material';
 import GuideCard from '../GuideDetail/GuideCard'
 import List from './List'
 
-import { getNewsFeed, getLikedQuestions, getTrend } from '../../service'
+import { getNewsFeed, getLikedQuestions, getTrend, getLikedArticles } from '../../service'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CommonMessage from '../CommonMessage/CommonMessage'
 
@@ -66,6 +66,7 @@ export default function VerticalTabs() {
   const [data, setData] = React.useState([]);
 
   const [likedQ, setLikedQ] = React.useState([]);
+  const [likedA, setLikedA] = React.useState([]);
 
   const [trend, setTrend] = React.useState({})
 
@@ -93,6 +94,9 @@ export default function VerticalTabs() {
       const response = await getLikedQuestions(localStorage.getItem('user_id'), localStorage.getItem('user_id'), localStorage.getItem('token'))
       console.log(response.data)
       setLikedQ([...Object.values(response.data)])
+      const res = await getLikedArticles(localStorage.getItem('user_id'), localStorage.getItem('user_id'), localStorage.getItem('token'))
+      console.log(res.data)
+      setLikedA([...Object.values(res.data)])
     } catch (error) {
       setErrorMessage(['last page', 'error', true])
     }
@@ -267,7 +271,15 @@ export default function VerticalTabs() {
           { likedQ.length && likedQ[0].map((e, i) => {
             return (
               <SearchResultCard
-                    key={'resultCard' + i}
+                    key={'question' + i}
+                    data={e}
+                  ></SearchResultCard>
+            );
+          })}
+          { likedA.length && likedA[0].map((e, i) => {
+            return (
+              <SearchResultCard
+                    key={'question' + i}
                     data={e}
                   ></SearchResultCard>
             );

@@ -38,6 +38,8 @@ export const getNewsFeed = (number) =>
   axios.get(`${BASE_URL}/newsfeed/${number}`);
 export const getLikedQuestions = (number, userId, token) =>
   axios.get(`${BASE_URL}/questions_like/${number}`, { headers: { user_id: userId, token: token } });
+export const getLikedArticles = (number, userId, token) =>
+  axios.get(`${BASE_URL}/articles_like/${number}`, { headers: { user_id: userId, token: token } });
 
 export const commentLike = (number, token, userId) =>
   axios.patch(`${BASE_URL}/comment/${number}/thumb_up`, {}, { headers: { user_id: userId, token: token } });
