@@ -19,8 +19,9 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import Collapse from '@mui/material/Collapse';
-import { newQuestionComment, questionDetail, getQuestionComments } from '../../service';
 import { useParams, useNavigate } from 'react-router-dom';
+
+import { newQuestionComment, questionDetail, getQuestionComments, questionLike } from '../../service';
 
 const Home = () => {
   //  const sample = [{ id: '12', type: 1 }, { id: '23', type: 2 }, { id: '45', type: 2 }]
@@ -44,6 +45,9 @@ const Home = () => {
   };
   const { number } = useParams();
 
+  const handleLike = async () => {
+    await questionLike(data[0].id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+  }
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -137,6 +141,7 @@ const Home = () => {
         <CardActions sx={{ ml: 3, margin: 'auto', width: '90%' }}>{follow ? <Button onClick={(e) => {
           e.preventDefault()
           setFollow(!follow)
+          handleLike()
         }}size="small">Like</Button> : <Button color="error" onClick={(e) => {
           e.preventDefault()
           setFollow(!follow)
