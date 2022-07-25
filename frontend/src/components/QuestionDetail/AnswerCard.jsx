@@ -17,14 +17,15 @@ import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
 import { commentLike, commentDislike, deleteQuestionComment } from '../../service'
 import DeleteIcon from '@mui/icons-material/Delete';
-import SharePopup from '../SharePopup/SharePopup'
-
+import SharePopup from '../SharePopup/SharePopup';
+import AvatarTrigger from '../MessagerTrigger/Avatar'
 RecipeReviewCard.propTypes = {
   data: PropTypes.Object,
 }
 export default function RecipeReviewCard ({ data }) {
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
+
   const handleDelete = async () => {
     try {
       await deleteQuestionComment(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
@@ -57,12 +58,17 @@ export default function RecipeReviewCard ({ data }) {
   function handleChange (content, editor) {
     setContent({ content });
   }
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClickProfile = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
   return (
     <>
     <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={`comments${data.id}`}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <Avatar sx={{ bgcolor: red[500], cursor: 'pointer' }} onClick={handleClickProfile}>
             R
           </Avatar>
         }
@@ -74,6 +80,7 @@ export default function RecipeReviewCard ({ data }) {
         title={data.author_name}
         subheader={new Date(data.timeCreated * 1000).toLocaleString()}
       />
+      <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
             {data.content}

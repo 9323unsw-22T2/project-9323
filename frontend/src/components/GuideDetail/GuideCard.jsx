@@ -22,6 +22,7 @@ import PropTypes from 'prop-types';
 import draftToHtml from 'draftjs-to-html';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteGuide } from '../../service'
+import AvatarTrigger from '../MessagerTrigger/Avatar'
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -61,6 +62,11 @@ export default function RecipeReviewCard ({ data }) {
   function handleChange (content, editor) {
     setContent({ content });
   }
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClickProfile = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
   const handleSubmit = () => {
     fetch('/comment/articles/1', {
       method: 'POST',
@@ -84,7 +90,7 @@ export default function RecipeReviewCard ({ data }) {
     <Card sx={{ marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <Avatar sx={{ bgcolor: red[500], cursor: 'pointer' }} onClick={handleClickProfile}>
             R
           </Avatar>
         }
@@ -97,6 +103,8 @@ export default function RecipeReviewCard ({ data }) {
         title={data.author_name}
         subheader={new Date(data.timeCreated * 1000).toLocaleString()}
       />
+      <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
+
       <CardContent sx={{
         cursor: 'pointer',
         '&:hover': {

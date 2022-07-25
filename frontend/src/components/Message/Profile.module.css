@@ -1,0 +1,5 @@
+.conversationlist ul{
+  display: flex;
+  overflow: hidden;
+  flex-wrap: wrap;
+}

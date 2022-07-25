@@ -26,6 +26,7 @@ import SharePopup from '../SharePopup/SharePopup'
 import draftToHtml from 'draftjs-to-html';
 import GuideAnswerCard from './GuideAnswerCard'
 import useMediaQuery from '@mui/material/useMediaQuery';
+import AvatarTrigger from '../MessagerTrigger/Avatar'
 
 // eslint-disable-next-line space-before-function-paren
 export default function VerticalTabs() {
@@ -73,6 +74,11 @@ export default function VerticalTabs() {
       setData(Object.fromEntries(Object.entries(response.data.article)))
     } catch (error) {}
   }, [])
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClickProfile = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
   return (
   <div className="home">
   {localStorage.getItem('token')
@@ -88,15 +94,16 @@ export default function VerticalTabs() {
       <Box sx={{ display: 'flex' }}>
       <Box className={styles.guideDetail} sx={{ width: matchesPad ? '90%' : '70%' }}>
       <CardHeader
-            sx={{ width: '95%', margin: 'auto', mt: 3 }}
-            avatar={
-              <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                R
-              </Avatar>
-            }
+        avatar={
+          <Avatar sx={{ bgcolor: red[500], cursor: 'pointer' }} onClick={handleClickProfile}>
+            R
+          </Avatar>
+        }
             title={data[0].author}
             subheader={new Date(data[0].time_created * 1000).toLocaleString()}
           />
+        <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
+
         <Box sx={{ width: '95%', margin: 'auto' }}>
           <Stepper nonLinear activeStep={activeStep}>
           {Object.keys(data).map((ele, index) => (
@@ -114,7 +121,7 @@ export default function VerticalTabs() {
         <div style={{ marginTop: '2rem', textAlign: 'center' }}>
         <iframe width="560" height="315" src={data[activeStep].video.replace('https://youtu.be/', 'https://www.youtube.com/embed/')} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
         </div>}
-        <Card sx={{ width: '95%', border: 'none', margin: 'auto', boxShadow: 'none', height: '32rem', overflow: 'scroll', mt: 3 }}>
+        <Card sx={{ width: '95%', border: 'none', margin: 'auto', boxShadow: 'none', height: '32rem', overflow: 'auto', mt: 3 }}>
           <CardContent>
             <Typography variant="h4" color="text.secondary">
             <div dangerouslySetInnerHTML={{ __html: draftToHtml(data[activeStep].content) }}></div>
