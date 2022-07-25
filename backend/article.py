@@ -8,7 +8,24 @@ from flask_cors import CORS
 article_page = Blueprint("article", __name__)
 CORS(article_page)
 
+def get_article(article_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    # sql = f"select id,articleId,stepTitle,content,image,timeCreated,timeUpdated,author,thumbUpby,isDeleted,video from articles where id = {id};"
+    sql = f"select * from articles where (articleId = {article_id} or (articleId is Null and id = {article_id})) and isDeleted = 0;"
+    res = cur.execute(sql).fetchall()
+    # print("get !!! article : ","article_id is ",article_id,res)
+    return res
 
+def get_table_column(table_name):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql=f'PRAGMA table_info([{table_name}])'
+    all = cur.execute(sql).fetchall()
+    res = []
+    for _ in all:
+        res.append(_[1])
+    return res
 @article_page.route('/article', methods=['POST'])
 @authenticated
 def article_create():
@@ -170,6 +187,20 @@ def get_user_like_articles(user_id):
     for idx in json.loads(rows[0][0]):
         res.append(get_article(idx))
     ret['articles_like'] = res
+
+    res = []
+    col_art = get_table_column("articles")
+    # col_art = json.loads(col_art)
+    for idx in json.loads(rows[0][0]):
+        tmp = {}
+        # print(get_article(idx))
+        tmp["TYPE"] = "ARTICLE"
+        for i,j in zip(get_article(idx)[0],col_art):
+            tmp[j] = i
+        res.append(tmp)
+
+    ret['articles_like'] = res
+
     return make_response(jsonify(ret)), 200
 
 def get_article(article_id):
