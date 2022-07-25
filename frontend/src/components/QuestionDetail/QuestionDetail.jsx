@@ -28,6 +28,7 @@ const Home = () => {
   const open = Boolean(anchorEl);
   const [follow, setFollow] = React.useState(true);
   const [commentData, setCommentData] = useState([{ }]);
+  const [score, setScore] = React.useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -51,7 +52,9 @@ const Home = () => {
 
   const [content, setCommentContent] = React.useState();
   const handleSubmit = () => {
-    newQuestionComment({ content }, localStorage.getItem('token'), localStorage.getItem('user_id'), number)
+    newQuestionComment({ content, score }, localStorage.getItem('token'), localStorage.getItem('user_id'), number)
+    setScore(null)
+    setCharged(false)
     window.location.reload(false);
   }
   /* const handleSubmit = () => {
@@ -164,7 +167,7 @@ const Home = () => {
           labelPlacement="charge score"
   />
   <Box sx={{ transition: '1s all', opacity: charged ? 1 : 0, height: '2rem', pointerEvents: charged ? 'all' : 'none' }}>
-  <Input type="number"placeholder="Score you want" />
+  <Input type="number"placeholder="Score you want" value={score}onChange={(e) => setScore(e.target.value)}/>
   </Box>
   <Button sx={{ mb: 1, mt: 2, float: 'right' }}variant="contained" onClick ={handleSubmit}>Submit</Button>
   </Box>
@@ -203,9 +206,10 @@ const Home = () => {
             <MenuItem onClick={handleClose}>Price(low to high)</MenuItem>
           </Menu>
 
-         { commentData && Object.keys(commentData).map((key) => {
+         { Object.keys(commentData).length !== 0 ? Object.keys(commentData).map((key) => {
            return (commentData[key].isdeleted ? <></> : commentData[key].score ? <ChargeAnswerCard></ChargeAnswerCard> : <AnswerCard key={`ele${key}`} data={commentData[key]}></AnswerCard>)
-         })}
+         }) : <div style={{ width: '10rem', height: '10rem' }}>No answer yet</div>
+         }
       </Box>
         <List></List>
 

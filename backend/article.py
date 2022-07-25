@@ -164,8 +164,24 @@ def get_user_like_articles(user_id):
     rows = cur.execute(sql).fetchall()
     # if len(rows) == 0:
     #     return make_response(jsonify({"error": "Article not found with article_id = {}".format(article_id)})), 400
-    ret['articles_like'] = rows[0]
+    # ret['articles_like'] = rows[0]
+    res = []
+    # print(rows[0][0])
+    for idx in json.loads(rows[0][0]):
+        res.append(get_article(idx))
+    ret['articles_like'] = res
     return make_response(jsonify(ret)), 200
+
+def get_article(article_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    # sql = f"select id,articleId,stepTitle,content,image,timeCreated,timeUpdated,author,thumbUpby,isDeleted,video from articles where id = {id};"
+    sql = f"select * from articles where (articleId = {article_id} or (articleId is Null and id = {article_id})) and isDeleted = 0;"
+    res = cur.execute(sql).fetchall()
+    # print("get !!! article : ","article_id is ",article_id,res)
+    return res
+
+
 
 def get_user_id_by_article(article_id):
     con = sqlite3.connect(DATABASE_NAME)

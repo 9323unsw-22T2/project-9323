@@ -145,7 +145,7 @@ def get_qeustion(id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
     # sql = f"select id,title,content,timeCreated,timeUpdated,author,thumbUpby,isDeleted from questions where id = {id};"
-    sql = f"select * from questions where id = {id} ;"
+    sql = f"select * from questions where id = {id} and isDeleted = 0;"
     res = cur.execute(sql).fetchall()
     # print(res)
     return res
@@ -200,7 +200,7 @@ def newsfeed_trending():
     cur = con.cursor()
     
     # get all question_thumb up by
-    sql = "select id,title,content,thumbUpBy,replyIds from questions where isDeleted =0;"
+    sql = "select id,title,content,thumbUpBy,replyIds from questions where isDeleted = 0;"
     all_thumb = cur.execute(sql).fetchall()
     num_question = len(all_thumb)
     # print(all_thumb,num_question)
