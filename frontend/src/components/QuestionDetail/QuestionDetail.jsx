@@ -79,7 +79,7 @@ const Home = () => {
     const responseDetail = await questionDetail(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
     setData(Object.fromEntries(Object.entries(responseDetail.data.question)))
     const response = await getQuestionComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
-    setCommentData(response.data);
+    setCommentData(Object.fromEntries(Object.entries(response.data)));
   }, [])
   return (
     <div className="home" style={{ overflow: 'auto' }}>
@@ -116,8 +116,9 @@ const Home = () => {
                   wordBreak: 'break-all',
                   overflowWrap: 'break-word',
                 }}
-                title={data[1]}
+                title={data[0].title}
               ></CardHeader>
+              <h1></h1>
               <CardContent
                 sx={{
                   borderBottom: '1px solid #e6e5e6',
@@ -127,7 +128,7 @@ const Home = () => {
                   overflowWrap: 'break-word',
                 }}
                 // eslint-disable-next-line react/no-children-prop
-                children={data[2]}
+                children={data[0].content}
               ></CardContent>
         <CardActions sx={{ ml: 3, margin: 'auto', width: '90%' }}>{follow ? <Button onClick={(e) => {
           e.preventDefault()
@@ -137,13 +138,13 @@ const Home = () => {
           setFollow(!follow)
         }} size="small">UnLike</Button>}
 
-          <Box sx={{ margin: 'auto' }}>{new Date(data[3] * 1000).toLocaleString()}</Box>
+          <Box sx={{ margin: 'auto' }}>{new Date(data[0].timeCreated * 1000).toLocaleString()}</Box>
           <Box
             sx={{
               margin: 'auto'
             }}
           >
-            <span>{parseInt(data[6]) ? `${data[6]} answer` : 'no answer'}</span>
+            <span>{parseInt(data[0].replyIds) ? `${data[0].replyIds} answer` : 'no answer'}</span>
           </Box>
           <Box sx={{ margin: 'auto' }}>
             <Button size="small" onClick={handleExpandClick}>Answer</Button>
