@@ -8,6 +8,15 @@ from flask_cors import CORS
 question_page = Blueprint("question", __name__)
 CORS(question_page)
 
+def get_table_column(table_name):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql=f'PRAGMA table_info([{table_name}])'
+    all = cur.execute(sql).fetchall()
+    res = []
+    for _ in all:
+        res.append(_[1])
+    return res
 
 # allow user to post a question to ask
 @question_page.route('/questions/add', methods=['POST'])
@@ -103,7 +112,14 @@ def question_get_by_id(question_id):
     rows = cur.execute(sql).fetchall()
     if len(rows) == 0:
         return make_response(jsonify({"error": "Question not found with question_id = {}".format(question_id)})), 400
-    ret['question'] = rows[0]
+    
+    col_ques = get_table_column("questions")
+    tmp = {}
+    tmp["TYPE"] = "QUESTION"
+    for i,j in zip(rows[0],col_ques):
+        tmp[j] = i
+
+    ret['question'] = {0:tmp}
     return make_response(jsonify(ret)), 200
 
 @question_page.route('/questions_like/<int:user_id>', methods=['GET'])
@@ -118,8 +134,15 @@ def get_user_like_questions(user_id):
 #        return make_response(jsonify({"error": "Question not found with question_id = {}".format(question_id)})), 400
     # ret['questions_like'] = rows[0]
     res = []
+    col_ques = get_table_column("questions")
+    # col_ques = json.loads(col_ques)
     for idx in json.loads(rows[0][0]):
-        res.append(get_qeustion(idx))
+        # res.append()
+        tmp = {}
+        tmp["TYPE"] = "QUESTION"
+        for i,j in zip(get_qeustion(idx)[0],col_ques):
+            tmp[j] = i
+        res.append(tmp)
     ret['questions_like'] = res
     
     return make_response(jsonify(ret)), 200
