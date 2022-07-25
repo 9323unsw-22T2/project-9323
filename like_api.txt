@@ -7,9 +7,10 @@ curl --location --request POST '127.0.0.1:5000/auth/register' \
   "name": "joe"
 }'
 {
-    "token": "67c155ab-bd66-435a-bfd4-3ade0a99f71e",
+    "token": "2e16cc67-dd5c-4868-85a4-124408d0aec0",
     "user_id": 1
 }
+
 
 
 2.
@@ -29,14 +30,17 @@ curl --location --request POST '127.0.0.1:5000/auth/login' \
     "name": "joe",
     "password": "789",
     "scores": 0,
-    "token": "67c155ab-bd66-435a-bfd4-3ade0a99f71e"
+    "token": "2e16cc67-dd5c-4868-85a4-124408d0aec0"
 }
+
+
+
 
 
 3.
 curl --location --request POST '127.0.0.1:5000/article' \
 --header 'user_id: 1' \
---header 'token: 67c155ab-bd66-435a-bfd4-3ade0a99f71e' \
+--header 'token: 2e16cc67-dd5c-4868-85a4-124408d0aec0' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "0": {
@@ -50,10 +54,12 @@ curl --location --request POST '127.0.0.1:5000/article' \
 }
 
 
+
+
 4.
 curl --location --request POST '127.0.0.1:5000/questions/add' \
 --header 'user_id: 1' \
---header 'token: 67c155ab-bd66-435a-bfd4-3ade0a99f71e' \
+--header 'token: 2e16cc67-dd5c-4868-85a4-124408d0aec0' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "title": "123",
@@ -65,10 +71,12 @@ curl --location --request POST '127.0.0.1:5000/questions/add' \
 }
 
 
+
+
 5.
 curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
 --header 'user_id: 1' \
---header 'token: 67c155ab-bd66-435a-bfd4-3ade0a99f71e'
+--header 'token: 2e16cc67-dd5c-4868-85a4-124408d0aec0'
 {
     "article": {
         "0": {
@@ -84,8 +92,8 @@ curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
             "thumb_up_by": [
                 1
             ],
-            "time_created": 1658675559,
-            "time_modified": 1658675559,
+            "time_created": 1658717744,
+            "time_modified": 1658717744,
             "title": "this is a title",
             "video": null
         }
@@ -93,24 +101,31 @@ curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
 }
 
 
+
+
+
+
 6.
 curl --location --request PATCH '127.0.0.1:5000/questions/1/like' \
 --header 'user_id: 1' \
---header 'token: 67c155ab-bd66-435a-bfd4-3ade0a99f71e'
+--header 'token: 2e16cc67-dd5c-4868-85a4-124408d0aec0'
 {
-    "question": [
-        1,
-        "123",
-        "789",
-        1658675566,
-        1658675566,
-        1,
-        "[]",
-        "[1]",
-        0,
-        null,
-        null
-    ]
+    "question": {
+        "0": {
+            "TYPE": "QUESTION",
+            "author": 1,
+            "content": "789",
+            "id": 1,
+            "image": null,
+            "isDeleted": 0,
+            "replyIds": "[]",
+            "thumbUpBy": "[1]",
+            "timeCreated": 1658717751,
+            "timeUpdated": 1658717751,
+            "title": "123",
+            "video": null
+        }
+    }
 }
 
 
@@ -119,52 +134,51 @@ curl --location --request PATCH '127.0.0.1:5000/questions/1/like' \
 7.
 curl --location --request GET '127.0.0.1:5000/questions_like/1' \
 --header 'user_id: 1' \
---header 'token: 67c155ab-bd66-435a-bfd4-3ade0a99f71e'
+--header 'token: 2e16cc67-dd5c-4868-85a4-124408d0aec0'
 {
     "questions_like": [
-        [
-            [
-                1,
-                "123",
-                "789",
-                1658675566,
-                1658675566,
-                1,
-                "[]",
-                "[1]",
-                0,
-                null,
-                null
-            ]
-        ]
+        {
+            "TYPE": "QUESTION",
+            "author": 1,
+            "content": "789",
+            "id": 1,
+            "image": null,
+            "isDeleted": 0,
+            "replyIds": "[]",
+            "thumbUpBy": "[1]",
+            "timeCreated": 1658717751,
+            "timeUpdated": 1658717751,
+            "title": "123",
+            "video": null
+        }
     ]
 }
+
 
 
 
 8.
 curl --location --request GET '127.0.0.1:5000/articles_like/1' \
 --header 'user_id: 1' \
---header 'token: 67c155ab-bd66-435a-bfd4-3ade0a99f71e'
+--header 'token: 2e16cc67-dd5c-4868-85a4-124408d0aec0'
 {
     "articles_like": [
-        [
-            [
-                1,
-                null,
-                0,
-                "this is step_title0",
-                "this is a title",
-                "\"this is a content in page 0\"",
-                null,
-                1658675559,
-                1658675559,
-                1,
-                "[]",
-                "[1]",
-                0,
-                null
-            ]
-        ]
+        {
+            "TYPE": "ARTICLE",
+            "articleId": null,
+            "author": 1,
+            "content": "\"this is a content in page 0\"",
+            "id": 1,
+            "image": null,
+            "isDeleted": 0,
+            "replyIds": "[]",
+            "stepNumber": 0,
+            "stepTitle": "this is step_title0",
+            "thumbUpBy": "[1]",
+            "timeCreated": 1658717744,
+            "timeUpdated": 1658717744,
+            "title": "this is a title",
+            "video": null
+        }
     ]
 }
