@@ -21,7 +21,9 @@ import GuideAnswerCard from '../GuideDetail/GuideAnswerCard'
 import PropTypes from 'prop-types';
 import draftToHtml from 'draftjs-to-html';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { deleteGuide } from '../../service'
+
+import { deleteGuide, articleLike } from '../../service'
+
 import AvatarTrigger from '../MessagerTrigger/Avatar'
 
 const ExpandMore = styled((props) => {
@@ -57,6 +59,9 @@ export default function RecipeReviewCard ({ data }) {
   const handleCommentClick = () => {
     setCommentExpanded(!commentExpanded);
   };
+  const handleLike = async () => {
+    await articleLike(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+  }
   const navigate = useNavigate();
   const [content, setContent] = React.useState('')
   function handleChange (content, editor) {
@@ -149,7 +154,7 @@ export default function RecipeReviewCard ({ data }) {
         })
       }
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="add to favorites" onClick={handleLike}>
           <FavoriteIcon />
         </IconButton>
         <IconButton aria-label="share" onClick={(e) => { e.preventDefault(); setSocial(!social) }}>
