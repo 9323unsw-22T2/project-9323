@@ -29,8 +29,12 @@ function TabPanel(props) {
         style={{
           width: matchesPad ? '100vw' : '86vw',
           minHeight: '89vh',
+          backgroundAttachment: 'fixed',
           // backgroundColor: 'rgb(118, 118, 118, 0.1)',
-          backgroundImage: 'url(https://cdn.dribbble.com/users/782052/screenshots/10927554/media/e961df046013321feb28cf99b7fc7800.jpg)'
+          backgroundPosition: 'right bottom',
+          backgroundImage: 'url(https://cdni.iconscout.com/illustration/premium/thumb/businessman-working-in-office-3455479-2929000.png)',
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: '#f2f9fe'
         }}
         role="tabpanel"
         hidden={value !== index}
