@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { newQuestion } from '../../service';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 
 const App = () => {
   const [contentt, setContent] = React.useState('')
@@ -39,13 +40,13 @@ const App = () => {
   : (
           <Navbar></Navbar>
     )}
-<Box sx={{ display: 'flex', mt: 3, height: '88%', width: '100%', backgroundImage: 'url(https://cdn.dribbble.com/users/1362913/screenshots/4606447/media/781df62e1f36d160f60d855938b1e41d.png?compress=1&resize=800x600&vertical=top)' }}>
-<Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}onClick={(e) => {
-  e.preventDefault()
-  navigate('/main')
-}}>{'<Return'}</Button>
+<Box sx={{ display: 'flex', mt: 3, height: '88%', width: '100%', backgroundAttachment: 'fixed', backgroundPosition: 'left bottom', backgroundImage: 'url(https://cdni.iconscout.com/illustration/premium/thumb/job-interview-2601678-2182451.png)', backgroundRepeat: 'no-repeat', backgroundColor: '#fbfbff' }}>
+ <Button variant="outlined" startIcon={<ArrowBackRoundedIcon/>} sx={{ position: 'absolute', zIndex: '8', height: 'max-content', fontFamily: 'Roboto', color: '#1976d2 !important', ml: 2 }}onClick={(e) => {
+   e.preventDefault()
+   navigate('/main')
+ }}> Return </Button>
 
-  <Box sx={{ width: '75%', opacity: '0.95', margin: 'auto', backgroundColor: 'white', borderRadius: '1rem' }}>
+  <Box sx={{ width: '50%', opacity: '0.95', margin: 'auto', backgroundColor: 'white', borderRadius: '1rem', fontFamily: 'Roboto' }}>
 <form style={{ margin: '2rem' }}>
   <h2>Provide a question</h2>
 
@@ -57,6 +58,7 @@ const App = () => {
     value={contentt.innerText}
     init={{
       height: 300,
+      width: '100%',
       menubar: false
     }}
     onEditorChange={handleChange}

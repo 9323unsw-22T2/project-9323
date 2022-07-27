@@ -141,7 +141,7 @@ export default function ActionAreaCard({ data }) {
             }}
             // eslint-disable-next-line react/no-children-prop
             children={
-              <Box>
+              <Box sx={{ fontFamily: 'Roboto' }}>
                 {isShowMore ? text?.slice(0, 300) : text}
                 {text && text.length > 300 && (
                   <Box
@@ -162,7 +162,7 @@ export default function ActionAreaCard({ data }) {
           ></CardContent>
         </Box>
       </CardContent>
-      <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto' }}>
+      <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto', fontFamily: 'Roboto' }}>
       {!liked ? <Button onClick={handleLike}size="small">Follow</Button> : <Button color="error" onClick={handleLike} size="small">Unfollow</Button>}
         <Box sx={{ margin: 'auto' }}>{new Date(data.timeCreated * 1000).toLocaleString()}</Box>
         {((data.replyIds !== '0') && (data.replyIds !== '[]'))

@@ -20,7 +20,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import Collapse from '@mui/material/Collapse';
 import { useParams, useNavigate } from 'react-router-dom';
-
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import { newQuestionComment, questionDetail, getQuestionComments, questionLike } from '../../service';
 
 const Home = () => {
@@ -95,17 +95,21 @@ const Home = () => {
       )}
       <Box
         sx={{
-          backgroundImage: 'url(https://cdn.dribbble.com/users/782052/screenshots/10927554/media/e961df046013321feb28cf99b7fc7800.jpg)',
+          backgroundImage: 'url(https://image.freepik.com/free-vector/colleagues-working-together-project_74855-6308.jpg)',
           height: '86vh',
           // backgroundColor: 'rgb(118, 118, 118, 0.1)',
           display: 'flex',
-          paddingTop: '1.3rem'
+          paddingTop: '1.3rem',
+          backgroundAttachment: 'fixed',
+          backgroundPosition: 'right bottom',
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: '#fbfbff'
         }}
       >
-        <Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}onClick={(e) => {
+        <Button variant="outlined" startIcon={<ArrowBackRoundedIcon/>} sx={{ position: 'absolute', zIndex: '8', height: 'max-content', fontFamily: 'Roboto', color: '#1976d2 !important', ml: 2 }}onClick={(e) => {
           e.preventDefault()
           navigate('/main')
-        }}>{'<Return'}</Button>
+        }}> Return </Button>
 
         <Box sx={{
           opacity: '0.95',
@@ -134,11 +138,12 @@ const Home = () => {
                   margin: 'auto',
                   wordBreak: 'break-all',
                   overflowWrap: 'break-word',
+                  fontFamily: 'Roboto'
                 }}
                 // eslint-disable-next-line react/no-children-prop
                 children={data[0].content}
               ></CardContent>
-        <CardActions sx={{ ml: 3, margin: 'auto', width: '90%' }}>{follow ? <Button onClick={(e) => {
+        <CardActions sx={{ ml: 3, margin: 'auto', width: '90%', fontFamily: 'Roboto' }}>{follow ? <Button onClick={(e) => {
           e.preventDefault()
           setFollow(!follow)
           handleLike()
@@ -224,9 +229,9 @@ const Home = () => {
            height: '40%',
            background: 'white',
            textAlign: 'center',
-           fontSize: '3rem',
-           paddingTop: '10rem'
-         }}>No answer yet</div>
+           fontFamilty: 'Roboto'
+         }}>
+          <img src='https://cdn.dribbble.com/users/1053528/screenshots/4261269/media/b81055909c88d9f7dfd6a49ff6d8f63f.png?compress=1&resize=400x300'></img></div>
          }
       </Box>
         <List></List>

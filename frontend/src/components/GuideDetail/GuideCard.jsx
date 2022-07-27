@@ -61,6 +61,7 @@ export default function RecipeReviewCard ({ data }) {
   };
   const handleLike = async () => {
     await articleLike(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    window.location.reload(false);
   }
   const navigate = useNavigate();
   const [content, setContent] = React.useState('')

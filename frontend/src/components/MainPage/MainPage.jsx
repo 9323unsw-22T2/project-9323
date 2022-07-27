@@ -185,7 +185,7 @@ export default function VerticalTabs() {
           <Tab label="All" sx={{
             borderRight: 1,
             width: '13vw',
-
+            backgroundColor: 'white',
             borderColor: 'divider',
             minWidth: 'max-content',
           }}{...a11yProps(0)} />
@@ -193,8 +193,9 @@ export default function VerticalTabs() {
             borderRight: 1,
             borderColor: 'divider',
             minWidth: 'max-content',
+            backgroundColor: 'white',
             width: '13vw',
-          }}{...a11yProps(1)} />
+          }}{...a11yProps(1)}/>
         </Tabs>
         <TabPanel value={value} index={0}>
           <Button
@@ -207,6 +208,7 @@ export default function VerticalTabs() {
               margin: 'auto',
               color: 'grey !important',
               marginLeft: '1.5rem',
+              backgroundColor: '#f2f9fe',
             }}
           >
             <SortIcon></SortIcon>Sort
