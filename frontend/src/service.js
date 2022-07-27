@@ -46,6 +46,8 @@ export const commentDislike = (number, token, userId) =>
 
 export const questionLike = (number, token, userId) =>
   axios.patch(`${BASE_URL}/questions/${number}/like`, {}, { headers: { user_id: userId, token: token } });
+export const questionDislike = (number, token, userId) =>
+  axios.patch(`${BASE_URL}/questions/${number}/dislike`, {}, { headers: { user_id: userId, token: token } });
 export const articleLike = (number, token, userId) =>
   axios.patch(`${BASE_URL}/article/${number}/thumb_up`, {}, { headers: { user_id: userId, token: token } });
 

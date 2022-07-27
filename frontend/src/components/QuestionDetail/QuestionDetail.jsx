@@ -142,10 +142,10 @@ const Home = () => {
           e.preventDefault()
           setFollow(!follow)
           handleLike()
-        }}size="small">Like</Button> : <Button color="error" onClick={(e) => {
+        }}size="small">Follow</Button> : <Button color="error" onClick={(e) => {
           e.preventDefault()
           setFollow(!follow)
-        }} size="small">UnLike</Button>}
+        }} size="small">Unfollow</Button>}
 
           <Box sx={{ margin: 'auto' }}>{new Date(data[0].timeCreated * 1000).toLocaleString()}</Box>
           <Box
@@ -153,7 +153,7 @@ const Home = () => {
               margin: 'auto'
             }}
           >
-            <span>{parseInt(data[0].replyIds) ? `${data[0].replyIds} answer` : 'no answer'}</span>
+            <span>{((data[0].replyIds !== '0') && (data[0].replyIds !== '[]')) ? `${data[0].replyIds} answer` : 'no answer'}</span>
           </Box>
           <Box sx={{ margin: 'auto' }}>
             <Button size="small" onClick={handleExpandClick}>Answer</Button>
@@ -218,7 +218,15 @@ const Home = () => {
 
          { Object.keys(commentData).length !== 0 ? Object.keys(commentData).map((key) => {
            return (commentData[key].isdeleted ? <></> : commentData[key].score ? <ChargeAnswerCard></ChargeAnswerCard> : <AnswerCard key={`ele${key}`} data={commentData[key]}></AnswerCard>)
-         }) : <div style={{ width: '10rem', height: '10rem' }}>No answer yet</div>
+         }) : <div style={{
+           margin: 'auto',
+           width: '100%',
+           height: '40%',
+           background: 'white',
+           textAlign: 'center',
+           fontSize: '3rem',
+           paddingTop: '10rem'
+         }}>No answer yet</div>
          }
       </Box>
         <List></List>

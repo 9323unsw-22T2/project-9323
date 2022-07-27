@@ -181,7 +181,7 @@ export default function VerticalTabs() {
             borderColor: 'divider',
             minWidth: 'max-content',
           }}{...a11yProps(0)} />
-          <Tab label="Liked" sx={{
+          <Tab label="Followed" sx={{
             borderRight: 1,
             borderColor: 'divider',
             minWidth: 'max-content',
@@ -272,21 +272,6 @@ export default function VerticalTabs() {
                   ></SearchResultCard>
             );
           })}
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          Item Three
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-          Item Four
-        </TabPanel>
-        <TabPanel value={value} index={4}>
-          Item Five
-        </TabPanel>
-        <TabPanel value={value} index={5}>
-          Item Six
-        </TabPanel>
-        <TabPanel value={value} index={6}>
-          Item Seven
         </TabPanel>
       </Box>
     </>
