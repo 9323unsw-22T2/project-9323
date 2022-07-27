@@ -21,6 +21,7 @@ import ApplyExpert from './components/Expert/ApplyExpert'
 import Expert from './components/Expert/Expert'
 import ExpertActivity from './components/Expert/ExpertActivity'
 import Help from './components/Help/Help'
+import Message from './components/Message/MessageManager'
 import { getScore } from './service'
 const PageLayout = ({ children }) => children;
 
@@ -66,6 +67,7 @@ const AnimationLayout = () => {
 };
 const App = () => {
   const location = useLocation();
+  console.log(location)
   const timerRef = React.useRef();
   const [isexpert, setIsexpert] = React.useState('0');
   React.useEffect(() => {
@@ -107,17 +109,17 @@ const App = () => {
   }
   React.useEffect(() => {
     document.addEventListener('copy', addLink);
+    addResponseMessage('Hello, may I help you ?');
   }, [])
   const handleNewUserMessage = (newMessage) => {
-    console.log(`New message incoming! ${newMessage}`);
-    addResponseMessage('response');
-
-    // Now send the message throught the backend API
-  };
+    addResponseMessage(newMessage);
+  }
+  // Now send the message throught the backend AP
   return (
     <>
       <div id='copynotify' style={{ opacity: 0, transition: 'all 0.5s', color: 'white', textShadow: '3px 0px 3px red,-3px 0px 3px red,6px 0px 6px red,-6px 0px 6px red', marginLeft: '40%', marginTop: '10%', position: 'absolute', fontSize: '1rem', zIndex: 10000 }}>Copying to clipboard was successful!</div>
-      <Widget emojis= {true} resizable={true}subtitle={'This is the helpbot, you can also chat with other user'}handleNewUserMessage={handleNewUserMessage}/>
+      {location.pathname !== '/message' && <Widget showTimeStamp={false} emojis= {true} resizable={true}subtitle={'This is the helpbot in default, you can also ask expert questions'} handleNewUserMessage={handleNewUserMessage} />}
+
       <Routes location={location} key={location.pathname}>
         <Route element={<AnimationLayout />}>
           <Route path="/" element={<Home />} />
@@ -133,6 +135,8 @@ const App = () => {
           <Route path="/applyexpert" element={localStorage.getItem('token') ? (isexpert === '0') ? <ApplyExpert /> : <ExpertActivity /> : <Home />} />
           <Route path="/guide/:number" element={localStorage.getItem('token') ? <GuideDetail /> : <Home />} />
           <Route path="/help" element={<Help />} />
+          <Route path="/message" element={<Message />} />
+
         </Route>
 
       </Routes>
@@ -142,6 +146,7 @@ const App = () => {
 function root () {
   return (
     <BrowserRouter>
+
       <App />
     </BrowserRouter>
   );

@@ -19,12 +19,14 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import Collapse from '@mui/material/Collapse';
+import { useParams, useNavigate } from 'react-router-dom';
+
 import { newQuestionComment, questionDetail, getQuestionComments, questionLike } from '../../service';
-import { useParams } from 'react-router-dom';
 
 const Home = () => {
   //  const sample = [{ id: '12', type: 1 }, { id: '23', type: 2 }, { id: '45', type: 2 }]
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const navigate = useNavigate()
   const open = Boolean(anchorEl);
   const [follow, setFollow] = React.useState(true);
   const [commentData, setCommentData] = useState([{ }]);
@@ -100,7 +102,10 @@ const Home = () => {
           paddingTop: '1.3rem'
         }}
       >
-        <Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="javascript:history.back()">{'<Return'}</Button>
+        <Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}onClick={(e) => {
+          e.preventDefault()
+          navigate('/main')
+        }}>{'<Return'}</Button>
 
         <Box sx={{
           opacity: '0.95',

@@ -19,6 +19,7 @@ import { getArticleComments } from '../../service';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import SharePopup from '../SharePopup/SharePopup'
+import AvatarTrigger from '../MessagerTrigger/Avatar'
 
 /* {data.map((users) => {
    return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
@@ -59,6 +60,11 @@ export default function RecipeReviewCard () {
   function handleChange (content, editor) {
     setContent({ content });
   }
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClickProfile = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
   React.useEffect(async () => {
     try {
       const response = await getArticleComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
@@ -75,7 +81,7 @@ export default function RecipeReviewCard () {
           <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={Comment.id}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} >
+          <Avatar sx={{ bgcolor: red[500], cursor: 'pointer' }} onClick={handleClickProfile}>
             R
           </Avatar>
         }
@@ -87,6 +93,8 @@ export default function RecipeReviewCard () {
         title="Remoteworker23"
         subheader="September 14, 2016"
       />
+      <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
+
       <CardContent>
         <Typography variant="body2" color="text.secondary" key={data[user].commentid}>{data[user].content}</Typography>
         </CardContent>

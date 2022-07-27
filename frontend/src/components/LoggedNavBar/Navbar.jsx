@@ -7,6 +7,8 @@ import Fade from '@mui/material/Fade';
 import { styled, alpha } from '@mui/material/styles';
 // import SettingsIcon from '@mui/icons-material/Settings';
 import InputBase from '@mui/material/InputBase';
+import EmailIcon from '@mui/icons-material/Email';
+
 // import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SearchIcon from '@mui/icons-material/Search';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
@@ -176,6 +178,13 @@ const Navbar = () => {
           }}>
             <HelpIcon></HelpIcon>
             Help
+          </MenuItem>
+          <MenuItem sx={{ fontSize: '1.2rem' }} onClick={(e) => {
+            e.preventDefault()
+            navigate('/message')
+          }}>
+            <EmailIcon/>
+            message
           </MenuItem>
           <MenuItem sx={{ fontSize: '1.2rem' }} onClick={async (e) => {
             e.preventDefault()

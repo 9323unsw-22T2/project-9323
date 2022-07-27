@@ -21,7 +21,12 @@ import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import CommonMessage from '../CommonMessage/CommonMessage'
-
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import EmailIcon from '@mui/icons-material/Email';
 export default function RecipeReviewCard () {
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
@@ -59,12 +64,21 @@ export default function RecipeReviewCard () {
   function setMessageStatus () {
     setErrorMessage(['', 'error', false])
   }
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const openProfile = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseProfile = () => {
+    setAnchorEl(null);
+  };
   return (
     <>
     <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <Avatar sx={{ bgcolor: red[500], cursor: 'pointer' }} onClick={handleClick} >
             R
           </Avatar>
         }
@@ -86,6 +100,27 @@ export default function RecipeReviewCard () {
         alt="Paella dish"
         sx={{ width: 'auto' }}
       />
+      <Menu
+        anchorEl={anchorEl}
+        open={openProfile}
+        onClose={handleCloseProfile}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={handleCloseProfile}>
+          <ListItemIcon>
+            <AccountBoxIcon />
+          </ListItemIcon>
+          <ListItemText>Profile</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={handleCloseProfile}>
+        <ListItemIcon>
+          <EmailIcon/>
+          </ListItemIcon>
+          <ListItemText>Private message</ListItemText>
+        </MenuItem>
+      </Menu>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
         dewdewdewdwedwedwedwedwedwedwedwd
