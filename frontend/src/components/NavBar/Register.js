@@ -9,7 +9,7 @@ import DialogContent from '@mui/material/DialogContent';
 import FacebookIcon from '@mui/icons-material/Facebook';
 // import CloseIcon from '@mui/icons-material/Close';
 // import IconButton from '@mui/material/IconButton';
-import { register } from '../../service';
+import { register, signIn } from '../../service';
 import CommonMessage from '../CommonMessage/CommonMessage'
 import GoogleSignIn from './GoogleSignin';
 
@@ -36,6 +36,9 @@ const Signin = () => {
     try {
       await register({ name, email, password });
       setErrorMessage(['Register in success', 'success', true]);
+      const response = await signIn({ email, password });
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user_id', response.data.id);
       window.location.reload(false);
     } catch (error) {
       setErrorMessage([error.response.data.error, 'error', true]);
