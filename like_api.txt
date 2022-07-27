@@ -182,3 +182,70 @@ curl --location --request GET '127.0.0.1:5000/articles_like/1' \
         }
     ]
 }
+
+
+9. put message
+// send one message
+POST
+header user_id
+content{
+    target_user id
+    message
+    time
+}
+
+add it to both sender's messagelist and receiver's messagelist
+sender's is readed, receiver's is unreaded
+比如A（id=1）发了一条消息给B(id=2)，原来两个人的messagelist都是空的，同时往两边attribute都加上数据
+变成A的是
+    messagelist:{
+        2:[
+            {sender:'A',message:'',time:'',readed:'true'}
+        ],
+    }
+变成B的是
+    messagelist:{
+        1:[
+            {sender:'A',message:'',time:'',readed:'false'}
+        ],
+    }
+9. get messaage
+// get one user's all message 
+header user_id
+
+return content{
+    
+    messagelist:{
+        target_userid:[
+            {sender:'me',message:'',time:'',readed:'true'},{sender:'target_user',message:'',time:'',reader:'false'}
+        ],
+        target_userid:[
+            {sender:'me',message:''，readed:'true'},{sender:'me',message:'',reader:'true'}
+        ]
+    }
+}
+9.get messaage
+// read all message related to one user
+header user_id
+send{
+    target_id
+}
+
+
+10.delete message
+// delete all message related to one user, only current user side
+header user_id
+send{
+    target_id
+}
+假如A删掉一条消息
+A的变成
+    messagelist:{
+    }
+B的这一侧还是
+    messagelist:{
+        1:[
+            {sender:'A',message:'',time:'',readed:'false'}
+        ],
+    }
+
