@@ -42,7 +42,7 @@ def article_create():
 
     return make_response(jsonify({"article_id": article_id})), 200
 
-def update_score(user_id):
+def update_score(user_id,scorex):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
 
@@ -52,7 +52,7 @@ def update_score(user_id):
 
     rows = cur.execute(sql).fetchall()
     score = int(rows[0][0])
-    score+=1
+    score+=scorex
     sql = "UPDATE users SET scores = {} where id = {} or token = '{}'".format(
          score,user_id,user_id)
     cur.execute(sql)
@@ -81,7 +81,7 @@ def _article_title_create(data):
                 [id, article_id, step_number, step_title, title, content, image, time_created, time_modified, author, reploy_ids, thumb_up_by, is_deleted, video])
     id = cur.lastrowid
     con.commit()
-    update_score(author)
+    update_score(author,1)
     return id
 
 
@@ -263,7 +263,7 @@ def article_thumb_up_patch(article_id):
     cur.execute(sql)
     con.commit()
     liked_user_id = get_user_id_by_article(article_id)
-    update_score(liked_user_id)
+    update_score(liked_user_id,1)
 
     return article_get_by_id(article_id)
 
@@ -280,7 +280,7 @@ def article_un_thumb_up_patch(article_id):
     rows = cur.execute(sql).fetchall()
     if len(rows) == 0:
         return make_response(jsonify({"error": "No such article with article_id = {}".format(article_id)})), 400
-
+    update_score(rows[0][9],-1)
     user_id = get_user_id_from_header()
 
     thumb_up_by = json.loads(rows[0][11])
@@ -303,6 +303,7 @@ def article_un_thumb_up_patch(article_id):
         user_like_articles.remove(article_id)
     else:
         pass
+
 
     sql = "UPDATE users SET likeArticles = '{}' where id = '{}';".format(
         json.dumps(user_like_articles), user_id)
