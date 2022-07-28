@@ -60,10 +60,10 @@ def _question_title_create(data):
                 [id, title, content,time_created, time_modified, author, reploy_ids, thumb_up_by, is_deleted,image,video])
     id = cur.lastrowid
     con.commit()
-    update_score(author)
+    update_score(author,1)
     return id
 
-def update_score(user_id):
+def update_score(user_id,scorex):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
 
@@ -73,7 +73,7 @@ def update_score(user_id):
 
     rows = cur.execute(sql).fetchall()
     score = int(rows[0][0])
-    score+=1
+    score+=scorex
     sql = "UPDATE users SET scores = {} where id = {} or token = '{}'".format(
          score,user_id,user_id)
     cur.execute(sql)
@@ -200,7 +200,7 @@ def question_like_patch(question_id):
     con.commit()
 
     liked_user_id = get_user_id_by_question(question_id)
-    update_score(liked_user_id)
+    update_score(liked_user_id,1)
     return question_get_by_id(question_id)
 
 
@@ -215,9 +215,10 @@ def question_dislike_patch(question_id):
     sql = "SELECT * from questions where id = '{}' and isDeleted != '1'".format(
         question_id)
     rows = cur.execute(sql).fetchall()
+
     if len(rows) == 0:
         return make_response(jsonify({"error": "No such question with question_id = {}".format(question_id)})), 400
-
+    update_score(rows[0][5],-1)
     user_id = get_user_id_from_header()
 
     thumb_up_by = json.loads(rows[0][7])
