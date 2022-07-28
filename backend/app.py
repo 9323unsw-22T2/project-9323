@@ -8,6 +8,7 @@ from comment import comment_page
 from article import article_page
 from score import score_page
 from expert import expert_page
+from message import message_page
 con = sqlite3.connect(DATABASE_NAME)
 cur = con.cursor()
 
@@ -15,7 +16,7 @@ cur.execute(
     "CREATE TABLE IF NOT EXISTS users (id integer primary key autoincrement,\
      name text, email text, password text, token text, expertArea text,\
       scores integer, coins integer,expertOrNot NOT NULL DEFAULT '0',\
-      isPpublic NOT NULL DEFAULT '0',likeArticles NOT NULL DEFAULT '[]',likeQuestions NOT NULL DEFAULT '[]')")
+      isPpublic NOT NULL DEFAULT '0',likeArticles NOT NULL DEFAULT '[]',likeQuestions NOT NULL DEFAULT '[]',messagelist  NOT NULL DEFAULT '{}')")
 
 
 cur.execute(
@@ -73,7 +74,7 @@ app.register_blueprint(comment_page)
 app.register_blueprint(article_page)
 app.register_blueprint(score_page)
 app.register_blueprint(expert_page)
-
+app.register_blueprint(message_page)
 @app.route("/ping")
 def ping():
     return "pong", 200
