@@ -154,7 +154,7 @@ const Navbar = () => {
             try {
               getScore(localStorage.getItem('token'), localStorage.getItem('user_id')).then((response) => {
                 const isexpert = response.data.expertOrNot
-                console.log(response.data.expertOrNot)
+                // console.log(response.data.expertOrNot)
                 if (isexpert === '0') {
                   navigate('/expert')
                 } else {
@@ -193,6 +193,8 @@ const Navbar = () => {
               await logOut({});
               localStorage.removeItem('token')
               window.location.reload(false);
+              localStorage.removeItem('currentChat')
+              localStorage.removeItem('currentChatname')
             } catch (error) {
               window.alert('Fail to logout, please check network')
             }

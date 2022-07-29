@@ -16,7 +16,7 @@ const style = {
   borderRadius: 3,
 };
 ListDividers.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.array,
 };
 export default function ListDividers ({ data }) {
   const navigate = useNavigate();

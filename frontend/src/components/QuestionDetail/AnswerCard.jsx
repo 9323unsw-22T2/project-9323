@@ -80,7 +80,7 @@ export default function RecipeReviewCard ({ data }) {
         title={data.author_name}
         subheader={new Date(data.timeCreated * 1000).toLocaleString()}
       />
-      <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
+      <AvatarTrigger user={data.user}username={data.author_name}setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
             {data.content}

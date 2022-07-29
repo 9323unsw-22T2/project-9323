@@ -102,7 +102,7 @@ export default function VerticalTabs() {
             title={data[0].author}
             subheader={new Date(data[0].time_created * 1000).toLocaleString()}
           />
-        <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
+        <AvatarTrigger user={data[0].author} username={data[0].author_name}setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
 
         <Box sx={{ width: '95%', margin: 'auto' }}>
           <Stepper nonLinear activeStep={activeStep}>

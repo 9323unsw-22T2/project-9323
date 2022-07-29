@@ -3,20 +3,27 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import EmailIcon from '@mui/icons-material/Email';
 import PropTypes from 'prop-types';
 import { toggleWidget } from 'react-chat-widget';
 
 Avatar.propTypes = {
   setAnchorEl: PropTypes.func,
-  anchorEl: PropTypes.array,
+  anchorEl: PropTypes.object,
+  user: PropTypes.number,
+  username: PropTypes.string
 };
-export default function Avatar ({ setAnchorEl, anchorEl }) {
+export default function Avatar ({ setAnchorEl, anchorEl, user, username }) {
   const openProfile = Boolean(anchorEl);
 
   const handleCloseProfile = () => {
     setAnchorEl(null);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+    toggleWidget()
+
+    document.dispatchEvent(new CustomEvent('chatchage', { detail: { user, username } }))
   };
   return (
   <Menu
@@ -28,16 +35,10 @@ export default function Avatar ({ setAnchorEl, anchorEl }) {
   }}
 >
   <MenuItem onClick={handleCloseProfile}>
-    <ListItemIcon>
-      <AccountBoxIcon />
-    </ListItemIcon>
-    <ListItemText>Profile</ListItemText>
-  </MenuItem>
-  <MenuItem onClick={handleCloseProfile}>
   <ListItemIcon>
     <EmailIcon/>
     </ListItemIcon>
-    <ListItemText onClick={toggleWidget}>Private message</ListItemText>
+    <ListItemText onClick={handleClose}>Private message</ListItemText>
   </MenuItem>
 </Menu>)
 }

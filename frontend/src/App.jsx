@@ -22,7 +22,7 @@ import Expert from './components/Expert/Expert'
 import ExpertActivity from './components/Expert/ExpertActivity'
 import Help from './components/Help/Help'
 import Message from './components/Message/MessageManager'
-import { getScore } from './service'
+import { getScore, sendMessages } from './service'
 const PageLayout = ({ children }) => children;
 
 const pageVariants = {
@@ -67,7 +67,7 @@ const AnimationLayout = () => {
 };
 const App = () => {
   const location = useLocation();
-  console.log(location)
+  // console.log(location)
   const timerRef = React.useRef();
   const [isexpert, setIsexpert] = React.useState('0');
   React.useEffect(() => {
@@ -79,13 +79,14 @@ const App = () => {
       console.log(error)
     }
   }, [])
+  const [currentChat, setCurrentChat] = React.useState(['Bot', 0]);
 
   async function addLink (event) {
     event.preventDefault();
     if (localStorage.getItem('token')) {
       const pagelink = '\n\n Original author at: ' + document.location.href;
       const copytext = window.getSelection() + pagelink;
-      console.log(copytext, navigator.clipboard)
+      // console.log(copytext, navigator.clipboard)
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(copytext).then(function () {
           document.getElementById('copynotify').style.opacity = 1;
@@ -107,18 +108,28 @@ const App = () => {
       window.alert('Only login user can copy text');
     }
   }
+
   React.useEffect(() => {
     document.addEventListener('copy', addLink);
     addResponseMessage('Hello, may I help you ?');
+    document.addEventListener('chatchage', (event) => {
+      console.log(event.detail)
+      setCurrentChat([event.detail.username, event.detail.user])
+    });
   }, [])
   const handleNewUserMessage = (newMessage) => {
-    addResponseMessage(newMessage);
+    try {
+      sendMessages({ message: newMessage, target_id: currentChat[1], time: Date.now() }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    } catch (error) {
+
+    }
   }
+
   // Now send the message throught the backend AP
   return (
     <>
       <div id='copynotify' style={{ opacity: 0, transition: 'all 0.5s', color: 'white', textShadow: '3px 0px 3px red,-3px 0px 3px red,6px 0px 6px red,-6px 0px 6px red', marginLeft: '40%', marginTop: '10%', position: 'absolute', fontSize: '1rem', zIndex: 10000 }}>Copying to clipboard was successful!</div>
-      {location.pathname !== '/message' && <Widget showTimeStamp={false} emojis= {true} resizable={true}subtitle={'This is the helpbot in default, you can also ask expert questions'} handleNewUserMessage={handleNewUserMessage} />}
+      {location.pathname !== '/message' && <Widget showTimeStamp={false} subtitle={'Welcome'}emojis= {true} resizable={true} title={currentChat[0]} handleNewUserMessage={handleNewUserMessage} />}
 
       <Routes location={location} key={location.pathname}>
         <Route element={<AnimationLayout />}>

@@ -109,7 +109,7 @@ export default function RecipeReviewCard ({ data }) {
         title={data.author_name}
         subheader={new Date(data.timeCreated * 1000).toLocaleString()}
       />
-      <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
+      <AvatarTrigger username={data.author_name}user={data.author}setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
 
       <CardContent sx={{
         cursor: 'pointer',

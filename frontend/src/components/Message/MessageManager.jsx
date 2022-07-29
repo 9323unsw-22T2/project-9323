@@ -66,7 +66,7 @@ function Help () {
                     <MessageList>
                       {sampleData &&
                         sampleData[cursor]?.map((e) => {
-                          console.log(e)
+                          // console.log(e)
                           return (
                             <Message
                             key={e.time}
