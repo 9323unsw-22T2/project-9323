@@ -29,7 +29,8 @@ def message_add():
     name = rows[0][0]
     message_body = {"sender":name,
                     "message":message,
-                    "readed":False
+                    "readed":False,
+                    "sender_id":user_id
                     }
     if target_id in message_list:
         message_list[target_id].append(message_body)
@@ -40,15 +41,21 @@ def message_add():
     con.commit()
 
 
-    sql = "SELECT messagelist from users where id = '{}'".format(target_id)
+    sql = "SELECT name,messagelist from users where id = '{}'".format(target_id)
     rows = cur.execute(sql).fetchall()
-    message_list = json.loads(rows[0][0])
+    name = rows[0][0]
+    message_list = json.loads(rows[0][1])
 
     if user_id in message_list:
         message_list[user_id].append(message_body)
     else:
         message_list[user_id] = [message_body]
 
+    message_body = {"sender":name,
+                    "message":message,
+                    "readed":False,
+                    "sender_id":target_id
+                    }
     sql = "UPDATE users SET messagelist = '{}' where id = '{}';".format(json.dumps(message_list), target_id)
     cur.execute(sql)
     con.commit()
