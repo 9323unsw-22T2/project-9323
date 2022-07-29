@@ -70,7 +70,7 @@ export const sendMessages = (body, token, userId) =>
   axios.post(`${BASE_URL}/message/send`, body, { headers: { user_id: userId, token: token } });
 export const deleteMessages = (body, token, userId) =>
   axios.post(`${BASE_URL}/message/delete`, body, { headers: { user_id: userId, token: token } });
-export const getOneMessages = (token, userId) =>
-  axios.get(`${BASE_URL}/message/get_one`, { headers: { user_id: userId, token: token } });
+export const getOneMessages = (user, token, userId) =>
+  axios.post(`${BASE_URL}/message/get_one`, { target_user: user }, { headers: { user_id: userId, token: token } });
 export const getAllMessages = (token, userId) =>
   axios.get(`${BASE_URL}/message/get_all`, { headers: { user_id: userId, token: token } });

@@ -20,7 +20,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SharePopup from '../SharePopup/SharePopup';
 import AvatarTrigger from '../MessagerTrigger/Avatar'
 RecipeReviewCard.propTypes = {
-  data: PropTypes.Object,
+  data: PropTypes.object,
 }
 export default function RecipeReviewCard ({ data }) {
   const [thumbUp, setThumbUp] = React.useState(false);
@@ -64,8 +64,8 @@ export default function RecipeReviewCard ({ data }) {
     setAnchorEl(event.currentTarget);
   };
   return (
-    <>
-    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={`comments${data.id}`}>
+    <div key={`comments${data.id}`}>
+    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} >
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500], cursor: 'pointer' }} onClick={handleClickProfile}>
@@ -124,6 +124,6 @@ export default function RecipeReviewCard ({ data }) {
         </CardContent>
       </Collapse>
     </Card>
-  </>
+  </div>
   )
 }

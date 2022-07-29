@@ -93,7 +93,7 @@ export default function RecipeReviewCard ({ data }) {
     newArticleComment({ commentContent }, localStorage.getItem('token'), localStorage.getItem('user_id'))
   } */
   return (
-    <Card sx={{ marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>
+    <Card sx={{ marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={`guide${data.articleId}`}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500], cursor: 'pointer' }} onClick={handleClickProfile}>

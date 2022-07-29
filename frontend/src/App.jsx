@@ -7,7 +7,7 @@ import {
   Outlet
 } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Widget, addResponseMessage } from 'react-chat-widget';
+import { Widget, addUserMessage, addResponseMessage } from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';
 import Home from './components/Home/Home';
 import MainPage from './components/MainPage/MainPage';
@@ -22,7 +22,7 @@ import Expert from './components/Expert/Expert'
 import ExpertActivity from './components/Expert/ExpertActivity'
 import Help from './components/Help/Help'
 import Message from './components/Message/MessageManager'
-import { getScore, sendMessages } from './service'
+import { getScore, sendMessages, getOneMessages } from './service'
 const PageLayout = ({ children }) => children;
 
 const pageVariants = {
@@ -70,16 +70,20 @@ const App = () => {
   // console.log(location)
   const timerRef = React.useRef();
   const [isexpert, setIsexpert] = React.useState('0');
-  React.useEffect(() => {
+  React.useEffect(async () => {
     try {
-      getScore(localStorage.getItem('token'), localStorage.getItem('user_id')).then((response) => {
+      await getScore(localStorage.getItem('token'), localStorage.getItem('user_id')).then((response) => {
         setIsexpert(response.data.expertOrNot)
+        localStorage.setItem('username', response.data.name)
       }).then(console.log(isexpert))
     } catch (error) {
       console.log(error)
     }
   }, [])
   const [currentChat, setCurrentChat] = React.useState(['Bot', 0]);
+  const ref = React.useRef();
+  const intervalRef = React.useRef();
+  const historyRef = React.useRef();
 
   async function addLink (event) {
     event.preventDefault();
@@ -109,19 +113,59 @@ const App = () => {
     }
   }
 
-  React.useEffect(() => {
+  React.useEffect(async () => {
     document.addEventListener('copy', addLink);
-    addResponseMessage('Hello, may I help you ?');
-    document.addEventListener('chatchage', (event) => {
-      console.log(event.detail)
+    document.addEventListener('chatchage', async (event) => {
+      console.log('newchat find')
+      intervalRef.current && clearInterval(intervalRef.current)
+      const response = await getOneMessages(event.detail.user, localStorage.getItem('token'), localStorage.getItem('user_id'))
+      historyRef.current = response.data.message_list.length
+      ref.current = response.data.message_list
+      console.log(response.data.message_list)
+      // eslint-disable-next-line array-callback-return
+      Array.isArray(response.data.message_list) && response.data.message_list.map((e) => {
+        console.log(e)
+        if (localStorage.getItem('username') === e.sender) {
+          addUserMessage(e.message)
+        } else {
+          addResponseMessage(e.message)
+        }
+      })
       setCurrentChat([event.detail.username, event.detail.user])
     });
   }, [])
+  React.useEffect(async () => {
+    clearInterval(intervalRef.current)
+    if (location.pathname !== '/message' && currentChat[1] !== 0) {
+      intervalRef.current = setInterval(async () => {
+        try {
+          const response = await getOneMessages(currentChat[1], localStorage.getItem('token'), localStorage.getItem('user_id'))
+          console.log(response.data.message_list, ref.current)
+          if (response.data.message_list.length > (ref.current.length)) {
+            // eslint-disable-next-line array-callback-return
+            response?.data?.message_list?.slice(ref.current.length - response.data.message_list.length).map((e, index) => {
+              console.log(e, index, historyRef.current, ref.current.length)
+              // eslint-disable-next-line no-empty
+              if (localStorage.getItem('username') === e.sender) {} else {
+                addResponseMessage(e.message)
+              }
+            })
+            console.log('update', response?.data.message_list, ref.current)
+            ref.current = response.data.message_list
+          }
+        } catch (error) {}
+      }, 2000);
+    }
+  }, [currentChat, location])
   const handleNewUserMessage = (newMessage) => {
-    try {
-      sendMessages({ message: newMessage, target_id: currentChat[1], time: Date.now() }, localStorage.getItem('token'), localStorage.getItem('user_id'))
-    } catch (error) {
+    if (currentChat[1] === 0) {
+      addResponseMessage('hello this is help bot')
+    } else {
+      try {
+        sendMessages({ message: newMessage, target_user: currentChat[1], time: Date.now() }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+      } catch (error) {
 
+      }
     }
   }
 
@@ -129,7 +173,7 @@ const App = () => {
   return (
     <>
       <div id='copynotify' style={{ opacity: 0, transition: 'all 0.5s', color: 'white', textShadow: '3px 0px 3px red,-3px 0px 3px red,6px 0px 6px red,-6px 0px 6px red', marginLeft: '40%', marginTop: '10%', position: 'absolute', fontSize: '1rem', zIndex: 10000 }}>Copying to clipboard was successful!</div>
-      {location.pathname !== '/message' && <Widget showTimeStamp={false} subtitle={'Welcome'}emojis= {true} resizable={true} title={currentChat[0]} handleNewUserMessage={handleNewUserMessage} />}
+      {location.pathname !== '/message' && <Widget showBadge={false}chatId={currentChat[1]}showTimeStamp={false} subtitle={'Welcome'}emojis= {true} resizable={true} title={currentChat[0]} handleNewUserMessage={handleNewUserMessage} />}
 
       <Routes location={location} key={location.pathname}>
         <Route element={<AnimationLayout />}>

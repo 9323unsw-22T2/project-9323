@@ -15,17 +15,33 @@ import styles from './Profile.module.css'
 import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { getAllMessages, sendMessages } from '../../service'
 function Help () {
   const matchesPad = useMediaQuery(
     '(max-width: 950px)'
   )
   const [cursor, setCursor] = React.useState('HelpBot')
-  const sampleData = {
+  const [sampleData, setSampleData] = React.useState({
     amy: [{ message: 'hello', sender: 'amy', time: '1998' }, { message: 'hi', sender: 'me', time: '2002' }],
     lion: [{ message: 'hello', sender: 'lion', time: '1998' }, { message: 'hi', sender: 'me', time: '2002' }],
     peter: [{ message: 'hello', sender: 'peter', time: '1998' }, { message: 'hi', sender: 'peter', time: '2002' }]
 
-  }
+  })
+  const intervalRef = React.useRef();
+
+  React.useEffect(async () => {
+    const response = await getAllMessages(localStorage.getItem('token'), localStorage.getItem('user_id'))
+    setSampleData(response.data.message_list)
+  }, [])
+  React.useEffect(async () => {
+    clearInterval(intervalRef.current)
+    intervalRef.current = setInterval(async () => {
+      try {
+        const response = await getAllMessages(localStorage.getItem('token'), localStorage.getItem('user_id'))
+        setSampleData(response.data.message_list)
+      } catch (error) {}
+    }, 2000);
+  }, [])
   return (
     <>
             {localStorage.getItem('token')
@@ -45,7 +61,9 @@ function Help () {
                         key={e} name={e} lastSenderName={sampleData[e][sampleData[e].length - 1]?.sender} info={sampleData[e][sampleData[e].length - 1]?.message}>
                         <Avatar src={'https://chatscope.io/storybook/react/static/media/zoe.e31a4ff8.svg'}/>
                         <Conversation.Operations visible>
-                          <DeleteIcon onClick={() => alert('Information!')} />
+                          <DeleteIcon onClick={(e) => {
+                            e.preventDefault()
+                          } } />
                         </Conversation.Operations>
                       </Conversation>
                     )
@@ -75,7 +93,7 @@ function Help () {
                               message: e.message,
                               sentTime: e.time,
                               sender: e.sender,
-                              direction: e?.sender === 'me' ? 'incoming' : 'outgoing',
+                              direction: e?.sender !== localStorage.getItem('username') ? 'incoming' : 'outgoing',
                             }}
                           >
                             <Avatar src={'https://chatscope.io/storybook/react/static/media/zoe.e31a4ff8.svg'} name="Joe" />
@@ -84,7 +102,14 @@ function Help () {
                         })
                       }
                     </MessageList>
-                    <MessageInput placeholder="Type message here" />
+                    <MessageInput placeholder="Type message here" onSend={
+                      (textContent) => {
+                        sendMessages({ message: textContent, target_user: cursor, time: Date.now() }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+                      }
+                     // sendMessages({ message: newMessage, target_user: currentChat[1], time: Date.now() }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+                    }
+
+                      />
                   </ChatContainer>
                 </MainContainer>
                   }
