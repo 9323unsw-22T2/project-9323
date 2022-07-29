@@ -52,11 +52,14 @@ def comment_question_add(question_id):
         score = data.get('score', 0)
         update_score(userID,1)   
         image = data.get('image',None)
-    
+        if score == None:
+            score = 0
 
         # check whether the user is expert 
         if get_isExpert(userID):
             score = data.get('score', 0)
+            if score == None:
+                score = 0
         
         ###########user for post man############
         # just create an comment not edit
@@ -491,4 +494,4 @@ def comment_un_thumb_down_patch(comment_id):
     cur.execute(sql)
     con.commit()
     con.close()
-    return make_response(jsonify({f"this comment {comment_id} unlike by":user_id})),200
+    return make_response(jsonify({f"this comment {comment_id} like canceled":user_id})),200
