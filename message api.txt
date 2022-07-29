@@ -1,0 +1,199 @@
+1.
+curl --location --request POST '127.0.0.1:5000/auth/register' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "email": "1234@gmail.com",
+  "password": "789",
+  "name": "joe"
+}'
+{
+    "token": "51ed6ff7-d085-47ba-a950-be552ff5e76e",
+    "user_id": 1
+}
+
+
+2.
+curl --location --request POST '127.0.0.1:5000/auth/register' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "email": "123@gmail.com",
+  "password": "789",
+  "name": "ABC"
+}'
+{
+    "token": "8171b2d8-997b-47d8-a45c-d2de4d72166a",
+    "user_id": 2
+}
+
+
+
+3.
+curl --location --request POST '127.0.0.1:5000/auth/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "email": "1234@gmail.com",
+  "password": "789"
+}'
+{
+    "coins": 0,
+    "email": "1234@gmail.com",
+    "expertArea": null,
+    "expertOrNot": "0",
+    "id": 1,
+    "isPpublic": "0",
+    "name": "joe",
+    "password": "789",
+    "scores": 0,
+    "token": "51ed6ff7-d085-47ba-a950-be552ff5e76e"
+}
+
+
+
+4.
+curl --location --request POST '127.0.0.1:5000/auth/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "email": "123@gmail.com",
+  "password": "789"
+}'
+{
+    "coins": 0,
+    "email": "123@gmail.com",
+    "expertArea": null,
+    "expertOrNot": "0",
+    "id": 2,
+    "isPpublic": "0",
+    "name": "ABC",
+    "password": "789",
+    "scores": 0,
+    "token": "8171b2d8-997b-47d8-a45c-d2de4d72166a"
+}
+
+
+
+6.
+curl --location --request POST '127.0.0.1:5000/message/send' \
+--header 'user_id: 1' \
+--header 'token: 51ed6ff7-d085-47ba-a950-be552ff5e76e' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "target_user":"1",
+  "time": "2017-10-1",
+  "message": "hello"
+}'
+{
+    "message_body": {
+        "message": "hello",
+        "readed": false,
+        "sender": "joe"
+    }
+}
+
+
+
+7.
+curl --location --request POST '127.0.0.1:5000/message/send' \
+--header 'user_id: 2' \
+--header 'token: 8171b2d8-997b-47d8-a45c-d2de4d72166a' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "target_user":"2",
+  "time": "2017-10-1",
+  "message": "wath  "
+}
+'
+{
+    "message_body": {
+        "message": "wath  ",
+        "readed": false,
+        "sender": "ABC"
+    }
+}
+
+
+8.
+curl --location --request POST '127.0.0.1:5000/message/delete' \
+--header 'user_id: 1' \
+--header 'token: 51ed6ff7-d085-47ba-a950-be552ff5e76e' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "target_user":"2"
+}
+{
+    "message_list": {
+        "1": [
+            {
+                "message": "hello",
+                "readed": false,
+                "sender": "joe"
+            },
+            {
+                "message": "hello",
+                "readed": false,
+                "sender": "joe"
+            }
+        ]
+    }
+}
+
+
+
+
+9.
+curl --location --request GET '127.0.0.1:5000/message/get_all' \
+--header 'user_id: 2' \
+--header 'token: 8171b2d8-997b-47d8-a45c-d2de4d72166a'
+{
+    "message_list": {
+        "2": [
+            {
+                "message": "wath  ",
+                "readed": false,
+                "sender": "ABC"
+            },
+            {
+                "message": "wath  ",
+                "readed": false,
+                "sender": "ABC"
+            }
+        ],
+        "3": [
+            {
+                "message": "wath  ",
+                "readed": false,
+                "sender": "ABC"
+            },
+            {
+                "message": "wath  ",
+                "readed": false,
+                "sender": "ABC"
+            }
+        ]
+    }
+}
+
+
+
+
+10.
+curl --location --request POST '127.0.0.1:5000/message/get_one' \
+--header 'user_id: 2' \
+--header 'token: 8171b2d8-997b-47d8-a45c-d2de4d72166a' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "target_user":"2"
+}'
+{
+    "message_list": [
+        {
+            "message": "wath  ",
+            "readed": false,
+            "sender": "ABC"
+        },
+        {
+            "message": "wath  ",
+            "readed": false,
+            "sender": "ABC"
+        }
+    ]
+}
