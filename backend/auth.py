@@ -40,7 +40,7 @@ def auth_register():
 
     # passed all the check, insert into database
     cur.execute("insert into users values (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)",
-                [None, name, email, password, token, None, 0, 0,"0","0","[]","[]","{}"])
+                [None, name, email, password, token, None, 0, 0, "0", "0", "[]", "[]", "{}"])
     con.commit()
 
     sql = "SELECT id, token from users where email = '{}' and password = '{}'".format(
@@ -58,7 +58,9 @@ def _get_user_info(cur, user_id):
     row = rows[0]
     user_info = dict()
 
-    for index, value in enumerate(["id", "name", "email", "password", "token", "expertArea", "scores", "coins", "expertOrNot", "isPpublic"]):
+    for index, value in enumerate(["id", "name", "email", "password", "token", "expertArea", "scores", "coins", "expertOrNot", "isPpublic", "likeArticles", "likeQuestions", "messagelist"]):
+        if value == "password":
+            continue
         user_info[value] = row[index]
 
     return user_info
