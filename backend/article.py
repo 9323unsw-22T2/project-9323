@@ -1,6 +1,6 @@
 from flask import Blueprint, request, make_response, jsonify
 from config import *
-from helper import authenticated, get_unix_time, get_user_id_from_header
+from helper import authenticated, get_unix_time, get_user_id_from_header, get_user_name_from_user_id
 import sqlite3
 import json
 from flask_cors import CORS
@@ -154,6 +154,8 @@ def article_delete_by_id(article_id):
 
 
 def _read_artical_row(row):
+    user_name = get_user_name_from_user_id(row[9])
+
     ret = {
         "id": row[0],
         "article_id": row[1],
@@ -169,6 +171,7 @@ def _read_artical_row(row):
         "thumb_up_by": json.loads(row[11]),
         "is_deleted": row[12],
         "video": row[13],
+        "user_name": user_name
     }
     return ret
 @article_page.route('/articles_like/<int:user_id>', methods=['GET'])
