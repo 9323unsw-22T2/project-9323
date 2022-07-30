@@ -14,9 +14,20 @@ cur = con.cursor()
 
 cur.execute(
     "CREATE TABLE IF NOT EXISTS users (id integer primary key autoincrement,\
-     name text, email text, password text, token text, expertArea text,\
-      scores integer, coins integer,expertOrNot NOT NULL DEFAULT '0',\
-      isPpublic NOT NULL DEFAULT '0',likeArticles NOT NULL DEFAULT '[]',likeQuestions NOT NULL DEFAULT '[]',messagelist  NOT NULL DEFAULT '{}')")
+        name text, \
+        email text, \
+        password text, \
+        token text, \
+        expertArea text,\
+        scores integer, \
+        coins integer, \
+        expertOrNot NOT NULL DEFAULT '0',\
+        isPpublic NOT NULL DEFAULT '0', \
+        likeArticles NOT NULL DEFAULT '[]', \
+        likeQuestions NOT NULL DEFAULT '[]', \
+        messagelist  NOT NULL DEFAULT '{}', \
+        photo text) \
+        ")
 
 
 cur.execute(
