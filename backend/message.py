@@ -21,6 +21,7 @@ def message_add():
     user_id = get_user_id_from_header()
     user_id = str(user_id)
     target_id = data.get("target_user", None)
+    revicer_name = data.get("reciver_name", None)
     target_id = str(target_id)
 
     sql = "SELECT name,messagelist from users where id = '{}'".format(user_id)
@@ -30,7 +31,7 @@ def message_add():
     message_body = {"sender":name,
                     "message":message,
                     "readed":False,
-                    "sender_id":user_id
+                    "reciver_name":revicer_name
                     }
     if target_id in message_list:
         message_list[target_id].append(message_body)
@@ -54,7 +55,7 @@ def message_add():
     message_body = {"sender":name,
                     "message":message,
                     "readed":False,
-                    "sender_id":target_id
+                    "revicer_name":revicer_name
                     }
     sql = "UPDATE users SET messagelist = '{}' where id = '{}';".format(json.dumps(message_list), target_id)
     cur.execute(sql)

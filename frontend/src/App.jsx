@@ -162,7 +162,7 @@ const App = () => {
       addResponseMessage('hello this is help bot')
     } else {
       try {
-        sendMessages({ message: newMessage, target_user: currentChat[1], time: Date.now() }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+        sendMessages({ message: newMessage, target_user: currentChat[1], reciver_name: currentChat[0], time: Date.now() }, localStorage.getItem('token'), localStorage.getItem('user_id'))
       } catch (error) {
 
       }

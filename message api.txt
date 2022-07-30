@@ -121,16 +121,18 @@ curl --location --request POST '127.0.0.1:5000/message/delete' \
 }
 {
     "message_list": {
-        "1": [
+        "username": [
             {
                 "message": "hello",
                 "readed": false,
                 "sender": "joe"
+                sender_id:'1'
             },
-            {
+           "username": {
                 "message": "hello",
                 "readed": false,
                 "sender": "joe"
+                sender_id:'2'
             }
         ]
     }

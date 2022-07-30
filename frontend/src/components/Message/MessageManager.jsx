@@ -15,7 +15,7 @@ import styles from './Profile.module.css'
 import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getAllMessages, sendMessages } from '../../service'
+import { getAllMessages, sendMessages, deleteMessages } from '../../service'
 function Help () {
   const matchesPad = useMediaQuery(
     '(max-width: 950px)'
@@ -46,7 +46,8 @@ function Help () {
     <>
             {localStorage.getItem('token')
               ? <LoggedNarbar></LoggedNarbar>
-              : <Navbar ></Navbar>}
+              : <Navbar ></Navbar>}{
+                localStorage.getItem('token') &&
               <div style={{ display: matchesPad ? 'block' : 'flex' }} >
               <ConversationList className={matchesPad ? styles.conversationlist : ''}style={{ width: matchesPad ? '95vw' : '30vw' }}>
                 {
@@ -58,11 +59,12 @@ function Help () {
                         setCursor(e)
                       }}
                       active={cursor === e}
-                        key={e} name={e} lastSenderName={sampleData[e][sampleData[e].length - 1]?.sender} info={sampleData[e][sampleData[e].length - 1]?.message}>
+                        key={e} name={sampleData[e][0].reciver_name === localStorage.getItem('username') ? sampleData[e][0].sender : sampleData[e][0].reciver_name} lastSenderName={sampleData[e][sampleData[e].length - 1]?.sender} info={sampleData[e][sampleData[e].length - 1]?.message}>
                         <Avatar src={'https://chatscope.io/storybook/react/static/media/zoe.e31a4ff8.svg'}/>
                         <Conversation.Operations visible>
-                          <DeleteIcon onClick={(e) => {
-                            e.preventDefault()
+                          <DeleteIcon onClick={(event) => {
+                            event.preventDefault()
+                            deleteMessages({ target_user: parseInt(e) }, localStorage.getItem('token'), localStorage.getItem('user_id'))
                           } } />
                         </Conversation.Operations>
                       </Conversation>
@@ -104,7 +106,7 @@ function Help () {
                     </MessageList>
                     <MessageInput placeholder="Type message here" onSend={
                       (textContent) => {
-                        sendMessages({ message: textContent, target_user: cursor, time: Date.now() }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+                        sendMessages({ message: textContent, target_user: cursor, time: Date.now(), reciver_name: 'ttt' }, localStorage.getItem('token'), localStorage.getItem('user_id'))
                       }
                      // sendMessages({ message: newMessage, target_user: currentChat[1], time: Date.now() }, localStorage.getItem('token'), localStorage.getItem('user_id'))
                     }
@@ -114,7 +116,7 @@ function Help () {
                 </MainContainer>
                   }
                 </div>
-                </div>
+                </div>}
     </>
   )
 }
