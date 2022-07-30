@@ -30,9 +30,7 @@ def question_create():
     if not question_page:
         return make_response(jsonify({"error": "missing title or content"})), 400
     question_id = _question_title_create(data)
-    # for i in range(1, len(data)):
-    #     content = data.get(str(i), None)
-    #     _question_page_create(data, question_id, i)
+
     return make_response(jsonify({"question_id": question_id})), 200
 
 # [id, question_id, step_number, step_title, title, content, image, time_created, time_modified, author, reploy_ids, thumb_up_by, is_deleted])
@@ -40,9 +38,6 @@ def question_create():
 def _question_title_create(data):
 
     id = None
-    # question_id = None
-    # step_number = 0
-    # step_title = data.get('step_title', None)
     title = data.get('title', None)
     content = data.get('content', None)
     image = data.get('image', None)
@@ -130,9 +125,7 @@ def get_user_like_questions(user_id):
     ret = dict()
     sql = "SELECT likeQuestions from users where id = '{}'".format(user_id)
     rows = cur.execute(sql).fetchall()
-#    if len(rows) == 0:
-#        return make_response(jsonify({"error": "Question not found with question_id = {}".format(question_id)})), 400
-    # ret['questions_like'] = rows[0]
+
     res = []
     col_ques = get_table_column("questions")
     # col_ques = json.loads(col_ques)
@@ -150,7 +143,7 @@ def get_user_like_questions(user_id):
 def get_qeustion(id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
-    # sql = f"select id,title,content,timeCreated,timeUpdated,author,thumbUpby,isDeleted from questions where id = {id};"
+
     sql = f"select * from questions where id = {id} and isDeleted = 0;"
     res = cur.execute(sql).fetchall()
     # print(res)
