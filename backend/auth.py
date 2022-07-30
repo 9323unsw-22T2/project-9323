@@ -32,7 +32,7 @@ def auth_register():
     sql = "SELECT name from users where name = '{}'".format(name)
     rows = cur.execute(sql).fetchall()
     if len(rows) > 0:
-        return make_response(jsonify({"error": "This email has been registed, please login"})), 400
+        return make_response(jsonify({"error": "This name has been used, please use another name"})), 400
 
     # generate token, currently is just uuid
     # uuid4 is a random UUID
