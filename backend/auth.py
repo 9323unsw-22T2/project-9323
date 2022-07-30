@@ -52,6 +52,48 @@ def auth_register():
     return make_response(jsonify({"token": token, "user_id": user_id})), 200
 
 
+@auth_page.route('/auth/info', methods=['POST'])
+def auth_info_post():
+    user_id = get_user_id_from_header()
+
+    data = request.get_json()
+    name = data.get('name')
+    password = data.get('password')
+    photo = data.get('photo')
+
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+
+    # check if the username has been used
+    if name:
+        sql = "SELECT id, name from users where name = '{}'".format(name)
+        rows = cur.execute(sql).fetchall()
+        if len(rows) > 0 and rows[0][0] != user_id:
+            return make_response(jsonify({"error": "This name has been used, please use another name"})), 400
+        con.commit()
+
+        sql = "UPDATE users SET name = '{}' where id = {}".format(name, user_id)
+        print(sql)
+        cur.execute(sql)
+        con.commit()
+
+    if password:
+        sql = "UPDATE users SET password = '{}' where id = {}".format(
+            password, user_id)
+        cur.execute(sql)
+        con.commit()
+
+    if photo:
+        sql = "UPDATE users SET photo = '{}' where id = {}".format(
+            photo, user_id)
+        cur.execute(sql)
+        con.commit()
+
+    user_info = _get_user_info(cur, user_id)
+
+    return make_response(jsonify(user_info)), 200
+
+
 def _get_user_info(cur, user_id):
     sql = "SELECT * from users where id = '{}'".format(user_id)
     rows = cur.execute(sql).fetchall()
