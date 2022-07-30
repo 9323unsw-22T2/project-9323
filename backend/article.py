@@ -182,11 +182,9 @@ def get_user_like_articles(user_id):
     ret = dict()
     sql = "SELECT likeArticles from users where id = '{}'".format(user_id)
     rows = cur.execute(sql).fetchall()
-    # if len(rows) == 0:
-    #     return make_response(jsonify({"error": "Article not found with article_id = {}".format(article_id)})), 400
-    # ret['articles_like'] = rows[0]
+
     res = []
-    # print(rows[0][0])
+
     for idx in json.loads(rows[0][0]):
         res.append(get_article(idx))
     ret['articles_like'] = res
