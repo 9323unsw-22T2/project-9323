@@ -7,7 +7,7 @@ import {
   Outlet
 } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Widget, addUserMessage, addResponseMessage } from 'react-chat-widget';
+import { Widget, deleteMessages, addUserMessage, addResponseMessage } from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';
 import Home from './components/Home/Home';
 import MainPage from './components/MainPage/MainPage';
@@ -117,6 +117,7 @@ const App = () => {
     document.addEventListener('copy', addLink);
     document.addEventListener('chatchage', async (event) => {
       console.log('newchat find')
+      deleteMessages(999)
       intervalRef.current && clearInterval(intervalRef.current)
       const response = await getOneMessages(event.detail.user, localStorage.getItem('token'), localStorage.getItem('user_id'))
       historyRef.current = response.data.message_list.length
