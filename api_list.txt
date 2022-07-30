@@ -712,3 +712,40 @@ curl --location --request GET '127.0.0.1:5000/newsfeed/trending' \
         "title": "1234"
     }
 ]
+
+# leaderboard
+curl --location --request GET '127.0.0.1:5000/newsfeed/leaderboard' \
+
+# return 5(if exist) top score user
+[
+    {
+        "expertOrNot": 1,
+        "id": 2,
+        "name": "coko2",
+        "scores": 3333
+    },
+    {
+        "expertOrNot": "0",
+        "id": 5,
+        "name": "23",
+        "scores": 2323
+    },
+    {
+        "expertOrNot": "0",
+        "id": 3,
+        "name": null,
+        "scores": 222
+    },
+    {
+        "expertOrNot": "0",
+        "id": 1,
+        "name": "coko1",
+        "scores": 91
+    },
+    {
+        "expertOrNot": "0",
+        "id": 6,
+        "name": "323",
+        "scores": 32
+    }
+]

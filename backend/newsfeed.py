@@ -230,3 +230,22 @@ def get_author_name(author_id):
     if len(name) == 0:
         return "no such user, please check your table"
     return name[0][0]
+
+
+
+# trending
+@newsfeed_page.route('/newsfeed/leaderboard', methods=['GET'])
+def newsfeed_leader_board():
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql = "SELECT id,name,scores,expertOrNot from users Order by scores DESC limit 5;"
+    row = cur.execute(sql).fetchall()
+    res = []
+    for i in row:
+        temp = {}
+        temp['id'] = i[0]
+        temp['name'] = i[1]
+        temp['scores'] = i[2]
+        temp["expertOrNot"] = i[3]
+        res.append(temp)
+    return make_response(jsonify(res)),200
