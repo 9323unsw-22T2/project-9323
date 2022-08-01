@@ -37,6 +37,19 @@ def get_user_id_from_token(token):
         return rows[0][0]
 
 
+def get_user_name_from_user_id(id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+
+    sql = "SELECT name from users where id = '{}'".format(id)
+    rows = cur.execute(sql).fetchall()
+    print(rows)
+    if len(rows) == 0:
+        return None
+    else:
+        return rows[0][0]
+
+
 def get_user_id_from_header():
     return int(request.headers['user_id'])
 

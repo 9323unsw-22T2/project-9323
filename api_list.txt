@@ -111,6 +111,34 @@ curl --location --request GET '127.0.0.1:5000/auth/auth_ping' \
 return "pong"
 
 
+6. modify info of a user
+curl --location --request POST '127.0.0.1:5000/auth/info' \
+--header 'user-id: 1' \
+--header 'token: 5dffa235-080e-4543-a533-c3fdb3a9cb97' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "password": "1234",
+  "name": "yyu12345",
+  "photo": "some string"
+}'
+
+return 
+{
+    "coins": 0,
+    "email": "yyu@unsw.edu.au",
+    "expertArea": null,
+    "expertOrNot": "0",
+    "id": 1,
+    "isPpublic": "0",
+    "likeArticles": "[]",
+    "likeQuestions": "[]",
+    "messagelist": "{}",
+    "name": "yyu12345",
+    "photo": "some string",
+    "scores": 0,
+    "token": "5dffa235-080e-4543-a533-c3fdb3a9cb97"
+}
+
 Newsfeed:
 1.
 curl --location --request GET '127.0.0.1:5000/newsfeed/ping'
@@ -682,5 +710,42 @@ curl --location --request GET '127.0.0.1:5000/newsfeed/trending' \
         "num-thum": 1,
         "thumbUpBy": "[3]",
         "title": "1234"
+    }
+]
+
+# leaderboard
+curl --location --request GET '127.0.0.1:5000/newsfeed/leaderboard' \
+
+# return 5(if exist) top score user
+[
+    {
+        "expertOrNot": 1,
+        "id": 2,
+        "name": "coko2",
+        "scores": 3333
+    },
+    {
+        "expertOrNot": "0",
+        "id": 5,
+        "name": "23",
+        "scores": 2323
+    },
+    {
+        "expertOrNot": "0",
+        "id": 3,
+        "name": null,
+        "scores": 222
+    },
+    {
+        "expertOrNot": "0",
+        "id": 1,
+        "name": "coko1",
+        "scores": 91
+    },
+    {
+        "expertOrNot": "0",
+        "id": 6,
+        "name": "323",
+        "scores": 32
     }
 ]

@@ -66,3 +66,13 @@ export const expertCertificate = (body, token, userId) =>
   axios.post(`${BASE_URL}/auth/expert_by_certificate`, body, { headers: { user_id: userId, token: token } });
 export const expertChangeAns = (Qid, body, token, userId) =>
   axios.post(`${BASE_URL}/expert/${Qid}/update`, body, { headers: { user_id: userId, token: token } });
+export const sendMessages = (body, token, userId) =>
+  axios.post(`${BASE_URL}/message/send`, body, { headers: { user_id: userId, token: token } });
+export const deleteMessages = (body, token, userId) =>
+  axios.post(`${BASE_URL}/message/delete`, body, { headers: { user_id: userId, token: token } });
+export const getOneMessages = (user, token, userId) =>
+  axios.post(`${BASE_URL}/message/get_one`, { target_user: user }, { headers: { user_id: userId, token: token } });
+export const getAllMessages = (token, userId) =>
+  axios.get(`${BASE_URL}/message/get_all`, { headers: { user_id: userId, token: token } });
+export const getInfo = (token, userId) =>
+  axios.get(`${BASE_URL}/auth/info`, { headers: { user_id: userId, token: token } });

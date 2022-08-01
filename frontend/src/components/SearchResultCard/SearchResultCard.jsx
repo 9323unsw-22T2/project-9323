@@ -83,7 +83,7 @@ export default function ActionAreaCard({ data }) {
 
   const handleSubmit = async () => {
     const temp = editorState.getCurrentContent().getPlainText('\u0001')
-    console.log(temp)
+    // console.log(temp)
     await newQuestionComment({ content: temp, score }, localStorage.getItem('token'), localStorage.getItem('user_id'), data.id)
     setScore(null)
     setCharged(false)
@@ -103,7 +103,7 @@ export default function ActionAreaCard({ data }) {
     } catch (error) {
     }
   }
-  console.log(JSON.parse(data?.thumbUpBy), localStorage.getItem('user_id'))
+  // console.log(JSON.parse(data?.thumbUpBy), localStorage.getItem('user_id'))
   return (
     <Card
       sx={{

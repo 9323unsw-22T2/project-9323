@@ -19,7 +19,7 @@ const style = {
   marginRight: 'auto'
 };
 ListDividers.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.array,
 };
 export default function ListDividers () {
   const navigate = useNavigate();

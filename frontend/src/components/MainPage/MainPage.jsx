@@ -81,6 +81,8 @@ export default function VerticalTabs() {
     '(max-width: 950px)'
   )
   const [feed, setFeed] = React.useState(1)
+  // const [likedfeed, setLikedFeed] = React.useState(1)
+
   React.useEffect(async() => {
     try {
       const response = await getNewsFeed(feed)
@@ -91,20 +93,20 @@ export default function VerticalTabs() {
       setErrorMessage(['last page', 'error', true])
       setFeed(feed - 1)
     }
-  }, [feed])
+  }, [feed, value])
   const [errorMessage, setErrorMessage] = React.useState(['', 'error', false]);
   React.useEffect(async() => {
     try {
       const response = await getLikedQuestions(localStorage.getItem('user_id'), localStorage.getItem('user_id'), localStorage.getItem('token'))
-      console.log(response.data)
+      // console.log(response.data)
       setLikedQ([...Object.values(response.data)])
       const res = await getLikedArticles(localStorage.getItem('user_id'), localStorage.getItem('user_id'), localStorage.getItem('token'))
-      console.log(res.data)
+      // console.log(res.data)
       setLikedA([...Object.values(res.data)])
     } catch (error) {
-      setErrorMessage(['last page', 'error', true])
+      setErrorMessage(['failed to get liked list', 'error', true])
     }
-  }, [feed])
+  }, [value])
   function setMessageStatus () {
     setErrorMessage(['', 'error', false])
   }
@@ -239,11 +241,13 @@ export default function VerticalTabs() {
               <Box>{feed === 1 ? <Button disabled size="large">{'<Previous'} </Button>
 
                 : <Button size="large" onClick={(e) => {
-                  setFeed(feed - 1)
+                  !value && setFeed(feed - 1)
+                  // value && setLikedFeed(feed - 1)
                 }}>{'<Previous'} </Button>}
 
                 <Button sx={{ float: 'right' }} size="large" onClick={(e) => {
-                  setFeed(feed + 1)
+                  !value && setFeed(feed + 1)
+                  // value && setLikedFeed(feed + 1)
                 }}>{'Next>'}</Button>
               </Box>
               {<CommonMessage

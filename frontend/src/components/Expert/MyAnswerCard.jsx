@@ -48,7 +48,7 @@ export default function ActionAreaCard({ data }) {
     Ans = ''
   }
   const title = data.title;
-  const ansId = data.ans_id;
+  // const ansId = data.ans_id;
   function randomNumberInRange (min, max) {
     // 👇️ get number between min (inclusive) and max (inclusive)
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -170,16 +170,16 @@ export default function ActionAreaCard({ data }) {
           </Box>
           <Box sx={{ margin: 'auto' }}>
             <Button size="small" sx={{ color: 'red' }} onClick={async () => {
-              const ansTmp = editorState.getCurrentContent().getPlainText()
-              console.log(ansTmp)
-              console.log(data.qes_id)
-              console.log(ansId)
+              editorState.getCurrentContent().getPlainText()
+              // console.log(ansTmp)
+              // console.log(data.qes_id)
+              // console.log(ansId)
               try {
-                console.log(data)
-                const response = await deleteQuestionComment(data.ans_id, localStorage.getItem('token'), localStorage.getItem('user_id'))
-                console.log(await (response.data))
+                // console.log(data)
+                await deleteQuestionComment(data.ans_id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+                // console.log(await (response.data))
               } catch (error) {
-                console.log(error)
+                // console.log(error)
               }
             }}>Delete Answer</Button>
           </Box>
@@ -206,12 +206,12 @@ export default function ActionAreaCard({ data }) {
             }} >Submit</Button> */}
             <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={async () => {
               const ansTmp = editorState.getCurrentContent().getPlainText()
-              console.log(ansTmp)
-              console.log(data.qes_id)
-              console.log(ansId)
+              // console.log(ansTmp)
+              // console.log(data.qes_id)
+              // console.log(ansId)
               try {
-                const response = await expertChangeAns(data.qes_id, { content: ansTmp }, localStorage.getItem('token'), localStorage.getItem('user_id'))
-                console.log(await (response.data))
+                await expertChangeAns(data.qes_id, { content: ansTmp }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+                // console.log(await (response.data))
               } catch (error) {
                 console.log(error)
               }

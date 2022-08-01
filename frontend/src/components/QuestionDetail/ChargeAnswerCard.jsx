@@ -25,8 +25,9 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import EmailIcon from '@mui/icons-material/Email';
+import { toggleWidget } from 'react-chat-widget';
+
 export default function RecipeReviewCard () {
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
@@ -72,6 +73,7 @@ export default function RecipeReviewCard () {
   };
   const handleCloseProfile = () => {
     setAnchorEl(null);
+    toggleWidget()
   };
   return (
     <>
@@ -108,12 +110,6 @@ export default function RecipeReviewCard () {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleCloseProfile}>
-          <ListItemIcon>
-            <AccountBoxIcon />
-          </ListItemIcon>
-          <ListItemText>Profile</ListItemText>
-        </MenuItem>
         <MenuItem onClick={handleCloseProfile}>
         <ListItemIcon>
           <EmailIcon/>

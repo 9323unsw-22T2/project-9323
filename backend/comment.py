@@ -52,11 +52,14 @@ def comment_question_add(question_id):
         score = data.get('score', 0)
         update_score(userID,1)   
         image = data.get('image',None)
-    
+        if score == None:
+            score = 0
 
         # check whether the user is expert 
         if get_isExpert(userID):
             score = data.get('score', 0)
+            if score == None:
+                score = 0
         
         ###########user for post man############
         # just create an comment not edit
@@ -250,7 +253,7 @@ def comment_thumb_up_patch(comment_id):
     if user_id not in thumb_up_by:
         thumb_up_by.append(user_id)
         # get the id of artucleid 
-        liked_user_id = get_user_id_by_comment(comment_id)
+        liked_user_id = get_comm_author_id(comment_id)
         # add score for author
         update_score(liked_user_id,1)
 
@@ -285,6 +288,11 @@ def comment_un_thumb_up_patch(comment_id):
     # print(thumb_up_by," ", user_id)
     if user_id in thumb_up_by:
         thumb_up_by.remove(user_id)
+        # get the author id of comment
+        liked_user_id = get_comm_author_id(comment_id)
+        # add negative score for author
+        update_score(liked_user_id,-1)
+        
     # print(thumb_up_by)
     thumb_up_by_string = json.dumps(thumb_up_by)
 
@@ -325,16 +333,14 @@ def delete_comment(comment_id):
     return make_response(jsonify(f"this comment {comment_id} has been deleted")), 200
 
 
-
+# get the article or questions author id by comment id
 def get_user_id_by_comment(comment_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
-    # 先查是否为评论的article
     # check whether the user comment to article
     sql = f"SELECT articlesId from comments where id = {comment_id} and articlesId is not null;"
     rows = cur.execute(sql).fetchall()
-    # 如果不是的话， 那就是question
-    # if not，search the author from question
+    # if len（row） == 0  means that this comment is for question
     if len(rows)==0:
         sql = f"SELECT questionId from comments where id = {comment_id};"
         rows = cur.execute(sql).fetchall()
@@ -398,7 +404,8 @@ def buy(comment_id):
             
             user_paid_s = json.dumps(user_paid)
             # print(user_paid_s,type(user_paid_s))
-
+            com_author = get_comm_author_id(comment_id)
+            update_score(com_author,comment_score)
             sql = f"UPDATE comments SET userPaid = '{user_paid_s}' where id = {comment_id};"
             cur.execute(sql)
             con.commit()
@@ -406,3 +413,85 @@ def buy(comment_id):
         return make_response({"user_score":f"{user_score}"}),200
     else:
         return "You already bought this, please enjoy"
+
+# get the comment's author id
+def get_comm_author_id(comment_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql = f"select author from comments where id = {comment_id}"
+    row = cur.execute(sql).fetchall()
+    return row[0][0]
+
+
+
+
+####################################################################################################################
+# add thumdown
+@comment_page.route('/comment/<int:comment_id>/thumb_down', methods=['PATCH'])
+@authenticated
+def comment_thumb_down_patch(comment_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+
+    sql = f"SELECT * from comments where id = '{comment_id}' and isDeleted =0 ;"
+    rows = cur.execute(sql).fetchall()
+    if len(rows) == 0:
+        return make_response(jsonify({"error": f"No such comment with comment_id = {comment_id}"})), 400
+
+    user_id = get_user_id_from_header()
+
+    # thumb_up_by is a list add for id
+    # if id is postive , it is thumb_up
+    # if id is negative, it is thumb_down
+    thumb_up_by = json.loads(rows[0][7])
+
+    if -user_id not in thumb_up_by:
+        thumb_up_by.append(-user_id)
+        # get the author id of comment
+        unliked_user_id = get_comm_author_id(comment_id)
+        # add negative score for author
+        update_score(unliked_user_id,-1)
+
+    thumb_up_by_string = json.dumps(thumb_up_by)
+
+    sql = f"UPDATE comments SET thumbUpBy = '{thumb_up_by_string}' where id = '{comment_id}' and isDeleted != '1';"
+
+    cur.execute(sql)
+    con.commit()
+    con.close()
+    
+
+    return make_response(jsonify({"unlike by":user_id})),200
+
+# delete user_id from the thumbup list if existed
+@comment_page.route('/comment/<int:comment_id>/un_thumb_down', methods=['PATCH'])
+@authenticated
+def comment_un_thumb_down_patch(comment_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+
+    sql = f"SELECT * from comments where id='{comment_id}'and isDeleted != '1'"
+    rows = cur.execute(sql).fetchall()
+    # print(rows)
+    if len(rows) == 0:
+        return make_response(jsonify({"error": f"No such comment with id = {comment_id}"})), 400
+
+    # get user for now
+    user_id = get_user_id_from_header()
+
+    thumb_up_by = json.loads(rows[0][7])
+    # print(thumb_up_by," ", user_id)
+    if -user_id in thumb_up_by:
+        thumb_up_by.remove(-user_id)
+        # get the author id of comment
+        unliked_user_id = get_comm_author_id(comment_id)
+        # add negative score for author
+        update_score(unliked_user_id,1)
+    thumb_up_by_string = json.dumps(thumb_up_by)
+
+    sql = f"UPDATE comments SET thumbUpBy = '{thumb_up_by_string}' where id={comment_id} and isDeleted != 1;"
+
+    cur.execute(sql)
+    con.commit()
+    con.close()
+    return make_response(jsonify({f"this comment {comment_id} like canceled":user_id})),200

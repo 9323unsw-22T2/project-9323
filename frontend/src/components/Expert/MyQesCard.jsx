@@ -51,7 +51,7 @@ export default function ActionAreaCard({ data }) {
     Ans = ''
   }
   const title = data.title;
-  const ansId = data.ans_id;
+  // const ansId = data.ans_id;
   if (Ans === null || Ans === '') {
     return (
       <Card
@@ -181,12 +181,12 @@ export default function ActionAreaCard({ data }) {
             />
             <Button sx={{ mb: 1, mt: 2, float: 'right' }} variant="contained" onClick={async () => {
               const ansTmp = editorState.getCurrentContent().getPlainText()
-              console.log(ansTmp)
-              console.log(data.qes_id)
-              console.log(ansId)
+              // console.log(ansTmp)
+              // console.log(data.qes_id)
+              // console.log(ansId)
               try {
-                const response = await newQuestionComment({ content: ansTmp, score: 100 }, localStorage.getItem('token'), localStorage.getItem('user_id'), data.qes_id)
-                console.log(await (response.data))
+                await newQuestionComment({ content: ansTmp, score: 100 }, localStorage.getItem('token'), localStorage.getItem('user_id'), data.qes_id)
+                // console.log(await (response.data))
               } catch (error) {
                 console.log(error)
               }

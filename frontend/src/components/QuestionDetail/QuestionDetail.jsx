@@ -30,7 +30,7 @@ const Home = () => {
   const open = Boolean(anchorEl);
   const [follow, setFollow] = React.useState(true);
   const [commentData, setCommentData] = useState([{ }]);
-  const [score, setScore] = React.useState(null);
+  const [score, setScore] = React.useState('');
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -179,7 +179,6 @@ const Home = () => {
           value="start"
           control={<Checkbox checked={charged} onClick={(e) => { e.preventDefault(); setCharged(!charged) }}/>}
           label="charge score"
-          labelPlacement="charge score"
   />
   <Box sx={{ transition: '1s all', opacity: charged ? 1 : 0, height: '2rem', pointerEvents: charged ? 'all' : 'none' }}>
   <Input type="number"placeholder="Score you want" value={score}onChange={(e) => setScore(e.target.value)}/>
