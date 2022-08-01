@@ -39,12 +39,12 @@ const App = () => {
               {/* <button className={styles.button}> Change </button> */}
             </div>
           </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'column', width: '10%', backgroundColor: 'transparent', justifyContent: 'flex-start', alignItems: 'center', borderColor: 'gray', borderWidth: '0px', borderStyle: 'none', margin: '5px' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'row', width: '90%', height: '50px', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: 'transparent', borderColor: 'gray', borderWidth: '0px', borderStyle: 'solid', margin: '20px' }}>
+          <Box className={styles.mobile} sx={{ flexDirection: 'column', width: '10%', backgroundColor: 'transparent', justifyContent: 'flex-start', alignItems: 'center', borderColor: 'gray', borderWidth: '0px', borderStyle: 'none', margin: '5px' }}>
+            <Box className={styles.mobile} sx={{ flexDirection: 'row', width: '90%', height: '50px', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: 'transparent', borderColor: 'gray', borderWidth: '0px', borderStyle: 'solid', margin: '20px' }}>
               Username:
             </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: 'row', width: '90%', height: '50px', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: 'transparent', borderColor: 'gray', borderWidth: '0px', borderStyle: 'solid', margin: '20px' }}>
+            <Box className={styles.mobile} sx={{ flexDirection: 'row', width: '90%', height: '50px', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: 'transparent', borderColor: 'gray', borderWidth: '0px', borderStyle: 'solid', margin: '20px' }}>
               Password:
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', width: '90%', height: '50px', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: 'transparent', borderColor: 'gray', borderWidth: '0px', borderStyle: 'solid', margin: '20px' }}>
@@ -52,13 +52,15 @@ const App = () => {
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', width: '60%', backgroundColor: 'transparent', justifyContent: 'flex-start', alignItems: 'center', borderColor: 'gray', borderWidth: '0px', borderStyle: 'solid', margin: '5px' }}>
 
-            <Box sx={{ display: 'flex', flexDirection: 'row', width: '90%', height: '60px', justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent', borderColor: 'gray', borderWidth: '0px', borderStyle: 'solid', margin: '20px' }}>
+            <Box className={styles.mobile2} sx={{ width: '90%', height: '60px', justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent', borderColor: 'gray', borderWidth: '0px', borderStyle: 'solid', margin: '20px' }}>
+              <div className={styles.mobile3}> Username: </div>
               <input className={styles.input} placeholder={data.name} onChange={() => {
                 setUserName(event.target.value);
                 console.log(event.target.value)
               }}></input>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', width: '90%', height: '50px', justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent', borderColor: 'gray', borderWidth: '0px', borderStyle: 'solid', margin: '20px' }}>
+            <Box className={styles.mobile2} sx={{ width: '90%', height: '50px', justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent', borderColor: 'gray', borderWidth: '0px', borderStyle: 'solid', margin: '20px' }}>
+              <div className={styles.mobile3}> Password: </div>
               <input className={styles.input} placeholder="********" onChange={() => {
                 setPassword(event.target.value);
                 console.log(event.target.value)

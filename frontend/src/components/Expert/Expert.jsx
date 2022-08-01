@@ -28,7 +28,7 @@ const App = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', width: '50%', height: '50vh', backgroundColor: 'transparent', justifyContent: 'flex-start', alignItems: 'center', borderColor: 'gray', borderWidth: '0px', borderStyle: 'solid', margin: '5px' }}>
             <div className={styles.text}>
               <p>Your current score is: {userScore}</p>
-              <p>You have not yet reach enough score to become an expert. To become a expert, you will either need to earn enough score over 200 by contributing to the society or submitting your on-line applications. </p>
+              <p>You have not yet reach enough score to become an expert. To become a expert, you will either need to earn enough score over 3 by contributing to the society or submitting your on-line applications. </p>
               <p>You can submit your expert application here, you will need to specify your professional field, certificates and your contact number. We will review your profile within 14 working days and will contact you once it is approval.</p>
             </div>
           </Box>
