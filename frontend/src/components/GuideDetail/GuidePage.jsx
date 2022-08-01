@@ -2,7 +2,7 @@ import * as React from 'react';
 import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
 import { useParams } from 'react-router-dom';
-import { guideDetail, thumbUp, unThumbUp } from '../../service'
+import { guideDetail, thumbUp, unThumbUp, getArticleComments, newArticleComment } from '../../service'
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
@@ -43,13 +43,12 @@ export default function VerticalTabs() {
   const [social, setSocial] = React.useState(false);
 
   const [content, setContent] = React.useState('')
-  function handleChange (content, editor) {
-    setContent({ content });
+  function handleChange (contentt, editor) {
+    setContent(contentt.replace(/<[^>]+>/g, ''))
   }
   const handleStep = (step) => () => {
     setActiveStep(step);
   };
-
   const hendleThumb = async () => {
     if (data[0]?.thumb_up_by?.find((e) => e === parseInt(localStorage.getItem('user_id')))) {
       try {
@@ -67,11 +66,20 @@ export default function VerticalTabs() {
       }
     }
   }
+  const [score, setScore] = React.useState('');
+  const Submit = () => {
+    newArticleComment({ content, score }, localStorage.getItem('token'), localStorage.getItem('user_id'), number)
+    setScore(null)
+    window.location.reload(false);
+  }
+  const [articleData, setArticleData] = React.useState([{ }]);
   React.useEffect(async () => {
     /*     console.log(number, localStorage.getItem('user_id'), localStorage.getItem('token'))
  */ try {
       const response = await guideDetail(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
       setData(Object.fromEntries(Object.entries(response.data.article)))
+      const resp = await getArticleComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
+      setArticleData(Object.fromEntries(Object.entries(resp.data)));
     } catch (error) {}
   }, [])
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -156,7 +164,7 @@ export default function VerticalTabs() {
     onEditorChange={handleChange}
   />
   <br />
-  <Button sx={{ mb: 1, float: 'right' }} variant="contained">Submit</Button>
+  <Button sx={{ mb: 1, float: 'right' }} variant="contained" onClick = {Submit}>Submit</Button>
         </CardContent>
       </Collapse>
       </Box>
@@ -172,10 +180,11 @@ export default function VerticalTabs() {
           }}
         ></Box>
         </Box>
-  <GuideAnswerCard></GuideAnswerCard>
-  <h2>
 
-  </h2>
+  { Object.keys(articleData).map((key) => {
+    return (<GuideAnswerCard key={`ele${key}`} data={articleData[key]}></GuideAnswerCard>)
+  })
+  }
 </div>
   )
 }

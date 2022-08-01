@@ -61,7 +61,6 @@ export default function RecipeReviewCard ({ data }) {
   };
   const handleLike = async () => {
     await articleLike(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
-    window.location.reload(false);
   }
   const navigate = useNavigate();
   const [content, setContent] = React.useState('')
@@ -93,7 +92,7 @@ export default function RecipeReviewCard ({ data }) {
     newArticleComment({ commentContent }, localStorage.getItem('token'), localStorage.getItem('user_id'))
   } */
   return (
-    <Card sx={{ marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={`guide${data.articleId}`}>
+    <Card sx={{ marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500], cursor: 'pointer' }} onClick={handleClickProfile}>
@@ -109,7 +108,7 @@ export default function RecipeReviewCard ({ data }) {
         title={data.author_name}
         subheader={new Date(data.timeCreated * 1000).toLocaleString()}
       />
-      <AvatarTrigger username={data.author_name}user={data.author}setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
+      <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
 
       <CardContent sx={{
         cursor: 'pointer',
@@ -183,6 +182,7 @@ export default function RecipeReviewCard ({ data }) {
   />
   <br />
   <Button sx={{ mb: 1, float: 'right' }} variant="contained" onClick={handleSubmit}>Submit</Button>
+  <h1>hello</h1>
         </CardContent>
       </Collapse>
     </Card>

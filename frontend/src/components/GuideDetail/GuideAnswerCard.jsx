@@ -15,17 +15,20 @@ import CommentIcon from '@mui/icons-material/Comment';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
-import { getArticleComments } from '../../service';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+// import { getArticleComments } from '../../service';
+// import { useParams } from 'react-router-dom';
 import SharePopup from '../SharePopup/SharePopup'
 import AvatarTrigger from '../MessagerTrigger/Avatar'
+import PropTypes from 'prop-types';
 
 /* {data.map((users) => {
    return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
  })} */
-export default function RecipeReviewCard () {
-  const [data, setData] = useState([]);
+RecipeReviewCard.propTypes = {
+  data: PropTypes.object,
+}
+export default function RecipeReviewCard ({ data }) {
+// const [data, setData] = useState([]);
   /*  useEffect(() => {
     fetch('/comment/articles/1') // SAMPLE API
       .then((res) => res.json())
@@ -36,7 +39,7 @@ export default function RecipeReviewCard () {
 */
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
-  const { number } = useParams();
+  // const { number } = useParams();
 
   const ThumbUp = (e) => {
     if (thumbDown) { ThumbDown() }
@@ -53,9 +56,6 @@ export default function RecipeReviewCard () {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const hanedleSubmit = () => {
-
-  }
   const [content, setContent] = React.useState('')
   function handleChange (content, editor) {
     setContent({ content });
@@ -65,19 +65,7 @@ export default function RecipeReviewCard () {
   const handleClickProfile = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  React.useEffect(async () => {
-    try {
-      const response = await getArticleComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
-      setData(response.data)
-    } catch (error) {
-
-    }
-  }, [])
   return (
-    <>{
-      data &&
-      Object.keys(data).map((user) => {
-        return (
           <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={Comment.id}>
       <CardHeader
         avatar={
@@ -90,13 +78,13 @@ export default function RecipeReviewCard () {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Remoteworker23"
+        title={data?.author_name}
         subheader="September 14, 2016"
       />
-      <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl} username={data[user].author_name}user={data[user].author}></AvatarTrigger>
+      <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl} username={data?.author}user={data?.author}></AvatarTrigger>
 
       <CardContent>
-        <Typography variant="body2" color="text.secondary" key={data[user].commentid}>{data[user].content}</Typography>
+        <Typography variant="body2" color="text.secondary" key={data?.commentid}>{data?.content}</Typography>
         </CardContent>
         <CardActions disableSpacing sx={{
           width: 'max-content',
@@ -131,12 +119,9 @@ export default function RecipeReviewCard () {
     onEditorChange={handleChange}
   />
   <br />
-  <Button sx={{ mb: 1, float: 'right' }} variant="contained" onClick={hanedleSubmit}>Submit</Button>
+  <Button sx={{ mb: 1, float: 'right' }} variant="contained">Submit</Button>
         </CardContent>
       </Collapse>
     </Card>
-        )
-      })}
-    </>
   )
 }
