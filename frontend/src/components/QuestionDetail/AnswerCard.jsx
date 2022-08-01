@@ -90,7 +90,7 @@ export default function RecipeReviewCard ({ data }) {
           width: 'max-content',
           float: 'right'
         }}>
-          <Typography> {data?.thumbUpBy?.length - 2 } Thumbs up </Typography>
+          <Typography> {data?.thumbUpBy?.length - 2 } </Typography>
         <IconButton aria-label="Thumb up" onClick={ThumbUp} sx={{ color: thumbUp ? 'blue' : '' }}>
           <ThumbUpIcon />
         </IconButton>

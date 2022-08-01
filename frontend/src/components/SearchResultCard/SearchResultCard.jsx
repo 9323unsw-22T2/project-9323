@@ -94,9 +94,11 @@ export default function ActionAreaCard({ data }) {
       if (liked) {
         await questionDislike(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
         setLiked(false)
+        window.location.reload(false);
       } else {
         await questionLike(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
         setLiked(true)
+        window.location.reload(false);
       }
     } catch (error) {
     }

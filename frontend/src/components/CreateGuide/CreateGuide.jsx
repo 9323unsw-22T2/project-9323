@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, convertToRaw } from 'draft-js';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 const App = () => {
   const [steps, setStep] = React.useState([{ step_title: 'Step1', content: EditorState.createEmpty(), finished: false, video: '', }, { video: '', step_title: 'Step2', content: EditorState.createEmpty(), finished: false }, { step_title: 'Step3', content: EditorState.createEmpty(), finished: false, video: '', }]);
   const [activeStep, setActiveStep] = React.useState(0);
@@ -114,7 +115,7 @@ const App = () => {
     display: 'none',
   }); */
   return (
-<Box sx={{ height: '100%', backgroundImage: 'url(https://cdn.dribbble.com/users/1362913/screenshots/4606447/media/781df62e1f36d160f60d855938b1e41d.png?compress=1&resize=800x600&vertical=top)' }}>
+<Box sx={{ height: '100%', backgroundAttachment: 'fixed', backgroundPosition: 'right bottom', backgroundImage: 'url(https://mir-s3-cdn-cf.behance.net/project_modules/1400/9b810865894603.5b041517f3e5f.png)', backgroundColor: '#badcf8' }}>
 {localStorage.getItem('token')
   ? (
           <LoggedNarbar></LoggedNarbar>
@@ -122,12 +123,10 @@ const App = () => {
   : (
           <Navbar></Navbar>
     )}
-<Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', mt: 2, textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}
-onClick={(e) => {
+<Button variant="outlined" startIcon={<ArrowBackRoundedIcon/>} sx={{ position: 'absolute', zIndex: '8', height: 'max-content', fontFamily: 'Roboto', color: '#1976d2 !important', ml: 2 }}onClick={(e) => {
   e.preventDefault()
   navigate('/main')
-}}
->{'<Return'}</Button>
+}}> Return </Button>
 
 <Box sx={{ width: '70%', margin: 'auto', mt: 6, opacity: '0.95', backgroundColor: 'white', padding: '1.5rem', borderRadius: '1rem' }}>
 
