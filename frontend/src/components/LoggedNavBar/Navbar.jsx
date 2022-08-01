@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as React from 'react';
 import styles from './App.module.css';
 import { Button, Box } from '@mui/material';
@@ -100,7 +101,7 @@ const Navbar = () => {
         >
         </img>
       </div>
-      <Search sx={{
+      {/* <Search sx={{
         display: 'flex',
         margin: 'auto',
         height: 'max-content',
@@ -124,7 +125,7 @@ const Navbar = () => {
             Search
           </Button>
         </Box>
-      </Search>
+      </Search> */}
       <Box sx={{ marginLeft: 'auto', mr: 2, textAlign: 'center' }}>
         <Button
           variant="standard"
