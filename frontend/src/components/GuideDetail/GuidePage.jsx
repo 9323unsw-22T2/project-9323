@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { guideDetail, thumbUp, unThumbUp, getArticleComments, newArticleComment } from '../../service'
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -27,13 +27,14 @@ import draftToHtml from 'draftjs-to-html';
 import GuideAnswerCard from './GuideAnswerCard'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import AvatarTrigger from '../MessagerTrigger/Avatar'
-
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 // eslint-disable-next-line space-before-function-paren
 export default function VerticalTabs() {
   const { number } = useParams();
   const [data, setData] = React.useState({ 0: { title: 'none' }, 1: { title: 'none' } })
   const [activeStep, setActiveStep] = React.useState(0);
   const [commentExpanded, setCommentExpanded] = React.useState(false);
+  const navigate = useNavigate()
   const handleCommentClick = () => {
     setCommentExpanded(!commentExpanded);
   };
@@ -97,7 +98,10 @@ export default function VerticalTabs() {
     <Navbar></Navbar>
       )}
       <Box>
-        <Button sx={{ position: 'absolute', zIndex: '8', height: 'max-content', textDecoration: 'underline', fontSize: '1.3rem', color: '#1976d2 !important', ml: 2 }}href="/main">{'<Return'}</Button>
+      <Button variant="outlined" startIcon={<ArrowBackRoundedIcon/>} sx={{ top: 120, position: 'absolute', zIndex: '8', height: 'max-content', fontFamily: 'Roboto', color: '#1976d2 !important', ml: 2 }}onClick={(e) => {
+        e.preventDefault()
+        navigate('/main')
+      }}> Return </Button>
         </Box>
       <Box sx={{ display: 'flex' }}>
       <Box className={styles.guideDetail} sx={{ width: matchesPad ? '90%' : '70%' }}>
@@ -168,17 +172,6 @@ export default function VerticalTabs() {
         </CardContent>
       </Collapse>
       </Box>
-      <Box
-          sx={{
-            display: matchesPad ? 'none' : 'block',
-
-            width: '20%',
-            marginLeft: 'auto',
-            marginRight: ' auto',
-            height: '80vh',
-            border: '1px solid red',
-          }}
-        ></Box>
         </Box>
 
   { Object.keys(articleData).map((key) => {

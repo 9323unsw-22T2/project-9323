@@ -15,6 +15,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
+import { commentLike, commentDislike } from '../../service'
 // import { getArticleComments } from '../../service';
 // import { useParams } from 'react-router-dom';
 import SharePopup from '../SharePopup/SharePopup'
@@ -44,12 +45,17 @@ export default function RecipeReviewCard ({ data }) {
   const ThumbUp = (e) => {
     if (thumbDown) { ThumbDown() }
     setThumbUp(!thumbUp)
+    commentLike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    window.location.reload(false);
   }
+  const [social, setSocial] = React.useState(false);
+
   const ThumbDown = (e) => {
     if (thumbUp) { ThumbUp() }
     setThumbDown(!thumbDown)
+    commentDislike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    window.location.reload(false);
   }
-  const [social, setSocial] = React.useState(false);
 
   const [expanded, setExpanded] = React.useState(false);
 
@@ -66,7 +72,7 @@ export default function RecipeReviewCard ({ data }) {
     setAnchorEl(event.currentTarget);
   };
   return (
-          <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={Comment.id}>
+          <Card sx={{ width: '69%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={Comment.id}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500], cursor: 'pointer' }} onClick={handleClickProfile}>
@@ -90,6 +96,7 @@ export default function RecipeReviewCard ({ data }) {
           width: 'max-content',
           float: 'right'
         }}>
+          <Typography> {data?.thumbUpBy?.length - 2 } </Typography>
         <IconButton aria-label="Thumb up" onClick={ThumbUp} sx={{ color: thumbUp ? 'blue' : '' }}>
           <ThumbUpIcon />
         </IconButton>

@@ -123,7 +123,7 @@ const App = () => {
   : (
           <Navbar></Navbar>
     )}
-<Button variant="outlined" startIcon={<ArrowBackRoundedIcon/>} sx={{ position: 'absolute', zIndex: '8', height: 'max-content', fontFamily: 'Roboto', color: '#1976d2 !important', ml: 2 }}onClick={(e) => {
+<Button variant="outlined" startIcon={<ArrowBackRoundedIcon/>} sx={{ top: 120, position: 'absolute', zIndex: '8', height: 'max-content', fontFamily: 'Roboto', color: '#1976d2 !important', ml: 2 }}onClick={(e) => {
   e.preventDefault()
   navigate('/main')
 }}> Return </Button>
