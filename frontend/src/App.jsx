@@ -74,6 +74,7 @@ const App = () => {
     try {
       await getScore(localStorage.getItem('token'), localStorage.getItem('user_id')).then((response) => {
         setIsexpert(response.data.expertOrNot)
+        localStorage.setItem('expert', response.data.expertOrNot)
         localStorage.setItem('username', response.data.name)
       }).then(console.log(isexpert))
     } catch (error) {

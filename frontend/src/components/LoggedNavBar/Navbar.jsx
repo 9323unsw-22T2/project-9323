@@ -73,7 +73,18 @@ const Navbar = () => {
   const handleClose = (e) => {
     setAnchorEl(null);
   };
-
+  const [isexpert, setIsexpert] = React.useState('0');
+  React.useEffect(async () => {
+    try {
+      await getScore(localStorage.getItem('token'), localStorage.getItem('user_id')).then((response) => {
+        setIsexpert(response.data.expertOrNot)
+        localStorage.setItem('expert', response.data.expertOrNot)
+        localStorage.setItem('username', response.data.name)
+      }).then(console.log(isexpert))
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
   return (
     <div className={styles.Navbar}>
       <div className={styles.logo}>
@@ -151,18 +162,12 @@ const Navbar = () => {
           </MenuItem> */}
           <MenuItem sx={{ fontSize: '1.2rem' }} onClick={(e) => {
             e.preventDefault()
-            try {
-              getScore(localStorage.getItem('token'), localStorage.getItem('user_id')).then((response) => {
-                const isexpert = response.data.expertOrNot
-                // console.log(response.data.expertOrNot)
-                if (isexpert === '0') {
-                  navigate('/expert')
-                } else {
-                  navigate('/expertActivity')
-                }
-              })
-            } catch (error) {
-              console.log(error)
+            if (isexpert === '0') {
+              navigate('/expert')
+              window.location.reload(false);
+            } else {
+              navigate('/expertActivity')
+              window.location.reload(false);
             }
           }}>
             <WorkspacePremiumIcon></WorkspacePremiumIcon>

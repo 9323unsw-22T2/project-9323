@@ -74,3 +74,5 @@ export const getOneMessages = (user, token, userId) =>
   axios.post(`${BASE_URL}/message/get_one`, { target_user: user }, { headers: { user_id: userId, token: token } });
 export const getAllMessages = (token, userId) =>
   axios.get(`${BASE_URL}/message/get_all`, { headers: { user_id: userId, token: token } });
+export const getInfo = (token, userId) =>
+  axios.get(`${BASE_URL}/auth/info`, { headers: { user_id: userId, token: token } });
