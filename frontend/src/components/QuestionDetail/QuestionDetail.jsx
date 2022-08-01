@@ -103,7 +103,7 @@ const Home = () => {
           backgroundAttachment: 'fixed',
           backgroundPosition: 'right bottom',
           backgroundRepeat: 'no-repeat',
-          backgroundColor: '#fbfbff'
+          backgroundColor: 'white'
         }}
       >
         <Button variant="outlined" startIcon={<ArrowBackRoundedIcon/>} sx={{ position: 'absolute', zIndex: '8', height: 'max-content', fontFamily: 'Roboto', color: '#1976d2 !important', ml: 2 }}onClick={(e) => {

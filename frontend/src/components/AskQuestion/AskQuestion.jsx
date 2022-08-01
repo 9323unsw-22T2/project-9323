@@ -40,13 +40,12 @@ const App = () => {
   : (
           <Navbar></Navbar>
     )}
-<Box sx={{ display: 'flex', mt: 3, height: '88%', width: '100%', backgroundAttachment: 'fixed', backgroundPosition: 'left bottom', backgroundImage: 'url(https://cdni.iconscout.com/illustration/premium/thumb/job-interview-2601678-2182451.png)', backgroundRepeat: 'no-repeat', backgroundColor: '#fbfbff' }}>
+<Box sx={{ display: 'flex', mt: 3, height: '88%', width: '100%', backgroundAttachment: 'fixed', backgroundPosition: 'left bottom', backgroundImage: 'url(https://cdni.iconscout.com/illustration/premium/thumb/work-from-home-2952363-2509256.png)', backgroundRepeat: 'no-repeat', backgroundColor: 'white' }}>
  <Button variant="outlined" startIcon={<ArrowBackRoundedIcon/>} sx={{ position: 'absolute', zIndex: '8', height: 'max-content', fontFamily: 'Roboto', color: '#1976d2 !important', ml: 2 }}onClick={(e) => {
    e.preventDefault()
    navigate('/main')
  }}> Return </Button>
-
-  <Box sx={{ width: '50%', opacity: '0.95', margin: 'auto', backgroundColor: 'white', borderRadius: '1rem', fontFamily: 'Roboto' }}>
+  <Box sx={{ width: '50%', opacity: '0.95', margin: 'auto', backgroundColor: 'white', borderRadius: '1rem', fontFamily: 'Roboto', float: 'right' }}>
 <form style={{ margin: '2rem' }}>
   <h2>Provide a question</h2>
 
