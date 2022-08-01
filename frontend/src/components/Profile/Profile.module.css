@@ -1,13 +1,22 @@
 .profileLogo {
-  width: 200px;
-  height: 200px;
-  margin-top: 30px;
+  margin-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+}
+.profileLogo1 {
+  display: flex;
+}
+
+.profileLogo2 {
+  flex-direction: row;
 }
 
 .logo {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   border-radius: 200px;
+  align-self: center;
+  justify-self: center;
 }
 
 .line{
@@ -17,15 +26,16 @@
 }
 
 .button{
-  width: 110px;
-  margin: 10px;
-  padding: 8px;
-  font-size: 16px;
+  font-size: 14px;
+  margin-top: 18px;
+  padding: 10px;
   color: rgb(255, 255, 255);
   background-color: rgba(0, 124, 232, 0.635);
   border-color: rgba(97, 97, 97, 0.521);
   border-style: none;
   border-width: 1.5px;
+  align-self: center;
+  justify-self: center;;
   border-radius: 2px;
 
 }
@@ -37,6 +47,9 @@
 
 .title{
   font-size: 38px;
+}
+.title1{
+  margin-top:10px;
 }
 .background{
   height: 100%;
@@ -51,10 +64,39 @@
   justify-Content: 'center';
   align-Items: 'center';
   padding: 10px;
-  height: 60px;
+
   text-align: center;
   color: rgb(255, 255, 255);
   background-color: rgba(0, 124, 232, 0.635);
   border-color: rgba(97, 97, 97, 0.784);
   border-style: none;
+}
+
+.card{
+  background-color: white;
+  width: 80%;
+  max-width: 1080px;
+  padding:30px;
+  border-radius: 32px
+}
+
+.error{
+  text-align: center;
+  background-color:rgba(255, 0, 0, 0.752);
+  color: aliceblue;
+  border-radius: 3px;
+  border-color: black;
+  border-width: 2px;
+  border-style: soild;
+  padding: 12px;
+  margin: 20px;
+  width: 100%;
+}
+@media only screen and (max-width: 1100px) {
+  .profileLogo1 {
+    display: none;
+  }
+  .profileLogo2 {
+    flex-direction: column;
+  }
 }
