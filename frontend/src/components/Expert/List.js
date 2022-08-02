@@ -41,7 +41,7 @@ export default function ListDividers () {
 
       {data.map((e, i) => {
         return (
-          <ListItem key={i} Divider>
+          <ListItem key={i}>
             <ListItemText primary={e.name} secondary={'Score:' + e.scores + ' points'} />
           </ListItem>
         );

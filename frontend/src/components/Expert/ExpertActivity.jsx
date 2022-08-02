@@ -9,7 +9,7 @@ import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
 import MyAnswerCard from './MyAnswerCard';
 import MyQesCard from './MyQesCard';
-import SortIcon from '@mui/icons-material/Sort';
+// import SortIcon from '@mui/icons-material/Sort';
 import { MenuItem, Button, Menu } from '@mui/material';
 import styles from './Expert.module.css';
 import List from './List';
@@ -125,7 +125,7 @@ export default function VerticalTabs() {
               marginLeft: '1.5rem',
             }}
           >
-            <SortIcon></SortIcon>Sort
+            {/* <SortIcon></SortIcon>Sort */}
           </Button>
           <Menu
             id="basic-menu"
@@ -174,7 +174,7 @@ export default function VerticalTabs() {
               marginLeft: '1.5rem',
             }}
           >
-            <SortIcon></SortIcon>Sort
+            {/* <SortIcon></SortIcon>Sort */}
           </Button>
           <Menu
             id="basic-menu"
