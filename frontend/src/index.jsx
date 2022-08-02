@@ -10,8 +10,6 @@ ReactDOM.render(
     <App />
   </React.StrictMode>,
   document.getElementById('root'),
-  window.localStorage.removeItem('expert'),
-  window.localStorage.removeItem('data'),
   window.localStorage.removeItem('0'),
   window.localStorage.removeItem('1'),
   window.localStorage.removeItem('2'),

@@ -178,3 +178,9 @@
 .deleteBtn{
   color: red;
 }
+
+.scoreIn{
+  margin-top: 10px;
+  width: 150px;
+  height: 30px;
+}

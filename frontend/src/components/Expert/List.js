@@ -23,7 +23,7 @@ export default function ListDividers () {
             <img src={logo} className={styles.ted} ></img>
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Trending"/>
+        <ListItemText primary="Leading score"/>
       </ListItem>
       <ListItem button>
         <ListItemText primary="231 Like" secondary="Totally 231 users like your answers" />

@@ -13,7 +13,8 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import styles from './Expert.module.css';
-import { expertChangeAns, deleteQuestionComment } from '../../service'
+// eslint-disable-next-line no-unused-vars
+import { expertChangeAns, deleteQuestionComment, newQuestionComment } from '../../service'
 
 /* import Drawer from '@mui/material/Drawer';
 import Link from '@mui/material/Link';
@@ -31,6 +32,7 @@ export default function ActionAreaCard({ mykey, data }) {
   const toggleReadMore = () => {
     setIsShowMore(!isShowMore);
   };
+
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -48,7 +50,8 @@ export default function ActionAreaCard({ mykey, data }) {
   } else {
     Ans = ''
   }
-
+  // eslint-disable-next-line no-unused-vars
+  const [scoreIn, setScoreIn] = React.useState(0);
   const title = data.title;
   // const ansId = data.ans_id;
   // eslint-disable-next-line no-unused-vars
@@ -224,7 +227,17 @@ export default function ActionAreaCard({ mykey, data }) {
               } catch (error) {
                 console.log(error)
               }
+              // try {
+              //   const response = await newQuestionComment({ content: ansTmp, score: scoreIn }, localStorage.getItem('token'), localStorage.getItem('user_id'), data.qes_id)
+              //   console.log(await (response.data))
+              // } catch (error) {
+              //   console.log(error)
+              // }
+              // window.location.reload()
             }} >Submit</Button>
+            <input className={styles.scoreIn} placeholder='Enter charge score' onChange={() => {
+              setScoreIn(event.target.value)
+            }}></input> points
           </CardContent>
         </Collapse>
       </Card>

@@ -27,6 +27,7 @@ export default function ActionAreaCard({ mykey, data }) {
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const onEditorStateChange = (editorState) => { setEditorState(editorState) }
   const [isShowMore, setIsShowMore] = React.useState(true);
+  const [scoreIn, setScoreIn] = React.useState(0);
   const toggleReadMore = () => {
     setIsShowMore(!isShowMore);
   };
@@ -187,13 +188,16 @@ export default function ActionAreaCard({ mykey, data }) {
               // console.log(data.qes_id)
               // console.log(ansId)
               try {
-                await newQuestionComment({ content: ansTmp, score: 100 }, localStorage.getItem('token'), localStorage.getItem('user_id'), data.qes_id)
+                await newQuestionComment({ content: ansTmp, score: scoreIn }, localStorage.getItem('token'), localStorage.getItem('user_id'), data.qes_id)
                 // console.log(await (response.data))
               } catch (error) {
                 console.log(error)
               }
               window.location.reload()
             }} >Submit</Button>
+            <input className={styles.scoreIn} placeholder='Enter charge score' onChange={() => {
+              setScoreIn(event.target.value)
+            }}></input> points
           </CardContent>
         </Collapse>
       </Card>
