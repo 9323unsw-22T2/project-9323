@@ -221,7 +221,7 @@ export default function ActionAreaCard({ mykey, data }) {
               // console.log(ansId)
               try {
                 console.log(data.qes_id)
-                const response = await expertChangeAns(data.ans_id, { content: ansTmp }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+                const response = await expertChangeAns(data.ans_id, { content: ansTmp, score: scoreIn }, localStorage.getItem('token'), localStorage.getItem('user_id'))
                 console.log(await (response.data))
                 window.location.reload()
               } catch (error) {
