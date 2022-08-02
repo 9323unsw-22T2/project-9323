@@ -197,4 +197,18 @@
     width: 100%;
     min-height: 100vh;
   }
+  .diagram {
+    display: none;
+  }
+
+  .title{
+    font-size: 26px;
+    font-weight: bold;
+
+  }
+}
+@media only screen and (max-width: 1680px) {
+  .p{
+    display:none
+  }
 }

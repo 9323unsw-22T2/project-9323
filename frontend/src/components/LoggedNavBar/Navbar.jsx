@@ -90,8 +90,6 @@ const Navbar = () => {
     <div className={styles.Navbar}>
       <div className={styles.logo}>
         <img
-
-          height="60"
           viewBox="0 0 229 49"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

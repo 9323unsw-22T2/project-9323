@@ -12,7 +12,7 @@
   cursor: pointer;
 }
 .UNSWlogo {
-
+  width:50%;
 }
 .login {
   /* background-color: yellow; */
@@ -94,4 +94,10 @@
   text-align: center;
   margin-top: 3%;
   margin-bottom: 3%;
+}
+
+@media only screen and (max-width: 900px) {
+  .UNSWlogo{
+    width:70%
+  }
 }
