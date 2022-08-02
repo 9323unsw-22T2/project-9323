@@ -1,28 +1,43 @@
+1.
 curl --location --request POST '127.0.0.1:5000/auth/register' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-  "email": "123@gmail.com",
-  "password": "456",
+  "email": "1234@gmail.com",
+  "password": "789",
   "name": "joe"
 }'
 {
-    "token": "e2e8540f-8a00-4f21-9484-cf0f97faff1d",
+    "token": "b00cf230-de04-4ae8-b6fe-deea28db35ea",
     "user_id": 1
 }
 
 
-
-
+2.
 curl --location --request POST '127.0.0.1:5000/auth/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-  "email": "123@gmail.com",
-  "password": "456"
+  "email": "1234@gmail.com",
+  "password": "789"
 }'
 {
-    "token": "e2e8540f-8a00-4f21-9484-cf0f97faff1d",
-    "user_id": 1
+    "coins": 0,
+    "email": "1234@gmail.com",
+    "expertArea": null,
+    "expertOrNot": "0",
+    "id": 1,
+    "isPpublic": "0",
+    "likeArticles": "[]",
+    "likeQuestions": "[]",
+    "messagelist": "{}",
+    "name": "joe",
+    "photo": null,
+    "scores": 0,
+    "token": "b00cf230-de04-4ae8-b6fe-deea28db35ea"
 }
+
+
+
+
 
 
 
@@ -30,7 +45,7 @@ question
 1.
 curl --location --request POST '127.0.0.1:5000/questions/add' \
 --header 'user_id: 1' \
---header 'token: e2e8540f-8a00-4f21-9484-cf0f97faff1d' \
+--header 'token: b00cf230-de04-4ae8-b6fe-deea28db35ea' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "title": "new title",
@@ -44,77 +59,96 @@ curl --location --request POST '127.0.0.1:5000/questions/add' \
 
 2.
 
-Exit
+Exist question
 curl --location --request GET '127.0.0.1:5000/questions/1' \
 --header 'user_id: 1' \
---header 'token: e2e8540f-8a00-4f21-9484-cf0f97faff1d'
+--header 'token: b00cf230-de04-4ae8-b6fe-deea28db35ea'
 {
-    "question": [
-        1,
-        "new title",
-        "new content",
-        1657692570,
-        1657692570,
-        1,
-        "[]",
-        "[]",
-        0
-    ]
+    "question": {
+        "0": {
+            "TYPE": "QUESTION",
+            "author": 1,
+            "content": "new content",
+            "id": 1,
+            "image": null,
+            "isDeleted": 0,
+            "replyIds": "[]",
+            "thumbUpBy": "[]",
+            "timeCreated": 1659420888,
+            "timeUpdated": 1659420888,
+            "title": "new title",
+            "video": null
+        }
+    }
 }
 
 
-Not exit
+Not exist question
 curl --location --request GET '127.0.0.1:5000/questions/2' \
 --header 'user_id: 1' \
---header 'token: e2e8540f-8a00-4f21-9484-cf0f97faff1d'
+--header 'token: b00cf230-de04-4ae8-b6fe-deea28db35ea'
 {
     "error": "Question not found with question_id = 2"
 }
 
 
-
 3.
 curl --location --request PATCH '127.0.0.1:5000/questions/1/like' \
 --header 'user_id: 1' \
---header 'token: e2e8540f-8a00-4f21-9484-cf0f97faff1d'
+--header 'token: b00cf230-de04-4ae8-b6fe-deea28db35ea'
 {
-    "question": [
-        1,
-        "new title",
-        "new content",
-        1657692570,
-        1657692570,
-        1,
-        "[]",
-        "[1]",
-        0
-    ]
+    "question": {
+        "0": {
+            "TYPE": "QUESTION",
+            "author": 1,
+            "content": "new content",
+            "id": 1,
+            "image": null,
+            "isDeleted": 0,
+            "replyIds": "[]",
+            "thumbUpBy": "[1]",
+            "timeCreated": 1659420888,
+            "timeUpdated": 1659420888,
+            "title": "new title",
+            "video": null
+        }
+    }
 }
 
 
 4.
 curl --location --request PATCH '127.0.0.1:5000/questions/1/dislike' \
 --header 'user_id: 1' \
---header 'token: e2e8540f-8a00-4f21-9484-cf0f97faff1d'
+--header 'token: b00cf230-de04-4ae8-b6fe-deea28db35ea'
 {
-    "question": [
-        1,
-        "new title",
-        "new content",
-        1657692570,
-        1657692570,
-        1,
-        "[]",
-        "[]",
-        0
-    ]
+    "question": {
+        "0": {
+            "TYPE": "QUESTION",
+            "author": 1,
+            "content": "new content",
+            "id": 1,
+            "image": null,
+            "isDeleted": 0,
+            "replyIds": "[]",
+            "thumbUpBy": "[]",
+            "timeCreated": 1659420888,
+            "timeUpdated": 1659420888,
+            "title": "new title",
+            "video": null
+        }
+    }
 }
-
 
 5.
 curl --location --request DELETE '127.0.0.1:5000/questions/1' \
 --header 'user_id: 1' \
---header 'token: e2e8540f-8a00-4f21-9484-cf0f97faff1d'
+--header 'token: b00cf230-de04-4ae8-b6fe-deea28db35ea'
 {
     "question_id": 1
 }
+
+
+6.
+curl --location --request GET '127.0.0.1:5000/question/ping'
+return
+Pong
