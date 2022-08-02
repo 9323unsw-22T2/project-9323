@@ -97,6 +97,12 @@ def edit_comment(comment_id):
     sql=f"update comments SET timeUpdated = {get_unix_time()} where id = {comment_id}"
     cur.execute(sql)
     con.commit()
+
+    score = data.get("score",None):
+    if score or score == 0:
+        sql=f"update comments SET score = {score} where id = {comment_id}"
+        cur.execute(sql)
+        con.commit()
     return make_response(jsonify({"already updated content with":f"{content}" })),200
     # else:
     #     sql=f"update comments SET isDeleted = 1 where id = {comment_id}"
