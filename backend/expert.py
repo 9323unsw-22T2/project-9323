@@ -98,7 +98,7 @@ def edit_comment(comment_id):
     cur.execute(sql)
     con.commit()
 
-    score = data.get("score",None):
+    score = data.get("score",None)
     if score or score == 0:
         sql=f"update comments SET score = {score} where id = {comment_id}"
         cur.execute(sql)
