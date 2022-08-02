@@ -70,7 +70,7 @@ export default function VerticalTabs() {
     try {
       const response = await answerhistory(localStorage.getItem('token'), localStorage.getItem('user_id'))
       setData(response.data)
-      console.log(data)
+      console.log(response.data)
     } catch (error) {
       console.log(error)
     }
@@ -144,7 +144,8 @@ export default function VerticalTabs() {
               {data.map((e, i) => {
                 return (
                   <MyAnswerCard
-                    key={'resultCard' + i}
+                    mykey={i}
+                    key={i}
                     data={e}
                   ></MyAnswerCard>
                 );
@@ -192,6 +193,7 @@ export default function VerticalTabs() {
               {data.map((e, i) => {
                 return (
                   <MyQesCard
+                    mykey={i}
                     key={i}
                     data={e}
                   ></MyQesCard>

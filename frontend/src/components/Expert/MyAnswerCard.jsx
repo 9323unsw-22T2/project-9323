@@ -1,4 +1,4 @@
-/* eslint-disable multiline-ternary */
+
 import * as React from 'react';
 
 import Card from '@mui/material/Card';
@@ -19,11 +19,12 @@ import { expertChangeAns, deleteQuestionComment } from '../../service'
 import Link from '@mui/material/Link';
 import SearchDetail from './SearchDetail/SearchDetail'; */
 ActionAreaCard.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  mykey: PropTypes.number
 };
 
 // eslint-disable-next-line space-before-function-paren
-export default function ActionAreaCard({ data }) {
+export default function ActionAreaCard({ mykey, data }) {
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const onEditorStateChange = (editorState) => { setEditorState(editorState) }
   const [isShowMore, setIsShowMore] = React.useState(true);
@@ -47,8 +48,10 @@ export default function ActionAreaCard({ data }) {
   } else {
     Ans = ''
   }
+
   const title = data.title;
   // const ansId = data.ans_id;
+  // eslint-disable-next-line no-unused-vars
   function randomNumberInRange (min, max) {
     // 👇️ get number between min (inclusive) and max (inclusive)
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -76,7 +79,7 @@ export default function ActionAreaCard({ data }) {
                 fontWeight: 'bold',
                 m: 1,
               }}
-              title={'Q.' + ' ' + title}
+              title={'Q' + mykey + ' .' + title}
             ></CardHeader>
             <CardContent
               sx={{ borderBottom: '1px solid #e6e5e6' }}
@@ -108,40 +111,43 @@ export default function ActionAreaCard({ data }) {
                 children={
                   <img src={data.photoURL} className={styles.cardImg} />
                 }
-              ></CardContent> : <CardContent
+              ></CardContent>
+              : <CardContent
                 sx={{ borderBottom: '1px solid #e6e5e6' }}
                 // eslint-disable-next-line react/no-children-prop
                 children={
-                  <img src={localStorage.getItem(randomNumberInRange(1, 4).toString())} className={styles.cardImg} />
+                  // <img src={localStorage.getItem((mykey % 2 === 1) ? '1' : '3')} className={styles.cardImg} />
+                  <img src={localStorage.getItem((mykey % 4).toString())} className={styles.cardImg} />
                 }
               ></CardContent>
             }
             <Box className={styles.text1}>Your Answer:</Box>
             {(Ans !== null && Ans !== '')
               ? <CardContent
-                sx={{ borderBottom: '1px solid #e6e5e6' }}
-                // eslint-disable-next-line react/no-children-prop
-                children={
-                  <Box className={styles.ans}>
-                    {isShowMore ? Ans.slice(0, 300) : Ans}
-                    {Ans && Ans.length > 300 && (
-                      <Box
-                        onClick={toggleReadMore}
-                        sx={{
-                          cursor: 'pointer',
-                          fontSize: '14px',
-                          marginTop: '20px',
-                          marginBottom: '30px',
-                          textDecoration: 'underline',
-                        }}
-                      >
-                        {isShowMore ? 'Show more...' : 'Show less'}
-                      </Box>
-                    )}
-                    <button onClick={handleExpandClick} className={styles.btn1}> Edit</button>
-                  </Box>
-                }
-              ></CardContent> : <CardContent
+                  sx={{ borderBottom: '1px solid #e6e5e6' }}
+                  // eslint-disable-next-line react/no-children-prop
+                  children={
+                    <Box className={styles.ans}>
+                      {isShowMore ? Ans.slice(0, 300) : Ans}
+                      {Ans && Ans.length > 300 && (
+                        <Box
+                          onClick={toggleReadMore}
+                          sx={{
+                            cursor: 'pointer',
+                            fontSize: '14px',
+                            marginTop: '20px',
+                            marginBottom: '30px',
+                            textDecoration: 'underline',
+                          }}
+                        >
+                          {isShowMore ? 'Show more...' : 'Show less'}
+                        </Box>
+                      )}
+                      <button onClick={handleExpandClick} className={styles.btn1}> Edit</button>
+                    </Box>
+                  }
+              ></CardContent>
+              : <CardContent
                 sx={{ borderBottom: '1px solid #e6e5e6' }}
                 // eslint-disable-next-line react/no-children-prop
                 children={
@@ -154,8 +160,8 @@ export default function ActionAreaCard({ data }) {
               }
             </Box>
         </CardContent>
-        <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto' }}>
-          <Button size="small">Follow</Button>
+        <CardActions sx={{ display: 'auto', overflow: 'auto' }}>
+
           {/* <Box sx={{ margin: 'auto' }}>{new Date(data.time).toUTCString()}</Box> */}
           {/* <Box sx={{ margin: 'auto' }}>{'2022/07/23 14:43:39'}</Box> */}
           <Box sx={{ margin: 'auto' }}>{new Date().toLocaleString()}</Box>
@@ -166,7 +172,7 @@ export default function ActionAreaCard({ data }) {
               cursor: 'pointer',
             }}
           >
-            {(data.score !== null) ? <span> {data.score} Points</span> : <span> 10 Points</span>}
+            Answer worth:{(data.score !== null) ? <span> {data.score} Points</span> : <span> 10 Points</span>}
           </Box>
           <Box sx={{ margin: 'auto' }}>
             <Button size="small" sx={{ color: 'red' }} onClick={async () => {
@@ -178,6 +184,7 @@ export default function ActionAreaCard({ data }) {
                 // console.log(data)
                 await deleteQuestionComment(data.ans_id, localStorage.getItem('token'), localStorage.getItem('user_id'))
                 // console.log(await (response.data))
+                window.location.reload()
               } catch (error) {
                 // console.log(error)
               }
@@ -210,12 +217,13 @@ export default function ActionAreaCard({ data }) {
               // console.log(data.qes_id)
               // console.log(ansId)
               try {
-                await expertChangeAns(data.qes_id, { content: ansTmp }, localStorage.getItem('token'), localStorage.getItem('user_id'))
-                // console.log(await (response.data))
+                console.log(data.qes_id)
+                const response = await expertChangeAns(data.ans_id, { content: ansTmp }, localStorage.getItem('token'), localStorage.getItem('user_id'))
+                console.log(await (response.data))
+                window.location.reload()
               } catch (error) {
                 console.log(error)
               }
-              window.location.reload()
             }} >Submit</Button>
           </CardContent>
         </Collapse>

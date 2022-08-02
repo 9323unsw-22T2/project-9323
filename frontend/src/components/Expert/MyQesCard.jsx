@@ -19,10 +19,11 @@ import Link from '@mui/material/Link';
 import SearchDetail from './SearchDetail/SearchDetail'; */
 ActionAreaCard.propTypes = {
   data: PropTypes.object,
+  mykey: PropTypes.number
 };
 
 // eslint-disable-next-line space-before-function-paren
-export default function ActionAreaCard({ data }) {
+export default function ActionAreaCard({ mykey, data }) {
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const onEditorStateChange = (editorState) => { setEditorState(editorState) }
   const [isShowMore, setIsShowMore] = React.useState(true);
@@ -40,6 +41,7 @@ export default function ActionAreaCard({ data }) {
       ));
   };
   const text = data.qes.split('\n')[0];
+  // eslint-disable-next-line no-unused-vars
   function randomNumberInRange (min, max) {
     // 👇️ get number between min (inclusive) and max (inclusive)
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -75,7 +77,7 @@ export default function ActionAreaCard({ data }) {
                 fontWeight: 'bold',
                 m: 1,
               }}
-              title={title}
+              title={'Q' + mykey + '. ' + title}
             ></CardHeader>
             <CardContent
               sx={{ borderBottom: '1px solid #e6e5e6' }}
@@ -111,7 +113,7 @@ export default function ActionAreaCard({ data }) {
                 sx={{ borderBottom: '1px solid #e6e5e6' }}
                 // eslint-disable-next-line react/no-children-prop
                 children={
-                  <img src={localStorage.getItem(randomNumberInRange(1, 4).toString())} className={styles.cardImg} />
+                  <img src={localStorage.getItem((mykey % 4).toString())} className={styles.cardImg} />
                 }
               ></CardContent>
             }
@@ -153,8 +155,8 @@ export default function ActionAreaCard({ data }) {
               }
             </Box>
         </CardContent>
-        <CardActions sx={{ ml: 3, display: 'auto', overflow: 'auto' }}>
-          <Button size="small">Follow</Button>
+        <CardActions sx={{ display: 'auto', overflow: 'auto' }}>
+
           <Box sx={{ margin: 'auto' }}>{new Date().toLocaleString()}</Box>
           <Box
             sx={{
@@ -163,7 +165,7 @@ export default function ActionAreaCard({ data }) {
               cursor: 'pointer',
             }}
           >
-             {(data.score !== null) ? <span> {data.score} Points</span> : <span> 10 Points</span>}
+             Answer worth:{(data.score !== null) ? <span> {data.score} Points</span> : <span> 10 Points</span>}
           </Box>
           <Box sx={{ margin: 'auto' }}>
             <Button size="small" onClick={handleExpandClick}>Answer</Button>

@@ -96,10 +96,8 @@ const App = () => {
               <form>
               <p>Area you good at:</p>
               <select className={styles.step_title}>
-                <option value="Computer Science">Computer Science</option>
-                <option value="Biology">Biology</option>
-                <option value="Policy">Policy</option>
-                <option value="Animal">Animal</option>
+                <option value="Streaming">Streaming</option>
+                <option value="Communication">Communication</option>
               </select>
               </form>
               {/* <TextField rows={1} id='step_title' multiline sx={{ mb: 2, width: '100%' }} defaultValue={steps[activeStep].step_title} /> */}
