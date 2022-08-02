@@ -9,6 +9,7 @@ from flask import Flask
 score_page = Blueprint("score", __name__)
 CORS(score_page)
 
+# anyone with a score above 20 can apply to become an expert
 @score_page.route('/become_expert',methods=['GET'])
 @authenticated
 def become_expert():
@@ -36,7 +37,8 @@ def become_expert():
     else:
         return make_response(jsonify({"users": user_id,"expertOrNot":"0","msg":"score not enough"})), 200
 
-
+# expert users can choose whether to public their accounts to the public
+# not public
 @score_page.route('/expert_require_not_public',methods=['GET'])
 @authenticated
 def expert_require_not_public():
@@ -60,7 +62,7 @@ def expert_require_not_public():
     else:
         return make_response(jsonify({"users": user_id,"isPpublic":"0","msg":"not expert"})), 200
 
-
+# public
 @score_page.route('/expert_require_public',methods=['GET'])
 @authenticated
 def expert_require_public():
