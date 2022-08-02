@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
@@ -5,10 +6,12 @@ import Box from '@mui/material/Box';
 import Diagram from './1.jpg';
 import styles from './Expert.module.css';
 import { useNavigate } from 'react-router-dom';
-import { getScore } from '../../service'
+import { getScore, expertCertificate } from '../../service'
+import PopupWin from '../popup/PopupWin';
 const App = () => {
   const navigate = useNavigate();
   const [userScore, setUserScore] = React.useState(0);
+  const [errorPopup, setErrorPopup] = React.useState(false);
   React.useEffect(async () => {
     try {
       const responseTwo = await getScore(localStorage.getItem('token'), localStorage.getItem('user_id'))
@@ -18,7 +21,9 @@ const App = () => {
     }
   }, [])
   return (
-    <Box sx={{ }} className={styles.background}>{localStorage.getItem('token') ? (<LoggedNarbar></LoggedNarbar>) : (<Navbar></Navbar>)}
+    <Box sx={{}} className={styles.background}>{localStorage.getItem('token') ? (<LoggedNarbar></LoggedNarbar>) : (<Navbar></Navbar>)}
+      <PopupWin trigger={errorPopup} setTrigger={setErrorPopup} className={styles.pop} nav='/expert' message='Your score is enough to become an expert!'>
+      </PopupWin>
       <Box sx={{ margin: 'auto', display: 'flex', flexDirection: 'column', mt: 20, width: '100%', height: '60vh', justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent', borderWidth: '0px', borderStyle: 'solid' }}>
         <div className={styles.title} >You are not a expert</div>
         <Box sx={{ margin: 'auto', display: 'flex', mt: 10, width: '70%', height: '60vh', justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent', borderWidth: '0px', borderStyle: 'solid' }}>
@@ -35,7 +40,19 @@ const App = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', width: '10%', height: '50vh', backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center', borderColor: 'gray', borderWidth: '0px', borderStyle: 'none', margin: '5px' }}>
           </Box>
         </Box>
-        <button className={styles.btn} onClick={(e) => { navigate('/ApplyExpert') }} >Apply</button>
+        <button className={styles.btn} onClick={async (e) => {
+          if (userScore < 1) {
+            navigate('/ApplyExpert')
+          } else {
+            try {
+              const response = await expertCertificate({}, localStorage.getItem('token'), localStorage.getItem('user_id'))
+              console.log(await response.data)
+            } catch (error) {
+              console.log(error)
+            }
+            setErrorPopup(true)
+          }
+        }} >Apply</button>
       </Box>
     </Box>
   );

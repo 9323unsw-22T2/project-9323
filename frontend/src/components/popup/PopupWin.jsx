@@ -13,7 +13,14 @@ function PopupWin (prop) {
             <div className={Css.text}>
               <h1>Congratulation</h1>
               <p>{prop.message}</p>
-              <button className={Css.button} onClick={() => { prop.setTrigger(false); navigate(prop.nav) }}>{prop.content} close </button>
+              <button className={Css.button} onClick={() => {
+                prop.setTrigger(false);
+                if (prop.nav === '/expert') {
+                  window.location.reload(false);
+                } else {
+                  navigate(prop.nav)
+                }
+              }}>{prop.content} close </button>
               {/* <button className={Css.button} onClick={() => { prop.setTrigger(false); window.location.reload(false); }}>Close</button> */}
             </div>
           </div>

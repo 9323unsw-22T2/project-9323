@@ -42,7 +42,6 @@ const App = () => {
   const handleBack = () => {
     document.getElementById('step_title').value = steps[activeStep].step_title
     setEditorState(steps[activeStep - 1].content ? steps[activeStep - 1].content : EditorState.createEmpty())
-
     setActiveStep(activeStep - 1);
   }
 
