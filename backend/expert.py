@@ -103,7 +103,7 @@ def edit_comment(comment_id):
         sql=f"update comments SET score = {score} where id = {comment_id}"
         cur.execute(sql)
         con.commit()
-    return make_response(jsonify({"already updated content with":f"{content}" })),200
+    return make_response(jsonify({"already updated content with":f"{content}", "score":score})),200
     # else:
     #     sql=f"update comments SET isDeleted = 1 where id = {comment_id}"
     #     cur.execute(sql)
