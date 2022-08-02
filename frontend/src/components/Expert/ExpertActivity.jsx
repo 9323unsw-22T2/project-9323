@@ -14,10 +14,9 @@ import { MenuItem, Button, Menu } from '@mui/material';
 import styles from './Expert.module.css';
 import List from './List';
 import { answerhistory } from '../../service'
-
+import useMediaQuery from '@mui/material/useMediaQuery';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div className={styles.vipbackground2}>
       <div
@@ -75,6 +74,9 @@ export default function VerticalTabs() {
       console.log(error)
     }
   }, [])
+  const matchesPad = useMediaQuery(
+    '(max-width: 1080px)'
+  )
 
   return (
     <>
@@ -88,21 +90,23 @@ export default function VerticalTabs() {
         )}
       </div>
       <Box
+        className={styles.box1}
         sx={{
           flexGrow: 1,
           bgcolor: 'background.paper',
-          display: 'flex',
+          display: matchesPad ? 'block' : 'flex',
           height: '100%',
           weight: '100%'
         }}
       >
         <Tabs
-          orientation="vertical"
+          orientation={ matchesPad ? 'horizontal' : 'vertical'}
           variant="scrollable"
           value={value}
           onChange={handleChange}
           aria-label="Vertical tabs example"
           sx={{
+            margin: matchesPad ? 'auto' : '',
             borderRight: 1,
             borderColor: 'divider',
             width: '15vw',
@@ -140,7 +144,7 @@ export default function VerticalTabs() {
             <MenuItem onClick={handleClose}>Time (old to new)</MenuItem>
           </Menu>
           <Box sx={{ margin: 'auto', display: 'flex', opacity: '0.95' }}>
-            <Box sx={{ width: '50%', margin: 'auto' }}>
+            <Box sx={{ width: matchesPad ? '100%' : '50%', margin: 'auto' }}>
               {data.map((e, i) => {
                 return (
                   <MyAnswerCard
@@ -153,10 +157,11 @@ export default function VerticalTabs() {
             </Box>
             <Box
               sx={{
-                width: '40%',
+                width: matchesPad ? '40%' : '40%',
+                display: matchesPad ? 'none' : 'block'
               }}
             >
-            <List></List>
+              <List></List>
 
             </Box>
           </Box>
@@ -189,7 +194,7 @@ export default function VerticalTabs() {
             <MenuItem onClick={handleClose}>Time (old to new)</MenuItem>
           </Menu>
           <Box sx={{ margin: 'auto', display: 'flex', opacity: '0.95' }}>
-            <Box sx={{ width: '50%', margin: 'auto' }}>
+            <Box sx={{ width: matchesPad ? '100%' : '50%', margin: 'auto' }}>
               {data.map((e, i) => {
                 return (
                   <MyQesCard
@@ -202,7 +207,8 @@ export default function VerticalTabs() {
             </Box>
             <Box
               sx={{
-                width: '40%',
+                width: matchesPad ? '40%' : '40%',
+                display: matchesPad ? 'none' : 'block'
               }}
             >
             <List></List>

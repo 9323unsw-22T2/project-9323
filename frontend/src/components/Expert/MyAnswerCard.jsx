@@ -82,7 +82,7 @@ export default function ActionAreaCard({ mykey, data }) {
                 fontWeight: 'bold',
                 m: 1,
               }}
-              title={'Q' + mykey + ' .' + title}
+              title={'Q' + ' .' + title}
             ></CardHeader>
             <CardContent
               sx={{ borderBottom: '1px solid #e6e5e6' }}
