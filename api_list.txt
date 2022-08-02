@@ -749,3 +749,81 @@ curl --location --request GET '127.0.0.1:5000/newsfeed/leaderboard' \
         "scores": 32
     }
 ]
+# expert update score
+
+curl --location --request POST '127.0.0.1:5000/expert/<int:comment_id>/update' \
+--header 'token: 96d4cf5e-a2d1-4dc1-86f2-263b1a06dc86' \
+--header 'user_id: 1' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "content":"kakakakak",
+    "score": 100
+}'
+
+# return
+{
+    "already updated content with": "kakakakak",
+    "score": 100
+}
+
+# expert get answer history
+
+curl --location --request GET '127.0.0.1:5000/expert/answer_history' \
+--header 'token: 96d4cf5e-a2d1-4dc1-86f2-263b1a06dc86' \
+--header 'user_id: 1' \
+--header 'Content-Type: application/json'
+
+# return
+
+[
+    {
+        "ans": null,
+        "ans_id": null,
+        "photoURL": null,
+        "qes": "aaa?",
+        "qes_id": 1,
+        "score": null,
+        "time": null,
+        "title": "a?"
+    },
+    {
+        "ans": null,
+        "ans_id": null,
+        "photoURL": null,
+        "qes": "aaa",
+        "qes_id": 2,
+        "score": null,
+        "time": null,
+        "title": "aaa"
+    },
+    {
+        "ans": null,
+        "ans_id": null,
+        "photoURL": null,
+        "qes": "12312344",
+        "qes_id": 3,
+        "score": null,
+        "time": null,
+        "title": "12312312"
+    },
+    {
+        "ans": null,
+        "ans_id": null,
+        "photoURL": null,
+        "qes": "1244",
+        "qes_id": 4,
+        "score": null,
+        "time": null,
+        "title": "23123"
+    },
+    {
+        "ans": null,
+        "ans_id": null,
+        "photoURL": null,
+        "qes": "1",
+        "qes_id": 5,
+        "score": null,
+        "time": null,
+        "title": "1"
+    }
+]
