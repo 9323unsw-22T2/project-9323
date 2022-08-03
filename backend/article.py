@@ -189,18 +189,18 @@ def get_user_like_articles(user_id):
         res.append(get_article(idx))
     ret['articles_like'] = res
 
-    res = []
+    # res = []
     col_art = get_table_column("articles")
     # col_art = json.loads(col_art)
-    for idx in json.loads(rows[0][0]):
+    for i,idx in enumerate(json.loads(rows[0][0])):
         tmp = {}
         # print(get_article(idx))
         tmp["TYPE"] = "ARTICLE"
         for i,j in zip(get_article(idx)[0],col_art):
             tmp[j] = i
-        res.append(tmp)
+        # res.append(tmp)
 
-    ret['articles_like'] = res
+        ret[str(i)] = tmp
 
     return make_response(jsonify(ret)), 200
 
