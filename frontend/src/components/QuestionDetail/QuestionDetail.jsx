@@ -147,10 +147,10 @@ const Home = () => {
           e.preventDefault()
           setFollow(!follow)
           handleLike()
-        }}size="small">Follow</Button> : <Button color="error" onClick={(e) => {
+        }}size="small"></Button> : <Button color="error" onClick={(e) => {
           e.preventDefault()
           setFollow(!follow)
-        }} size="small">Unfollow</Button>}
+        }} size="small"></Button>}
 
           <Box sx={{ margin: 'auto' }}>{new Date(data[0].timeCreated * 1000).toLocaleString()}</Box>
           <Box

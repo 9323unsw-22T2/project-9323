@@ -56,7 +56,8 @@ export const questionDislike = (number, token, userId) =>
   axios.patch(`${BASE_URL}/questions/${number}/dislike`, {}, { headers: { user_id: userId, token: token } });
 export const articleLike = (number, token, userId) =>
   axios.patch(`${BASE_URL}/article/${number}/thumb_up`, {}, { headers: { user_id: userId, token: token } });
-
+export const articleDislike = (number, token, userId) =>
+  axios.patch(`${BASE_URL}/article/${number}/un_thumb_up`, {}, { headers: { user_id: userId, token: token } });
 export const getTrend = () =>
   axios.get(`${BASE_URL}/newsfeed/trending`);
 

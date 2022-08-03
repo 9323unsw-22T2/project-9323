@@ -11,7 +11,6 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +21,7 @@ import PropTypes from 'prop-types';
 import draftToHtml from 'draftjs-to-html';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { deleteGuide, articleLike, newArticleComment } from '../../service'
+import { deleteGuide, articleLike, newArticleComment, articleDislike } from '../../service'
 
 import AvatarTrigger from '../MessagerTrigger/Avatar'
 
@@ -59,8 +58,20 @@ export default function RecipeReviewCard ({ data }) {
   const handleCommentClick = () => {
     setCommentExpanded(!commentExpanded);
   };
+  const [liked, setLiked] = React.useState(JSON.parse(data?.thumbUpBy).includes(parseInt(localStorage.getItem('user_id'))))
   const handleLike = async () => {
-    await articleLike(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    try {
+      if (liked) {
+        await articleDislike(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+        setLiked(false)
+        window.location.reload(false);
+      } else {
+        await articleLike(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+        setLiked(true)
+        window.location.reload(false);
+      }
+    } catch (error) {
+    }
   }
   const navigate = useNavigate();
   const [content, setContent] = React.useState('')
@@ -146,9 +157,7 @@ export default function RecipeReviewCard ({ data }) {
         })
       }
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" onClick={handleLike}>
-          <FavoriteIcon />
-        </IconButton>
+      {!liked ? <Button onClick={handleLike}size="small">Follow</Button> : <Button color="error" onClick={handleLike} size="small">Unfollow</Button>}
         <IconButton aria-label="share" onClick={(e) => { e.preventDefault(); setSocial(!social) }}>
           <ShareIcon />
         </IconButton>
