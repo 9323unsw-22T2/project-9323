@@ -22,7 +22,7 @@ import PropTypes from 'prop-types';
 import draftToHtml from 'draftjs-to-html';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { deleteGuide, articleLike } from '../../service'
+import { deleteGuide, articleLike, newArticleComment } from '../../service'
 
 import AvatarTrigger from '../MessagerTrigger/Avatar'
 
@@ -64,27 +64,19 @@ export default function RecipeReviewCard ({ data }) {
   }
   const navigate = useNavigate();
   const [content, setContent] = React.useState('')
-  function handleChange (content, editor) {
-    setContent({ content });
+  function handleChange (contentt, editor) {
+    setContent(contentt.replace(/<[^>]+>/g, ''))
   }
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClickProfile = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const [score, setScore] = React.useState('');
   const handleSubmit = () => {
-    fetch('/comment/articles/1', {
-      method: 'POST',
-      headers: {
-        user_id: '1',
-        token: '1301ccf6-1891-42ba-8cbb-310e3bdda032',
-      },
-      body: JSON.stringify({
-        comment_content: 'hello',
-        comment_id: '2',
-      })
-    })
-    setContent('')
+    newArticleComment({ content, score }, localStorage.getItem('token'), localStorage.getItem('user_id'), data.id)
+    setScore(null)
+    window.location.reload(false);
   }
   /*
   const [commentContent, setCommentContent] = React.useState('')
@@ -182,7 +174,6 @@ export default function RecipeReviewCard ({ data }) {
   />
   <br />
   <Button sx={{ mb: 1, float: 'right' }} variant="contained" onClick={handleSubmit}>Submit</Button>
-  <h1>hello</h1>
         </CardContent>
       </Collapse>
     </Card>
