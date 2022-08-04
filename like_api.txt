@@ -7,7 +7,7 @@ curl --location --request POST '127.0.0.1:5000/auth/register' \
   "name": "joe"
 }'
 {
-    "token": "599d7348-6e1e-4e3c-844b-eb0fe82d4ef1",
+    "token": "09e36c8a-77cf-4eb2-b075-cf8804d02894",
     "user_id": 1
 }
 
@@ -33,7 +33,7 @@ curl --location --request POST '127.0.0.1:5000/auth/login' \
     "name": "joe",
     "photo": null,
     "scores": 0,
-    "token": "599d7348-6e1e-4e3c-844b-eb0fe82d4ef1"
+    "token": "09e36c8a-77cf-4eb2-b075-cf8804d02894"
 }
 
 
@@ -43,7 +43,7 @@ curl --location --request POST '127.0.0.1:5000/auth/login' \
 3.
 curl --location --request POST '127.0.0.1:5000/article' \
 --header 'user_id: 1' \
---header 'token: 599d7348-6e1e-4e3c-844b-eb0fe82d4ef1' \
+--header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "0": {
@@ -66,28 +66,10 @@ curl --location --request POST '127.0.0.1:5000/article' \
 
 
 
-
 4.
-curl --location --request POST '127.0.0.1:5000/questions/add' \
+curl --location --request GET '127.0.0.1:5000/article/1' \
 --header 'user_id: 1' \
---header 'token: 599d7348-6e1e-4e3c-844b-eb0fe82d4ef1' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "title": "123",
-    "content": "789"
-
-}'
-{
-    "question_id": 1
-}
-
-
-
-
-5.
-curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
---header 'user_id: 1' \
---header 'token: 599d7348-6e1e-4e3c-844b-eb0fe82d4ef1'
+--header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894'
 {
     "article": {
         "0": {
@@ -100,11 +82,9 @@ curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
             "reploy_ids": [],
             "step_number": 0,
             "step_title": "this is step_title0",
-            "thumb_up_by": [
-                1
-            ],
-            "time_created": 1659526120,
-            "time_modified": 1659526120,
+            "thumb_up_by": [],
+            "time_created": 1659619590,
+            "time_modified": 1659619590,
             "title": "this is a title",
             "user_name": "joe",
             "video": null
@@ -124,8 +104,59 @@ curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
             "step_number": 1,
             "step_title": "this is step_title1",
             "thumb_up_by": [],
-            "time_created": 1659526120,
-            "time_modified": 1659526120,
+            "time_created": 1659619590,
+            "time_modified": 1659619590,
+            "title": null,
+            "user_name": "joe",
+            "video": null
+        }
+    }
+}
+
+
+
+5.
+curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
+--header 'user_id: 1' \
+--header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894'
+{
+    "article": {
+        "0": {
+            "article_id": null,
+            "author": 1,
+            "content": "this is a content in page 0",
+            "id": 1,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": [],
+            "step_number": 0,
+            "step_title": "this is step_title0",
+            "thumb_up_by": [
+                1
+            ],
+            "time_created": 1659619590,
+            "time_modified": 1659619590,
+            "title": "this is a title",
+            "user_name": "joe",
+            "video": null
+        },
+        "1": {
+            "article_id": 1,
+            "author": 1,
+            "content": {
+                "type": {
+                    "json": "json files"
+                }
+            },
+            "id": 2,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": [],
+            "step_number": 1,
+            "step_title": "this is step_title1",
+            "thumb_up_by": [],
+            "time_created": 1659619590,
+            "time_modified": 1659619590,
             "title": null,
             "user_name": "joe",
             "video": null
@@ -137,63 +168,12 @@ curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
 
 
 
-
 6.
-curl --location --request PATCH '127.0.0.1:5000/questions/1/like' \
---header 'user_id: 1' \
---header 'token: 599d7348-6e1e-4e3c-844b-eb0fe82d4ef1'
-{
-    "question": {
-        "0": {
-            "TYPE": "QUESTION",
-            "author": 1,
-            "content": "789",
-            "id": 1,
-            "image": null,
-            "isDeleted": 0,
-            "replyIds": "[]",
-            "thumbUpBy": "[1]",
-            "timeCreated": 1659527236,
-            "timeUpdated": 1659527236,
-            "title": "123",
-            "video": null
-        }
-    }
-}
-
-
-
-
-7.
-curl --location --request GET '127.0.0.1:5000/questions_like/1' \
---header 'user_id: 1' \
---header 'token: 599d7348-6e1e-4e3c-844b-eb0fe82d4ef1'
-{
-    "None": {
-        "TYPE": "QUESTION",
-        "author": 1,
-        "content": "789",
-        "id": 1,
-        "image": null,
-        "isDeleted": 0,
-        "replyIds": "[]",
-        "thumbUpBy": "[1]",
-        "timeCreated": 1659527236,
-        "timeUpdated": 1659527236,
-        "title": "123",
-        "video": null
-    }
-}
-
-
-
-
-8.
 curl --location --request GET '127.0.0.1:5000/articles_like/1' \
 --header 'user_id: 1' \
---header 'token: 599d7348-6e1e-4e3c-844b-eb0fe82d4ef1'
+--header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894'
 {
-    "None": {
+    "0": {
         "TYPE": "ARTICLE",
         "articleId": null,
         "author": 1,
@@ -205,8 +185,8 @@ curl --location --request GET '127.0.0.1:5000/articles_like/1' \
         "stepNumber": 0,
         "stepTitle": "this is step_title0",
         "thumbUpBy": "[1]",
-        "timeCreated": 1659526120,
-        "timeUpdated": 1659526120,
+        "timeCreated": 1659619590,
+        "timeUpdated": 1659619590,
         "title": "this is a title",
         "video": null
     },
@@ -220,8 +200,8 @@ curl --location --request GET '127.0.0.1:5000/articles_like/1' \
                 "this is a title",
                 "\"this is a content in page 0\"",
                 null,
-                1659526120,
-                1659526120,
+                1659619590,
+                1659619590,
                 1,
                 "[]",
                 "[1]",
@@ -236,8 +216,8 @@ curl --location --request GET '127.0.0.1:5000/articles_like/1' \
                 null,
                 "{\"type\": {\"json\": \"json files\"}}",
                 null,
-                1659526120,
-                1659526120,
+                1659619590,
+                1659619590,
                 1,
                 "[]",
                 "[]",
@@ -246,7 +226,71 @@ curl --location --request GET '127.0.0.1:5000/articles_like/1' \
             ]
         ]
     ]
+}
 
+
+
+7.
+curl --location --request POST '127.0.0.1:5000/questions/add' \
+--header 'user_id: 1' \
+--header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "title": "123",
+    "content": "789"
+
+}'
+{
+    "question_id": 1
+}
+
+
+
+
+8.
+curl --location --request PATCH '127.0.0.1:5000/questions/1/like' \
+--header 'user_id: 1' \
+--header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894'
+{
+    "question": {
+        "0": {
+            "TYPE": "QUESTION",
+            "author": 1,
+            "content": "789",
+            "id": 1,
+            "image": null,
+            "isDeleted": 0,
+            "replyIds": "[]",
+            "thumbUpBy": "[1]",
+            "timeCreated": 1659619660,
+            "timeUpdated": 1659619660,
+            "title": "123",
+            "video": null
+        }
+    }
+}
+
+
+9.
+curl --location --request GET '127.0.0.1:5000/questions_like/1' \
+--header 'user_id: 1' \
+--header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894'
+{
+    "0": {
+        "TYPE": "QUESTION",
+        "author": 1,
+        "content": "789",
+        "id": 1,
+        "image": null,
+        "isDeleted": 0,
+        "replyIds": "[]",
+        "thumbUpBy": "[1]",
+        "timeCreated": 1659619660,
+        "timeUpdated": 1659619660,
+        "title": "123",
+        "video": null
+    }
+}
 
 
 9. put message
