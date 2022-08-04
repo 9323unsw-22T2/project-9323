@@ -130,14 +130,14 @@ def get_user_like_questions(user_id):
     col_ques = get_table_column("questions")
     # col_ques = json.loads(col_ques)
 
-    for i,idx in enumerate(json.loads(rows[0][0])):
+    for idxx,idx in enumerate(json.loads(rows[0][0])):
         # res.append()
         tmp = {}
         tmp["TYPE"] = "QUESTION"
         for i,j in zip(get_qeustion(idx)[0],col_ques):
             tmp[j] = i
         # res.append(tmp)
-        ret[str(i)] = tmp
+        ret[str(idxx)] = tmp
     
     return make_response(jsonify(ret)), 200
 
