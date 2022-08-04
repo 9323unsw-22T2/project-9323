@@ -62,6 +62,7 @@ const Home = () => {
         <Box sx={{
           display: matches.width ? 'flex' : 'grid',
           marginTop: 3,
+          marginLeft: 10,
           height: '70%',
         }}>
         <Collapse sx={{ zIndex: 3 }} orientation='horizontal' in={load} timeout="auto" >

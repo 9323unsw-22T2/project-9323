@@ -23,8 +23,7 @@ export default function SimpleAccordion () {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            Connect to other people and insightful posts on the newfeed.
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -38,8 +37,7 @@ export default function SimpleAccordion () {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            Learn new skills or enchance existing ones with posts and guides.
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -53,8 +51,7 @@ export default function SimpleAccordion () {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            Share information in the form of guides or posts of your own
           </Typography>
         </AccordionDetails>
       </Accordion>
