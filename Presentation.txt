@@ -1,0 +1,83 @@
+<ERIC>
+backgound
+why we do this? 
+what has been solved (will need statistics)
+<ERIC>
+
+<YYU>
+show all the features
+    frontpage
+        show our logo
+        show the 3 banner
+
+    login flow
+        register 
+        login
+        not logged in(as tourist)
+        sign in with google
+<YYU>
+
+<ZIZHUO>
+    main page(newsfeed)
+    -> question
+        -> all the follow/answer etc functions(buttons) in question
+        -> show how the dislike will prevent spamming
+
+    -> guide
+        -> show all the functions in guide
+            -- click all the buttons and share with twitter
+    
+    show followed
+        --> show information inside of followed
+        --> manually click follow a question or a guide and then check the change working
+<ZIZHUO>
+
+<YUCHEN>
+    MOVE TO THE 3 TABS
+        My accound
+            show profile and all the tricks with profile
+            (change to a name that already exist to show that we have checks etc)
+            will discuss expert a bit later
+
+            show help
+            show message
+    Chatbot
+        --> do your trick. make it fancy
+<YUCHEN>
+
+<MENGXUAN>
+        Then make a new question -> comback to see the quesiotn created succesfully
+            -> use different Font
+
+        Then make a new guide -> comback to see the guide created succesfully
+            --> make it vivid by inserting images/ emoji/ video
+            --> also try use the NEW button and DELETE button(but be careful if there is a bug then no save)
+
+
+    Trending section
+        --> brag about our algorithms
+<MENGXUAN>
+
+<ZIHAO>
+show our noval function    
+    EXPERT FUNCTION
+        will need to detailed explain it
+        will need two accounts to show those two `apply` buttons
+
+        Then what is inside of expert page
+            --> answer history
+            --> new question 
+                --> maybe answer inside of the new question 
+                    --> with normal answer (0 points)
+                    --> with secret answer (5 points)
+
+        Leading board
+<ZIHAO>
+
+<ERIC>
+show agile 
+<ERIC>
+
+<EVERYONE>
+answer questions
+<EVERYONE>

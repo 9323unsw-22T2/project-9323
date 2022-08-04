@@ -2,12 +2,12 @@
 curl --location --request POST '127.0.0.1:5000/auth/register' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-  "email": "123@gmail.com",
+  "email": "1234@gmail.com",
   "password": "789",
   "name": "joe"
 }'
 {
-    "token": "2e16cc67-dd5c-4868-85a4-124408d0aec0",
+    "token": "09e36c8a-77cf-4eb2-b075-cf8804d02894",
     "user_id": 1
 }
 
@@ -17,20 +17,23 @@ curl --location --request POST '127.0.0.1:5000/auth/register' \
 curl --location --request POST '127.0.0.1:5000/auth/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-  "email": "123@gmail.com",
+  "email": "1234@gmail.com",
   "password": "789"
 }'
 {
     "coins": 0,
-    "email": "123@gmail.com",
+    "email": "1234@gmail.com",
     "expertArea": null,
     "expertOrNot": "0",
     "id": 1,
     "isPpublic": "0",
+    "likeArticles": "[]",
+    "likeQuestions": "[]",
+    "messagelist": "{}",
     "name": "joe",
-    "password": "789",
+    "photo": null,
     "scores": 0,
-    "token": "2e16cc67-dd5c-4868-85a4-124408d0aec0"
+    "token": "09e36c8a-77cf-4eb2-b075-cf8804d02894"
 }
 
 
@@ -40,13 +43,21 @@ curl --location --request POST '127.0.0.1:5000/auth/login' \
 3.
 curl --location --request POST '127.0.0.1:5000/article' \
 --header 'user_id: 1' \
---header 'token: 2e16cc67-dd5c-4868-85a4-124408d0aec0' \
+--header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "0": {
         "title": "this is a title",
         "step_title": "this is step_title0",
         "content": "this is a content in page 0"
+    },
+    "1": {
+        "step_title": "this is step_title1",
+        "content": {
+            "type": {
+                "json": "json files"
+            }
+        }
     }
 }'
 {
@@ -55,28 +66,59 @@ curl --location --request POST '127.0.0.1:5000/article' \
 
 
 
-
 4.
-curl --location --request POST '127.0.0.1:5000/questions/add' \
+curl --location --request GET '127.0.0.1:5000/article/1' \
 --header 'user_id: 1' \
---header 'token: 2e16cc67-dd5c-4868-85a4-124408d0aec0' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "title": "123",
-    "content": "789"
-
-}'
+--header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894'
 {
-    "question_id": 1
+    "article": {
+        "0": {
+            "article_id": null,
+            "author": 1,
+            "content": "this is a content in page 0",
+            "id": 1,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": [],
+            "step_number": 0,
+            "step_title": "this is step_title0",
+            "thumb_up_by": [],
+            "time_created": 1659619590,
+            "time_modified": 1659619590,
+            "title": "this is a title",
+            "user_name": "joe",
+            "video": null
+        },
+        "1": {
+            "article_id": 1,
+            "author": 1,
+            "content": {
+                "type": {
+                    "json": "json files"
+                }
+            },
+            "id": 2,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": [],
+            "step_number": 1,
+            "step_title": "this is step_title1",
+            "thumb_up_by": [],
+            "time_created": 1659619590,
+            "time_modified": 1659619590,
+            "title": null,
+            "user_name": "joe",
+            "video": null
+        }
+    }
 }
-
 
 
 
 5.
 curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
 --header 'user_id: 1' \
---header 'token: 2e16cc67-dd5c-4868-85a4-124408d0aec0'
+--header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894'
 {
     "article": {
         "0": {
@@ -92,9 +134,31 @@ curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
             "thumb_up_by": [
                 1
             ],
-            "time_created": 1658717744,
-            "time_modified": 1658717744,
+            "time_created": 1659619590,
+            "time_modified": 1659619590,
             "title": "this is a title",
+            "user_name": "joe",
+            "video": null
+        },
+        "1": {
+            "article_id": 1,
+            "author": 1,
+            "content": {
+                "type": {
+                    "json": "json files"
+                }
+            },
+            "id": 2,
+            "image": null,
+            "is_deleted": 0,
+            "reploy_ids": [],
+            "step_number": 1,
+            "step_title": "this is step_title1",
+            "thumb_up_by": [],
+            "time_created": 1659619590,
+            "time_modified": 1659619590,
+            "title": null,
+            "user_name": "joe",
             "video": null
         }
     }
@@ -104,11 +168,89 @@ curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
 
 
 
-
 6.
+curl --location --request GET '127.0.0.1:5000/articles_like/1' \
+--header 'user_id: 1' \
+--header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894'
+{
+    "0": {
+        "TYPE": "ARTICLE",
+        "articleId": null,
+        "author": 1,
+        "content": "\"this is a content in page 0\"",
+        "id": 1,
+        "image": null,
+        "isDeleted": 0,
+        "replyIds": "[]",
+        "stepNumber": 0,
+        "stepTitle": "this is step_title0",
+        "thumbUpBy": "[1]",
+        "timeCreated": 1659619590,
+        "timeUpdated": 1659619590,
+        "title": "this is a title",
+        "video": null
+    },
+    "articles_like": [
+        [
+            [
+                1,
+                null,
+                0,
+                "this is step_title0",
+                "this is a title",
+                "\"this is a content in page 0\"",
+                null,
+                1659619590,
+                1659619590,
+                1,
+                "[]",
+                "[1]",
+                0,
+                null
+            ],
+            [
+                2,
+                1,
+                1,
+                "this is step_title1",
+                null,
+                "{\"type\": {\"json\": \"json files\"}}",
+                null,
+                1659619590,
+                1659619590,
+                1,
+                "[]",
+                "[]",
+                0,
+                null
+            ]
+        ]
+    ]
+}
+
+
+
+7.
+curl --location --request POST '127.0.0.1:5000/questions/add' \
+--header 'user_id: 1' \
+--header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "title": "123",
+    "content": "789"
+
+}'
+{
+    "question_id": 1
+}
+
+
+
+
+8.
 curl --location --request PATCH '127.0.0.1:5000/questions/1/like' \
 --header 'user_id: 1' \
---header 'token: 2e16cc67-dd5c-4868-85a4-124408d0aec0'
+--header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894'
 {
     "question": {
         "0": {
@@ -120,8 +262,8 @@ curl --location --request PATCH '127.0.0.1:5000/questions/1/like' \
             "isDeleted": 0,
             "replyIds": "[]",
             "thumbUpBy": "[1]",
-            "timeCreated": 1658717751,
-            "timeUpdated": 1658717751,
+            "timeCreated": 1659619660,
+            "timeUpdated": 1659619660,
             "title": "123",
             "video": null
         }
@@ -129,58 +271,25 @@ curl --location --request PATCH '127.0.0.1:5000/questions/1/like' \
 }
 
 
-
-
-7.
+9.
 curl --location --request GET '127.0.0.1:5000/questions_like/1' \
 --header 'user_id: 1' \
---header 'token: 2e16cc67-dd5c-4868-85a4-124408d0aec0'
+--header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894'
 {
-    "questions_like": [
-        {
-            "TYPE": "QUESTION",
-            "author": 1,
-            "content": "789",
-            "id": 1,
-            "image": null,
-            "isDeleted": 0,
-            "replyIds": "[]",
-            "thumbUpBy": "[1]",
-            "timeCreated": 1658717751,
-            "timeUpdated": 1658717751,
-            "title": "123",
-            "video": null
-        }
-    ]
-}
-
-
-
-
-8.
-curl --location --request GET '127.0.0.1:5000/articles_like/1' \
---header 'user_id: 1' \
---header 'token: 2e16cc67-dd5c-4868-85a4-124408d0aec0'
-{
-    "articles_like": [
-        {
-            "TYPE": "ARTICLE",
-            "articleId": null,
-            "author": 1,
-            "content": "\"this is a content in page 0\"",
-            "id": 1,
-            "image": null,
-            "isDeleted": 0,
-            "replyIds": "[]",
-            "stepNumber": 0,
-            "stepTitle": "this is step_title0",
-            "thumbUpBy": "[1]",
-            "timeCreated": 1658717744,
-            "timeUpdated": 1658717744,
-            "title": "this is a title",
-            "video": null
-        }
-    ]
+    "0": {
+        "TYPE": "QUESTION",
+        "author": 1,
+        "content": "789",
+        "id": 1,
+        "image": null,
+        "isDeleted": 0,
+        "replyIds": "[]",
+        "thumbUpBy": "[1]",
+        "timeCreated": 1659619660,
+        "timeUpdated": 1659619660,
+        "title": "123",
+        "video": null
+    }
 }
 
 

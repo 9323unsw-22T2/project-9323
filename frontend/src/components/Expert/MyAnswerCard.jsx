@@ -175,7 +175,7 @@ export default function ActionAreaCard({ mykey, data }) {
               cursor: 'pointer',
             }}
           >
-            Answer worth:{(data.score !== null) ? <span> {data.score} Points</span> : <span> 10 Points</span>}
+            Answer worth:{(data.score !== null) ? <span> {data.score} Points</span> : <span> 0 Points</span>}
           </Box>
           <Box sx={{ margin: 'auto' }}>
             <Button size="small" sx={{ color: 'red' }} onClick={async () => {
