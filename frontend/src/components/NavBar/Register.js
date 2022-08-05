@@ -6,7 +6,6 @@ import TextField from '@mui/material/TextField';
 import DialogContent from '@mui/material/DialogContent';
 // import DialogContentText from '@mui/material/DialogContentText';
 // import DialogTitle from '@mui/material/DialogTitle';
-import FacebookIcon from '@mui/icons-material/Facebook';
 // import CloseIcon from '@mui/icons-material/Close';
 // import IconButton from '@mui/material/IconButton';
 import { register, signIn } from '../../service';
@@ -103,11 +102,6 @@ const Signin = () => {
         <div style={{ textAlign: 'center' }}>
         <GoogleSignIn></GoogleSignIn>
         </div>
-          <Button
-          fullWidth
-          type='facebook'
-          startIcon={<FacebookIcon />}
-          size='large'>Continue With Facebook</Button>
         </DialogContent>
   );
 }

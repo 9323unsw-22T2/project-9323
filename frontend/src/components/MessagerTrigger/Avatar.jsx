@@ -21,11 +21,12 @@ export default function Avatar ({ setAnchorEl, anchorEl, user, username }) {
   };
   const handleClose = () => {
     setAnchorEl(null);
-    if (parseInt(user) === parseInt(localStorage.getItem('user_id'))) {
+    if (parseInt(user) && parseInt(user) === parseInt(localStorage.getItem('user_id'))) {
       window.alert('can not send message to your self!')
     } else {
-      toggleWidget()
       document.dispatchEvent(new CustomEvent('chatchage', { detail: { user, username } }))
+
+      toggleWidget()
     }
   };
   return (

@@ -34,32 +34,47 @@ export default function RecipeReviewCard ({ data }) {
       window.alert('cant delete, please check you login status')
     }
   }
-  const ThumbUp = (e) => {
+  const ThumbUp = () => {
     if (thumbDown) { ThumbDown() }
+
     setThumbUp(!thumbUp)
+
     commentLike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
-    window.location.reload(false);
   }
   const [social, setSocial] = React.useState(false);
 
-  const ThumbDown = (e) => {
+  const ThumbDown = () => {
     if (thumbUp) { ThumbUp() }
     setThumbDown(!thumbDown)
     commentDislike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
-    window.location.reload(false);
+  }
+  const changeThumbCount = (e) => {
+    console.log(thumbUp, thumbDown)
+    if (e === 1) {
+      !thumbUp && !thumbDown && setThumbUpCount(thumbUpCount - 1)
+      !thumbUp && thumbDown && setThumbUpCount(thumbUpCount + 1)
+      thumbUp && !thumbDown && setThumbUpCount(thumbUpCount - 2)
+    } else {
+      !thumbUp && !thumbDown && setThumbUpCount(thumbUpCount + 1)
+      !thumbUp && thumbDown && setThumbUpCount(thumbUpCount + 2)
+      thumbUp && !thumbDown && setThumbUpCount(thumbUpCount - 1)
+    }
   }
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
+  React.useEffect(() => {
+    data.thumbUpBy && setThumbUp(Array.from(data.thumbUpBy).includes(localStorage.getItem('user_id')))
+    data.thumbUpBy && setThumbUpCount(JSON.parse(data.thumbUpBy).length)
+  }, [])
   const [content, setContent] = React.useState('')
   function handleChange (content, editor) {
     setContent({ content });
   }
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const [thumbUpCount, setThumbUpCount] = React.useState(0)
   const handleClickProfile = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -90,11 +105,11 @@ export default function RecipeReviewCard ({ data }) {
           width: 'max-content',
           float: 'right'
         }}>
-          <Typography> {data?.thumbUpBy?.length - 2 } </Typography>
-        <IconButton aria-label="Thumb up" onClick={ThumbUp} sx={{ color: thumbUp ? 'blue' : '' }}>
+          <Typography> {thumbUpCount} </Typography>
+        <IconButton aria-label="Thumb up" onClick={(e) => { e.preventDefault(); changeThumbCount(0); ThumbUp() }} sx={{ color: thumbUp ? 'blue' : '' }}>
           <ThumbUpIcon />
         </IconButton>
-        <IconButton aria-label="Thumb down" onClick={ThumbDown} sx={{ color: thumbDown ? 'red' : '' }}>
+        <IconButton aria-label="Thumb down" onClick={(e) => { e.preventDefault(); changeThumbCount(1); ThumbDown() }} sx={{ color: thumbDown ? 'red' : '' }}>
           <ThumbDownIcon />
         </IconButton>
         <IconButton aria-label="comment" onClick={handleExpandClick}>

@@ -83,6 +83,7 @@ export const getInfo = (token, userId) =>
   axios.get(`${BASE_URL}/auth/info`, { headers: { user_id: userId, token: token } });
 export const postInfo = (body, token, userId) =>
   axios.post(`${BASE_URL}/auth/info`, body, { headers: { user_id: userId, token: token } });
-
+export const buyComment = (number, token, userId) =>
+  axios.post(`${BASE_URL}/comment/${number}/buy`, {}, { headers: { user_id: userId, token: token } });
 export const getLeader = () =>
   axios.get(`${BASE_URL}/newsfeed/leaderboard`);

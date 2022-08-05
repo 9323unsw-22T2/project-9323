@@ -70,6 +70,9 @@ const App = () => {
     setStep(list)
   };
   const handleStep = (step) => () => {
+    document.getElementById('step_title').value = steps[step].step_title
+    setVideo(steps[step].video)
+
     setActiveStep(step);
     if (steps[step]?.content) {
       setEditorState(steps[step].content)

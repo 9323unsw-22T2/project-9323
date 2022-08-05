@@ -94,11 +94,9 @@ export default function ActionAreaCard({ data }) {
       if (liked) {
         await questionDislike(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
         setLiked(false)
-        window.location.reload(false);
       } else {
         await questionLike(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
         setLiked(true)
-        window.location.reload(false);
       }
     } catch (error) {
     }
@@ -201,12 +199,13 @@ export default function ActionAreaCard({ data }) {
   editorStyle={{ border: '1px solid grey', resize: 'vertical', overflow: 'auto' }}
   onEditorStateChange={onEditorStateChange}
 />
-<Box sx={{}}>
+<Box sx={{}}>{
+  localStorage.getItem('expert') === '1' &&
 <FormControlLabel
           value="start"
           control={<Checkbox checked={charged} onClick={(e) => { e.preventDefault(); setCharged(!charged) }}/>}
           label="charge score"
-  />
+  />}
   <Box sx={{ transition: '1s all', opacity: charged ? 1 : 0, height: '2rem', pointerEvents: charged ? 'all' : 'none' }}>
   <Input type="number"placeholder="Score you want" value={score}onChange={(e) => setScore(e.target.value)}/>
   </Box>
