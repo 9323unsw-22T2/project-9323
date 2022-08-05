@@ -288,10 +288,7 @@ export default function VerticalTabs() {
           })}
           { likedA.length && Object.keys(likedA).map((e, i) => {
             return (
-              <SearchResultCard
-                    key={'question' + i}
-                    data={likedA[e]}
-                  ></SearchResultCard>
+              <GuideCard key={'resultCard' + i} data={likedA[e]}></GuideCard>
             );
           })}
         </TabPanel>
