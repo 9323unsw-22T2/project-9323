@@ -88,7 +88,7 @@ export default function RecipeReviewCard ({ data }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   React.useEffect(() => {
     setThumbUp(JSON.parse(data.thumbUpBy).includes(!!parseInt(localStorage.getItem('user_id'))))
-    JSON.parse(data.userPaid).includes(!!parseInt(localStorage.getItem('user_id'))) && setLocked(true)
+    JSON.parse(data.userPaid).includes(parseInt(localStorage.getItem('user_id'))) && setLocked(true)
     data.author_name === localStorage.getItem('username') && setLocked(true)
   }, [])
   const handleDelete = async () => {
@@ -104,7 +104,7 @@ export default function RecipeReviewCard ({ data }) {
   };
   return (
     <>
-    <Card sx={{ width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>
+    <Card sx={{ backgroundImage: 'linear-gradient(rgb(255 187 51 / 15%),#f6fbff)', width: '95%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500], cursor: 'pointer' }} onClick={handleClick} >
