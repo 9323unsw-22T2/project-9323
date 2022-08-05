@@ -159,6 +159,28 @@ def article_get_by_id(article_id):
     return make_response(jsonify({"article": ret})), 200
 
 
+def article_get_by_id_1(article_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+
+    ret = dict()
+    sql = "SELECT * from articles where id = '{}' and isDeleted != '1'".format(
+        article_id)
+    rows = cur.execute(sql).fetchall()
+    if len(rows) == 0:
+       return make_response(jsonify({"error": "No such article with article_id = {}".format(article_id)})), 400 
+    ret[0] = _read_artical_row(rows[0])
+
+    sql = "SELECT * from articles where articleId = '{}' and isDeleted != '1'".format(
+        article_id)
+    rows = cur.execute(sql).fetchall()
+
+    for row in rows:
+        ret[row[2]] = _read_artical_row(row)
+
+    return ret
+
+
 # delete all the title and pages information
 @article_page.route('/article/<int:article_id>', methods=['DELETE'])
 @authenticated
@@ -208,9 +230,9 @@ def get_user_like_articles(user_id):
     res = {}
 
     for idxx,idx in enumerate(json.loads(rows[0][0])):
-        t = article_get_by_id(idx)
+        t = article_get_by_id_1(idx)
         t["TYPE"] = "ARTICLE"
-        res[str(idxx)] = article_get_by_id(idx)
+        res[str(idx)] = t
     ret['articles_like'] = res
 
     # res = []
