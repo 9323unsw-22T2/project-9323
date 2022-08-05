@@ -26,6 +26,48 @@ def get_table_column(table_name):
     for _ in all:
         res.append(_[1])
     return res
+
+def get_author_name(author_id):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql = f"select name from users where id = {author_id}"
+    name = cur.execute(sql).fetchall()
+    if len(name) == 0:
+        return "no such user, please check your table"
+    return name[0][0]
+
+def format_article(art_id):
+    col_art = get_table_column("articles")
+    temp={}
+
+    content_art = get_article(art_id)
+    # print("111!! ",content_art[0][9])
+    len_step=len(content_art)
+
+    for _ in range(len(col_art)):
+        temp[col_art[_]] = content_art[0][_]
+    t_list = []
+    
+    for j in range(len_step):
+        tm = {}
+        for _ in range(len(col_art)):
+            tm[col_art[_]] = content_art[j][_]
+        t_list.append(tm)
+    temp["each_step"] = t_list
+    temp["articleId"] = content_art[0][0]
+    temp["author_name"] = get_author_name(content_art[0][9])
+
+    return temp
+
+def get_table_column(table_name):
+    con = sqlite3.connect(DATABASE_NAME)
+    cur = con.cursor()
+    sql=f'PRAGMA table_info([{table_name}])'
+    all = cur.execute(sql).fetchall()
+    res = []
+    for _ in all:
+        res.append(_[1])
+    return res
 @article_page.route('/article', methods=['POST'])
 @authenticated
 def article_create():
@@ -174,6 +216,8 @@ def _read_artical_row(row):
         "user_name": user_name
     }
     return ret
+
+
 @article_page.route('/articles_like/<int:user_id>', methods=['GET'])
 @authenticated
 def get_user_like_articles(user_id):
@@ -183,37 +227,14 @@ def get_user_like_articles(user_id):
     sql = "SELECT likeArticles from users where id = '{}'".format(user_id)
     rows = cur.execute(sql).fetchall()
 
-    res = []
+    ret = {}
 
-    for idx in json.loads(rows[0][0]):
-        res.append(get_article(idx))
-    ret['articles_like'] = res
-
-    # res = []
-    col_art = get_table_column("articles")
-    # col_art = json.loads(col_art)
-    for idxx,idx in enumerate(json.loads(rows[0][0])):
-        tmp = {}
-        # print(get_article(idx))
-        tmp["TYPE"] = "ARTICLE"
-        for i,j in zip(get_article(idx)[0],col_art):
-            tmp[j] = i
-        # res.append(tmp)
-
-        ret[str(idxx)] = tmp
+    for i, idx in enumerate(json.loads(rows[0][0])):
+        print(i)
+        print(idx)
+        ret[i] = format_article(idx)
 
     return make_response(jsonify(ret)), 200
-
-def get_article(article_id):
-    con = sqlite3.connect(DATABASE_NAME)
-    cur = con.cursor()
-    # sql = f"select id,articleId,stepTitle,content,image,timeCreated,timeUpdated,author,thumbUpby,isDeleted,video from articles where id = {id};"
-    sql = f"select * from articles where (articleId = {article_id} or (articleId is Null and id = {article_id})) and isDeleted = 0;"
-    res = cur.execute(sql).fetchall()
-    # print("get !!! article : ","article_id is ",article_id,res)
-    return res
-
-
 
 def get_user_id_by_article(article_id):
     con = sqlite3.connect(DATABASE_NAME)
