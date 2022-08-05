@@ -115,7 +115,7 @@ curl --location --request GET '127.0.0.1:5000/article/1' \
 
 
 
-5.
+5. 
 curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
 --header 'user_id: 1' \
 --header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894'
@@ -168,64 +168,145 @@ curl --location --request PATCH '127.0.0.1:5000/article/1/thumb_up' \
 
 
 
-6.
+6. Return value is the same as newsfeed returns
 curl --location --request GET '127.0.0.1:5000/articles_like/1' \
 --header 'user_id: 1' \
 --header 'token: 09e36c8a-77cf-4eb2-b075-cf8804d02894'
 {
     "0": {
-        "TYPE": "ARTICLE",
-        "articleId": null,
+        "articleId": 1,
         "author": 1,
-        "content": "\"this is a content in page 0\"",
+        "author_name": "yyu",
+        "content": "{\"blocks\": [{\"key\": \"e3ifk\", \"text\": \"descripion1\", \"type\": \"unstyled\", \"depth\": 0, \"inlineStyleRanges\": [], \"entityRanges\": [], \"data\": {}}], \"entityMap\": {}}",
+        "each_step": [
+            {
+                "articleId": null,
+                "author": 1,
+                "content": "{\"blocks\": [{\"key\": \"e3ifk\", \"text\": \"descripion1\", \"type\": \"unstyled\", \"depth\": 0, \"inlineStyleRanges\": [], \"entityRanges\": [], \"data\": {}}], \"entityMap\": {}}",
+                "id": 1,
+                "image": null,
+                "isDeleted": 0,
+                "replyIds": "[]",
+                "stepNumber": 0,
+                "stepTitle": "Step1",
+                "thumbUpBy": "[1]",
+                "timeCreated": 1659698006,
+                "timeUpdated": 1659698006,
+                "title": "guild1",
+                "video": null
+            },
+            {
+                "articleId": 1,
+                "author": 1,
+                "content": "{\"blocks\": [{\"key\": \"4m45e\", \"text\": \"description2\", \"type\": \"unstyled\", \"depth\": 0, \"inlineStyleRanges\": [], \"entityRanges\": [], \"data\": {}}], \"entityMap\": {}}",
+                "id": 2,
+                "image": null,
+                "isDeleted": 0,
+                "replyIds": "[]",
+                "stepNumber": 1,
+                "stepTitle": "Step2",
+                "thumbUpBy": "[]",
+                "timeCreated": 1659698006,
+                "timeUpdated": 1659698006,
+                "title": null,
+                "video": null
+            },
+            {
+                "articleId": 1,
+                "author": 1,
+                "content": "{\"blocks\": [{\"key\": \"ao8vg\", \"text\": \"description3\", \"type\": \"unstyled\", \"depth\": 0, \"inlineStyleRanges\": [], \"entityRanges\": [], \"data\": {}}], \"entityMap\": {}}",
+                "id": 3,
+                "image": null,
+                "isDeleted": 0,
+                "replyIds": "[]",
+                "stepNumber": 2,
+                "stepTitle": "Step3",
+                "thumbUpBy": "[]",
+                "timeCreated": 1659698006,
+                "timeUpdated": 1659698006,
+                "title": null,
+                "video": null
+            }
+        ],
         "id": 1,
         "image": null,
         "isDeleted": 0,
         "replyIds": "[]",
         "stepNumber": 0,
-        "stepTitle": "this is step_title0",
+        "stepTitle": "Step1",
         "thumbUpBy": "[1]",
-        "timeCreated": 1659619590,
-        "timeUpdated": 1659619590,
-        "title": "this is a title",
+        "timeCreated": 1659698006,
+        "timeUpdated": 1659698006,
+        "title": "guild1",
         "video": null
     },
-    "articles_like": [
-        [
-            [
-                1,
-                null,
-                0,
-                "this is step_title0",
-                "this is a title",
-                "\"this is a content in page 0\"",
-                null,
-                1659619590,
-                1659619590,
-                1,
-                "[]",
-                "[1]",
-                0,
-                null
-            ],
-            [
-                2,
-                1,
-                1,
-                "this is step_title1",
-                null,
-                "{\"type\": {\"json\": \"json files\"}}",
-                null,
-                1659619590,
-                1659619590,
-                1,
-                "[]",
-                "[]",
-                0,
-                null
-            ]
-        ]
-    ]
+    "1": {
+        "articleId": 4,
+        "author": 1,
+        "author_name": "yyu",
+        "content": "{\"blocks\": [{\"key\": \"bk7a0\", \"text\": \"description1\", \"type\": \"unstyled\", \"depth\": 0, \"inlineStyleRanges\": [], \"entityRanges\": [], \"data\": {}}], \"entityMap\": {}}",
+        "each_step": [
+            {
+                "articleId": null,
+                "author": 1,
+                "content": "{\"blocks\": [{\"key\": \"bk7a0\", \"text\": \"description1\", \"type\": \"unstyled\", \"depth\": 0, \"inlineStyleRanges\": [], \"entityRanges\": [], \"data\": {}}], \"entityMap\": {}}",
+                "id": 4,
+                "image": null,
+                "isDeleted": 0,
+                "replyIds": "[]",
+                "stepNumber": 0,
+                "stepTitle": "Step1",
+                "thumbUpBy": "[1]",
+                "timeCreated": 1659706249,
+                "timeUpdated": 1659706249,
+                "title": "article2",
+                "video": null
+            },
+            {
+                "articleId": 4,
+                "author": 1,
+                "content": "{\"blocks\": [{\"key\": \"bdd8t\", \"text\": \"description2\", \"type\": \"unstyled\", \"depth\": 0, \"inlineStyleRanges\": [], \"entityRanges\": [], \"data\": {}}], \"entityMap\": {}}",
+                "id": 5,
+                "image": null,
+                "isDeleted": 0,
+                "replyIds": "[]",
+                "stepNumber": 1,
+                "stepTitle": "Step2",
+                "thumbUpBy": "[]",
+                "timeCreated": 1659706249,
+                "timeUpdated": 1659706249,
+                "title": null,
+                "video": null
+            },
+            {
+                "articleId": 4,
+                "author": 1,
+                "content": "{\"blocks\": [{\"key\": \"7ingn\", \"text\": \"description3\", \"type\": \"unstyled\", \"depth\": 0, \"inlineStyleRanges\": [], \"entityRanges\": [], \"data\": {}}], \"entityMap\": {}}",
+                "id": 6,
+                "image": null,
+                "isDeleted": 0,
+                "replyIds": "[]",
+                "stepNumber": 2,
+                "stepTitle": "Step3",
+                "thumbUpBy": "[]",
+                "timeCreated": 1659706249,
+                "timeUpdated": 1659706249,
+                "title": null,
+                "video": null
+            }
+        ],
+        "id": 4,
+        "image": null,
+        "isDeleted": 0,
+        "replyIds": "[]",
+        "stepNumber": 0,
+        "stepTitle": "Step1",
+        "thumbUpBy": "[1]",
+        "timeCreated": 1659706249,
+        "timeUpdated": 1659706249,
+        "title": "article2",
+        "video": null
+    }
 }
 
 
