@@ -8,15 +8,37 @@ from flask_cors import CORS
 article_page = Blueprint("article", __name__)
 CORS(article_page)
 
-def get_article(article_id):
-    con = sqlite3.connect(DATABASE_NAME)
-    cur = con.cursor()
-    # sql = f"select id,articleId,stepTitle,content,image,timeCreated,timeUpdated,author,thumbUpby,isDeleted,video from articles where id = {id};"
-    sql = f"select * from articles where (articleId = {article_id} or (articleId is Null and id = {article_id})) and isDeleted = 0;"
-    res = cur.execute(sql).fetchall()
-    # print("get !!! article : ","article_id is ",article_id,res)
-    return res
+# def get_article(article_id):
+#     con = sqlite3.connect(DATABASE_NAME)
+#     cur = con.cursor()
+#     # sql = f"select id,articleId,stepTitle,content,image,timeCreated,timeUpdated,author,thumbUpby,isDeleted,video from articles where id = {id};"
+#     sql = f"select * from articles where (articleId = {article_id} or (articleId is Null and id = {article_id})) and isDeleted = 0;"
+#     res = cur.execute(sql).fetchall()
 
+#     # print("get !!! article : ","article_id is ",article_id,res)
+#     return res
+
+# def _read_artical_row(row):
+#     user_name = get_user_name_from_user_id(row[9])
+
+#     ret = {
+#         "id": row[0],
+#         "article_id": row[1],
+#         "step_number": row[2],
+#         "step_title": row[3],
+#         "title": row[4],
+#         "content": json.loads(row[5]),
+#         "image": row[6],
+#         "time_created": row[7],
+#         "time_modified": row[8],
+#         "author": row[9],
+#         "reploy_ids": json.loads(row[10]),
+#         "thumb_up_by": json.loads(row[11]),
+#         "is_deleted": row[12],
+#         "video": row[13],
+#         "user_name": user_name
+#     }
+#     return ret
 def get_table_column(table_name):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
@@ -183,35 +205,28 @@ def get_user_like_articles(user_id):
     sql = "SELECT likeArticles from users where id = '{}'".format(user_id)
     rows = cur.execute(sql).fetchall()
 
-    res = []
+    res = {}
 
-    for idx in json.loads(rows[0][0]):
-        res.append(get_article(idx))
+    for idxx,idx in enumerate(json.loads(rows[0][0])):
+        t = article_get_by_id(idx)
+        t["TYPE"] = "ARTICLE"
+        res[str(idxx)] = article_get_by_id(idx)
     ret['articles_like'] = res
 
     # res = []
-    col_art = get_table_column("articles")
-    # col_art = json.loads(col_art)
-    for idxx,idx in enumerate(json.loads(rows[0][0])):
-        tmp = {}
-        # print(get_article(idx))
-        tmp["TYPE"] = "ARTICLE"
-        for i,j in zip(get_article(idx)[0],col_art):
-            tmp[j] = i
-        # res.append(tmp)
+    # col_art = get_table_column("articles")
+    # # col_art = json.loads(col_art)
+    # for idxx,idx in enumerate(json.loads(rows[0][0])):
+    #     tmp = {}
+    #     # print(get_article(idx))
+    #     tmp["TYPE"] = "ARTICLE"
+    #     for i,j in zip(get_article(idx)[0],col_art):
+    #         tmp[j] = i
+    #     # res.append(tmp)
 
-        ret[str(idxx)] = tmp
+    #     ret[str(idxx)] = tmp
 
     return make_response(jsonify(ret)), 200
-
-def get_article(article_id):
-    con = sqlite3.connect(DATABASE_NAME)
-    cur = con.cursor()
-    # sql = f"select id,articleId,stepTitle,content,image,timeCreated,timeUpdated,author,thumbUpby,isDeleted,video from articles where id = {id};"
-    sql = f"select * from articles where (articleId = {article_id} or (articleId is Null and id = {article_id})) and isDeleted = 0;"
-    res = cur.execute(sql).fetchall()
-    # print("get !!! article : ","article_id is ",article_id,res)
-    return res
 
 
 
