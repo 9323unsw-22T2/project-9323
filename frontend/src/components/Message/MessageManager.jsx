@@ -16,6 +16,8 @@ import Navbar from '../NavBar/Navbar';
 import LoggedNarbar from '../LoggedNavBar/Navbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getAllMessages, sendMessages, deleteMessages } from '../../service'
+import Photo from './help.png';
+
 function Help () {
   const matchesPad = useMediaQuery(
     '(max-width: 950px)'
@@ -74,13 +76,38 @@ function Help () {
                 <Conversation onClick={(e) => {
                   e.preventDefault()
                   setCursor('HelpBot')
-                }}active={cursor === 'HelpBot'} name="HelpBot" lastSenderName="HelpBot" info={'Start you first conversation!'}>
+                }}active={cursor === 'HelpBot'} name="HelpBot" lastSenderName="HelpBot" info={'Click someone\'s avatar to start you first conversation!'}>
                   <Avatar src={'https://demo.chatscope.io/static/media/help.3118e5db.svg'}/>
                 </Conversation>
               </ConversationList>
               <div style={{ width: matchesPad ? '95vw' : '70vw', height: matchesPad ? '80vh' : '90vh' }}>
                 {cursor === 'HelpBot'
-                  ? <></>
+                  ? <MainContainer>
+                  <ChatContainer>
+                    <MessageList>
+                    <Message
+                            style={{ marginTop: '2rem' }}
+                            model={{
+                              message: 'Click someone\'s avatar to start you first conversation!',
+                              sentTime: '',
+                              sender: 'helpBot',
+                              direction: 'incoming',
+                            }}
+                          >
+                            <Avatar src={'https://demo.chatscope.io/static/media/help.3118e5db.svg'} name="Joe" />
+                          </Message>
+                          <Message type="image" model={{
+                            direction: 'incoming',
+                            payload: {
+                              src: Photo,
+                              width: '40rem'
+                            }
+                          }}>
+                            <Avatar src={'https://demo.chatscope.io/static/media/help.3118e5db.svg'} name="Joe" />
+        </Message>
+                    </MessageList>
+                  </ChatContainer>
+                </MainContainer>
                   : <MainContainer>
                   <ChatContainer>
                     <MessageList>

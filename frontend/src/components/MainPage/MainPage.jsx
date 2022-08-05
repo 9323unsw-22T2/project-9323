@@ -286,11 +286,11 @@ export default function VerticalTabs() {
                   ></SearchResultCard>
             );
           })}
-          { likedA.length && likedA[0].map((e, i) => {
+          { likedA.length && Object.keys(likedA).map((e, i) => {
             return (
               <SearchResultCard
                     key={'question' + i}
-                    data={e}
+                    data={likedA[e]}
                   ></SearchResultCard>
             );
           })}

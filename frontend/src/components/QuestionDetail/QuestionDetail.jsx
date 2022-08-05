@@ -174,7 +174,8 @@ const Home = () => {
   onEditorStateChange={onEditorStateChange}
 />
 <Box sx={{}}>
-
+{localStorage.getItem('expert') === '1' &&
+<>
 <FormControlLabel
           value="start"
           control={<Checkbox checked={charged} onClick={(e) => { e.preventDefault(); setCharged(!charged) }}/>}
@@ -183,6 +184,7 @@ const Home = () => {
   <Box sx={{ transition: '1s all', opacity: charged ? 1 : 0, height: '2rem', pointerEvents: charged ? 'all' : 'none' }}>
   <Input type="number"placeholder="Score you want" value={score}onChange={(e) => setScore(e.target.value)}/>
   </Box>
+  </>}
   <Button sx={{ mb: 1, mt: 2, float: 'right' }}variant="contained" onClick ={handleSubmit}>Submit</Button>
   </Box>
 
@@ -221,7 +223,7 @@ const Home = () => {
           </Menu>
 
          { Object.keys(commentData).length !== 0 ? Object.keys(commentData).map((key) => {
-           return (commentData[key].isdeleted ? <></> : commentData[key].score ? <ChargeAnswerCard></ChargeAnswerCard> : <AnswerCard key={`ele${key}`} data={commentData[key]}></AnswerCard>)
+           return (commentData[key].isdeleted ? <></> : commentData[key].score ? <ChargeAnswerCard data={commentData[key]}></ChargeAnswerCard> : <AnswerCard key={`ele${key}`} data={commentData[key]}></AnswerCard>)
          }) : <div style={{
            margin: 'auto',
            width: '100%',

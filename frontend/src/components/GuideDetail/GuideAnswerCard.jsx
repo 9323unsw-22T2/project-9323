@@ -87,7 +87,7 @@ export default function RecipeReviewCard ({ data }) {
         title={data?.author_name}
         subheader="September 14, 2016"
       />
-      <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl} username={data?.author}user={data?.author}></AvatarTrigger>
+      <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl} username={data?.author_name}user={data?.author}></AvatarTrigger>
 
       <CardContent>
         <Typography variant="body2" color="text.secondary" key={data?.commentid}>{data?.content}</Typography>
