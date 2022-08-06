@@ -1,3 +1,4 @@
+from tkinter.tix import Tree
 from config import *
 from flask import Blueprint, request, make_response, jsonify
 from flask_cors import CORS
@@ -198,14 +199,40 @@ def newsfeed_trending():
     col_que = get_table_column("questions")
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
-    
+    # get each question's frequency from user
+    sql = "select likeQuestions from users;"
+    all_list_like = cur.execute(sql).fetchall()
+    question_1 = []
+    for i in all_list_like:
+        print(i[0])
+        question_1+=(json.loads(i[0]))
+    dict_fre = {}
+    for key in question_1:
+        dict_fre[key] = dict_fre.get(key,0)+1
+    # print(dict_fre)
+    list_fre = sorted(dict_fre.items(), key = lambda kv:(kv[1], kv[0]),reverse=True)
+    q_id_mf = []
+    for i in list_fre[:5]:
+        q_id_mf.append(i[0])
+   
+    all_qid = get_all_question_id()
+    if len(q_id_mf) <5:
+        for j in all_qid:
+            if j not in q_id_mf:
+                q_id_mf.append(j)
+                if len(q_id_mf) >=5:
+                    break
+            
+
     # get all question_thumb up by
-    sql = "select id,title,content,thumbUpBy,replyIds from questions where isDeleted = 0;"
-    all_thumb = cur.execute(sql).fetchall()
-    num_question = len(all_thumb)
-    # print(all_thumb,num_question)
+    all_info =[]
+    for i in q_id_mf:
+        sql = f"select id,title,content,thumbUpBy,replyIds from questions where isDeleted = 0 and id ={i};"
+        temp = cur.execute(sql).fetchall()[0]
+        all_info.append(temp)
+    # print(all_info)
     tem_list=[]
-    for i in all_thumb:
+    for i in all_info:
         temp ={}
         num_thu = len(json.loads(i[3]))
         temp["id"] = i[0]
@@ -215,13 +242,8 @@ def newsfeed_trending():
         temp['answer_nums'] = i[4]
         temp["num-thum"] = num_thu
         tem_list.append(temp)
-    res = sorted(tem_list, key=lambda i: i['num-thum'],reverse=True)
-
-    
-    if len(res) >=5:
-        return make_response(jsonify(res[:5])),200
-    else:
-        return make_response(jsonify(res[:5])),200
+    res = tem_list
+    return make_response(jsonify(res[:5])),200
 def get_author_name(author_id):
     con = sqlite3.connect(DATABASE_NAME)
     cur = con.cursor()
