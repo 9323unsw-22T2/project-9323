@@ -15,7 +15,7 @@ import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
-import { commentLike, commentDislike, deleteQuestionComment } from '../../service'
+import { commentLike, commentDislike, deleteQuestionComment, commentThumbdown, commentUnThumbdown } from '../../service'
 import DeleteIcon from '@mui/icons-material/Delete';
 import SharePopup from '../SharePopup/SharePopup';
 import AvatarTrigger from '../MessagerTrigger/Avatar'
@@ -35,18 +35,29 @@ export default function RecipeReviewCard ({ data }) {
     }
   }
   const ThumbUp = () => {
-    if (thumbDown) { ThumbDown() }
+    if (thumbDown) {
+      setThumbDown(!thumbDown)
+
+      commentUnThumbdown(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    }
+
+    thumbUp && commentDislike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    !thumbUp && commentLike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
 
     setThumbUp(!thumbUp)
-
-    commentLike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
   }
   const [social, setSocial] = React.useState(false);
 
   const ThumbDown = () => {
-    if (thumbUp) { ThumbUp() }
+    if (thumbUp) {
+      setThumbUp(!thumbUp)
+
+      commentDislike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    }
+    thumbDown && commentUnThumbdown(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+
+    !thumbDown && commentThumbdown(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
     setThumbDown(!thumbDown)
-    commentDislike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
   }
   const changeThumbCount = (e) => {
     console.log(thumbUp, thumbDown)
@@ -65,9 +76,25 @@ export default function RecipeReviewCard ({ data }) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  /*   function contains (a, obj) {
+    let i = a.length;
+    while (i--) {
+      console.log(a[i])
+      if (parseInt(a[i]) === parseInt(obj)) {
+        return true;
+      }
+    }
+    return false;
+  } */
   React.useEffect(() => {
-    data.thumbUpBy && setThumbUp(Array.from(data.thumbUpBy).includes(localStorage.getItem('user_id')))
-    data.thumbUpBy && setThumbUpCount(JSON.parse(data.thumbUpBy).length)
+    data.thumbUpBy && setThumbDown(JSON.parse(data.thumbUpBy).includes(parseInt('-' + localStorage.getItem('user_id'))))
+    data.thumbUpBy && setThumbUp(JSON.parse(data.thumbUpBy).includes(parseInt(localStorage.getItem('user_id'))))
+
+    let count = 0;
+    data.thumbUpBy && JSON.parse(data.thumbUpBy).forEach((e) => {
+      e > 0 ? count++ : count--
+    })
+    data.thumbUpBy && setThumbUpCount(count)
   }, [])
   const [content, setContent] = React.useState('')
   function handleChange (content, editor) {
@@ -106,10 +133,10 @@ export default function RecipeReviewCard ({ data }) {
           float: 'right'
         }}>
           <Typography> {thumbUpCount} </Typography>
-        <IconButton aria-label="Thumb up" onClick={(e) => { e.preventDefault(); changeThumbCount(0); ThumbUp() }} sx={{ color: thumbUp ? 'blue' : '' }}>
+        <IconButton aria-label="Thumb up" onClick={(e) => { e.preventDefault(); changeThumbCount(0); ThumbUp() }} sx={{ color: thumbUp ? 'red' : '' }}>
           <ThumbUpIcon />
         </IconButton>
-        <IconButton aria-label="Thumb down" onClick={(e) => { e.preventDefault(); changeThumbCount(1); ThumbDown() }} sx={{ color: thumbDown ? 'red' : '' }}>
+        <IconButton aria-label="Thumb down" onClick={(e) => { e.preventDefault(); changeThumbCount(1); ThumbDown() }} sx={{ color: thumbDown ? 'blue' : '' }}>
           <ThumbDownIcon />
         </IconButton>
         <IconButton aria-label="comment" onClick={handleExpandClick}>

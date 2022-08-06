@@ -23,7 +23,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CommonMessage from '../CommonMessage/CommonMessage'
 import PropTypes from 'prop-types';
 import AvatarTrigger from '../MessagerTrigger/Avatar'
-import { commentLike, commentDislike, buyComment, deleteQuestionComment } from '../../service'
+import { commentLike, commentDislike, buyComment, deleteQuestionComment, commentUnThumbdown, commentThumbdown } from '../../service'
 import SharePopup from '../SharePopup/SharePopup';
 import ShareIcon from '@mui/icons-material/Share';
 
@@ -33,21 +33,33 @@ RecipeReviewCard.propTypes = {
 export default function RecipeReviewCard ({ data }) {
   const [thumbUp, setThumbUp] = React.useState(false);
   const [thumbDown, setThumbDown] = React.useState(false);
+
+  const [thumbUpCount, setThumbUpCount] = React.useState(0)
   const ThumbUp = () => {
-    if (thumbDown) { ThumbDown() }
+    if (thumbDown) {
+      setThumbDown(!thumbDown)
+
+      commentUnThumbdown(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    }
+
+    thumbUp && commentDislike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    !thumbUp && commentLike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
 
     setThumbUp(!thumbUp)
-
-    commentLike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
   }
-  const [thumbUpCount, setThumbUpCount] = React.useState(0)
   const [social, setSocial] = React.useState(false);
-
   const ThumbDown = () => {
-    if (thumbUp) { ThumbUp() }
+    if (thumbUp) {
+      setThumbUp(!thumbUp)
+
+      commentDislike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    }
+    thumbDown && commentUnThumbdown(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+
+    !thumbDown && commentThumbdown(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
     setThumbDown(!thumbDown)
-    commentDislike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
   }
+
   const changeThumbCount = (e) => {
     console.log(thumbUp, thumbDown)
     if (e === 1) {
@@ -87,8 +99,13 @@ export default function RecipeReviewCard ({ data }) {
   }
   const [anchorEl, setAnchorEl] = React.useState(null);
   React.useEffect(() => {
-    data.thumbUpBy && setThumbUp(Array.from(data.thumbUpBy).includes(localStorage.getItem('user_id')))
-    data.thumbUpBy && setThumbUpCount(JSON.parse(data.thumbUpBy).length)
+    data.thumbUpBy && setThumbDown(JSON.parse(data.thumbUpBy).includes(parseInt('-' + localStorage.getItem('user_id'))))
+    data.thumbUpBy && setThumbUp(JSON.parse(data.thumbUpBy).includes(parseInt(localStorage.getItem('user_id'))))
+    let count = 0;
+    data.thumbUpBy && JSON.parse(data.thumbUpBy).forEach((e) => {
+      e > 0 ? count++ : count--
+    })
+    data.thumbUpBy && setThumbUpCount(count)
 
     JSON.parse(data.userPaid).includes(parseInt(localStorage.getItem('user_id'))) && setLocked(true)
     data.author_name === localStorage.getItem('username') && setLocked(true)
