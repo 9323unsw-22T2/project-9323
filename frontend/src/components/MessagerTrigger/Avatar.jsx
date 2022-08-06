@@ -38,11 +38,11 @@ export default function Avatar ({ setAnchorEl, anchorEl, user, username }) {
     'aria-labelledby': 'basic-button',
   }}
 >
-  <MenuItem onClick={handleCloseProfile}>
+  <MenuItem onClick={handleClose}>
   <ListItemIcon>
     <EmailIcon/>
     </ListItemIcon>
-    <ListItemText onClick={handleClose}>Private message</ListItemText>
+    <ListItemText >Private message</ListItemText>
   </MenuItem>
 </Menu>)
 }
