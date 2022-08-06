@@ -151,6 +151,7 @@ const App = () => {
             <h4 className={styles.guideh4}>Step Title</h4>
             <TextField rows={1} id='step_title'multiline sx={{ mb: 2, width: '100%' }} defaultValue={steps[activeStep].step_title} />
             <Box sx={{ display: 'flex' }}>
+              {activeStep === 0 &&
               <Box sx={{ display: 'flex' }}>
               <h4 className={styles.guideh4} style={{ marginRight: '5rem' }}>{'Upload Video(optional)'}</h4>
               <label htmlFor="contained-button-file" style={{ margin: 'auto' }}>
@@ -165,7 +166,7 @@ const App = () => {
                 } value={video} rows={1} multiline sx={{ mb: 1, mt: 2, width: '100%' }} placeholder="Or input youtube video here..." />
                 </Box>
               </label>
-              </Box>
+              </Box>}
             </Box>
             <h4 className={styles.guideh4}>Description</h4>
             <Editor

@@ -20,7 +20,6 @@ export default function Avatar ({ setAnchorEl, anchorEl, user, username }) {
     setAnchorEl(null);
   };
   const handleClose = () => {
-    setAnchorEl(null);
     if (parseInt(user) && parseInt(user) === parseInt(localStorage.getItem('user_id'))) {
       window.alert('can not send message to your self!')
     } else {
@@ -28,6 +27,7 @@ export default function Avatar ({ setAnchorEl, anchorEl, user, username }) {
 
       toggleWidget()
     }
+    setAnchorEl(null);
   };
   return (
   <Menu

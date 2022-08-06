@@ -87,7 +87,9 @@ export default function RecipeReviewCard ({ data }) {
   }
   const [anchorEl, setAnchorEl] = React.useState(null);
   React.useEffect(() => {
-    setThumbUp(JSON.parse(data.thumbUpBy).includes(!!parseInt(localStorage.getItem('user_id'))))
+    data.thumbUpBy && setThumbUp(Array.from(data.thumbUpBy).includes(localStorage.getItem('user_id')))
+    data.thumbUpBy && setThumbUpCount(JSON.parse(data.thumbUpBy).length)
+
     JSON.parse(data.userPaid).includes(parseInt(localStorage.getItem('user_id'))) && setLocked(true)
     data.author_name === localStorage.getItem('username') && setLocked(true)
   }, [])

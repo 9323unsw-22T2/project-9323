@@ -91,7 +91,8 @@ export default function VerticalTabs() {
       setData([...Object.values(response.data)])
     } catch (error) {
       setErrorMessage(['last page', 'error', true])
-      setFeed(feed - 1)
+
+      feed && setFeed(feed - 1)
     }
   }, [feed, value])
   const [errorMessage, setErrorMessage] = React.useState(['', 'error', false]);

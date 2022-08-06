@@ -7,7 +7,7 @@ import {
   Outlet
 } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Widget, deleteMessages, addUserMessage, addResponseMessage } from 'react-chat-widget';
+import { Widget, deleteMessages, addUserMessage, addResponseMessage, renderCustomComponent } from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';
 import Home from './components/Home/Home';
 import MainPage from './components/MainPage/MainPage';
@@ -23,6 +23,21 @@ import ExpertActivity from './components/Expert/ExpertActivity'
 import Help from './components/Help/Help'
 import Message from './components/Message/MessageManager'
 import { getScore, sendMessages, getOneMessages } from './service'
+import expert from './expert.png';
+import expert1 from './expert1.png';
+import expert2 from './expert2.png';
+import expert3 from './expert3.png';
+import chatImg from './chatbotImg';
+import profileHelp from './profileHelp.png';
+import profileHelp0 from './profileHelp0.png';
+import video from './video.png';
+import video0 from './video0.png';
+import helppage from './helppage.png';
+import helppage1 from './helppage1.png';
+import helppage2 from './helppage2.png';
+import message from './message.png';
+import message1 from './message1.png';
+import message2 from './message2.png';
 const PageLayout = ({ children }) => children;
 
 const pageVariants = {
@@ -81,7 +96,7 @@ const App = () => {
       console.log(error)
     }
   }, [])
-  const [currentChat, setCurrentChat] = React.useState(['Bot', 0]);
+  const [currentChat, setCurrentChat] = React.useState(['HelpBot', 0]);
   const ref = React.useRef();
   const intervalRef = React.useRef();
   const historyRef = React.useRef();
@@ -115,6 +130,8 @@ const App = () => {
   }
 
   React.useEffect(async () => {
+    addResponseMessage('You can input key word expert|score|profile|help|video|message|chat to get guidance')
+
     document.addEventListener('copy', addLink);
     document.addEventListener('chatchage', async (event) => {
       console.log('newchat find')
@@ -159,9 +176,60 @@ const App = () => {
       }, 2000);
     }
   }, [currentChat, location])
+  const responseTemplate = {
+    expert: ['Those with some experience in the industry have the opportunity to become experts'],
+    Expert: ['Those with some experience in the industry have the opportunity to become experts'],
+    score: ['Being active in the community gets you more points', 'You can use the score to buy other people\'s answers, and you can become an expert when you reach 200 points or more'],
+    Score: ['Being active in the community gets you more points', 'You can use the score to buy other people\'s answers, and you can become an expert when you reach 200 points or more'],
+    profile: ['Click profile bar to change you information'],
+    Profile: ['Click profile bar to change you information'],
+    help: ['Please check the Help page.'],
+    Help: ['Please check the Help page.'],
+    Video: ['You can upload youtube video now, upload local video is undering developing'],
+    video: ['You can upload youtube video now, upload local video is undering developing'],
+    Thanks: ['You are welcome~'],
+    Thank: ['You are welcome~'],
+    chat: ['Click someone\'s avatar to start you first conversation'],
+    Chat: ['Click someone\'s avatar to start you first conversation'],
+    message: ['Click someone\'s avatar to start you first conversation'],
+    Message: ['Click someone\'s avatar to start you first conversation'],
+
+  }
+  const responseImgTemplate = {
+    expert: [expert, expert1, expert2, expert3],
+    Expert: [expert, expert1, expert2, expert3],
+    profile: [profileHelp0, profileHelp],
+    Profile: [profileHelp0, profileHelp],
+    help: [helppage, helppage1, helppage2],
+    Help: [helppage, helppage1, helppage2],
+    Video: [video0, video],
+    video: [video0, video],
+    chat: [message, message1, message2],
+    Chat: [message, message1, message2],
+    message: [message, message1, message2],
+    Message: [message, message1, message2]
+  }
   const handleNewUserMessage = (newMessage) => {
     if (currentChat[1] === 0) {
-      addResponseMessage('hello this is help bot')
+      const match = Object.keys(responseTemplate).every((post) => {
+        if (newMessage.includes(post)) {
+          responseTemplate[post].map((ele) => {
+            addResponseMessage(ele)
+            return (<></>)
+          })
+          responseImgTemplate[post]?.map((ele) => {
+            renderCustomComponent(chatImg, { data: ele })
+
+            return (<></>)
+          })
+          addResponseMessage('Please contact z5333605@ad.unsw.edu.com if it doesn\'t solve you problem')
+
+          return false
+        } else return true
+      })
+      if (match) {
+        addResponseMessage('Sorry can found match question. Please contact z5333605@ad.unsw.edu.com')
+      }
     } else {
       try {
         sendMessages({ message: newMessage, target_user: currentChat[1], reciver_name: currentChat[0], time: Date.now() }, localStorage.getItem('token'), localStorage.getItem('user_id'))
