@@ -249,14 +249,19 @@ def comment_thumb_up_patch(comment_id):
     user_id = get_user_id_from_header()
 
     thumb_up_by = json.loads(rows[0][7])
-
+    # print(thumb_up_by)
     if user_id not in thumb_up_by:
+        print(-user_id in thumb_up_by )
+        if -user_id in thumb_up_by:
+            comment_un_thumb_down_patch(comment_id)
+            thumb_up_by.remove(-user_id)   
         thumb_up_by.append(user_id)
         # get the id of artucleid 
         liked_user_id = get_comm_author_id(comment_id)
         # add score for author
         update_score(liked_user_id,1)
-
+    # print(thumb_up_by)
+    
     thumb_up_by_string = json.dumps(thumb_up_by)
 
     sql = f"UPDATE comments SET thumbUpBy = '{thumb_up_by_string}' where id = '{comment_id}' and isDeleted != '1';"
@@ -446,6 +451,9 @@ def comment_thumb_down_patch(comment_id):
     thumb_up_by = json.loads(rows[0][7])
 
     if -user_id not in thumb_up_by:
+        if user_id in thumb_up_by:
+            comment_un_thumb_up_patch(comment_id)
+            thumb_up_by.remove(user_id) 
         thumb_up_by.append(-user_id)
         # get the author id of comment
         unliked_user_id = get_comm_author_id(comment_id)
@@ -494,4 +502,4 @@ def comment_un_thumb_down_patch(comment_id):
     cur.execute(sql)
     con.commit()
     con.close()
-    return make_response(jsonify({f"this comment {comment_id} like canceled":user_id})),200
+    return make_response(jsonify({f"this comment {comment_id} unlike canceled":user_id})),200
