@@ -95,7 +95,7 @@ export default function RecipeReviewCard ({ data }) {
     newArticleComment({ commentContent }, localStorage.getItem('token'), localStorage.getItem('user_id'))
   } */
   return (
-    <Card sx={{ marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }}>
+    <Card sx={{ marginBottom: '16px', padding: '1rem', borderRadius: '1rem', fontFamily: 'Roboto', fontSize: 15 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500], cursor: 'pointer' }} onClick={handleClickProfile}>
@@ -121,7 +121,7 @@ export default function RecipeReviewCard ({ data }) {
       }} onClick={() => {
         navigate(`/guide/${data.id}`)
       }}>
-        <Typography variant="h4">
+        <Typography variant="h4" sx={{ fontfamily: 'Roboto', fontSize: 25 }}>
         {data.title}
         </Typography>
       </CardContent>
@@ -129,7 +129,7 @@ export default function RecipeReviewCard ({ data }) {
       {
         data.each_step.map((e, index) => {
           return (
-          <div key={`step${index}`}>
+          <div key={`step${index}`} >
             <CardActions disableSpacing>
                   {e.stepTitle}
                   <ExpandMore
