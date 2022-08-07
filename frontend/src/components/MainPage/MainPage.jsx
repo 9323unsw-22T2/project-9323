@@ -279,6 +279,7 @@ export default function VerticalTabs() {
           </Box>
         </TabPanel>
         <TabPanel value={value} index={1}>
+        <Box sx={{ width: matchesPad ? '90%' : '60%', margin: 10 }}>
           { likedQ.length && likedQ[0].map((e, i) => {
             return (
               <SearchResultCard
@@ -292,6 +293,7 @@ export default function VerticalTabs() {
               <GuideCard key={'resultCard' + i} data={likedA[e]}></GuideCard>
             );
           })}
+        </Box>
         </TabPanel>
       </Box>
     </>
