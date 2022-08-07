@@ -80,7 +80,6 @@ def newsfeed_random(page):
     # if page is in , just go on 
     result={}
     # caculate the each page has how much thing in this page
-    # 这页显示多少个项目
     item_list = []
     for i in range(EACH_PAGE_NUMBER):
         item = i+1+(page-1)*EACH_PAGE_NUMBER
