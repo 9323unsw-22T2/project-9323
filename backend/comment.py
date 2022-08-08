@@ -332,7 +332,7 @@ def delete_comment(comment_id):
         num_replys = cur.execute(sql).fetchall()[0][0]
         # print(num_replys)
         num_replys = int(num_replys) - 1
-        sql = f"UPDATE questions SET replyIds = {num_replys} where id = '{rows[0][1]}' ;"
+        sql = f"UPDATE questions SET replyIds = {num_replys} where id = '{rows[0][2]}' ;"
         cur.execute(sql)
         con.commit()
     return make_response(jsonify(f"this comment {comment_id} has been deleted")), 200
