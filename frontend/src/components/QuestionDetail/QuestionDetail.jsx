@@ -79,12 +79,39 @@ const Home = () => {
   }; */
 
   const [data, setData] = useState([{ }]);
-
+  const [count, setCount] = useState(0);
+  function compareTime (a, b) {
+    if (a.timeCreated < b.timeCreated) {
+      return 1;
+    }
+    if (a.timeCreated > b.timeCreated) {
+      return -1;
+    }
+    return 0;
+  }
+  function compareTimeDescend (a, b) {
+    if (a.timeCreated < b.timeCreated) {
+      return -1;
+    }
+    if (a.timeCreated > b.timeCreated) {
+      return 1;
+    }
+    return 0;
+  }
   React.useEffect(async () => {
     const responseDetail = await questionDetail(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
     setData(Object.fromEntries(Object.entries(responseDetail.data.question)))
     const response = await getQuestionComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
-    setCommentData(Object.fromEntries(Object.entries(response.data)));
+    setCommentData(Object.values(response.data));
+    const temp = Object.values(response.data)
+    console.log(Object.values(response.data))
+    console.log(response.data)
+
+    let tempCount = 0;
+    temp.forEach((e) => {
+      e.isdeleted === 0 && tempCount++
+    })
+    setCount(tempCount)
   }, [])
   return (
     <div className="home" style={{ overflow: 'auto' }}>
@@ -158,7 +185,7 @@ const Home = () => {
               margin: 'auto'
             }}
           >
-            <span>{((data[0].replyIds !== '0') && (data[0].replyIds !== '[]')) ? `${data[0].replyIds} answer` : 'no answer'}</span>
+            <span>{count ? `${count} answer` : 'no answer'}</span>
           </Box>
           <Box sx={{ margin: 'auto' }}>
             <Button size="small" onClick={handleExpandClick}>Answer</Button>
@@ -217,13 +244,20 @@ const Home = () => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={handleClose}>Distance</MenuItem>
-            <MenuItem onClick={handleClose}>Price(high to low)</MenuItem>
-            <MenuItem onClick={handleClose}>Price(low to high)</MenuItem>
+            <MenuItem onClick={(e) => {
+              e.preventDefault()
+              setCommentData(commentData.sort(compareTime))
+              handleClose()
+            }}>Time (new to old)</MenuItem>
+            <MenuItem onClick={(e) => {
+              e.preventDefault()
+              setCommentData(commentData.sort(compareTimeDescend))
+              handleClose()
+            }}>Time (old to new)</MenuItem>
           </Menu>
 
-         { Object.keys(commentData).length !== 0 ? Object.keys(commentData).map((key) => {
-           return (commentData[key].isdeleted ? <></> : commentData[key].score ? <ChargeAnswerCard data={commentData[key]}></ChargeAnswerCard> : <AnswerCard key={`ele${key}`} data={commentData[key]}></AnswerCard>)
+         { commentData.length !== 0 ? commentData.map((key) => {
+           return (key.isdeleted ? <></> : key.score ? <ChargeAnswerCard data={key}></ChargeAnswerCard> : <AnswerCard key={`ele${key.id}`} data={key}></AnswerCard>)
          }) : <div style={{
            margin: 'auto',
            width: '100%',
