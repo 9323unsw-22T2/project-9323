@@ -240,7 +240,7 @@ export default function RecipeReviewCard ({ data }) {
       <div style={{ display: 'flex', width: '20rem' }}>
       <DialogContent>
       <Typography variant="h6" color="text.secondary">
-        You need <span style={{ color: 'red' }}>500</span> to unlock this answer. Are you sure you want to continue?
+        You need <span style={{ color: 'red' }}>{data.score}</span> to unlock this answer. Are you sure you want to continue?
         </Typography>
           <Button
           onClick={async (e) => {

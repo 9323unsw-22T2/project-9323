@@ -45,7 +45,6 @@ export default function ActionAreaCard({ data }) {
   const [score, setScore] = React.useState(null);
 
   const text = data.content
-
   /*   const [state, setState] = React.useState(false);
   const toggleDrawer = (open) => (event) => {
     console.log(event, open);
