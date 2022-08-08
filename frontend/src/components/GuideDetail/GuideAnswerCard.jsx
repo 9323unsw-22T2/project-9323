@@ -14,7 +14,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
-import { commentLike, commentDislike, commentThumbdown, commentUnThumbdown } from '../../service'
+import { commentLike, commentDislike, commentThumbdown, commentUnThumbdown, deleteQuestionComment } from '../../service'
 // import { getArticleComments } from '../../service';
 // import { useParams } from 'react-router-dom';
 import SharePopup from '../SharePopup/SharePopup'
@@ -80,7 +80,14 @@ export default function RecipeReviewCard ({ data }) {
       thumbUp && !thumbDown && setThumbUpCount(thumbUpCount - 1)
     }
   }
-
+  const handleDelete = async () => {
+    try {
+      await deleteQuestionComment(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+      window.location.reload(false);
+    } catch (error) {
+      window.alert('cant delete, please check you login status')
+    }
+  }
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -114,7 +121,7 @@ export default function RecipeReviewCard ({ data }) {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
+          parseInt(localStorage.getItem('user_id')) === data.user && <IconButton aria-label="settings" onClick={handleDelete}>
             <DeleteIcon />
           </IconButton>
         }
