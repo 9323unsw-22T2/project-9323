@@ -81,7 +81,6 @@ export default function VerticalTabs() {
       setData(Object.fromEntries(Object.entries(response.data.article)))
       const resp = await getArticleComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
       setArticleData(Object.fromEntries(Object.entries(resp.data)));
-      console.log(resp.data, response.data.article)
     } catch (error) {}
   }, [])
   const [anchorEl, setAnchorEl] = React.useState(null);

@@ -9,18 +9,18 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ShareIcon from '@mui/icons-material/Share';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import CommentIcon from '@mui/icons-material/Comment';
 import Collapse from '@mui/material/Collapse';
 import { Editor } from '@tinymce/tinymce-react';
 import Button from '@mui/material/Button';
-import { commentLike, commentDislike } from '../../service'
+import { commentLike, commentDislike, commentThumbdown, commentUnThumbdown } from '../../service'
 // import { getArticleComments } from '../../service';
 // import { useParams } from 'react-router-dom';
 import SharePopup from '../SharePopup/SharePopup'
 import AvatarTrigger from '../MessagerTrigger/Avatar'
 import PropTypes from 'prop-types';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 /* {data.map((users) => {
    return <Typography variant="body2" color="text.secondary" key={users.id}>{users.name}</Typography>;
@@ -42,19 +42,43 @@ export default function RecipeReviewCard ({ data }) {
   const [thumbDown, setThumbDown] = React.useState(false);
   // const { number } = useParams();
 
-  const ThumbUp = (e) => {
-    if (thumbDown) { ThumbDown() }
+  const ThumbUp = () => {
+    if (thumbDown) {
+      setThumbDown(!thumbDown)
+
+      commentUnThumbdown(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    }
+
+    thumbUp && commentDislike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    !thumbUp && commentLike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+
     setThumbUp(!thumbUp)
-    commentLike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
-    window.location.reload(false);
   }
   const [social, setSocial] = React.useState(false);
 
-  const ThumbDown = (e) => {
-    if (thumbUp) { ThumbUp() }
+  const ThumbDown = () => {
+    if (thumbUp) {
+      setThumbUp(!thumbUp)
+
+      commentDislike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+    }
+    thumbDown && commentUnThumbdown(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+
+    !thumbDown && commentThumbdown(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
     setThumbDown(!thumbDown)
-    commentDislike(data?.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
-    window.location.reload(false);
+  }
+  const [thumbUpCount, setThumbUpCount] = React.useState(0)
+
+  const changeThumbCount = (e) => {
+    if (e === 1) {
+      !thumbUp && !thumbDown && setThumbUpCount(thumbUpCount - 1)
+      !thumbUp && thumbDown && setThumbUpCount(thumbUpCount + 1)
+      thumbUp && !thumbDown && setThumbUpCount(thumbUpCount - 2)
+    } else {
+      !thumbUp && !thumbDown && setThumbUpCount(thumbUpCount + 1)
+      !thumbUp && thumbDown && setThumbUpCount(thumbUpCount + 2)
+      thumbUp && !thumbDown && setThumbUpCount(thumbUpCount - 1)
+    }
   }
 
   const [expanded, setExpanded] = React.useState(false);
@@ -71,6 +95,16 @@ export default function RecipeReviewCard ({ data }) {
   const handleClickProfile = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  React.useEffect(() => {
+    data.thumbUpBy && setThumbDown(JSON.parse(data.thumbUpBy).includes(parseInt('-' + localStorage.getItem('user_id'))))
+    data.thumbUpBy && setThumbUp(JSON.parse(data.thumbUpBy).includes(parseInt(localStorage.getItem('user_id'))))
+    let count = 0;
+    data.thumbUpBy && JSON.parse(data.thumbUpBy).forEach((e) => {
+      e > 0 ? count++ : count--
+    })
+    // console.log('result', count)
+    data.thumbUpBy && setThumbUpCount(count)
+  }, [data])
   return (
           <Card sx={{ width: '69%', margin: 'auto', marginBottom: '16px', padding: '1rem', borderRadius: '1rem' }} key={Comment.id}>
       <CardHeader
@@ -81,7 +115,7 @@ export default function RecipeReviewCard ({ data }) {
         }
         action={
           <IconButton aria-label="settings">
-            <MoreVertIcon />
+            <DeleteIcon />
           </IconButton>
         }
         title={data?.author_name}
@@ -96,11 +130,11 @@ export default function RecipeReviewCard ({ data }) {
           width: 'max-content',
           float: 'right'
         }}>
-          <Typography> {data?.thumbUpBy?.length - 2 } </Typography>
-        <IconButton aria-label="Thumb up" onClick={ThumbUp} sx={{ color: thumbUp ? 'blue' : '' }}>
+          <Typography> {thumbUpCount} </Typography>
+        <IconButton aria-label="Thumb up" onClick={(e) => { e.preventDefault(); changeThumbCount(0); ThumbUp() }} sx={{ color: thumbUp ? 'red' : '' }}>
           <ThumbUpIcon />
         </IconButton>
-        <IconButton aria-label="Thumb down" onClick={ThumbDown} sx={{ color: thumbDown ? 'red' : '' }}>
+        <IconButton aria-label="Thumb down"onClick={(e) => { e.preventDefault(); changeThumbCount(1); ThumbDown() }} sx={{ color: thumbDown ? 'blue' : '' }}>
           <ThumbDownIcon />
         </IconButton>
         <IconButton aria-label="comment" onClick={handleExpandClick}>
