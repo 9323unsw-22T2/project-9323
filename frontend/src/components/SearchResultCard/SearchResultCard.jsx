@@ -124,16 +124,14 @@ export default function ActionAreaCard({ data }) {
     >
       <CardContent>
         <Box>
+          <Box sx={{ display: 'flex', width: '100%' }}>
           <CardHeader
-          action={ parseInt(localStorage.getItem('user_id')) === data.author &&
-          <IconButton aria-label="settings" onClick={handleDelete}>
-            <DeleteIcon />
-          </IconButton>}
             onClick={(e) => {
               e.preventDefault();
               navigate(`/question/${data.id}`);
             }}
             sx={{
+              width: 'inherit',
               cursor: 'pointer',
               '&:hover': {
                 textDecoration: 'underline',
@@ -145,6 +143,11 @@ export default function ActionAreaCard({ data }) {
           >
 
           </CardHeader>
+          {parseInt(localStorage.getItem('user_id')) === data.author &&
+          <IconButton aria-label="settings" onClick={handleDelete}>
+            <DeleteIcon />
+          </IconButton>}
+          </Box>
           <CardContent
             sx={{
               borderBottom: '1px solid #e6e5e6',
