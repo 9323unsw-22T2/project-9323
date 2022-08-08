@@ -15,7 +15,7 @@ Avatar.propTypes = {
 };
 export default function Avatar ({ setAnchorEl, anchorEl, user, username }) {
   const openProfile = Boolean(anchorEl);
-
+  console.log(user, username)
   const handleCloseProfile = () => {
     setAnchorEl(null);
   };

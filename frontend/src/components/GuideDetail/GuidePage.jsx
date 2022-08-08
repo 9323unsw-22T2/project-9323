@@ -81,6 +81,7 @@ export default function VerticalTabs() {
       setData(Object.fromEntries(Object.entries(response.data.article)))
       const resp = await getArticleComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
       setArticleData(Object.fromEntries(Object.entries(resp.data)));
+      console.log(resp.data, response.data.article)
     } catch (error) {}
   }, [])
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -114,7 +115,7 @@ export default function VerticalTabs() {
             title={data[0].author}
             subheader={new Date(data[0].time_created * 1000).toLocaleString()}
           />
-        <AvatarTrigger user={data[0].author} username={data[0].author_name}setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
+        <AvatarTrigger user={data[0].author} username={data[0].user_name}setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
 
         <Box sx={{ width: '95%', margin: 'auto' }}>
           <Stepper nonLinear activeStep={activeStep}>

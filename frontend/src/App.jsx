@@ -134,16 +134,13 @@ const App = () => {
 
     document.addEventListener('copy', addLink);
     document.addEventListener('chatchage', async (event) => {
-      console.log('newchat find')
       deleteMessages(999)
       intervalRef.current && clearInterval(intervalRef.current)
       const response = await getOneMessages(event.detail.user, localStorage.getItem('token'), localStorage.getItem('user_id'))
       historyRef.current = response.data.message_list.length
       ref.current = response.data.message_list
-      console.log(response.data.message_list)
       // eslint-disable-next-line array-callback-return
       Array.isArray(response.data.message_list) && response.data.message_list.map((e) => {
-        console.log(e)
         if (localStorage.getItem('username') === e.sender) {
           addUserMessage(e.message)
         } else {
@@ -159,17 +156,14 @@ const App = () => {
       intervalRef.current = setInterval(async () => {
         try {
           const response = await getOneMessages(currentChat[1], localStorage.getItem('token'), localStorage.getItem('user_id'))
-          console.log(response.data.message_list, ref.current)
           if (response.data.message_list.length > (ref.current.length)) {
             // eslint-disable-next-line array-callback-return
             response?.data?.message_list?.slice(ref.current.length - response.data.message_list.length).map((e, index) => {
-              console.log(e, index, historyRef.current, ref.current.length)
               // eslint-disable-next-line no-empty
               if (localStorage.getItem('username') === e.sender) {} else {
                 addResponseMessage(e.message)
               }
             })
-            console.log('update', response?.data.message_list, ref.current)
             ref.current = response.data.message_list
           }
         } catch (error) {}
