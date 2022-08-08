@@ -144,9 +144,9 @@ def comment_question(question_id):
     if c1 != []:
         res = {}
         
-        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,questionId,score,isDeleted,userPaid from comments where questionId={question_id};"
+        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,questionId,score,isDeleted,userPaid from comments where questionId={question_id} and isDeleted=0;"
         
-        num_of_que = cur.execute(f"SELECT count(questionId) FROM comments where questionId={question_id}").fetchall()[0][0]
+        num_of_que = cur.execute(f"SELECT count(questionId) FROM comments where questionId={question_id} and isDeleted =0").fetchall()[0][0]
         all_data = cur.execute(sql).fetchall()
         for i in range(num_of_que):
             temp = {}
@@ -194,9 +194,9 @@ def comment_article(article_id):
     c1=cur.execute(f'SELECT 1 FROM articles WHERE articleId={article_id} LIMIT 1;').fetchall()
     if c1 != []:
         res = {}
-        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,articlesId,score,isDeleted,userPaid from comments where articlesId={article_id};"
+        sql=f"select id,content,timeCreated,timeUpdated,thumbUpBy,author,articlesId,score,isDeleted,userPaid from comments where articlesId={article_id} and isDeleted=0;"
         
-        num_of_art = cur.execute(f"SELECT count(articlesId) FROM comments where articlesId={article_id}").fetchall()[0][0]
+        num_of_art = cur.execute(f"SELECT count(articlesId) FROM comments where articlesId={article_id} and isDeleted=0").fetchall()[0][0]
         all_data = cur.execute(sql).fetchall()
         # print(all_data)
         for i in range(num_of_art):
