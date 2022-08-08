@@ -16,6 +16,8 @@ export const newGuide = (body, token, userId) =>
   axios.post(`${BASE_URL}/article`, body, { headers: { user_id: userId, token: token } });
 export const deleteGuide = (number, token, userId) =>
   axios.delete(`${BASE_URL}/article/${number}`, { headers: { user_id: userId, token: token } });
+export const deleteQuestion = (number, token, userId) =>
+  axios.delete(`${BASE_URL}/questions/${number}`, { headers: { user_id: userId, token: token } });
 export const thumbUp = (number, token, userId) =>
   axios.patch(`${BASE_URL}/article/${number}/thumb_up`, {}, { headers: { user_id: userId, token: token } });
 export const unThumbUp = (number, token, userId) =>

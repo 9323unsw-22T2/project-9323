@@ -1,7 +1,8 @@
 /* eslint-disable multiline-ternary */
 import * as React from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
-
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -16,7 +17,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import Checkbox from '@mui/material/Checkbox';
 import Input from '@mui/material/TextField';
-import { newQuestionComment, questionLike, questionDislike } from '../../service';
+import { newQuestionComment, questionLike, questionDislike, deleteQuestion } from '../../service';
 
 /* import Drawer from '@mui/material/Drawer';
 import Link from '@mui/material/Link';
@@ -43,7 +44,14 @@ export default function ActionAreaCard({ data }) {
   };
   const [charged, setCharged] = React.useState(false)
   const [score, setScore] = React.useState(null);
-
+  const handleDelete = async () => {
+    try {
+      await deleteQuestion(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
+      window.location.reload(false);
+    } catch (error) {
+      window.alert('cant delete, please check you login status')
+    }
+  }
   const text = data.content
   /*   const [state, setState] = React.useState(false);
   const toggleDrawer = (open) => (event) => {
@@ -117,6 +125,10 @@ export default function ActionAreaCard({ data }) {
       <CardContent>
         <Box>
           <CardHeader
+          action={ parseInt(localStorage.getItem('user_id')) === data.author &&
+          <IconButton aria-label="settings" onClick={handleDelete}>
+            <DeleteIcon />
+          </IconButton>}
             onClick={(e) => {
               e.preventDefault();
               navigate(`/question/${data.id}`);
@@ -130,7 +142,9 @@ export default function ActionAreaCard({ data }) {
               overflowWrap: 'break-word'
             }}
             title={data.title}
-          ></CardHeader>
+          >
+
+          </CardHeader>
           <CardContent
             sx={{
               borderBottom: '1px solid #e6e5e6',
