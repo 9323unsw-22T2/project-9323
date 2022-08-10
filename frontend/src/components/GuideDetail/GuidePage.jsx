@@ -111,7 +111,7 @@ export default function VerticalTabs() {
             R
           </Avatar>
         }
-            title={data[0].author}
+            title={data[0].user_name}
             subheader={new Date(data[0].time_created * 1000).toLocaleString()}
           />
         <AvatarTrigger user={data[0].author} username={data[0].user_name}setAnchorEl={setAnchorEl} anchorEl={anchorEl}></AvatarTrigger>
