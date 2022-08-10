@@ -60,7 +60,6 @@ export default function RecipeReviewCard ({ data }) {
     setThumbDown(!thumbDown)
   }
   const changeThumbCount = (e) => {
-    console.log(thumbUp, thumbDown)
     if (e === 1) {
       !thumbUp && !thumbDown && setThumbUpCount(thumbUpCount - 1)
       !thumbUp && thumbDown && setThumbUpCount(thumbUpCount + 1)

@@ -16,7 +16,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
 import CommentIcon from '@mui/icons-material/Comment';
 import SharePopup from '../SharePopup/SharePopup'
-import GuideAnswerCard from '../GuideDetail/GuideAnswerCard'
 import PropTypes from 'prop-types';
 import draftToHtml from 'draftjs-to-html';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -109,7 +108,7 @@ export default function RecipeReviewCard ({ data }) {
         title={data.author_name}
         subheader={new Date(data.timeCreated * 1000).toLocaleString()}
       />
-      <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl} user={data.author} username={data.author_name}></AvatarTrigger>
+      <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl} user={data?.author} username={data.author_name}></AvatarTrigger>
 
       <CardContent sx={{
         cursor: 'pointer',
@@ -167,12 +166,11 @@ export default function RecipeReviewCard ({ data }) {
       <Collapse in={commentExpanded} timeout="auto" unmountOnExit>
       <CardContent>
         <h1 style={{ fontFamily: 'Roboto', fontSize: 25 }}>Comments</h1>
-      <GuideAnswerCard/>
-      <Editor
+\      <Editor
         toolbar='redo aligncenter alignjustify alignleft alignright blockquote undo bold italic underline code'
 
     apiKey="yhf0swre6kb5yv1owq7bcxmfxaxwundoc1htcq2tpvhkyz8t"
-    value={content.innerText}
+    value={content?.innerText}
     init={{
       height: 300,
       menubar: false

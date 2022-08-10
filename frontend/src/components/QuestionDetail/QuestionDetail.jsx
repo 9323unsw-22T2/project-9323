@@ -104,8 +104,6 @@ const Home = () => {
     const response = await getQuestionComments(localStorage.getItem('user_id'), localStorage.getItem('token'), number)
     setCommentData(Object.values(response.data));
     const temp = Object.values(response.data)
-    console.log(Object.values(response.data))
-    console.log(response.data)
 
     let tempCount = 0;
     temp.forEach((e) => {

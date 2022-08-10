@@ -69,7 +69,6 @@ export default function VerticalTabs() {
     try {
       const response = await answerhistory(localStorage.getItem('token'), localStorage.getItem('user_id'))
       setData(response.data)
-      console.log(response.data)
     } catch (error) {
       console.log(error)
     }

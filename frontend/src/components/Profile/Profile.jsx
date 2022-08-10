@@ -16,8 +16,6 @@ const App = () => {
     try {
       const response = await getInfo(localStorage.getItem('token'), localStorage.getItem('user_id'))
       setData(response.data)
-      console.log(data)
-      console.log(response.data)
     } catch (error) {
       console.log(error)
     }
@@ -56,7 +54,6 @@ const App = () => {
               <div className={styles.mobile3}> Username: </div>
               <input className={styles.input} placeholder={data.name} onChange={() => {
                 setUserName(event.target.value);
-                console.log(event.target.value)
               }}></input>
             </Box>
             <Box className={styles.mobile2} sx={{ width: '90%', height: '50px', justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent', borderColor: 'gray', borderWidth: '0px', borderStyle: 'solid', margin: '20px' }}>

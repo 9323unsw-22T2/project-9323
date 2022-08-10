@@ -24,7 +24,6 @@ function GoogleSignIn () {
       localStorage.setItem('user_id', response.data.user_id);
       window.location.reload(false)
     }
-    console.log('token', token)
   };
   const onFailure = (res) => {
     console.log('Login Failed  res', res);

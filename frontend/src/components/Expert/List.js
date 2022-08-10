@@ -23,7 +23,6 @@ export default function ListDividers () {
     try {
       const response = await getLeader()
       setData(response.data)
-      console.log(response.data)
     } catch (error) {
       console.log(error)
     }
