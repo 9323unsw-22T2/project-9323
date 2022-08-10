@@ -1,4 +1,3 @@
-from tkinter.tix import Tree
 from config import *
 from flask import Blueprint, request, make_response, jsonify
 from flask_cors import CORS
@@ -227,8 +226,9 @@ def newsfeed_trending():
     all_info =[]
     for i in q_id_mf:
         sql = f"select id,title,content,thumbUpBy,replyIds from questions where isDeleted = 0 and id ={i};"
-        temp = cur.execute(sql).fetchall()[0]
-        all_info.append(temp)
+        temp = cur.execute(sql).fetchall()
+        if temp:
+            all_info.append(temp[0])
     # print(all_info)
     tem_list=[]
     for i in all_info:
