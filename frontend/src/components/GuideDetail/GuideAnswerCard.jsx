@@ -126,7 +126,7 @@ export default function RecipeReviewCard ({ data }) {
           </IconButton>
         }
         title={data?.author_name}
-        subheader="September 14, 2016"
+        subheader={new Date(data.timeCreated * 1000).toLocaleString()}
       />
       <AvatarTrigger setAnchorEl={setAnchorEl} anchorEl={anchorEl} username={data?.author_name}user={data?.author}></AvatarTrigger>
 

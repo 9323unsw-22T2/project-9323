@@ -95,6 +95,7 @@ export default function ActionAreaCard({ data }) {
     setScore(null)
     setCharged(false)
     setEditorState(EditorState.createEmpty())
+    window.location.reload(false);
   }
   const handleLike = async () => {
     try {

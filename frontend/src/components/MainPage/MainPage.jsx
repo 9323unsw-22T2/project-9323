@@ -86,13 +86,17 @@ export default function VerticalTabs() {
   React.useEffect(async() => {
     try {
       const response = await getNewsFeed(feed)
-      const trendResponse = await getTrend()
-      setTrend(trendResponse.data)
       setData([...Object.values(response.data)])
     } catch (error) {
       setErrorMessage(['last page', 'error', true])
 
-      feed && setFeed(feed - 1)
+      feed > 1 && setFeed(feed - 1)
+    }
+    try {
+      const trendResponse = await getTrend()
+      setTrend(trendResponse.data)
+    } catch (error) {
+      setErrorMessage(['fail to get trend', 'error', true])
     }
   }, [feed, value])
   const [errorMessage, setErrorMessage] = React.useState(['', 'error', false]);
@@ -242,12 +246,12 @@ export default function VerticalTabs() {
               <Box>{feed === 1 ? <Button disabled size="large">{'<Previous'} </Button>
 
                 : <Button size="large" onClick={(e) => {
-                  !value && setFeed(feed - 1)
+                  !value && feed > 1 && setFeed(feed - 1)
                   // value && setLikedFeed(feed - 1)
                 }}>{'<Previous'} </Button>}
 
                 <Button sx={{ float: 'right' }} size="large" onClick={(e) => {
-                  !value && setFeed(feed + 1)
+                  !value && feed > 1 && setFeed(feed + 1)
                   // value && setLikedFeed(feed + 1)
                 }}>{'Next>'}</Button>
               </Box>

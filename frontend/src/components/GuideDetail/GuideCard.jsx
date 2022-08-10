@@ -64,11 +64,9 @@ export default function RecipeReviewCard ({ data }) {
       if (liked) {
         await articleDislike(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
         setLiked(false)
-        window.location.reload(false);
       } else {
         await articleLike(data.id, localStorage.getItem('token'), localStorage.getItem('user_id'))
         setLiked(true)
-        window.location.reload(false);
       }
     } catch (error) {
     }
